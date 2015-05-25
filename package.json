@@ -1,0 +1,19 @@
+{
+  "name": "construct-client",
+  "version": "0.2.0",
+  "private": true,
+  "main": "./src/tegh",
+  "dependencies": {
+    "coffee-script": "1.9.2",
+    "webpack": "*",
+    "style-loader": "*",
+    "stylus-loader": "*",
+    "babel-loader": "*",
+    "coffee-loader": "*",
+    "jade-loader": "*"
+  },
+  "engines": {
+    "node": "~0.12.x",
+    "npm": "2.7.x"
+  }
+}
