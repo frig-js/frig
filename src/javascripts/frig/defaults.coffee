@@ -1,33 +1,33 @@
 {humanize, clone, merge, map, capitalize, guessType} = Frig.helpers
 
+# When in doubt add defaults in alphabetical order
 module.exports = defaults =
   # For Frig internal use only
   children:              undefined
   fieldKey:              undefined
   formRef:               undefined
-  validationState:       undefined
   onFriggingChildInit:   undefined
   onFriggingChildChange: undefined
+  validationState:       undefined
 
   # Public settings
   data:            -> {}
-  type:            undefined
-  initialValue:    undefined
-  title:           -> humanize @frigProps.fieldKey
+  htmlInputType:   -> Frig.typeMapping[@frigProps.type].htmlInputType
   label:           -> @frigProps.title
   placeholder:     -> @frigProps.title
-  htmlInputType:   -> Frig.typeMapping[@frigProps.type].htmlInputType
-  options:         undefined
+  title:           -> humanize @frigProps.fieldKey
   className:       undefined
-  layout:          undefined
   disabled:        undefined
+  initialValue:    undefined
+  layout:          undefined
   multiple:        undefined
+  options:         undefined
   type:            undefined
 
   # Validation flags
   required:        -> @frigProps.type != "boolean"
-  min:             undefined
   max:             undefined
+  min:             undefined
 
   # Callbacks
   onChange:        undefined
@@ -42,15 +42,14 @@ module.exports = defaults =
     htmlFor:       -> @frigProps.fieldKey
   # DOM attributes + React ref + callbacks for the input element
   inputHtml:
-    ref:           "input"                   # For Frig internal use only
-    name:          -> @frigProps.fieldKey
     autoFocus:     -> @frigProps.autoFocus
-    name:          -> @frigProps.fieldKey
-    onChange:      -> @_frigOnChange         # For Frig internal use only
-    onBlur:        -> @_frigOnBlur           # For Frig internal use only
     className:     -> @frigProps.className
     disabled:      -> @frigProps.disabled
     multiple:      -> @frigProps.multiple
+    name:          -> @frigProps.fieldKey
+    onChange:      -> @_frigOnChange         # For Frig internal use only
+    onBlur:        -> @_frigOnBlur           # For Frig internal use only
+    ref:           "input"                   # For Frig internal use only
   # The compiled list of validations to run (based on validation flags /\)
   validations: ->
     required:      @frigProps.required

@@ -1,5 +1,5 @@
-friggingBootstrap = require "../frigging_bootstrap"
-frigHelpers       = require "../../helpers"
+friggingBootstrap = require "../frigging_bootstrap.coffee"
+frigHelpers       = require "../../helpers.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = frigHelpers
 {div, span, input, label}     = React.DOM
@@ -36,31 +36,31 @@ friggingBootstrap.Switch = React.createClass
   mixins: [Frig.InputMixin]
 
   getFriggingProps: ->
-    onValue:         true
-    offValue:        false
-    onText:          undefined
-    offText:         undefined
-    onColor:         undefined
-    offColor:        undefined
     handleWidth:     undefined
     inputHtml:
-      type:          "checkbox"
       className:     "switch"
+      type:          "checkbox"
+    offColor:        undefined
+    offText:         undefined
+    offValue:        false
+    onColor:         "success"
+    onText:          undefined
+    onValue:         true
 
   componentDidMount: ->
     # get initial state (boolean) by checking whether the initialValue
     # is the same as the onValue/offValue (-> true/false) of the switch
     @_$el().bootstrapSwitch
-      onColor: "success"
-      size: "small"
-      state: @_getBooleanVal()
-      onSwitchChange: @_onSwitchChange
       disabled: @frigProps.disabled
-      onText: @frigProps.onText
+      handleWidth: @frigProps.handleWidth
+      offColor: @frigProps.offColor
       offText: @frigProps.offText
       onColor: @frigProps.onColor
-      offColor: @frigProps.offColor
-      handleWidth: @frigProps.handleWidth
+      onText: @frigProps.onText
+      size: "small"
+      state: @_getBooleanVal()
+      # Event listeners
+      onSwitchChange: @_onSwitchChange
 
   _getBooleanVal: ->
     @_booleanVal ?= @frigProps.onValue == @frigProps.initialValue

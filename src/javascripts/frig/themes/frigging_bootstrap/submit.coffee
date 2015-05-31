@@ -1,4 +1,4 @@
-friggingBootstrap = require "../frigging_bootstrap"
+friggingBootstrap = require "../frigging_bootstrap.coffee"
 {input} = React.DOM
 
 friggingBootstrap.Submit = React.createClass

@@ -1,4 +1,4 @@
-friggingBootstrap = require "../frigging_bootstrap"
+friggingBootstrap = require "../frigging_bootstrap.coffee"
 {errorList, sizeClassNames} = friggingBootstrap
 {div, label, input}         = React.DOM
 cx = React.addons.classSet

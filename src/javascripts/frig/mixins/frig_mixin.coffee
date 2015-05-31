@@ -1,4 +1,4 @@
-FormBuilder = require "../form_builder"
+FormBuilder = require "../form_builder.coffee"
 
 module.exports = frigMixin =
   mixins: [React.addons.LinkedStateMixin]

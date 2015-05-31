@@ -1,4 +1,4 @@
-friggingBootstrap = require "../frigging_bootstrap"
+friggingBootstrap = require "../frigging_bootstrap.coffee"
 {errorList}               = friggingBootstrap
 {div, form, label, input} = React.DOM
 

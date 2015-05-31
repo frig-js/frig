@@ -6,8 +6,10 @@
   "dependencies": {
     "coffee-script": "1.9.2",
     "webpack": "*",
+    "css-loader": "*",
     "style-loader": "*",
     "stylus-loader": "*",
+    "extract-text-webpack-plugin": "*",
     "babel-loader": "*",
     "coffee-loader": "*",
     "jade-loader": "*"

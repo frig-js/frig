@@ -1,5 +1,5 @@
-friggingBootstrap = require "../frigging_bootstrap"
-friggingBootstrap = require "../../helpers"
+friggingBootstrap = require "../frigging_bootstrap.coffee"
+friggingBootstrap = require "../../helpers.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = frigHelpers
 {div, label, textarea}        = React.DOM

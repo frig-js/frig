@@ -1,4 +1,4 @@
-frigHelpers = require "../helpers"
+frigHelpers = require "../helpers.coffee"
 {humanize, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
 
 module.exports = dslMixin =

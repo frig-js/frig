@@ -1,5 +1,5 @@
-friggingPropsMixin = require "./frigging_props_mixin"
-frigHelpers        = require "../helpers"
+friggingPropsMixin = require "./frigging_props_mixin.coffee"
+frigHelpers        = require "../helpers.coffee"
 {humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = frigHelpers
 
 module.exports = inputMixin =

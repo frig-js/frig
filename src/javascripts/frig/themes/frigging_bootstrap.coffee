@@ -1,4 +1,5 @@
-frigHelpers = require "../helpers"
+require "frig/themes/frigging_bootstrap.styl"
+frigHelpers = require "../helpers.coffee"
 {humanize, clone, merge, map} = frigHelpers
 {span, i}                     = React.DOM
 cx = React.addons.classSet
