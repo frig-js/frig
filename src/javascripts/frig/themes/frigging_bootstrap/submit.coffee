@@ -1,7 +1,7 @@
 friggingBootstrap = require "../frigging_bootstrap.coffee"
-{input} = React.DOM
+{input}           = React.DOM
 
-friggingBootstrap.Submit = React.createClass
+friggingBootstrap.Submit = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Submit'
 

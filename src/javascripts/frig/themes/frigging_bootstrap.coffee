@@ -2,7 +2,6 @@ require "frig/themes/frigging_bootstrap.styl"
 frigHelpers = require "../helpers.coffee"
 {humanize, clone, merge, map} = frigHelpers
 {span, i}                     = React.DOM
-cx = React.addons.classSet
 
 module.exports = friggingBootstrap =
   # # Optional: a theme-specific list of defaults that override the global

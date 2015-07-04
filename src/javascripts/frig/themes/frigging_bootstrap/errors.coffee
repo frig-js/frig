@@ -1,8 +1,8 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
-{errorList}    = friggingBootstrap
-{div, span, i} = React.DOM
+friggingBootstrap      = require "../frigging_bootstrap.coffee"
+{errorList}            = friggingBootstrap
+{div, span, i}         = React.DOM
 
-friggingBootstrap.Errors = React.createClass
+friggingBootstrap.Errors = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Errors'
 

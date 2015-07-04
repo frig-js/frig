@@ -1,11 +1,11 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
-friggingBootstrap = require "../../helpers.coffee"
+friggingBootstrap             = require "../frigging_bootstrap.coffee"
+friggingBootstrap             = require "../../helpers.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = frigHelpers
 {div, label, textarea}        = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrap.Text = React.createClass
+friggingBootstrap.Text = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Text'
 

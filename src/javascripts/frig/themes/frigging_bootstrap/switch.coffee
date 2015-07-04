@@ -1,5 +1,5 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
-frigHelpers       = require "../../helpers.coffee"
+friggingBootstrap             = require "../frigging_bootstrap.coffee"
+frigHelpers                   = require "../../helpers.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = frigHelpers
 {div, span, input, label}     = React.DOM
@@ -29,7 +29,7 @@ cx = React.addons.classSet
 #     f.input "allisWell"
 
 # This optional add-on component depends on BootstrapSwitch and jQuery
-friggingBootstrap.Switch = React.createClass
+friggingBootstrap.Switch = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Switch'
 
@@ -59,7 +59,6 @@ friggingBootstrap.Switch = React.createClass
       onText: @frigProps.onText
       size: "small"
       state: @_getBooleanVal()
-      # Event listeners
       onSwitchChange: @_onSwitchChange
 
   _getBooleanVal: ->
@@ -76,7 +75,6 @@ friggingBootstrap.Switch = React.createClass
     @_booleanVal = val
     @_$el().val @getFriggingValue()
     @frigProps.inputHtml.onChange()
-
 
   _labelContainerCx: ->
     cx

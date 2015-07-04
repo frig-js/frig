@@ -10,12 +10,14 @@ module.exports = defaults =
   onFriggingChildChange: undefined
   validationState:       undefined
 
-  # Public settings
+  # Public settings (function determined values)
   data:            -> {}
   htmlInputType:   -> Frig.typeMapping[@frigProps.type].htmlInputType
   label:           -> @frigProps.title
   placeholder:     -> @frigProps.title
   title:           -> humanize @frigProps.fieldKey
+
+  # Public settings (undefined)
   className:       undefined
   disabled:        undefined
   initialValue:    undefined

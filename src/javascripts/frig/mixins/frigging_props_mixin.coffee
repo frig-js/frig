@@ -4,11 +4,11 @@ frigDefaults       = require "../defaults.coffee"
 
 module.exports = friggingPropsMixin =
 
-  componentWillReceiveProps: ->
-    @_frigRefreshProps()
+  componentWillReceiveProps: (nextProps) ->
+    @_frigRefreshProps(nextProps)
 
   componentWillMount: ->
-    @_frigRefreshProps()
+    @_frigRefreshProps(@props)
 
   frigDefaultLayers: ->
     [
@@ -22,20 +22,19 @@ module.exports = friggingPropsMixin =
 
   # The default layers plus the layers related to this component's props and
   # friggingProps
-  _frigPropLayers: ->
+  _frigPropLayers: (props) ->
     [
       @frigDefaultLayers()...
       # Component-level defaults
       @getFriggingProps?() || {}
       # User-entered options
-      @props
+      props
     ]
 
-  _frigRefreshProps: ->
+  _frigRefreshProps: (props = {}) ->
     # Setting defaults
-    @props ||= {}
     @frigProps = {}
-    setDefaults @_frigPropLayers()..., @frigProps, @_frigPropVal
+    setDefaults @_frigPropLayers(props)..., @frigProps, @_frigPropVal
 
   # Return a normalized value for a frig property
   _frigPropVal: (k, obj, layers) ->
@@ -43,9 +42,10 @@ module.exports = friggingPropsMixin =
     # Class names are merged
     return @_frigClassName layers if k == "className"
     # True properties should enable frigDefaults behavior
-    obj = defaultVal if @frigProps[k] == true
+    # obj = defaultVal if @frigProps[k] == true
     # evaluate value functions and replace them with their values
-    if typeof(obj) == "function" and (obj == defaultVal or !k.match /^on|^cb$/)
+    fnNameRegex = /^on|^cb$|^validate$/
+    if typeof(obj) == "function" and (obj == defaultVal or !k.match fnNameRegex)
       obj = obj.call @, @
     return obj
 

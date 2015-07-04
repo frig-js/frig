@@ -1,9 +1,9 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
+friggingBootstrap           = require "../frigging_bootstrap.coffee"
 {errorList, sizeClassNames} = friggingBootstrap
 {div, label, input}         = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrap.Checkbox = React.createClass
+friggingBootstrap.Checkbox = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Checkbox'
 

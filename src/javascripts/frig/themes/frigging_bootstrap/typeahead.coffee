@@ -1,11 +1,10 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
-frigHelpers       = require "../../helpers.coffee"
+friggingBootstrap             = require "../frigging_bootstrap.coffee"
+frigHelpers                   = require "../../helpers.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = Frig.helpers
-{div, h2, label, input, p, i} = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrapTypeahead = React.createClass
+friggingBootstrap.Typeahead = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Select'
 
@@ -22,7 +21,7 @@ friggingBootstrapTypeahead = React.createClass
       defaultValue: -> @frigProps.initialValue
       placeholder:  -> @frigProps.placeholder
     labelHtml:
-      className: "control-label"
+      className: ""
 
   componentDidMount: ->
     source = if @frigProps.options.length > -1
@@ -117,8 +116,9 @@ friggingBootstrapTypeahead = React.createClass
   render: ->
     div className: cx(sizeClassNames @props) + " typeahead",
       div className: "controls",
+        label @frigProps.labelHtml, @frigProps.label if !@frigProps.multiple
         input @frigProps.inputHtml
-        label @frigProps.labelHtml, @frigProps.label if @frigProps.label
+        label @frigProps.labelHtml, @frigProps.label if @frigProps.multiple
       div className: @_cx(),
         if @frigProps.multiple
           _.map @state.selectedItems, (item) =>
@@ -129,7 +129,7 @@ friggingBootstrapTypeahead = React.createClass
                   className: "fa fa-times delete-trigger pull-right"
                   onClick: _.partial @_deleteItem, item
                   title: "Remove from list"
-        if @state.selectedItems.length < 1
+        if @state.selectedItems.length < 1 && @frigProps.multiple
           div className: "row",
             div className: "col-xs-12 col-sm-12 col-md-12 col-lg-12",
               p className: 'pull-left', "No " +

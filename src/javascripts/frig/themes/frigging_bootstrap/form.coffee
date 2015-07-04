@@ -1,8 +1,8 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
+friggingBootstrap         = require "../frigging_bootstrap.coffee"
 {errorList}               = friggingBootstrap
 {div, form, label, input} = React.DOM
 
-friggingBootstrap.Form = React.createClass
+friggingBootstrap.Form = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Form'
 

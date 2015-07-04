@@ -11,7 +11,7 @@ module.exports = typeMapping =
   uuid:         {template: "input",    htmlInputType: "text"}
   boolean:      {template: "checkbox", htmlInputType: "checkbox"}
   text:         {template: "text"}
-  # file:         {template: "file",     htmlInputType: "file"}
+  file:         {template: "file",     htmlInputType: "file"}
   hidden:       {template: "input",    htmlInputType: "hidden"}
   integer:      {template: "input",    htmlInputType: "number"}
   float:        {template: "input",    htmlInputType: "number"}

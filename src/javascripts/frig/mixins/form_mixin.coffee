@@ -13,6 +13,7 @@ module.exports = formMixin =
   componentWillMount: ->
     @_frigChanges = {}
     @_frigFormData = {}
+    @_frigValidFormData = {}
 
   friggingChildren: ->
     @props.cb @frigDSL()
@@ -26,6 +27,9 @@ module.exports = formMixin =
   getData: ->
     @_frigFormData
 
+  getValidData: ->
+    @_frigValidFormData
+
   initialValues: ->
     # If the data is a ReactLink extract its value
     if @frigProps.data.requestChange?
@@ -33,19 +37,26 @@ module.exports = formMixin =
     else
       @frigProps.data
 
-  _onFriggingChildInit: (k, v) ->
+  _onFriggingChildInit: (k, v, valid) ->
     @_frigFormData[k] = v
+    @_frigValidFormData[k] = v
 
   _onFriggingChildChange: (k, v, valid) ->
     @_frigFormData[k] = v
+    if valid
+      @_frigValidFormData[k] = v
+    else
+      delete @_frigValidFormData[k]
+    # clone the form data object to avoid the situation where subsequent form
+    # updates unexpectedly mutate the data object
+    @frigProps.onChange?(@_frigFormData)
+    if valid
+      @frigProps.onValidChange?(@_frigFormData)
     # Update the ReactLink with the merged combination of form data and the
     # initial values passed in to the form (allowing non-form data to be
     # persisted)
     reactLinkData = merge {}, @initialValues(), @_frigFormData
     @frigProps.data.requestChange?(reactLinkData)
-    # clone the form data object to avoid the situation where subsequent form
-    # updates unexpectedly mutate the data object
-    @frigProps.onChange?(_.clone(@_frigFormData), valid)
 
   _frigOnSubmit: (e) ->
     e.preventDefault()

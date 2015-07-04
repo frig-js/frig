@@ -1,11 +1,11 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
-frigHelpers       = require "../../helpers.coffee"
+friggingBootstrap             = require "../frigging_bootstrap.coffee"
+frigHelpers                   = require "../../helpers.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = frigHelpers
 {div, label, select, option}  = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrap.Select = React.createClass
+friggingBootstrap.Select = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Select'
 
@@ -20,7 +20,7 @@ friggingBootstrap.Select = React.createClass
       className: "form-control"
       defaultValue: -> @frigProps.initialValue
     labelHtml:
-      className: "control-label"
+      className: ""
 
   _cx: ->
     cx

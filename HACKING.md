@@ -1,8 +1,15 @@
+## Compiling
+1. Install webpack
+2. Run `webpack -w --progress -p` to automatically compile the project whenever
+a file is changed.
+
+## Docs (WIP)
+
 frigProps
 - explain what it is, how it works, and how to use it and extend it
 
 FriggingPropsMixin
-  - Takes all these defaults and creates a cascading heirachy of sane defaults, 
+  - Takes all these defaults and creates a cascading heirachy of sane defaults,
     but also the ability to override them as well
 
 Input Mixin
@@ -19,14 +26,14 @@ Input Mixin
 
 Frig Mixin
 - Used in components
-- once frig mixin is supply in component you then have access to @frig function 
+- once frig mixin is supply in component you then have access to @frig function
   where options can be passed
 - creates a form component through the theme
 
 FormMixin
 - Responsible for the creation of all the fields within the actual component
 - function: FriggingChildren()
-    - allows form to get all the fields via @props.cb 
+    - allows form to get all the fields via @props.cb
 - function: getData()
     - returns an object with the keys and values of your form object
     - everytime we do an Ajax request this is where the data comes from

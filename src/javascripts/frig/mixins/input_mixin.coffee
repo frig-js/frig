@@ -13,7 +13,8 @@ module.exports = inputMixin =
 
   componentDidMount: ->
     val = @getFriggingValue()
-    @frigProps.onFriggingChildInit?(@frigProps.fieldKey, val)
+    valid = @validate(val, false)
+    @frigProps.onFriggingChildInit?(@frigProps.fieldKey, val, valid)
 
   defaultGetFriggingValue: ->
     ref = @refs[@frigProps.inputHtml.ref]
@@ -49,8 +50,10 @@ module.exports = inputMixin =
       value: opts
       label: opts
 
-  validate: (value = @getFriggingValue()) ->
-    return true if @frigProps.type == "submit"
+  validate: (value = @getFriggingValue(), renderErrors = true) ->
+    if @frigProps.type == "submit" || @frigProps.validate?() == false
+      @setState errors: undefined
+      return true
     errors = []
     # Running each validation
     for k, validationOpts of @frigProps.validations
@@ -64,7 +67,7 @@ module.exports = inputMixin =
     # If there are no errors then errors should be falsie
     errors = undefined if errors.length == 0
     # Adding the errors to the state
-    @setState errors: errors
+    @setState errors: errors if renderErrors
     # Return true if there are no errors
     return !errors?
 
