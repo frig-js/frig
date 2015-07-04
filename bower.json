@@ -1,0 +1,16 @@
+{
+  "name": "frig",
+  "version": "0.1.0",
+  "homepage": "https://github.com/TouchBistro/frig",
+  "authors": [
+    "D1plo1d <d1plo1d@d1plo1d.com>"
+  ],
+  "description": "Simple but powerful forms for React inspired by SimpleForm.",
+  "main": "dist/frig.js",
+  "keywords": [
+    "Frig",
+    "Forms",
+    "React"
+  ],
+  "license": "MIT"
+}
