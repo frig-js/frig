@@ -4,8 +4,10 @@ path = require "path"
 module.exports =
   entry: "./src/javascripts/frig.coffee"
   output:
-    path: path.join(__dirname, "dist"),
+    path: path.join(__dirname, "dist")
     filename: "frig.js"
+    libraryTarget: "var"
+    library: "Frig"
   resolve:
     root: [
       path.join(__dirname, "src", "javascripts")
