@@ -1,5 +1,5 @@
 /node_modules
 /bower_components
-/bin
+/dist
 
 .DS_Store

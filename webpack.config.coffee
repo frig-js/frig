@@ -4,7 +4,7 @@ path = require "path"
 module.exports =
   entry: "./src/javascripts/frig.coffee"
   output:
-    path: path.join(__dirname, "bin"),
+    path: path.join(__dirname, "dist"),
     filename: "frig.js"
   resolve:
     root: [
