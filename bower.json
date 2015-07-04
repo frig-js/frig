@@ -16,6 +16,6 @@
     "*",
     "!dist/",
     "!dist/*"
-  ]
+  ],
   "license": "MIT"
 }
