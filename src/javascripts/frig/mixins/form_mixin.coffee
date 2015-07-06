@@ -1,6 +1,7 @@
-friggingPropsMixin = require "./frigging_props_mixin.coffee"
-dslMixin           = require "./dsl_mixin.coffee"
-frigHelpers        = require "../helpers.coffee"
+React                         = require "react/addons"
+friggingPropsMixin            = require "./frigging_props_mixin.coffee"
+dslMixin                      = require "./dsl_mixin.coffee"
+frigHelpers                   = require "../helpers.coffee"
 {merge, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
 
 module.exports = formMixin =

@@ -1,4 +1,6 @@
+React                         = require "react/addons"
 friggingBootstrap             = require "../frigging_bootstrap.coffee"
+InputMixin                    = require "../../mixins/input_mixin.coffee"
 {humanize, clone, merge, map} = require "../../helpers.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {div, label, input, img}      = React.DOM
@@ -8,7 +10,7 @@ friggingBootstrap.File = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.FileInput'
 
-  mixins: [Frig.InputMixin]
+  mixins: [InputMixin]
 
   getInitialState: ->
     errors: undefined

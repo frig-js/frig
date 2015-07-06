@@ -1,5 +1,7 @@
+React                         = require "react/addons"
 friggingBootstrap             = require "../frigging_bootstrap.coffee"
 frigHelpers                   = require "../../helpers.coffee"
+InputMixin                    = require "../../mixins/input_mixin.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = frigHelpers
 {div, span, input, label}     = React.DOM
@@ -33,7 +35,7 @@ friggingBootstrap.Switch = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Switch'
 
-  mixins: [Frig.InputMixin]
+  mixins: [InputMixin]
 
   getFriggingProps: ->
     handleWidth:     undefined

@@ -50,10 +50,10 @@ module.exports = helpers =
       val ?= layer[k] for layer in reversedLayers
       cb k, val, layers
     # Recursively mapping the iterator over nested objects
-    for k, v of Frig.helpers.merge {}, layers...
+    for k, v of helpers.merge {}, layers...
       if isConfigObj layers[0][k]
-        namespacedLayers = Frig.helpers.map layers, (layer) -> layer[k] || {}
-        v = Frig.helpers.setDefaults namespacedLayers..., cb
+        namespacedLayers = helpers.map layers, (layer) -> layer[k] || {}
+        v = helpers.setDefaults namespacedLayers..., cb
       else
         v = iterator k, v
       target[k] = v
@@ -76,4 +76,4 @@ module.exports = helpers =
     "#{string[0].toUpperCase()}#{string[1..]}"
 
 
-{humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = Frig.helpers
+{humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = helpers

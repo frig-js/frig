@@ -8,6 +8,9 @@ module.exports =
     filename: "frig.js"
     libraryTarget: "var"
     library: "Frig"
+  externals:
+    "react": "React"
+    "react/addons": "React.addons"
   resolve:
     root: [
       path.join(__dirname, "src", "javascripts")

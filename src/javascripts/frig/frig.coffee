@@ -1,2 +1,0 @@
-@Frig =
-  theme: "friggingBootstrap"

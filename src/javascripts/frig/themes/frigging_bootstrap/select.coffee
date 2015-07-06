@@ -1,5 +1,7 @@
+React                         = require "react/addons"
 friggingBootstrap             = require "../frigging_bootstrap.coffee"
 frigHelpers                   = require "../../helpers.coffee"
+InputMixin                    = require "../../mixins/input_mixin.coffee"
 {errorList, sizeClassNames}   = friggingBootstrap
 {humanize, clone, merge, map} = frigHelpers
 {div, label, select, option}  = React.DOM
@@ -9,7 +11,7 @@ friggingBootstrap.Select = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Select'
 
-  mixins: [Frig.InputMixin]
+  mixins: [InputMixin]
 
   getInitialState: ->
     errors: undefined

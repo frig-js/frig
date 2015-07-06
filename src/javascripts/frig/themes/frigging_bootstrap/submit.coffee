@@ -1,11 +1,13 @@
-friggingBootstrap = require "../frigging_bootstrap.coffee"
-{input}           = React.DOM
+React                         = require "react/addons"
+friggingBootstrap             = require "../frigging_bootstrap.coffee"
+InputMixin                    = require "../../mixins/input_mixin.coffee"
+{input}                       = React.DOM
 
 friggingBootstrap.Submit = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Submit'
 
-  mixins: [Frig.InputMixin]
+  mixins: [InputMixin]
 
   getFriggingProps: ->
     inputHtml:

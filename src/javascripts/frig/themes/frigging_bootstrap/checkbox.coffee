@@ -1,13 +1,15 @@
-friggingBootstrap           = require "../frigging_bootstrap.coffee"
-{errorList, sizeClassNames} = friggingBootstrap
-{div, label, input}         = React.DOM
+React                         = require "react/addons"
+friggingBootstrap             = require "../frigging_bootstrap.coffee"
+InputMixin                    = require "../../mixins/input_mixin.coffee"
+{errorList, sizeClassNames}   = friggingBootstrap
+{div, label, input}           = React.DOM
 cx = React.addons.classSet
 
 friggingBootstrap.Checkbox = React.createFactory React.createClass
 
   displayName: 'Frig.friggingBootstrap.Checkbox'
 
-  mixins: [Frig.InputMixin]
+  mixins: [InputMixin]
 
   getInitialState: ->
     errors: undefined

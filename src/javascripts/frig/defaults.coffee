@@ -1,4 +1,5 @@
-{humanize, clone, merge, map, capitalize, guessType} = Frig.helpers
+frigHelpers = require "./helpers.coffee"
+{humanize, clone, merge, map, capitalize, guessType} = frigHelpers
 
 # When in doubt add defaults in alphabetical order
 module.exports = defaults =

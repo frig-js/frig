@@ -1,4 +1,5 @@
-frigHelpers = require "../helpers.coffee"
+React                        = require "react/addons"
+frigHelpers                  = require "../helpers.coffee"
 {humanize, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
 
 module.exports = dslMixin =
