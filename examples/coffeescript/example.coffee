@@ -1,5 +1,6 @@
+require "./node_modules/bootstrap/dist/css/bootstrap.css"
 React = require "react/addons"
-Frig = require "frig.coffee"
+window.Frig = require "frig.coffee"
 {div, h2, h3} = React.DOM
 
 accountForm = React.createClass
@@ -12,27 +13,33 @@ accountForm = React.createClass
     account:
       email: "me@test.com"
       password: "test"
-      shareSketchyInfo: true
+      shareSketchyInfo: false
 
   render: ->
-    console.log React
-    console.log @
-    @frig data: @linkState("account"), (f) ->
-      div {},
-        h2 {}, "My Account"
+    @frig data: @linkState("account"), (f) =>
+      div className: "container",
+        div className: "row",
+          div className: "xs-col-12 sm-col-12 md-col-12 lg-col-12",
+            h2 {}, "My Account"
 
-        f.input "email"
-        f.input "password"
-        f.input "passwordConfirmation"
+        div className: "row",
+          f.input "email", xs: 12
+        div className: "row",
+          f.input "password", xs: 6
+          f.input "passwordConfirmation", xs: 6
 
-        h3, {}, "Additional Sketchy Info"
-        f.input "shareSketchyInfo", type: "boolean"
+        div className: "row",
+          div className: "xs-col-12 sm-col-12 md-col-12 lg-col-12",
+            h3 {}, "Additional Sketchy Info"
 
-        if state.shareSketchyInfo
-          f.input "socialSecurityNumber"
-          f.input "fullName"
+        div className: "row",
+          f.input "shareSketchyInfo", type: "boolean"
 
-        f.submit "Save"
+          if @state.account.shareSketchyInfo
+            f.input "socialSecurityNumber"
+            f.input "fullName"
+
+          f.submit "Save"
 
 document.addEventListener "DOMContentLoaded", ->
   reactElement = React.createElement accountForm

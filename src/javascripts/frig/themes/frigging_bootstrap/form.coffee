@@ -10,13 +10,12 @@ friggingBootstrap.Form = React.createFactory React.createClass
 
   mixins: [FormMixin]
 
-  getLayout: ->
-    @frigProps.layout || "horizontal"
-
   getFriggingProps: ->
-    layout: @getLayout()
     formHtml:
-      className: "form-#{@getLayout()}" if @frigProps.className != false
+      className: -> "form-#{@frigProps.layout}" if @frigProps.layout
 
   render: ->
+    console.log @frigProps
+
+    console.log @frigProps.layout
     form @frigProps.formHtml, @friggingChildren()

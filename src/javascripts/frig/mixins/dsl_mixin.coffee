@@ -1,4 +1,5 @@
 React                        = require "react/addons"
+globalTypeMapping            = require "../type_mapping.coffee"
 frigHelpers                  = require "../helpers.coffee"
 {humanize, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
 
@@ -86,8 +87,10 @@ module.exports = dslMixin =
   # type mapping sources
   _frigGetTemplateName: ({type, key, template}, theme, inputTypeMapping) ->
     return capitalize template if template?
-    sources = [{typeMapping: inputTypeMapping}, @, theme, Frig]
-    for {typeMapping} in sources
+    sources = [
+      inputTypeMapping, @typeMapping, theme.typeMapping, globalTypeMapping
+    ]
+    for typeMapping in sources
       mapping = (typeMapping||{})[type]
       # mapping is either a template name string or an object of the form
       # {template: STRING, htmlInputType: STRING}

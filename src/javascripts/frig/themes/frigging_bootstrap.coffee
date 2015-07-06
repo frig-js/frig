@@ -21,7 +21,7 @@ module.exports = friggingBootstrap =
     lgOffset:        -> @frigProps.mdOffset
 
   errorList: (errors) ->
-    map errors, Frig.friggingBootstrap.error if errors?
+    map errors, friggingBootstrap.error if errors?
 
   error: (msg) ->
     span className: "help-block",

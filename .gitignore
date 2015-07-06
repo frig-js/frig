@@ -1,5 +1,7 @@
 node_modules
 bower_components
 /dist/* binary
+/dist/examples/coffeescript/example.js binary
+/dist/examples/jsx/example.js binary
 
 .DS_Store

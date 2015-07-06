@@ -1,6 +1,7 @@
 React                         = require "react/addons"
 friggingPropsMixin            = require "./frigging_props_mixin.coffee"
 frigHelpers                   = require "../helpers.coffee"
+frigValidations               = require "../validations.coffee"
 {humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = frigHelpers
 
 module.exports = inputMixin =
@@ -64,7 +65,7 @@ module.exports = inputMixin =
         fieldkey:   @frigProps.fieldKey
         value:      value
         opts:       validationOpts
-      errors = errors.concat Frig.validation[k](opts) || []
+      errors = errors.concat frigValidations[k](opts) || []
     # If there are no errors then errors should be falsie
     errors = undefined if errors.length == 0
     # Adding the errors to the state

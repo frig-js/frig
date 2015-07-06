@@ -28,6 +28,7 @@ friggingBootstrap.Text = React.createFactory React.createClass
 
   _cx: ->
     cx
+      "form-group": true
       "has-error": @state.errors?
       "has-success": @state.edited && !@state.errors?
 

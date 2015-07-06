@@ -1,3 +1,4 @@
+Frig = require "frig.coffee"
 module.exports = class FormBuilder
   constructor: (@parent, @opts = {}, @cb = ->) ->
     @props = {}
@@ -8,12 +9,13 @@ module.exports = class FormBuilder
     @props[k] = v for k, v of @_defaults()
 
   _defaults: ->
-    type:         "form"
-    ref:          "form"
-    cb:           @cb
-    parent:       @parent
-    theme:        @_theme()
-    formDefaults: @opts
+    type:          "form"
+    ref:           "form"
+    cb:            @cb
+    parent:        @parent
+    theme:         @_theme()
+    themeDefaults: @_theme().defaults
+    formDefaults:  @opts
 
   # Create a theme-specific form React element
   render: ->

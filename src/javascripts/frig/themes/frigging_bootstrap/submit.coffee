@@ -1,7 +1,9 @@
 React                         = require "react/addons"
 friggingBootstrap             = require "../frigging_bootstrap.coffee"
 InputMixin                    = require "../../mixins/input_mixin.coffee"
-{input}                       = React.DOM
+{div, input}                  = React.DOM
+{sizeClassNames}              = friggingBootstrap
+cx = React.addons.classSet
 
 friggingBootstrap.Submit = React.createFactory React.createClass
 
@@ -13,8 +15,10 @@ friggingBootstrap.Submit = React.createFactory React.createClass
     inputHtml:
       placeholder:  -> @frigProps.placeholder
       defaultValue: -> @frigProps.initialValue
-      className:    -> @frigProps.className
+      className:    -> @frigProps.className || "btn btn-default"
       type:         -> @frigProps.htmlInputType
 
   render: ->
-    input @frigProps.inputHtml
+    div className: cx(sizeClassNames @frigProps),
+      div className: "form-group",
+        input @frigProps.inputHtml

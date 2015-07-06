@@ -28,9 +28,10 @@ friggingBootstrap.Checkbox = React.createFactory React.createClass
       "has-success": @state.edited && !@state.errors?
 
   render: ->
-    div className: cx(sizeClassNames @frigProps),
-      div className: @_cx(),
-        label @frigProps.labelHtml,
-          input @frigProps.inputHtml
-          " #{@frigProps.label}" if @frigProps.label
-        errorList @state.errors if @state?.errors?
+    div className: "form-group",
+      div className: cx(sizeClassNames @frigProps),
+        div className: @_cx(),
+          label @frigProps.labelHtml,
+            input @frigProps.inputHtml
+            " #{@frigProps.label}" if @frigProps.label
+          errorList @state.errors if @state?.errors?
