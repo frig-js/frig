@@ -75,12 +75,10 @@
 	        }, div({
 	          className: "row"
 	        }, div({
-	          className: "xs-col-12 sm-col-12 md-col-12 lg-col-12"
+	          className: "sm-col-12"
 	        }, h2({}, "My Account"))), div({
 	          className: "row"
-	        }, f.input("email", {
-	          xs: 12
-	        })), div({
+	        }, f.input("email")), div({
 	          className: "row"
 	        }, f.input("password", {
 	          xs: 6
@@ -89,12 +87,10 @@
 	        })), div({
 	          className: "row"
 	        }, div({
-	          className: "xs-col-12 sm-col-12 md-col-12 lg-col-12"
+	          className: "sm-col-12"
 	        }, h3({}, "Additional Sketchy Info"))), div({
 	          className: "row"
-	        }, f.input("shareSketchyInfo", {
-	          type: "boolean"
-	        }), _this.state.account.shareSketchyInfo ? (f.input("socialSecurityNumber"), f.input("fullName")) : void 0, f.submit("Save")));
+	        }, f.input("shareSketchyInfo"), _this.state.account.shareSketchyInfo ? (f.input("socialSecurityNumber"), f.input("fullName")) : void 0, f.submit("Save")));
 	      };
 	    })(this));
 	  }
@@ -46501,8 +46497,6 @@
 	    };
 	  },
 	  render: function() {
-	    console.log(this.frigProps);
-	    console.log(this.frigProps.layout);
 	    return form(this.frigProps.formHtml, this.friggingChildren());
 	  }
 	}));

@@ -15,7 +15,4 @@ friggingBootstrap.Form = React.createFactory React.createClass
       className: -> "form-#{@frigProps.layout}" if @frigProps.layout
 
   render: ->
-    console.log @frigProps
-
-    console.log @frigProps.layout
     form @frigProps.formHtml, @friggingChildren()

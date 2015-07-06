@@ -19,22 +19,22 @@ accountForm = React.createClass
     @frig data: @linkState("account"), (f) =>
       div className: "container",
         div className: "row",
-          div className: "xs-col-12 sm-col-12 md-col-12 lg-col-12",
+          div className: "sm-col-12",
             h2 {}, "My Account"
 
         div className: "row",
-          f.input "email", xs: 12
+          f.input "email"
+
         div className: "row",
           f.input "password", xs: 6
           f.input "passwordConfirmation", xs: 6
 
         div className: "row",
-          div className: "xs-col-12 sm-col-12 md-col-12 lg-col-12",
+          div className: "sm-col-12",
             h3 {}, "Additional Sketchy Info"
 
         div className: "row",
-          f.input "shareSketchyInfo", type: "boolean"
-
+          f.input "shareSketchyInfo"
           if @state.account.shareSketchyInfo
             f.input "socialSecurityNumber"
             f.input "fullName"
