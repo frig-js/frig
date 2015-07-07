@@ -1,3 +1,7 @@
+# WORK IN PROGRESS.
+
+# PLEASE DO NOT OPEN UNTIL JULY 6TH, 2015 AT 7PM
+
 # Frig
 
 By [TouchBistro](http://touchbistro.com/).
