@@ -1,7 +1,8 @@
 ## Compiling
 1. Install webpack
-2. Run `webpack -w --progress -p` to automatically compile the project whenever
+2. Run `webpack -w --progress` to automatically compile the project whenever
 a file is changed.
+3. Run `webpack -w --progress -p --config webpack.production.config.coffee` to produce a minified version of frig.
 
 ## Docs (WIP)
 

@@ -27,6 +27,7 @@ module.exports = defaults =
   className:       undefined
   disabled:        undefined
   multiple:        undefined
+  theme:           "friggingBootstrap"
 
   # Validation flags
   required:        -> @frigProps.type != "boolean"

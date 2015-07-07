@@ -10,7 +10,6 @@ module.exports =
   validations: require "./frig/validations.coffee"
 
   # Frig default theme (Frigging Bootstrap)
-  theme: "friggingBootstrap"
   friggingBootstrap: require "./frig/themes/frigging_bootstrap.coffee"
 
 # Frigging Bootstrap's default input components

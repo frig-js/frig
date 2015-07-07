@@ -22605,7 +22605,6 @@
 	  FormMixin: __webpack_require__(356),
 	  typeMapping: __webpack_require__(175),
 	  validations: __webpack_require__(355),
-	  theme: "friggingBootstrap",
 	  friggingBootstrap: __webpack_require__(358)
 	};
 
@@ -45129,9 +45128,9 @@
 /* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FormBuilder, Frig;
+	var FormBuilder, frigDefaults;
 
-	Frig = __webpack_require__(350);
+	frigDefaults = __webpack_require__(354);
 
 	module.exports = FormBuilder = (function() {
 	  function FormBuilder(parent, opts, cb) {
@@ -45170,8 +45169,8 @@
 	  };
 
 	  FormBuilder.prototype._theme = function() {
-	    var theme, themeName;
-	    themeName = this.opts.theme || Frig.theme;
+	    var base, theme, themeName;
+	    themeName = (base = this.opts).theme || (base.theme = frigDefaults.theme);
 	    if (themeName == null) {
 	      throw "A theme name is required";
 	    }
@@ -45188,35 +45187,7 @@
 
 
 /***/ },
-/* 350 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AddBootstrapInputs;
-
-	module.exports = {
-	  Mixin: __webpack_require__(176),
-	  InputMixin: __webpack_require__(351),
-	  FormMixin: __webpack_require__(356),
-	  typeMapping: __webpack_require__(175),
-	  validations: __webpack_require__(355),
-	  theme: "friggingBootstrap",
-	  friggingBootstrap: __webpack_require__(358)
-	};
-
-	AddBootstrapInputs = function(inputs) {
-	  var i, k, len, results;
-	  results = [];
-	  for (i = 0, len = inputs.length; i < len; i++) {
-	    k = inputs[i];
-	    results.push(__webpack_require__(363)("./" + k + ".coffee"));
-	  }
-	  return results;
-	};
-
-	AddBootstrapInputs(["checkbox", "errors", "form", "input", "select", "submit", "switch", "text", "typeahead"]);
-
-
-/***/ },
+/* 350 */,
 /* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -45551,6 +45522,7 @@
 	  className: void 0,
 	  disabled: void 0,
 	  multiple: void 0,
+	  theme: "friggingBootstrap",
 	  required: function() {
 	    return this.frigProps.type !== "boolean";
 	  },

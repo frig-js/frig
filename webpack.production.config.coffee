@@ -3,10 +3,10 @@ path = require "path"
 
 module.exports =
   entry: "./src/javascripts/frig.coffee"
-  devtool: "inline-source-map"
+  devtool: "source-map"
   output:
     path: path.join(__dirname, "dist")
-    filename: "frig.js"
+    filename: "frig.min.js"
     libraryTarget: "var"
     library: "Frig"
   externals:
@@ -40,5 +40,5 @@ module.exports =
       }
     ]
   plugins: [
-    new ExtractTextPlugin("frig.css")
+    new ExtractTextPlugin("frig.min.css")
   ]

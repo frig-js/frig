@@ -61,32 +61,53 @@ React.renderComponent(
 Good question! **Frig** is also a totally sweet Coffeescript DSL!
 
 ```coffeescript
-{div, h2, h3} = React.Dom
-Frig = require "frig"
+require "./node_modules/bootstrap/dist/css/bootstrap.css"
+React = require "react/addons"
+window.Frig = require "frig.coffee"
+{div, h2, h3} = React.DOM
 
-form = Frig.Form data: data, (f) ->
-  div {},
-    h2 {}, "My Account"
+accountForm = React.createClass
+  mixins: [
+    Frig.Mixin
+    React.addons.LinkedStateMixin
+  ]
 
-    f.input "email"
-    f.input "password"
-    f.input "passwordConfirmation"
+  getInitialState: ->
+    account:
+      email: "me@test.com"
+      password: "test"
+      shareSketchyInfo: false
 
-    h3, {}, Additional Sketchy Info"
-    f.input "shareSketchyInfo", type: "boolean"
+  render: ->
+    @frig data: @linkState("account"), (f) =>
+      div className: "container",
+        div className: "row",
+          div className: "sm-col-12",
+            h2 {}, "My Account"
 
-    if state.shareSketchyInfo
-      f.input "socialSecurityNumber"
-      f.input "fullName"
+        div className: "row",
+          f.input "email"
 
-    f.submit
+        div className: "row",
+          f.input "password", xs: 6
+          f.input "passwordConfirmation", xs: 6
 
-data =
-  email: "me@test.com"
-  password: "test"
-  shareSketchyInfo: true
+        div className: "row",
+          div className: "sm-col-12",
+            h3 {}, "Additional Sketchy Info"
 
-React.renderComponent form, document.getElementById('example')
+        div className: "row",
+          f.input "shareSketchyInfo"
+          if @state.account.shareSketchyInfo
+            f.input "socialSecurityNumber"
+            f.input "fullName"
+
+          f.submit "Save"
+
+document.addEventListener "DOMContentLoaded", ->
+  reactElement = React.createElement accountForm
+  domElement = document.getElementById('example')
+  React.render reactElement, domElement
 ```
 
 Notice how we don't have to specify name in the coffeescript version and how we pass the form callback directly to `Frig.Form`?
