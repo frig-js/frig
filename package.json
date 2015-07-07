@@ -2,7 +2,7 @@
   "name": "frig",
   "version": "0.1.0",
   "private": false,
-  "main": "./src/javascripts/frig",
+  "main": "src/javascripts/frig.coffee",
   "dependencies": {
     "webpack": "*",
     "css-loader": "*",

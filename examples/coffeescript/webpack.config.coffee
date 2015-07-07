@@ -8,9 +8,6 @@ module.exports =
   resolve:
     root: [
       path.join(__dirname)
-      path.join(__dirname, "bower_components")
-      path.join(__dirname, "..", "..", "src", "javascripts")
-      path.join(__dirname, "..", "..", "src", "stylesheets")
     ]
   module:
     loaders: [

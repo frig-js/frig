@@ -1,7 +1,7 @@
 # Setting the default theme to bootstrap
 module.exports =
   # Frig core mixins
-  Mixin: require "frig/mixins/frig_mixin.coffee"
+  Mixin: require "./frig/mixins/frig_mixin.coffee"
   InputMixin: require "./frig/mixins/input_mixin.coffee"
   FormMixin: require "./frig/mixins/form_mixin.coffee"
 

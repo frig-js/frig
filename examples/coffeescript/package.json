@@ -15,7 +15,8 @@
     "jade-loader": "*",
     "url-loader": "*",
     "react": "0.13.3",
-    "bootstrap": "*"
+    "bootstrap": "*",
+    "frig": "file:../../"
   },
   "engines": {
     "node": "~0.12.x",
