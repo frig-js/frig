@@ -2,7 +2,7 @@ React                         = require "react/addons"
 frigHelpers                   = require "../helpers.coffee"
 {humanize, clone, merge, map} = frigHelpers
 {span, i}                     = React.DOM
-require "./frig/themes/frigging_bootstrap.styl"
+require "../../../stylesheets/frig/themes/frigging_bootstrap.styl"
 
 module.exports = friggingBootstrap =
   # # Optional: a theme-specific list of defaults that override the global

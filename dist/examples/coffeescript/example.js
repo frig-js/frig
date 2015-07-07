@@ -22951,12 +22951,12 @@
 	var AddBootstrapInputs;
 
 	module.exports = {
-	  Mixin: __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"frig/mixins/frig_mixin.coffee\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
-	  InputMixin: __webpack_require__(185),
-	  FormMixin: __webpack_require__(190),
+	  Mixin: __webpack_require__(185),
+	  InputMixin: __webpack_require__(189),
+	  FormMixin: __webpack_require__(192),
 	  typeMapping: __webpack_require__(184),
-	  validations: __webpack_require__(189),
-	  friggingBootstrap: __webpack_require__(192)
+	  validations: __webpack_require__(191),
+	  friggingBootstrap: __webpack_require__(194)
 	};
 
 	AddBootstrapInputs = function(inputs) {
@@ -22964,7 +22964,7 @@
 	  results = [];
 	  for (i = 0, len = inputs.length; i < len; i++) {
 	    k = inputs[i];
-	    results.push(__webpack_require__(193)("./" + k + ".coffee"));
+	    results.push(__webpack_require__(195)("./" + k + ".coffee"));
 	  }
 	  return results;
 	};
@@ -23064,117 +23064,20 @@
 /* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React, clone, frigHelpers, frigValidations, friggingPropsMixin, humanize, inputMixin, isConfigObj, map, mapObj, merge, setDefaults;
+	var FormBuilder, React, frigMixin,
+	  slice = [].slice;
 
 	React = __webpack_require__(10);
 
-	friggingPropsMixin = __webpack_require__(186);
+	FormBuilder = __webpack_require__(186);
 
-	frigHelpers = __webpack_require__(187);
-
-	frigValidations = __webpack_require__(189);
-
-	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, mapObj = frigHelpers.mapObj, isConfigObj = frigHelpers.isConfigObj, setDefaults = frigHelpers.setDefaults;
-
-	module.exports = inputMixin = {
-	  mixins: [friggingPropsMixin],
-	  componentWillMount: function() {
-	    return this.getFriggingValue || (this.getFriggingValue = this.defaultGetFriggingValue);
-	  },
-	  componentDidMount: function() {
-	    var base, val, valid;
-	    val = this.getFriggingValue();
-	    valid = this.validate(val, false);
-	    return typeof (base = this.frigProps).onFriggingChildInit === "function" ? base.onFriggingChildInit(this.frigProps.fieldKey, val, valid) : void 0;
-	  },
-	  defaultGetFriggingValue: function() {
-	    var el, i, len, option, ref, ref1, val;
-	    ref = this.refs[this.frigProps.inputHtml.ref];
-	    val = ref != null ? (el = ref.getDOMNode(), el.type === 'checkbox' ? el.checked : el.type === 'select-multiple' ? $(el).val() : el.value) : this.frigProps.initialValue;
-	    if (this.frigProps.options != null) {
-	      ref1 = this.frigProps.options;
-	      for (i = 0, len = ref1.length; i < len; i++) {
-	        option = ref1[i];
-	        option = this.normalizeFriggingOption(option);
-	        if (option.value.toString() === val) {
-	          return option.value;
-	        }
-	      }
-	    }
-	    return val;
-	  },
-	  normalizeFriggingOption: function(opts) {
-	    if (opts == null) {
-	      return void 0;
-	    }
-	    if (typeof opts === "object" && opts.length === 1) {
-	      opts = opts[0];
-	    }
-	    if (typeof opts === "object" && opts.length === 2) {
-	      return {
-	        value: opts[0],
-	        label: opts[1]
-	      };
-	    } else {
-	      return {
-	        value: opts,
-	        label: opts
-	      };
-	    }
-	  },
-	  validate: function(value, renderErrors) {
-	    var base, errors, k, opts, ref1, validationOpts;
-	    if (value == null) {
-	      value = this.getFriggingValue();
-	    }
-	    if (renderErrors == null) {
-	      renderErrors = true;
-	    }
-	    if (this.frigProps.type === "submit" || (typeof (base = this.frigProps).validate === "function" ? base.validate() : void 0) === false) {
-	      this.setState({
-	        errors: void 0
-	      });
-	      return true;
-	    }
-	    errors = [];
-	    ref1 = this.frigProps.validations;
-	    for (k in ref1) {
-	      validationOpts = ref1[k];
-	      if (validationOpts === false || (validationOpts == null)) {
-	        continue;
-	      }
-	      opts = {
-	        data: this.frigProps.data,
-	        fieldkey: this.frigProps.fieldKey,
-	        value: value,
-	        opts: validationOpts
-	      };
-	      errors = errors.concat(frigValidations[k](opts) || []);
-	    }
-	    if (errors.length === 0) {
-	      errors = void 0;
-	    }
-	    if (renderErrors) {
-	      this.setState({
-	        errors: errors
-	      });
-	    }
-	    return errors == null;
-	  },
-	  _frigOnChange: function() {
-	    var base, base1, valid, value;
-	    if (this.frigProps.type === "submit") {
-	      return;
-	    }
-	    value = this.getFriggingValue();
-	    valid = this.validate(value);
-	    if (typeof (base = this.frigProps).onFriggingChildChange === "function") {
-	      base.onFriggingChildChange(this.frigProps.fieldKey, value, valid);
-	    }
-	    return typeof (base1 = this.frigProps).onChange === "function" ? base1.onChange(value, valid) : void 0;
-	  },
-	  _frigOnBlur: function() {
-	    return this.validate();
+	module.exports = frigMixin = {
+	  frig: function(props, children) {
+	    return (function(func, args, ctor) {
+	      ctor.prototype = func.prototype;
+	      var child = new ctor, result = func.apply(child, args);
+	      return Object(result) === result ? result : child;
+	    })(FormBuilder, [this].concat(slice.call(arguments)), function(){}).render();
 	  }
 	};
 
@@ -23183,69 +23086,162 @@
 /* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React, clone, frigDefaults, frigHelpers, friggingPropsMixin, humanize, isConfigObj, map, mapObj, merge, setDefaults,
-	  slice = [].slice;
+	var FormBuilder, frigDefaults;
 
-	React = __webpack_require__(10);
+	frigDefaults = __webpack_require__(187);
 
-	frigHelpers = __webpack_require__(187);
-
-	frigDefaults = __webpack_require__(188);
-
-	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, mapObj = frigHelpers.mapObj, isConfigObj = frigHelpers.isConfigObj, setDefaults = frigHelpers.setDefaults;
-
-	module.exports = friggingPropsMixin = {
-	  componentWillReceiveProps: function(nextProps) {
-	    return this._frigRefreshProps(nextProps);
-	  },
-	  componentWillMount: function() {
-	    return this._frigRefreshProps(this.props);
-	  },
-	  frigDefaultLayers: function() {
-	    return [frigDefaults, this.props.themeDefaults || {}, this.props.formDefaults || {}];
-	  },
-	  _frigPropLayers: function(props) {
-	    return slice.call(this.frigDefaultLayers()).concat([(typeof this.getFriggingProps === "function" ? this.getFriggingProps() : void 0) || {}], [props]);
-	  },
-	  _frigRefreshProps: function(props) {
-	    if (props == null) {
-	      props = {};
+	module.exports = FormBuilder = (function() {
+	  function FormBuilder(parent, opts, cb) {
+	    var i, k, len, ref, ref1, v;
+	    this.parent = parent;
+	    this.opts = opts != null ? opts : {};
+	    this.cb = cb != null ? cb : function() {};
+	    this.props = {};
+	    ref = ["data", "ref", "typeMapping", "errors", "onChange"];
+	    for (i = 0, len = ref.length; i < len; i++) {
+	      k = ref[i];
+	      this.props[k] = this.opts[k];
+	      delete this.opts[k];
 	    }
-	    this.frigProps = {};
-	    return setDefaults.apply(null, slice.call(this._frigPropLayers(props)).concat([this.frigProps], [this._frigPropVal]));
+	    ref1 = this._defaults();
+	    for (k in ref1) {
+	      v = ref1[k];
+	      this.props[k] = v;
+	    }
+	  }
+
+	  FormBuilder.prototype._defaults = function() {
+	    return {
+	      type: "form",
+	      ref: "form",
+	      cb: this.cb,
+	      parent: this.parent,
+	      theme: this._theme(),
+	      themeDefaults: this._theme().defaults,
+	      formDefaults: this.opts
+	    };
+	  };
+
+	  FormBuilder.prototype.render = function() {
+	    return this._theme().Form(this.props);
+	  };
+
+	  FormBuilder.prototype._theme = function() {
+	    var base, theme, themeName;
+	    themeName = (base = this.opts).theme || (base.theme = frigDefaults.theme);
+	    if (themeName == null) {
+	      throw "A theme name is required";
+	    }
+	    theme = Frig[themeName];
+	    if (theme == null) {
+	      throw "Frig." + themeName + " does not exist";
+	    }
+	    return theme;
+	  };
+
+	  return FormBuilder;
+
+	})();
+
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var capitalize, clone, defaults, frigHelpers, guessType, humanize, map, merge, typeMapping;
+
+	frigHelpers = __webpack_require__(188);
+
+	typeMapping = __webpack_require__(184);
+
+	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, capitalize = frigHelpers.capitalize, guessType = frigHelpers.guessType;
+
+	module.exports = defaults = {
+	  children: void 0,
+	  fieldKey: void 0,
+	  formRef: void 0,
+	  onFriggingChildInit: void 0,
+	  onFriggingChildChange: void 0,
+	  validationState: void 0,
+	  data: function() {
+	    return {};
 	  },
-	  _frigPropVal: function(k, obj, layers) {
-	    var defaultVal, fnNameRegex;
-	    defaultVal = layers[0][k];
-	    if (k === "className") {
-	      return this._frigClassName(layers);
-	    }
-	    fnNameRegex = /^on|^cb$|^validate$/;
-	    if (typeof obj === "function" && (obj === defaultVal || !k.match(fnNameRegex))) {
-	      obj = obj.call(this, this);
-	    }
-	    return obj;
+	  type: void 0,
+	  initialValue: void 0,
+	  title: function() {
+	    return humanize(this.frigProps.fieldKey);
 	  },
-	  _frigClassName: function(sources) {
-	    var className, classNames, i, len, source;
-	    classNames = [];
-	    for (i = 0, len = sources.length; i < len; i++) {
-	      source = sources[i];
-	      className = source.className;
-	      if (typeof className === "function") {
-	        className = className.call(this, this);
-	      }
-	      if (className) {
-	        classNames.push(className);
-	      }
+	  label: function() {
+	    return this.frigProps.title;
+	  },
+	  placeholder: function() {
+	    return this.frigProps.title;
+	  },
+	  htmlInputType: function() {
+	    return Frig.typeMapping[this.frigProps.type].htmlInputType;
+	  },
+	  options: void 0,
+	  layout: void 0,
+	  className: void 0,
+	  disabled: void 0,
+	  multiple: void 0,
+	  theme: "friggingBootstrap",
+	  required: function() {
+	    return this.frigProps.type !== "boolean";
+	  },
+	  min: void 0,
+	  max: void 0,
+	  onChange: void 0,
+	  onSubmit: void 0,
+	  formHtml: {
+	    ref: function() {
+	      return this.frigProps.formRef;
+	    },
+	    onSubmit: function() {
+	      return this._frigOnSubmit;
 	    }
-	    return classNames.join(" ");
+	  },
+	  labelHtml: {
+	    htmlFor: function() {
+	      return this.frigProps.fieldKey;
+	    }
+	  },
+	  inputHtml: {
+	    ref: "input",
+	    name: function() {
+	      return this.frigProps.fieldKey;
+	    },
+	    autoFocus: function() {
+	      return this.frigProps.autoFocus;
+	    },
+	    onChange: function() {
+	      return this._frigOnChange;
+	    },
+	    onBlur: function() {
+	      return this._frigOnBlur;
+	    },
+	    className: function() {
+	      return this.frigProps.className;
+	    },
+	    disabled: function() {
+	      return this.frigProps.disabled;
+	    },
+	    multiple: function() {
+	      return this.frigProps.multiple;
+	    }
+	  },
+	  validations: function() {
+	    return {
+	      required: this.frigProps.required,
+	      min: this.frigProps.min != null ? this.frigProps.min : void 0,
+	      max: this.frigProps.max != null ? this.frigProps.max : void 0
+	    };
 	  }
 	};
 
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports) {
 
 	var clone, helpers, humanize, isConfigObj, map, mapObj, merge, setDefaults,
@@ -23355,103 +23351,191 @@
 
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var capitalize, clone, defaults, frigHelpers, guessType, humanize, map, merge, typeMapping;
+	var React, clone, frigHelpers, frigValidations, friggingPropsMixin, humanize, inputMixin, isConfigObj, map, mapObj, merge, setDefaults;
 
-	frigHelpers = __webpack_require__(187);
+	React = __webpack_require__(10);
 
-	typeMapping = __webpack_require__(184);
+	friggingPropsMixin = __webpack_require__(190);
 
-	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, capitalize = frigHelpers.capitalize, guessType = frigHelpers.guessType;
+	frigHelpers = __webpack_require__(188);
 
-	module.exports = defaults = {
-	  children: void 0,
-	  fieldKey: void 0,
-	  formRef: void 0,
-	  onFriggingChildInit: void 0,
-	  onFriggingChildChange: void 0,
-	  validationState: void 0,
-	  data: function() {
-	    return {};
+	frigValidations = __webpack_require__(191);
+
+	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, mapObj = frigHelpers.mapObj, isConfigObj = frigHelpers.isConfigObj, setDefaults = frigHelpers.setDefaults;
+
+	module.exports = inputMixin = {
+	  mixins: [friggingPropsMixin],
+	  componentWillMount: function() {
+	    return this.getFriggingValue || (this.getFriggingValue = this.defaultGetFriggingValue);
 	  },
-	  type: void 0,
-	  initialValue: void 0,
-	  title: function() {
-	    return humanize(this.frigProps.fieldKey);
+	  componentDidMount: function() {
+	    var base, val, valid;
+	    val = this.getFriggingValue();
+	    valid = this.validate(val, false);
+	    return typeof (base = this.frigProps).onFriggingChildInit === "function" ? base.onFriggingChildInit(this.frigProps.fieldKey, val, valid) : void 0;
 	  },
-	  label: function() {
-	    return this.frigProps.title;
+	  defaultGetFriggingValue: function() {
+	    var el, i, len, option, ref, ref1, val;
+	    ref = this.refs[this.frigProps.inputHtml.ref];
+	    val = ref != null ? (el = ref.getDOMNode(), el.type === 'checkbox' ? el.checked : el.type === 'select-multiple' ? $(el).val() : el.value) : this.frigProps.initialValue;
+	    if (this.frigProps.options != null) {
+	      ref1 = this.frigProps.options;
+	      for (i = 0, len = ref1.length; i < len; i++) {
+	        option = ref1[i];
+	        option = this.normalizeFriggingOption(option);
+	        if (option.value.toString() === val) {
+	          return option.value;
+	        }
+	      }
+	    }
+	    return val;
 	  },
-	  placeholder: function() {
-	    return this.frigProps.title;
-	  },
-	  htmlInputType: function() {
-	    return Frig.typeMapping[this.frigProps.type].htmlInputType;
-	  },
-	  options: void 0,
-	  layout: void 0,
-	  className: void 0,
-	  disabled: void 0,
-	  multiple: void 0,
-	  theme: "friggingBootstrap",
-	  required: function() {
-	    return this.frigProps.type !== "boolean";
-	  },
-	  min: void 0,
-	  max: void 0,
-	  onChange: void 0,
-	  onSubmit: void 0,
-	  formHtml: {
-	    ref: function() {
-	      return this.frigProps.formRef;
-	    },
-	    onSubmit: function() {
-	      return this._frigOnSubmit;
+	  normalizeFriggingOption: function(opts) {
+	    if (opts == null) {
+	      return void 0;
+	    }
+	    if (typeof opts === "object" && opts.length === 1) {
+	      opts = opts[0];
+	    }
+	    if (typeof opts === "object" && opts.length === 2) {
+	      return {
+	        value: opts[0],
+	        label: opts[1]
+	      };
+	    } else {
+	      return {
+	        value: opts,
+	        label: opts
+	      };
 	    }
 	  },
-	  labelHtml: {
-	    htmlFor: function() {
-	      return this.frigProps.fieldKey;
+	  validate: function(value, renderErrors) {
+	    var base, errors, k, opts, ref1, validationOpts;
+	    if (value == null) {
+	      value = this.getFriggingValue();
 	    }
-	  },
-	  inputHtml: {
-	    ref: "input",
-	    name: function() {
-	      return this.frigProps.fieldKey;
-	    },
-	    autoFocus: function() {
-	      return this.frigProps.autoFocus;
-	    },
-	    onChange: function() {
-	      return this._frigOnChange;
-	    },
-	    onBlur: function() {
-	      return this._frigOnBlur;
-	    },
-	    className: function() {
-	      return this.frigProps.className;
-	    },
-	    disabled: function() {
-	      return this.frigProps.disabled;
-	    },
-	    multiple: function() {
-	      return this.frigProps.multiple;
+	    if (renderErrors == null) {
+	      renderErrors = true;
 	    }
+	    if (this.frigProps.type === "submit" || (typeof (base = this.frigProps).validate === "function" ? base.validate() : void 0) === false) {
+	      this.setState({
+	        errors: void 0
+	      });
+	      return true;
+	    }
+	    errors = [];
+	    ref1 = this.frigProps.validations;
+	    for (k in ref1) {
+	      validationOpts = ref1[k];
+	      if (validationOpts === false || (validationOpts == null)) {
+	        continue;
+	      }
+	      opts = {
+	        data: this.frigProps.data,
+	        fieldkey: this.frigProps.fieldKey,
+	        value: value,
+	        opts: validationOpts
+	      };
+	      errors = errors.concat(frigValidations[k](opts) || []);
+	    }
+	    if (errors.length === 0) {
+	      errors = void 0;
+	    }
+	    if (renderErrors) {
+	      this.setState({
+	        errors: errors
+	      });
+	    }
+	    return errors == null;
 	  },
-	  validations: function() {
-	    return {
-	      required: this.frigProps.required,
-	      min: this.frigProps.min != null ? this.frigProps.min : void 0,
-	      max: this.frigProps.max != null ? this.frigProps.max : void 0
-	    };
+	  _frigOnChange: function() {
+	    var base, base1, valid, value;
+	    if (this.frigProps.type === "submit") {
+	      return;
+	    }
+	    value = this.getFriggingValue();
+	    valid = this.validate(value);
+	    if (typeof (base = this.frigProps).onFriggingChildChange === "function") {
+	      base.onFriggingChildChange(this.frigProps.fieldKey, value, valid);
+	    }
+	    return typeof (base1 = this.frigProps).onChange === "function" ? base1.onChange(value, valid) : void 0;
+	  },
+	  _frigOnBlur: function() {
+	    return this.validate();
 	  }
 	};
 
 
 /***/ },
-/* 189 */
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React, clone, frigDefaults, frigHelpers, friggingPropsMixin, humanize, isConfigObj, map, mapObj, merge, setDefaults,
+	  slice = [].slice;
+
+	React = __webpack_require__(10);
+
+	frigHelpers = __webpack_require__(188);
+
+	frigDefaults = __webpack_require__(187);
+
+	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, mapObj = frigHelpers.mapObj, isConfigObj = frigHelpers.isConfigObj, setDefaults = frigHelpers.setDefaults;
+
+	module.exports = friggingPropsMixin = {
+	  componentWillReceiveProps: function(nextProps) {
+	    return this._frigRefreshProps(nextProps);
+	  },
+	  componentWillMount: function() {
+	    return this._frigRefreshProps(this.props);
+	  },
+	  frigDefaultLayers: function() {
+	    return [frigDefaults, this.props.themeDefaults || {}, this.props.formDefaults || {}];
+	  },
+	  _frigPropLayers: function(props) {
+	    return slice.call(this.frigDefaultLayers()).concat([(typeof this.getFriggingProps === "function" ? this.getFriggingProps() : void 0) || {}], [props]);
+	  },
+	  _frigRefreshProps: function(props) {
+	    if (props == null) {
+	      props = {};
+	    }
+	    this.frigProps = {};
+	    return setDefaults.apply(null, slice.call(this._frigPropLayers(props)).concat([this.frigProps], [this._frigPropVal]));
+	  },
+	  _frigPropVal: function(k, obj, layers) {
+	    var defaultVal, fnNameRegex;
+	    defaultVal = layers[0][k];
+	    if (k === "className") {
+	      return this._frigClassName(layers);
+	    }
+	    fnNameRegex = /^on|^cb$|^validate$/;
+	    if (typeof obj === "function" && (obj === defaultVal || !k.match(fnNameRegex))) {
+	      obj = obj.call(this, this);
+	    }
+	    return obj;
+	  },
+	  _frigClassName: function(sources) {
+	    var className, classNames, i, len, source;
+	    classNames = [];
+	    for (i = 0, len = sources.length; i < len; i++) {
+	      source = sources[i];
+	      className = source.className;
+	      if (typeof className === "function") {
+	        className = className.call(this, this);
+	      }
+	      if (className) {
+	        classNames.push(className);
+	      }
+	    }
+	    return classNames.join(" ");
+	  }
+	};
+
+
+/***/ },
+/* 191 */
 /***/ function(module, exports) {
 
 	var validation;
@@ -23485,18 +23569,18 @@
 
 
 /***/ },
-/* 190 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, capitalize, dslMixin, formMixin, frigHelpers, friggingPropsMixin, getTemplate, guessType, map, merge, setDefaults;
 
 	React = __webpack_require__(10);
 
-	friggingPropsMixin = __webpack_require__(186);
+	friggingPropsMixin = __webpack_require__(190);
 
-	dslMixin = __webpack_require__(191);
+	dslMixin = __webpack_require__(193);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
 	merge = frigHelpers.merge, map = frigHelpers.map, capitalize = frigHelpers.capitalize, getTemplate = frigHelpers.getTemplate, guessType = frigHelpers.guessType, setDefaults = frigHelpers.setDefaults;
 
@@ -23570,7 +23654,7 @@
 
 
 /***/ },
-/* 191 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, capitalize, dslMixin, frigHelpers, getTemplate, globalTypeMapping, guessType, humanize, map, setDefaults;
@@ -23579,7 +23663,7 @@
 
 	globalTypeMapping = __webpack_require__(184);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
 	humanize = frigHelpers.humanize, map = frigHelpers.map, capitalize = frigHelpers.capitalize, getTemplate = frigHelpers.getTemplate, guessType = frigHelpers.guessType, setDefaults = frigHelpers.setDefaults;
 
@@ -23687,20 +23771,20 @@
 
 
 /***/ },
-/* 192 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, clone, frigHelpers, friggingBootstrap, humanize, i, map, merge, ref, span;
 
 	React = __webpack_require__(10);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
 	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map;
 
 	ref = React.DOM, span = ref.span, i = ref.i;
 
-	__webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"frig/themes/frigging_bootstrap.styl\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	__webpack_require__(206);
 
 	module.exports = friggingBootstrap = {
 	  defaults: {
@@ -23762,20 +23846,20 @@
 
 
 /***/ },
-/* 193 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./checkbox.coffee": 194,
-		"./errors.coffee": 195,
-		"./file.coffee": 196,
-		"./form.coffee": 197,
-		"./input.coffee": 198,
-		"./select.coffee": 199,
-		"./submit.coffee": 200,
-		"./switch.coffee": 201,
-		"./text.coffee": 202,
-		"./typeahead.coffee": 203
+		"./checkbox.coffee": 196,
+		"./errors.coffee": 197,
+		"./file.coffee": 198,
+		"./form.coffee": 199,
+		"./input.coffee": 200,
+		"./select.coffee": 201,
+		"./submit.coffee": 202,
+		"./switch.coffee": 203,
+		"./text.coffee": 204,
+		"./typeahead.coffee": 205
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -23788,20 +23872,20 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 193;
+	webpackContext.id = 195;
 
 
 /***/ },
-/* 194 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, cx, div, errorList, friggingBootstrap, input, label, ref, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -23850,14 +23934,14 @@
 
 
 /***/ },
-/* 195 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, div, errorList, friggingBootstrap, i, ref, span;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
 	errorList = friggingBootstrap.errorList;
 
@@ -23889,18 +23973,18 @@
 
 
 /***/ },
-/* 196 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, friggingBootstrap, humanize, img, input, label, map, merge, ref, ref1, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
-	ref = __webpack_require__(187), humanize = ref.humanize, clone = ref.clone, merge = ref.merge, map = ref.map;
+	ref = __webpack_require__(188), humanize = ref.humanize, clone = ref.clone, merge = ref.merge, map = ref.map;
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -23998,16 +24082,16 @@
 
 
 /***/ },
-/* 197 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var FormMixin, React, div, errorList, form, friggingBootstrap, input, label, ref;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	FormMixin = __webpack_require__(190);
+	FormMixin = __webpack_require__(192);
 
 	errorList = friggingBootstrap.errorList;
 
@@ -24034,18 +24118,18 @@
 
 
 /***/ },
-/* 198 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, input, label, map, merge, ref, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24112,18 +24196,18 @@
 
 
 /***/ },
-/* 199 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, label, map, merge, option, ref, select, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24182,16 +24266,16 @@
 
 
 /***/ },
-/* 200 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, cx, div, friggingBootstrap, input, ref, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
 	ref = React.DOM, div = ref.div, input = ref.input;
 
@@ -24231,18 +24315,18 @@
 
 
 /***/ },
-/* 201 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, input, label, map, merge, ref, sizeClassNames, span;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24322,18 +24406,18 @@
 
 
 /***/ },
-/* 202 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, label, map, merge, ref, sizeClassNames, textarea;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24390,7 +24474,7 @@
 
 
 /***/ },
-/* 203 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, errorList, frigHelpers, friggingBootstrap, humanize, map, merge, sizeClassNames,
@@ -24398,11 +24482,11 @@
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(192);
+	friggingBootstrap = __webpack_require__(194);
 
-	frigHelpers = __webpack_require__(187);
+	frigHelpers = __webpack_require__(188);
 
-	InputMixin = __webpack_require__(185);
+	InputMixin = __webpack_require__(189);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24583,6 +24667,46 @@
 	    }, "No " + this.frigProps.label.toLowerCase() + "..."))) : void 0, ((ref = this.state) != null ? ref.errors : void 0) != null ? errorList(this.state.errors) : void 0));
 	  }
 	}));
+
+
+/***/ },
+/* 206 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(207);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../css-loader/index.js!./../../../../../stylus-loader/index.js!./frigging_bootstrap.styl", function() {
+				var newContent = require("!!./../../../../../css-loader/index.js!./../../../../../stylus-loader/index.js!./frigging_bootstrap.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 207 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".frigging-bootstrap-error {\n  animation: friggingBootstrapErrorHeight, 1.4s, linear, 0s, 1, normal, both;\n  margin: 0 0 15px 0;\n}\n.frigging-bootstrap-error .alert {\n  animation: friggingBootstrapErrorOpacity, 0.6s, linear, 0s, 1, normal, both;\n}\n@-moz-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-webkit-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-o-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-moz-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@-webkit-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@-o-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n.typeahead ul.typeahead.dropdown-menu {\n  z-index: 9999;\n  margin-bottom: 50px;\n}\n.typeahead div.controls {\n  margin-bottom: 7px;\n}\n.typeahead div.controls label.control-label {\n  font-size: 18px;\n  margin: 0 0 5px 0;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 p {\n  font-size: 14px;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger {\n  font-size: 14px;\n  transition: color 0.3s ease;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger:hover {\n  cursor: pointer;\n  color: #d43f3a;\n}\n", ""]);
+
+	// exports
 
 
 /***/ }
