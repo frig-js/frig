@@ -21,7 +21,7 @@ module.exports = defaults =
   title:           -> humanize @frigProps.fieldKey
   label:           -> @frigProps.title
   placeholder:     -> @frigProps.title
-  htmlInputType:   -> Frig.typeMapping[@frigProps.type].htmlInputType
+  htmlInputType:   -> typeMapping[@frigProps.type].htmlInputType
   options:         undefined
   layout:          undefined
   className:       undefined

@@ -22951,12 +22951,11 @@
 	var AddBootstrapInputs;
 
 	module.exports = {
-	  Mixin: __webpack_require__(185),
-	  InputMixin: __webpack_require__(189),
-	  FormMixin: __webpack_require__(192),
-	  typeMapping: __webpack_require__(184),
-	  validations: __webpack_require__(191),
-	  friggingBootstrap: __webpack_require__(194)
+	  Mixin: __webpack_require__(184),
+	  InputMixin: __webpack_require__(193),
+	  FormMixin: __webpack_require__(196),
+	  typeMapping: __webpack_require__(188),
+	  validations: __webpack_require__(195)
 	};
 
 	AddBootstrapInputs = function(inputs) {
@@ -22964,7 +22963,7 @@
 	  results = [];
 	  for (i = 0, len = inputs.length; i < len; i++) {
 	    k = inputs[i];
-	    results.push(__webpack_require__(195)("./" + k + ".coffee"));
+	    results.push(__webpack_require__(198)("./" + k + ".coffee"));
 	  }
 	  return results;
 	};
@@ -22974,94 +22973,6 @@
 
 /***/ },
 /* 184 */
-/***/ function(module, exports) {
-
-	var typeMapping;
-
-	module.exports = typeMapping = {
-	  form: {
-	    template: "form"
-	  },
-	  errors: {
-	    template: "errors"
-	  },
-	  submit: {
-	    template: "submit",
-	    htmlInputType: "submit"
-	  },
-	  string: {
-	    template: "input",
-	    htmlInputType: "string"
-	  },
-	  password: {
-	    template: "input",
-	    htmlInputType: "password"
-	  },
-	  email: {
-	    template: "input",
-	    htmlInputType: "email"
-	  },
-	  url: {
-	    template: "input",
-	    htmlInputType: "url"
-	  },
-	  tel: {
-	    template: "input",
-	    htmlInputType: "tel"
-	  },
-	  search: {
-	    template: "input",
-	    htmlInputType: "search"
-	  },
-	  uuid: {
-	    template: "input",
-	    htmlInputType: "text"
-	  },
-	  boolean: {
-	    template: "checkbox",
-	    htmlInputType: "checkbox"
-	  },
-	  text: {
-	    template: "text"
-	  },
-	  file: {
-	    template: "file",
-	    htmlInputType: "file"
-	  },
-	  hidden: {
-	    template: "input",
-	    htmlInputType: "hidden"
-	  },
-	  integer: {
-	    template: "input",
-	    htmlInputType: "number"
-	  },
-	  float: {
-	    template: "input",
-	    htmlInputType: "number"
-	  },
-	  decimal: {
-	    template: "input",
-	    htmlInputType: "number"
-	  },
-	  range: {
-	    template: "input",
-	    htmlInputType: "range"
-	  },
-	  select: {
-	    template: "select"
-	  },
-	  multiselect: {
-	    template: "select"
-	  },
-	  typeahead: {
-	    template: "typeahead"
-	  }
-	};
-
-
-/***/ },
-/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var FormBuilder, React, frigMixin,
@@ -23069,7 +22980,7 @@
 
 	React = __webpack_require__(10);
 
-	FormBuilder = __webpack_require__(186);
+	FormBuilder = __webpack_require__(185);
 
 	module.exports = frigMixin = {
 	  frig: function(props, children) {
@@ -23083,12 +22994,14 @@
 
 
 /***/ },
-/* 186 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FormBuilder, frigDefaults;
+	var FormBuilder, frigDefaults, frigThemes;
 
-	frigDefaults = __webpack_require__(187);
+	frigDefaults = __webpack_require__(186);
+
+	frigThemes = __webpack_require__(189);
 
 	module.exports = FormBuilder = (function() {
 	  function FormBuilder(parent, opts, cb) {
@@ -23132,7 +23045,7 @@
 	    if (themeName == null) {
 	      throw "A theme name is required";
 	    }
-	    theme = Frig[themeName];
+	    theme = frigThemes[themeName];
 	    if (theme == null) {
 	      throw "Frig." + themeName + " does not exist";
 	    }
@@ -23145,14 +23058,14 @@
 
 
 /***/ },
-/* 187 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var capitalize, clone, defaults, frigHelpers, guessType, humanize, map, merge, typeMapping;
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	typeMapping = __webpack_require__(184);
+	typeMapping = __webpack_require__(188);
 
 	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, capitalize = frigHelpers.capitalize, guessType = frigHelpers.guessType;
 
@@ -23178,7 +23091,7 @@
 	    return this.frigProps.title;
 	  },
 	  htmlInputType: function() {
-	    return Frig.typeMapping[this.frigProps.type].htmlInputType;
+	    return typeMapping[this.frigProps.type].htmlInputType;
 	  },
 	  options: void 0,
 	  layout: void 0,
@@ -23241,7 +23154,7 @@
 
 
 /***/ },
-/* 188 */
+/* 187 */
 /***/ function(module, exports) {
 
 	var clone, helpers, humanize, isConfigObj, map, mapObj, merge, setDefaults,
@@ -23351,18 +23264,232 @@
 
 
 /***/ },
+/* 188 */
+/***/ function(module, exports) {
+
+	var typeMapping;
+
+	module.exports = typeMapping = {
+	  form: {
+	    template: "form"
+	  },
+	  errors: {
+	    template: "errors"
+	  },
+	  submit: {
+	    template: "submit",
+	    htmlInputType: "submit"
+	  },
+	  string: {
+	    template: "input",
+	    htmlInputType: "string"
+	  },
+	  password: {
+	    template: "input",
+	    htmlInputType: "password"
+	  },
+	  email: {
+	    template: "input",
+	    htmlInputType: "email"
+	  },
+	  url: {
+	    template: "input",
+	    htmlInputType: "url"
+	  },
+	  tel: {
+	    template: "input",
+	    htmlInputType: "tel"
+	  },
+	  search: {
+	    template: "input",
+	    htmlInputType: "search"
+	  },
+	  uuid: {
+	    template: "input",
+	    htmlInputType: "text"
+	  },
+	  boolean: {
+	    template: "checkbox",
+	    htmlInputType: "checkbox"
+	  },
+	  text: {
+	    template: "text"
+	  },
+	  file: {
+	    template: "file",
+	    htmlInputType: "file"
+	  },
+	  hidden: {
+	    template: "input",
+	    htmlInputType: "hidden"
+	  },
+	  integer: {
+	    template: "input",
+	    htmlInputType: "number"
+	  },
+	  float: {
+	    template: "input",
+	    htmlInputType: "number"
+	  },
+	  decimal: {
+	    template: "input",
+	    htmlInputType: "number"
+	  },
+	  range: {
+	    template: "input",
+	    htmlInputType: "range"
+	  },
+	  select: {
+	    template: "select"
+	  },
+	  multiselect: {
+	    template: "select"
+	  },
+	  typeahead: {
+	    template: "typeahead"
+	  }
+	};
+
+
+/***/ },
 /* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var themes;
+
+	module.exports = themes = {
+	  friggingBootstrap: __webpack_require__(190)
+	};
+
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React, clone, frigHelpers, friggingBootstrap, humanize, i, map, merge, ref, span;
+
+	React = __webpack_require__(10);
+
+	frigHelpers = __webpack_require__(187);
+
+	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map;
+
+	ref = React.DOM, span = ref.span, i = ref.i;
+
+	__webpack_require__(191);
+
+	module.exports = friggingBootstrap = {
+	  defaults: {
+	    layout: "vertical",
+	    xs: "12",
+	    sm: function() {
+	      return this.frigProps.xs || "12";
+	    },
+	    md: function() {
+	      return this.frigProps.sm || "12";
+	    },
+	    lg: function() {
+	      return this.frigProps.md || "12";
+	    },
+	    xsOffset: void 0,
+	    smOffset: function() {
+	      return this.frigProps.xsOffset;
+	    },
+	    mdOffset: function() {
+	      return this.frigProps.smOffset;
+	    },
+	    lgOffset: function() {
+	      return this.frigProps.mdOffset;
+	    }
+	  },
+	  errorList: function(errors) {
+	    if (errors != null) {
+	      return map(errors, friggingBootstrap.error);
+	    }
+	  },
+	  error: function(msg) {
+	    return span({
+	      className: "help-block"
+	    }, i({
+	      className: "fa fa-exclamation-circle"
+	    }, " " + msg));
+	  },
+	  sizeClassNames: function(props) {
+	    var classes, j, k, l, len, len1, size, sizes;
+	    classes = {};
+	    sizes = ["xs", "sm", "md", "lg"];
+	    for (j = 0, len = sizes.length; j < len; j++) {
+	      k = sizes[j];
+	      if (props[k] != null) {
+	        classes["col-" + k + "-" + props[k]] = true;
+	      }
+	    }
+	    for (l = 0, len1 = sizes.length; l < len1; l++) {
+	      size = sizes[l];
+	      k = size + "Offset";
+	      if (props[k] == null) {
+	        continue;
+	      }
+	      classes["col-" + size + "-offset-" + props[k]] = true;
+	    }
+	    return classes;
+	  }
+	};
+
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(192);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(9)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../../../css-loader/index.js!./../../../../../stylus-loader/index.js!./frigging_bootstrap.styl", function() {
+				var newContent = require("!!./../../../../../css-loader/index.js!./../../../../../stylus-loader/index.js!./frigging_bootstrap.styl");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(3)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".frigging-bootstrap-error {\n  animation: friggingBootstrapErrorHeight, 1.4s, linear, 0s, 1, normal, both;\n  margin: 0 0 15px 0;\n}\n.frigging-bootstrap-error .alert {\n  animation: friggingBootstrapErrorOpacity, 0.6s, linear, 0s, 1, normal, both;\n}\n@-moz-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-webkit-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-o-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-moz-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@-webkit-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@-o-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n.typeahead ul.typeahead.dropdown-menu {\n  z-index: 9999;\n  margin-bottom: 50px;\n}\n.typeahead div.controls {\n  margin-bottom: 7px;\n}\n.typeahead div.controls label.control-label {\n  font-size: 18px;\n  margin: 0 0 5px 0;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 p {\n  font-size: 14px;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger {\n  font-size: 14px;\n  transition: color 0.3s ease;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger:hover {\n  cursor: pointer;\n  color: #d43f3a;\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, clone, frigHelpers, frigValidations, friggingPropsMixin, humanize, inputMixin, isConfigObj, map, mapObj, merge, setDefaults;
 
 	React = __webpack_require__(10);
 
-	friggingPropsMixin = __webpack_require__(190);
+	friggingPropsMixin = __webpack_require__(194);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	frigValidations = __webpack_require__(191);
+	frigValidations = __webpack_require__(195);
 
 	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, mapObj = frigHelpers.mapObj, isConfigObj = frigHelpers.isConfigObj, setDefaults = frigHelpers.setDefaults;
 
@@ -23470,7 +23597,7 @@
 
 
 /***/ },
-/* 190 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, clone, frigDefaults, frigHelpers, friggingPropsMixin, humanize, isConfigObj, map, mapObj, merge, setDefaults,
@@ -23478,9 +23605,9 @@
 
 	React = __webpack_require__(10);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	frigDefaults = __webpack_require__(187);
+	frigDefaults = __webpack_require__(186);
 
 	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map, mapObj = frigHelpers.mapObj, isConfigObj = frigHelpers.isConfigObj, setDefaults = frigHelpers.setDefaults;
 
@@ -23535,7 +23662,7 @@
 
 
 /***/ },
-/* 191 */
+/* 195 */
 /***/ function(module, exports) {
 
 	var validation;
@@ -23569,18 +23696,18 @@
 
 
 /***/ },
-/* 192 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, capitalize, dslMixin, formMixin, frigHelpers, friggingPropsMixin, getTemplate, guessType, map, merge, setDefaults;
 
 	React = __webpack_require__(10);
 
-	friggingPropsMixin = __webpack_require__(190);
+	friggingPropsMixin = __webpack_require__(194);
 
-	dslMixin = __webpack_require__(193);
+	dslMixin = __webpack_require__(197);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
 	merge = frigHelpers.merge, map = frigHelpers.map, capitalize = frigHelpers.capitalize, getTemplate = frigHelpers.getTemplate, guessType = frigHelpers.guessType, setDefaults = frigHelpers.setDefaults;
 
@@ -23654,16 +23781,16 @@
 
 
 /***/ },
-/* 193 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, capitalize, dslMixin, frigHelpers, getTemplate, globalTypeMapping, guessType, humanize, map, setDefaults;
 
 	React = __webpack_require__(10);
 
-	globalTypeMapping = __webpack_require__(184);
+	globalTypeMapping = __webpack_require__(188);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
 	humanize = frigHelpers.humanize, map = frigHelpers.map, capitalize = frigHelpers.capitalize, getTemplate = frigHelpers.getTemplate, guessType = frigHelpers.guessType, setDefaults = frigHelpers.setDefaults;
 
@@ -23771,95 +23898,20 @@
 
 
 /***/ },
-/* 194 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React, clone, frigHelpers, friggingBootstrap, humanize, i, map, merge, ref, span;
-
-	React = __webpack_require__(10);
-
-	frigHelpers = __webpack_require__(188);
-
-	humanize = frigHelpers.humanize, clone = frigHelpers.clone, merge = frigHelpers.merge, map = frigHelpers.map;
-
-	ref = React.DOM, span = ref.span, i = ref.i;
-
-	__webpack_require__(206);
-
-	module.exports = friggingBootstrap = {
-	  defaults: {
-	    layout: "vertical",
-	    xs: "12",
-	    sm: function() {
-	      return this.frigProps.xs || "12";
-	    },
-	    md: function() {
-	      return this.frigProps.sm || "12";
-	    },
-	    lg: function() {
-	      return this.frigProps.md || "12";
-	    },
-	    xsOffset: void 0,
-	    smOffset: function() {
-	      return this.frigProps.xsOffset;
-	    },
-	    mdOffset: function() {
-	      return this.frigProps.smOffset;
-	    },
-	    lgOffset: function() {
-	      return this.frigProps.mdOffset;
-	    }
-	  },
-	  errorList: function(errors) {
-	    if (errors != null) {
-	      return map(errors, friggingBootstrap.error);
-	    }
-	  },
-	  error: function(msg) {
-	    return span({
-	      className: "help-block"
-	    }, i({
-	      className: "fa fa-exclamation-circle"
-	    }, " " + msg));
-	  },
-	  sizeClassNames: function(props) {
-	    var classes, j, k, l, len, len1, size, sizes;
-	    classes = {};
-	    sizes = ["xs", "sm", "md", "lg"];
-	    for (j = 0, len = sizes.length; j < len; j++) {
-	      k = sizes[j];
-	      if (props[k] != null) {
-	        classes["col-" + k + "-" + props[k]] = true;
-	      }
-	    }
-	    for (l = 0, len1 = sizes.length; l < len1; l++) {
-	      size = sizes[l];
-	      k = size + "Offset";
-	      if (props[k] == null) {
-	        continue;
-	      }
-	      classes["col-" + size + "-offset-" + props[k]] = true;
-	    }
-	    return classes;
-	  }
-	};
-
-
-/***/ },
-/* 195 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var map = {
-		"./checkbox.coffee": 196,
-		"./errors.coffee": 197,
-		"./file.coffee": 198,
-		"./form.coffee": 199,
-		"./input.coffee": 200,
-		"./select.coffee": 201,
-		"./submit.coffee": 202,
-		"./switch.coffee": 203,
-		"./text.coffee": 204,
-		"./typeahead.coffee": 205
+		"./checkbox.coffee": 199,
+		"./errors.coffee": 200,
+		"./file.coffee": 201,
+		"./form.coffee": 202,
+		"./input.coffee": 203,
+		"./select.coffee": 204,
+		"./submit.coffee": 205,
+		"./switch.coffee": 206,
+		"./text.coffee": 207,
+		"./typeahead.coffee": 208
 	};
 	function webpackContext(req) {
 		return __webpack_require__(webpackContextResolve(req));
@@ -23872,20 +23924,20 @@
 	};
 	webpackContext.resolve = webpackContextResolve;
 	module.exports = webpackContext;
-	webpackContext.id = 195;
+	webpackContext.id = 198;
 
 
 /***/ },
-/* 196 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, cx, div, errorList, friggingBootstrap, input, label, ref, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -23934,14 +23986,14 @@
 
 
 /***/ },
-/* 197 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React, div, errorList, friggingBootstrap, i, ref, span;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
 	errorList = friggingBootstrap.errorList;
 
@@ -23973,18 +24025,18 @@
 
 
 /***/ },
-/* 198 */
+/* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, friggingBootstrap, humanize, img, input, label, map, merge, ref, ref1, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
-	ref = __webpack_require__(188), humanize = ref.humanize, clone = ref.clone, merge = ref.merge, map = ref.map;
+	ref = __webpack_require__(187), humanize = ref.humanize, clone = ref.clone, merge = ref.merge, map = ref.map;
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24082,16 +24134,16 @@
 
 
 /***/ },
-/* 199 */
+/* 202 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var FormMixin, React, div, errorList, form, friggingBootstrap, input, label, ref;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	FormMixin = __webpack_require__(192);
+	FormMixin = __webpack_require__(196);
 
 	errorList = friggingBootstrap.errorList;
 
@@ -24118,18 +24170,18 @@
 
 
 /***/ },
-/* 200 */
+/* 203 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, input, label, map, merge, ref, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24196,18 +24248,18 @@
 
 
 /***/ },
-/* 201 */
+/* 204 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, label, map, merge, option, ref, select, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24266,16 +24318,16 @@
 
 
 /***/ },
-/* 202 */
+/* 205 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, cx, div, friggingBootstrap, input, ref, sizeClassNames;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
 	ref = React.DOM, div = ref.div, input = ref.input;
 
@@ -24315,18 +24367,18 @@
 
 
 /***/ },
-/* 203 */
+/* 206 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, input, label, map, merge, ref, sizeClassNames, span;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24406,18 +24458,18 @@
 
 
 /***/ },
-/* 204 */
+/* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, div, errorList, frigHelpers, friggingBootstrap, humanize, label, map, merge, ref, sizeClassNames, textarea;
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24474,7 +24526,7 @@
 
 
 /***/ },
-/* 205 */
+/* 208 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var InputMixin, React, clone, cx, errorList, frigHelpers, friggingBootstrap, humanize, map, merge, sizeClassNames,
@@ -24482,11 +24534,11 @@
 
 	React = __webpack_require__(10);
 
-	friggingBootstrap = __webpack_require__(194);
+	friggingBootstrap = __webpack_require__(190);
 
-	frigHelpers = __webpack_require__(188);
+	frigHelpers = __webpack_require__(187);
 
-	InputMixin = __webpack_require__(189);
+	InputMixin = __webpack_require__(193);
 
 	errorList = friggingBootstrap.errorList, sizeClassNames = friggingBootstrap.sizeClassNames;
 
@@ -24667,46 +24719,6 @@
 	    }, "No " + this.frigProps.label.toLowerCase() + "..."))) : void 0, ((ref = this.state) != null ? ref.errors : void 0) != null ? errorList(this.state.errors) : void 0));
 	  }
 	}));
-
-
-/***/ },
-/* 206 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-
-	// load the styles
-	var content = __webpack_require__(207);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(9)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../../../css-loader/index.js!./../../../../../stylus-loader/index.js!./frigging_bootstrap.styl", function() {
-				var newContent = require("!!./../../../../../css-loader/index.js!./../../../../../stylus-loader/index.js!./frigging_bootstrap.styl");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 207 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(3)();
-	// imports
-
-
-	// module
-	exports.push([module.id, ".frigging-bootstrap-error {\n  animation: friggingBootstrapErrorHeight, 1.4s, linear, 0s, 1, normal, both;\n  margin: 0 0 15px 0;\n}\n.frigging-bootstrap-error .alert {\n  animation: friggingBootstrapErrorOpacity, 0.6s, linear, 0s, 1, normal, both;\n}\n@-moz-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-webkit-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-o-keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@keyframes friggingBootstrapErrorHeight {\n  0% {\n    max-height: 0px;\n  }\n  100% {\n    max-height: 300px;\n  }\n}\n@-moz-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@-webkit-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@-o-keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n@keyframes friggingBootstrapErrorOpacity {\n  0% {\n    opacity: 0;\n  }\n  100% {\n    opacity: 1;\n  }\n}\n.typeahead ul.typeahead.dropdown-menu {\n  z-index: 9999;\n  margin-bottom: 50px;\n}\n.typeahead div.controls {\n  margin-bottom: 7px;\n}\n.typeahead div.controls label.control-label {\n  font-size: 18px;\n  margin: 0 0 5px 0;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 p {\n  font-size: 14px;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger {\n  font-size: 14px;\n  transition: color 0.3s ease;\n}\n.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger:hover {\n  cursor: pointer;\n  color: #d43f3a;\n}\n", ""]);
-
-	// exports
 
 
 /***/ }

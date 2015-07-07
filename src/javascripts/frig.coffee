@@ -1,4 +1,3 @@
-# Setting the default theme to bootstrap
 module.exports =
   # Frig core mixins
   Mixin: require "./frig/mixins/frig_mixin.coffee"
@@ -8,9 +7,6 @@ module.exports =
   # Frig extension points
   typeMapping: require "./frig/type_mapping.coffee"
   validations: require "./frig/validations.coffee"
-
-  # Frig default theme (Frigging Bootstrap)
-  friggingBootstrap: require "./frig/themes/frigging_bootstrap.coffee"
 
 # Frigging Bootstrap's default input components
 AddBootstrapInputs = (inputs) ->

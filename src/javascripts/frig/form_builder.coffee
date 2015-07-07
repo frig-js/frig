@@ -1,4 +1,6 @@
 frigDefaults = require "./defaults.coffee"
+frigThemes   = require "./themes.coffee"
+
 module.exports = class FormBuilder
   constructor: (@parent, @opts = {}, @cb = ->) ->
     @props = {}
@@ -25,6 +27,6 @@ module.exports = class FormBuilder
   _theme: ->
     themeName = @opts.theme ||= frigDefaults.theme
     throw "A theme name is required" unless themeName?
-    theme = Frig[themeName]
+    theme = frigThemes[themeName]
     throw "Frig.#{themeName} does not exist" unless theme?
     return theme
