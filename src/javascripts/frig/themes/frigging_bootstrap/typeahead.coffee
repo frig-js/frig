@@ -6,7 +6,7 @@ InputMixin                    = require "../../mixins/input_mixin.coffee"
 {humanize, clone, merge, map} = frigHelpers
 cx = React.addons.classSet
 
-friggingBootstrap.Typeahead = React.createFactory React.createClass
+friggingBootstrap.Typeahead = React.createClass
 
   displayName: 'Frig.friggingBootstrap.Select'
 

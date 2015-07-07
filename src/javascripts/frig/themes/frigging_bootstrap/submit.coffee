@@ -5,7 +5,7 @@ InputMixin                    = require "../../mixins/input_mixin.coffee"
 {sizeClassNames}              = friggingBootstrap
 cx = React.addons.classSet
 
-friggingBootstrap.Submit = React.createFactory React.createClass
+friggingBootstrap.Submit = React.createClass
 
   displayName: 'Frig.friggingBootstrap.Submit'
 

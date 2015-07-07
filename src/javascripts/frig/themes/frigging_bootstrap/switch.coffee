@@ -31,7 +31,7 @@ cx = React.addons.classSet
 #     f.input "allisWell"
 
 # This optional add-on component depends on BootstrapSwitch and jQuery
-friggingBootstrap.Switch = React.createFactory React.createClass
+friggingBootstrap.Switch = React.createClass
 
   displayName: 'Frig.friggingBootstrap.Switch'
 

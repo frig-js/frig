@@ -7,7 +7,7 @@ InputMixin                    = require "../../mixins/input_mixin.coffee"
 {div, label, textarea}        = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrap.Text = React.createFactory React.createClass
+friggingBootstrap.Text = React.createClass
 
   displayName: 'Frig.friggingBootstrap.Text'
 

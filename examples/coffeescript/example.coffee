@@ -1,9 +1,9 @@
 require "./node_modules/bootstrap/dist/css/bootstrap.css"
-React = require "react/addons"
-Frig = require "frig"
+React         = require "react/addons"
+Frig          = require "frig"
 {div, h2, h3} = React.DOM
 
-accountForm = React.createClass
+AccountForm = React.createClass
   mixins: [
     Frig.Mixin
     React.addons.LinkedStateMixin
@@ -42,6 +42,6 @@ accountForm = React.createClass
           f.submit "Save"
 
 document.addEventListener "DOMContentLoaded", ->
-  reactElement = React.createElement accountForm
+  reactElement = React.createElement AccountForm
   domElement = document.getElementById('example')
   React.render reactElement, domElement

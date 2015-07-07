@@ -4,7 +4,7 @@ FormMixin                     = require "../../mixins/form_mixin.coffee"
 {errorList}                   = friggingBootstrap
 {div, form, label, input}     = React.DOM
 
-friggingBootstrap.Form = React.createFactory React.createClass
+friggingBootstrap.Form = React.createClass
 
   displayName: 'Frig.friggingBootstrap.Form'
 

@@ -66,8 +66,8 @@ Good question! **Frig** is also a totally sweet Coffeescript DSL!
 
 ```coffeescript
 require "./node_modules/bootstrap/dist/css/bootstrap.css"
-React = require "react/addons"
-window.Frig = require "frig.coffee"
+React         = require "react/addons"
+Frig          = require "frig.coffee"
 {div, h2, h3} = React.DOM
 
 accountForm = React.createClass
@@ -107,11 +107,6 @@ accountForm = React.createClass
             f.input "fullName"
 
           f.submit "Save"
-
-document.addEventListener "DOMContentLoaded", ->
-  reactElement = React.createElement accountForm
-  domElement = document.getElementById('example')
-  React.render reactElement, domElement
 ```
 
 Notice how we don't have to specify name in the coffeescript version and how we pass the form callback directly to `Frig.Form`?

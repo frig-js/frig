@@ -7,7 +7,7 @@ InputMixin                    = require "../../mixins/input_mixin.coffee"
 {div, label, select, option}  = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrap.Select = React.createFactory React.createClass
+friggingBootstrap.Select = React.createClass
 
   displayName: 'Frig.friggingBootstrap.Select'
 

@@ -1,8 +1,9 @@
-frigDefaults = require "./defaults.coffee"
-frigThemes   = require "./themes.coffee"
+React                         = require "react/addons"
+frigDefaults                  = require "./defaults.coffee"
+frigThemes                    = require "./themes.coffee"
 
 module.exports = class FormBuilder
-  constructor: (@parent, @opts = {}, @cb = ->) ->
+  constructor: (@parent, @opts = {}, @cb = (->), @isCoffeescript) ->
     @props = {}
     for k in ["data", "ref", "typeMapping", "errors", "onChange"]
       @props[k] = @opts[k]
@@ -21,7 +22,9 @@ module.exports = class FormBuilder
 
   # Create a theme-specific form React element
   render: ->
-    @_theme().Form @props
+    Form = @_theme().Form
+    Form = React.createFactory Form if @isCoffeescript
+    Form @props
 
   # returns the theme based on a cascading lookup
   _theme: ->

@@ -6,7 +6,7 @@ InputMixin                    = require "../../mixins/input_mixin.coffee"
 {div, label, input, img}      = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrap.File = React.createFactory React.createClass
+friggingBootstrap.File = React.createClass
 
   displayName: 'Frig.friggingBootstrap.FileInput'
 

@@ -44,64 +44,76 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AccountForm, Frig, React, div, h2, h3, ref;
+	/** @jsx React.DOM */'use strict'
 
-	__webpack_require__(1);
+	__webpack_require__(1)
+	var React         = __webpack_require__(10)
+	var Frig          = __webpack_require__(183)
 
-	React = __webpack_require__(10);
+	var AccountForm = React.createClass({displayName: "AccountForm",
+	  mixins: [
+	    Frig.Mixin,
+	    React.addons.LinkedStateMixin
+	  ],
 
-	Frig = __webpack_require__(183);
-
-	ref = React.DOM, div = ref.div, h2 = ref.h2, h3 = ref.h3;
-
-	AccountForm = React.createClass({
-	  mixins: [Frig.Mixin, React.addons.LinkedStateMixin],
 	  getInitialState: function() {
+	    console.log("initial state???")
 	    return {
 	      account: {
 	        email: "me@test.com",
 	        password: "test",
 	        shareSketchyInfo: false
 	      }
-	    };
+	    }
 	  },
+
+	  formContent: function(f) {
+	    console.log("FORM CONTENT");
+	    return React.createElement("div", {className: "container"}, 
+	      React.createElement("div", {className: "row"}, 
+	        React.createElement("div", {className: "sm-col-12"}, 
+	          React.createElement("h2", null, "My Account")
+	        )
+	      ), 
+
+	      React.createElement(f.input, {name: "email"}), 
+	      React.createElement(f.input, {name: "password"}), 
+	      React.createElement(f.input, {name: "passwordConfirmation"}), 
+
+	      React.createElement("div", {className: "row"}, 
+	        React.createElement("div", {className: "sm-col-12"}, 
+	          React.createElement("h3", null, "Additional Sketchy Info")
+	        )
+	      ), 
+
+	      React.createElement(f.input, {name: "shareSketchyInfo"}), 
+
+	      React.createElement("div", {className: this.state.account.shareSketchyInfo ? "show" : "hide"}, 
+	        React.createElement(f.input, {name: "socialSecurityNumber"}), 
+	        React.createElement(f.input, {name: "fullName"})
+	      ), 
+
+	      React.createElement(f.submit, {title: "Save"})
+	    )
+	  },
+
 	  render: function() {
-	    return this.frig({
-	      data: this.linkState("account")
-	    }, (function(_this) {
-	      return function(f) {
-	        return div({
-	          className: "container"
-	        }, div({
-	          className: "row"
-	        }, div({
-	          className: "sm-col-12"
-	        }, h2({}, "My Account"))), div({
-	          className: "row"
-	        }, f.input("email")), div({
-	          className: "row"
-	        }, f.input("password", {
-	          xs: 6
-	        }), f.input("passwordConfirmation", {
-	          xs: 6
-	        })), div({
-	          className: "row"
-	        }, div({
-	          className: "sm-col-12"
-	        }, h3({}, "Additional Sketchy Info"))), div({
-	          className: "row"
-	        }, f.input("shareSketchyInfo"), _this.state.account.shareSketchyInfo ? (f.input("socialSecurityNumber"), f.input("fullName")) : void 0, f.submit("Save")));
-	      };
-	    })(this));
+	    console.log("RENDER");
+	    // return this.frig({
+	    //   content: this.formContent,
+	    //   data: this.linkState("account")
+	    // })
+	    return React.createElement(this.frig, {
+	      content: this.formContent, 
+	      data: this.linkState("account")}
+	    )
 	  }
-	});
+	})
 
 	document.addEventListener("DOMContentLoaded", function() {
-	  var domElement, reactElement;
-	  reactElement = React.createElement(AccountForm);
-	  domElement = document.getElementById('example');
-	  return React.render(reactElement, domElement);
-	});
+	  var domElement = document.getElementById('example')
+	  React.render(React.createElement(AccountForm, null), domElement)
+	})
 
 
 /***/ },
@@ -22975,7 +22987,8 @@
 /* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var FormBuilder, React, frigMixin;
+	var FormBuilder, React, frigMixin,
+	  slice = [].slice;
 
 	React = __webpack_require__(10);
 
@@ -22983,9 +22996,13 @@
 
 	module.exports = frigMixin = {
 	  frig: function(props, children) {
-	    var isCoffeescript;
-	    isCoffeescript = props.content == null;
-	    return new FormBuilder(this, props, children, isCoffeescript).render();
+	    console.log("FRIG MIXIN");
+	    console.log.apply(console, arguments);
+	    return (function(func, args, ctor) {
+	      ctor.prototype = func.prototype;
+	      var child = new ctor, result = func.apply(child, args);
+	      return Object(result) === result ? result : child;
+	    })(FormBuilder, [this].concat(slice.call(arguments), [true]), function(){}).render();
 	  }
 	};
 

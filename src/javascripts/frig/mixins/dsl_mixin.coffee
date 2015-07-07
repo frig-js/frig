@@ -45,6 +45,7 @@ module.exports = dslMixin =
   #     false: disables the label
   #     [STRING]: sets the label to the given string
   _frigInput: (key, inputProps = {}) ->
+    isCoffeescript = key?
     typeMapping = inputProps.typeMapping
     delete inputProps.typeMapping
     # Setting the defaults
@@ -54,6 +55,7 @@ module.exports = dslMixin =
     # looking up the template name with the type mappings and the type
     templateName = @_frigGetTemplateName inputProps, @props.theme, typeMapping
     template = @_frigLoadTemplate inputProps, templateName
+    template = React.createFactory template if isCoffeescript
     # Creating and returning the template instance
     return template inputProps
 

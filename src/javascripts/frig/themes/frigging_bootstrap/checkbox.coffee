@@ -5,7 +5,7 @@ InputMixin                    = require "../../mixins/input_mixin.coffee"
 {div, label, input}           = React.DOM
 cx = React.addons.classSet
 
-friggingBootstrap.Checkbox = React.createFactory React.createClass
+friggingBootstrap.Checkbox = React.createClass
 
   displayName: 'Frig.friggingBootstrap.Checkbox'
 

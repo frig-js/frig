@@ -10,7 +10,6 @@ module.exports =
     libraryTarget: "var"
     library: "Frig"
   externals:
-    "react": "React"
     "react/addons": "React.addons"
   resolve:
     root: [
