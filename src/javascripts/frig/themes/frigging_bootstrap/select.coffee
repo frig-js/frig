@@ -35,7 +35,7 @@ friggingBootstrap.Select = React.createClass
     option value: opts.value, opts.label
 
   render: ->
-    div className: cx(sizeClassNames @props),
+    div className: cx(sizeClassNames @frigProps),
       div className: @_cx(),
         label @frigProps.labelHtml, @frigProps.label if @frigProps.label
         div className: "controls",

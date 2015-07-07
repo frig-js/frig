@@ -90,7 +90,11 @@
 	          className: "sm-col-12"
 	        }, h3({}, "Additional Sketchy Info"))), div({
 	          className: "row"
-	        }, f.input("shareSketchyInfo"), _this.state.account.shareSketchyInfo ? (f.input("socialSecurityNumber"), f.input("fullName")) : void 0, f.submit("Save")));
+	        }, f.input("shareSketchyInfo"), _this.state.account.shareSketchyInfo ? [
+	          f.input("socialSecurityNumber"), f.input("fullName"), f.input("eyeColor", {
+	            options: ["blue", "green", "red", "left"]
+	          })
+	        ] : void 0, f.submit("Save")));
 	      };
 	    })(this));
 	  }
@@ -24316,7 +24320,7 @@
 	  render: function() {
 	    var ref1;
 	    return div({
-	      className: cx(sizeClassNames(this.props))
+	      className: cx(sizeClassNames(this.frigProps))
 	    }, div({
 	      className: this._cx()
 	    }, this.frigProps.label ? label(this.frigProps.labelHtml, this.frigProps.label) : void 0, div({

@@ -36,8 +36,13 @@ AccountForm = React.createClass
         div className: "row",
           f.input "shareSketchyInfo"
           if @state.account.shareSketchyInfo
-            f.input "socialSecurityNumber"
-            f.input "fullName"
+            [
+              f.input "socialSecurityNumber"
+              f.input "fullName"
+              f.input "eyeColor", options: [
+                "blue", "green", "red", "left"
+              ]
+            ]
 
           f.submit "Save"
 
