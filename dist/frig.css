@@ -1,0 +1,95 @@
+.frigging-bootstrap-error {
+  animation: friggingBootstrapErrorHeight, 1.4s, linear, 0s, 1, normal, both;
+  margin: 0 0 15px 0;
+}
+.frigging-bootstrap-error .alert {
+  animation: friggingBootstrapErrorOpacity, 0.6s, linear, 0s, 1, normal, both;
+}
+@-moz-keyframes friggingBootstrapErrorHeight {
+  0% {
+    max-height: 0px;
+  }
+  100% {
+    max-height: 300px;
+  }
+}
+@-webkit-keyframes friggingBootstrapErrorHeight {
+  0% {
+    max-height: 0px;
+  }
+  100% {
+    max-height: 300px;
+  }
+}
+@-o-keyframes friggingBootstrapErrorHeight {
+  0% {
+    max-height: 0px;
+  }
+  100% {
+    max-height: 300px;
+  }
+}
+@keyframes friggingBootstrapErrorHeight {
+  0% {
+    max-height: 0px;
+  }
+  100% {
+    max-height: 300px;
+  }
+}
+@-moz-keyframes friggingBootstrapErrorOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes friggingBootstrapErrorOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@-o-keyframes friggingBootstrapErrorOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes friggingBootstrapErrorOpacity {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.typeahead ul.typeahead.dropdown-menu {
+  z-index: 9999;
+  margin-bottom: 50px;
+}
+.typeahead div.controls {
+  margin-bottom: 7px;
+}
+.typeahead div.controls label.control-label {
+  font-size: 18px;
+  margin: 0 0 5px 0;
+}
+.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 p {
+  font-size: 14px;
+}
+.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger {
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+.typeahead div.items div.row div.col-xs-12.col-sm-12.col-md-12.col-lg-12 i.delete-trigger:hover {
+  cursor: pointer;
+  color: #d43f3a;
+}
+
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJmcmlnLmNzcyIsInNvdXJjZVJvb3QiOiIifQ==*/
