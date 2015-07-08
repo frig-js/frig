@@ -4,18 +4,22 @@
   "private": false,
   "main": "src/javascripts/frig.coffee",
   "dependencies": {
+    "coffee-script": "1.9.3"
+  },
+  "devDependencies":{
     "webpack": "*",
+    "webpack-dev-server": "*",
     "css-loader": "*",
     "style-loader": "*",
     "stylus-loader": "*",
     "extract-text-webpack-plugin": "*",
     "babel-loader": "*",
     "coffee-loader": "*",
-    "jade-loader": "*"
-  },
-  "devDependencies":{
-    "coffee-script": "1.9.2",
-    "react": "0.13.3"
+    "jade-loader": "*",
+    "react": "0.13.3",
+    "bootstrap": "*",
+    "url-loader": "*",
+    "jsx-loader": "*"
   },
   "engines": {
     "node": "~0.12.x",

@@ -1,0 +1,4 @@
+echo "\n\nCOMPILING DEV\n"
+webpack --progress --config webpack.dev.config.coffee
+echo "\n\nCOMPILING RELEASE\n"
+webpack --progress -p --config webpack.production.config.coffee

@@ -1,4 +1,3 @@
-require "./node_modules/bootstrap/dist/css/bootstrap.css"
 React         = require "react/addons"
 Frig          = require "frig"
 {div, h2, h3} = React.DOM

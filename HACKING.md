@@ -1,8 +1,7 @@
-## Compiling
-1. Install webpack
-2. Run `webpack -w --progress` to automatically compile the project whenever
-a file is changed.
-3. Run `webpack -w --progress -p --config webpack.production.config.coffee` to produce a minified version of frig.
+## Running the examples (for debugging)
+1. Install webpack-dev-server
+2. Run `webpack-dev-server`
+3. Go to http://localhost:8080/webpack-dev-server/ in your browser
 
 ## Docs (WIP)
 
