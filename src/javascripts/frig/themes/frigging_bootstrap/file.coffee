@@ -44,10 +44,10 @@ friggingBootstrap.File = React.createClass
     @fReader.readAsDataURL @refs[@frigProps.inputHtml.ref].getDOMNode().files[0]
 
   _onFileLoad: ->
-    v = _.clone @fReader.result
+    v = @fReader.result[0..-1]
     @setState image: v
     @getFriggingValue = => v
-    @frigProps.onFriggingChildChange? 'image', v, true
+    @frigProps.onFriggingChildChange?('image', v, true)
 
   render: ->
     @frigProps.inputHtml.onChange = @_loadFile
