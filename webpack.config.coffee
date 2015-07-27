@@ -22,8 +22,9 @@ module.exports =
         loader: "style-loader!css-loader!stylus-loader"
       }
       {
-        test: /\.coffee$/
-        loader: "coffee"
+        test: /\.js$/
+        exclude: /(node_modules)/
+        loader: "babel"
       }
       {
           test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
