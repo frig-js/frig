@@ -1,6 +1,6 @@
 var React                        = require("react/addons")
-var globalTypeMapping            = require("../type_mapping.coffee")
-var frigHelpers                  = require("../helpers.coffee")
+var globalTypeMapping            = require("../type_mapping.js")
+var frigHelpers                  = require("../helpers.js")
 var {humanize, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
 
 module.exports = dslMixin = {

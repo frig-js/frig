@@ -1,6 +1,6 @@
 var React                         = require("react/addons")
-var frigHelpers                   = require("../helpers.coffee")
-var frigDefaults                  = require("../defaults.coffee")
+var frigHelpers                   = require("../helpers.js")
+var frigDefaults                  = require("../defaults.js")
 var {humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = frigHelpers
 
 module.exports = friggingPropsMixin = {

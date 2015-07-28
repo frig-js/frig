@@ -1,6 +1,6 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../frigging_bootstrap.coffee")
-var FormMixin                     = require("../../mixins/form_mixin.coffee")
+var friggingBootstrap             = require("../frigging_bootstrap.js")
+var FormMixin                     = require("../../mixins/form_mixin.js")
 var {errorList}                   = friggingBootstrap
 var {div, form, label, input}     = React.DOM
 

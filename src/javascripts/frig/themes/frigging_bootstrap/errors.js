@@ -1,8 +1,8 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../frigging_bootstrap.coffee")
+var friggingBootstrap             = require("../frigging_bootstrap.js")
 var {errorList}                   = friggingBootstrap
 var {div, span, i}                = React.DOM
-var {humanize, clone, merge, map} = require("../../helpers.coffee")
+var {humanize, clone, merge, map} = require("../../helpers.js")
 
 friggingBootstrap.Errors = class {
 

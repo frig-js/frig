@@ -1,5 +1,5 @@
-var frigHelpers = require("./helpers.coffee");
-var typeMapping = require("./type_mapping.coffee");
+var frigHelpers = require("./helpers.js");
+var typeMapping = require("./type_mapping.js");
 var {humanize, clone, merge, map, capitalize, guessType} = frigHelpers;
 
 // When in doubt add defaults in alphabetical order

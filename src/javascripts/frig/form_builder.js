@@ -1,6 +1,6 @@
 var React                         = require("react/addons")
-var frigDefaults                  = require("./defaults.coffee")
-var frigThemes                    = require("./themes.coffee")
+var frigDefaults                  = require("./defaults.js")
+var frigThemes                    = require("./themes.js")
 
 module.exports = class FormBuilder {
   constructor(parent, opts = {}, cb = function() {}, isCoffeescript) {

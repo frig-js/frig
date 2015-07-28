@@ -1,7 +1,7 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../frigging_bootstrap.coffee")
-var frigHelpers                   = require("../../helpers.coffee")
-var InputMixin                    = require("../../mixins/input_mixin.coffee")
+var friggingBootstrap             = require("../frigging_bootstrap.js")
+var frigHelpers                   = require("../../helpers.js")
+var InputMixin                    = require("../../mixins/input_mixin.js")
 var {errorList, sizeClassNames}   = friggingBootstrap
 var {humanize, clone, merge, map} = frigHelpers
 var {div, label, input}           = React.DOM

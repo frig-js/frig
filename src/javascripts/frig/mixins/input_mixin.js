@@ -1,7 +1,7 @@
 var React                         = require("react/addons")
-var friggingPropsMixin            = require("./frigging_props_mixin.coffee")
-var frigHelpers                   = require("../helpers.coffee")
-var frigValidations               = require("../validations.coffee")
+var friggingPropsMixin            = require("./frigging_props_mixin.js")
+var frigHelpers                   = require("../helpers.js")
+var frigValidations               = require("../validations.js")
 var {humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = frigHelpers
 
 module.exports = inputMixin = {
@@ -35,7 +35,7 @@ module.exports = inputMixin = {
       }
       else if (el.type == 'select-multiple')
       {
-        # TODO: DO NOT USE JQUERY IN FRIG!
+        // TODO: DO NOT USE JQUERY IN FRIG!
         val = $(el).val()
       }
       else
@@ -43,8 +43,8 @@ module.exports = inputMixin = {
         val = el.value
       }
     }
-    # The value is cast to a string when we get it from DOM.value. Lookup
-    # the original value in the options list and return that instead.
+    // The value is cast to a string when we get it from DOM.value. Lookup
+    // the original value in the options list and return that instead.
     if (this.frigProps.options != undefined) {
       for (option in this.frigProps.options) {
         option = this.normalizeFriggingOption(option)
@@ -56,16 +56,16 @@ module.exports = inputMixin = {
 
   normalizeFriggingOption: function (opts) {
     if (opts == undefined) return undefined
-    # converting opts in the format of [key] to key
+    // converting opts in the format of [key] to key
     if (typeof(opts) == "object" && opts.length == 1) opts = opts[0]
-    # if opts is in the format [key, value]
+    // if opts is in the format [key, value]
     if (typeof(opts) == "object" && opts.length == 2) {
       {
         value: opts[0],
         label: opts[1],
       }
     }
-    # if opts is in the format key
+    // if opts is in the format key
     else
       {
         value: opts,
@@ -79,7 +79,7 @@ module.exports = inputMixin = {
       return true
     }
     var errors = []
-    # Running each validation
+    // Running each validation
     for (k, validationOpts of this.frigProps.validations) {
       if (validationOpts == false || validationOpts == undefined) continue
       opts = {
@@ -90,11 +90,11 @@ module.exports = inputMixin = {
       }
       errors = errors.concat(frigValidations[k](opts) || [])
     }
-    # If there are no errors then errors should be falsie
+    // If there are no errors then errors should be falsie
     if (errors.length == 0) errors = undefined
-    # Adding the errors to the state
+    // Adding the errors to the state
     if (renderErrors) this.setState({errors: errors})
-    # Return true if there are no errors
+    // Return true if there are no errors
     return errors == undefined
   },
 
@@ -102,11 +102,11 @@ module.exports = inputMixin = {
     if (this.frigProps.type == "submit") return
     var value = this.getFriggingValue()
     var valid = this.validate value
-    # Call the form-level user specified onChange function
+    // Call the form-level user specified onChange function
     if (this.frigProps.onFriggingChildChange) {
       this.frigProps.onFriggingChildChange(this.frigProps.fieldKey, value, valid)
     }
-    # Call the user specified onChange function
+    // Call the user specified onChange function
     if (this.frigProps.onChange) {
       this.frigProps.onChange(value, valid)
     }

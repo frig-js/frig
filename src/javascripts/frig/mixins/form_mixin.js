@@ -1,7 +1,7 @@
 var React                         = require("react/addons")
-var friggingPropsMixin            = require("./frigging_props_mixin.coffee")
-var dslMixin                      = require("./dsl_mixin.coffee")
-var frigHelpers                   = require("../helpers.coffee")
+var friggingPropsMixin            = require("./frigging_props_mixin.js")
+var dslMixin                      = require("./dsl_mixin.js")
+var frigHelpers                   = require("../helpers.js")
 var {merge, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
 
 module.exports = formMixin = {
