@@ -1,9 +1,9 @@
 var React                        = require("react/addons")
 var globalTypeMapping            = require("../type_mapping.js")
 var frigHelpers                  = require("../helpers.js")
-var {humanize, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
+var {capitalize, setDefaults} = frigHelpers
 
-module.exports = dslMixin = {
+module.exports = {
 
   frigDSL: function() {
     return {
@@ -14,14 +14,17 @@ module.exports = dslMixin = {
   },
 
   _frigErrors: function() {
-    return this._frigInput("errors", type: "errors", errors: this.props.errors)
+    return this._frigInput("errors", {
+      type: "errors",
+      errors: this.props.errors,
+    })
   },
 
   // Create a submit button
   // value: [STRING] The label text for the submit button
   // props: [OBJECT] properties to send to the React Component (see input props)
   _frigSubmit: function(value, props = {}) {
-    if (arguments.length == 1 && typeof(value) != "string")
+    if (arguments.length === 1 && typeof value != "string")
     {
       props = value
       value = undefined
@@ -56,7 +59,7 @@ module.exports = dslMixin = {
   //     false: disables the label
   //     [STRING]: sets the label to the given string
   _frigInput: function(key, inputProps = {}) {
-    var isCoffeescript = key != undefined
+    var isCoffeescript = key != null
     var typeMapping = inputProps.typeMapping
     delete inputProps.typeMapping
     // Setting the defaults
@@ -64,16 +67,20 @@ module.exports = dslMixin = {
     // Guessing the type and using it to lookup the template
     inputProps.type = this._frigGuessInputType(inputProps)
     // looking up the template name with the type mappings and the type
-    templateName = this._frigGetTemplateName(inputProps, this.props.theme, typeMapping)
-    template = this._frigLoadTemplate(inputProps, templateName)
-    if (isCoffeescript) template = React.createFactory template
+    let templateName = this._frigGetTemplateName(
+      inputProps,
+      this.props.theme,
+      typeMapping,
+    )
+    let template = this._frigLoadTemplate(inputProps, templateName)
+    if (isCoffeescript) template = React.createFactory(template)
     // Creating and returning the template instance
     return template(inputProps)
   },
 
   _frigInputDefaults: function(key) {
-    {
-      ref:                    "${key}Input",
+    return {
+      ref:                    `${key}Input`,
       fieldKey:               key,
       initialValue:           this.initialValues()[key],
       onFriggingChildChange:  this._onFriggingChildChange,
@@ -84,23 +91,23 @@ module.exports = dslMixin = {
   },
 
   _frigGuessInputType: function(inputProps) {
-    jsType = typeof(inputProps.initialValue)
-    if (inputProps.type != undefined) {
+    let jsType = typeof inputProps.initialValue
+    if (inputProps.type != null) {
       return inputProps.type
     }
-    else if (inputProps.multiple or Array.isArray inputProps.initialValue) {
+    else if (inputProps.multiple || Array.isArray(inputProps.initialValue)) {
       return "multiselect"
     }
-    else if (inputProps.options != undefined) {
+    else if (inputProps.options != null) {
       return "select"
     }
-    else if (jsType == "boolean") {
+    else if (jsType === "boolean") {
       return "boolean"
     }
-    else if (jsType == "number") {
+    else if (jsType === "number") {
       return "float"
     }
-    else if (inputProps.fieldKey.match /[pP]assword^/) {
+    else if (inputProps.fieldKey.match(/[pP]assword^/)) {
       return "password"
     }
     else {
@@ -111,27 +118,27 @@ module.exports = dslMixin = {
   // Lookup the template name via a cascading lookup of the type through the
   // type mapping sources
   _frigGetTemplateName: function({type, key, template}, theme, inputTypeMapping) {
-    if (template != undefined) return capitalize(template)
+    if (template != null) return capitalize(template)
     var sources = [
       inputTypeMapping,
       this.typeMapping,
       theme.typeMapping,
       globalTypeMapping,
     ]
-    for (typeMapping in sources) {
-      var mapping = (typeMapping||{})[type]
+    for (var typeMapping of sources) {
+      var mapping = (typeMapping || {})[type]
       // mapping is either a template name string or an object of the form
       // {template: STRING, htmlInputType: STRING}
-      if (mapping != undefined) return capitalize(mapping.template || mapping)
+      if (mapping != null) return capitalize(mapping.template || mapping)
     }
   },
 
   _frigLoadTemplate: function(props, templateName) {
-    if (templateName == undefined) {
-      throw "#{props.key}: No type mapping found for type #{props.type}"
+    if (templateName == null) {
+      throw `${props.key}: No type mapping found for type ${props.type}`
     }
-    if (this.props.theme[templateName] == undefined) {
-      throw "#{props.key}: No #{templateName} template found in theme"
+    if (this.props.theme[templateName] == null) {
+      throw `${props.key}: No ${templateName} template found in theme`
     }
     return this.props.theme[templateName]
   },

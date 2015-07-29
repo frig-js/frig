@@ -1,4 +1,4 @@
-module.exports = themes = {
+module.exports = {
   // Frig default theme (Frigging Bootstrap)
-  friggingBootstrap: require("./themes/frigging_bootstrap.js")
+  friggingBootstrap: require("./themes/frigging_bootstrap.js"),
 }

@@ -7,7 +7,7 @@ var cx = React.addons.classSet
 
 friggingBootstrap.Checkbox = React.createClass({
 
-  displayName: 'Frig.friggingBootstrap.Checkbox',
+  displayName: "Frig.friggingBootstrap.Checkbox",
 
   mixins: [InputMixin],
 
@@ -22,29 +22,29 @@ friggingBootstrap.Checkbox = React.createClass({
     return {
       inputHtml: {
         type: "checkbox",
-        value: @frigProps.key,
-        checked: () => {@frigProps.initialValue},
+        value: this.frigProps.key,
+        checked: () => this.frigProps.initialValue,
       },
     }
   },
 
   _cx: function() {
-    cx({
+    return cx({
       "checkbox": true,
-      "has-error": @state.errors,
-      "has-success": @state.edited && @state.errors == undefined,
+      "has-error": this.state.errors,
+      "has-success": this.state.edited && this.state.errors == null,
     })
   },
 
   render: function() {
-    div({className: "form-group"},
-      div({className: cx(sizeClassNames @frigProps)},
-        div({className: @_cx()},
-          label(@frigProps.labelHtml,
-            input(@frigProps.inputHtml),
-            @frigProps.label ? ` ${@frigProps.label}` : "",
+    return div({className: "form-group"},
+      div({className: cx(sizeClassNames(this.frigProps))},
+        div({className: this._cx()},
+          label(this.frigProps.labelHtml,
+            input(this.frigProps.inputHtml),
+            this.frigProps.label ? ` ${this.frigProps.label}` : "",
           ),
-          @state.errors != undefined ? errorList(@state.errors) : "",
+          this.state.errors != null ? errorList(this.state.errors) : "",
         ),
       ),
     )

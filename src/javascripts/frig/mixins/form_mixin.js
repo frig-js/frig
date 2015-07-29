@@ -1,10 +1,9 @@
-var React                         = require("react/addons")
 var friggingPropsMixin            = require("./frigging_props_mixin.js")
 var dslMixin                      = require("./dsl_mixin.js")
 var frigHelpers                   = require("../helpers.js")
-var {merge, map, capitalize, getTemplate, guessType, setDefaults} = frigHelpers
+var {merge, entries} = frigHelpers
 
-module.exports = formMixin = {
+module.exports = {
 
   mixins: [
     friggingPropsMixin,
@@ -22,9 +21,9 @@ module.exports = formMixin = {
   },
 
   validate: function() {
-    var valid = true
-    for (key, input of this.refs) {
-      if (key.match(/Input$/) != undefined && input.validate != undefined) {
+    let valid = true
+    for (var [key, input] of entries(this.refs)) {
+      if (key.match(/Input$/) != null && input.validate != null) {
         valid &= input.validate()
       }
     }
@@ -40,16 +39,16 @@ module.exports = formMixin = {
   },
 
   initialValues: function() {
-    # If the data is a ReactLink extract its value
-    if (this.frigProps.data.requestChange != undefined) {
-      this.frigProps.data.value
+    // If the data is a ReactLink extract its value
+    if (this.frigProps.data.requestChange != null) {
+      return this.frigProps.data.value
     }
     else {
-      this.frigProps.data
+      return this.frigProps.data
     }
   },
 
-  _onFriggingChildInit: function(k, v, valid) {
+  _onFriggingChildInit: function(k, v) {
     this._frigFormData[k] = v
     this._frigValidFormData[k] = v
   },
@@ -63,8 +62,8 @@ module.exports = formMixin = {
     {
       delete this._frigValidFormData[k]
     }
-    # clone the form data object to avoid the situation where subsequent form
-    # updates unexpectedly mutate the data object
+    // clone the form data object to avoid the situation where subsequent form
+    // updates unexpectedly mutate the data object
     if (this.frigProps.onChange) this.frigProps.onChange(this._frigFormData)
     if (valid)
     {
@@ -72,10 +71,10 @@ module.exports = formMixin = {
         this.frigProps.onValidChange(this._frigFormData)
       }
     }
-    # Update the ReactLink with the merged combination of form data and the
-    # initial values passed in to the form (allowing non-form data to be
-    # persisted)
-    reactLinkData = merge({}, this.initialValues(), this._frigFormData)
+    // Update the ReactLink with the merged combination of form data and the
+    // initial values passed in to the form (allowing non-form data to be
+    // persisted)
+    let reactLinkData = merge({}, this.initialValues(), this._frigFormData)
     if (this.frigProps.data.requestChange) {
       this.frigProps.data.requestChange(reactLinkData)
     }

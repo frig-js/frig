@@ -1,17 +1,15 @@
-var React                         = require("react/addons")
 var friggingPropsMixin            = require("./frigging_props_mixin.js")
-var frigHelpers                   = require("../helpers.js")
 var frigValidations               = require("../validations.js")
-var {humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = frigHelpers
+var {entries}                     = require("../helpers.js")
 
-module.exports = inputMixin = {
+module.exports = {
 
   mixins: [
     friggingPropsMixin,
   ],
 
   componentWillMount: function() {
-    this.getFriggingValue ||= this.defaultGetFriggingValue
+    this.getFriggingValue = this.getFriggingValue || this.defaultGetFriggingValue
   },
 
   componentDidMount: function() {
@@ -23,20 +21,22 @@ module.exports = inputMixin = {
   },
 
   defaultGetFriggingValue: function() {
-    var ref = this.refs[this.frigProps.inputHtml.ref]
-    var val
-    if (ref == undefined) {
+    let ref = this.refs[this.frigProps.inputHtml.ref]
+    let val
+    if (ref == null) {
       val = this.frigProps.initialValue
     }
     else {
-      el = ref.getDOMNode()
-      if (el.type == 'checkbox') {
+      let el = ref.getDOMNode()
+      if (el.type === "checkbox") {
         val = el.checked
       }
-      else if (el.type == 'select-multiple')
+      else if (el.type === "select-multiple")
       {
-        // TODO: DO NOT USE JQUERY IN FRIG!
-        val = $(el).val()
+        val = []
+        for (let option of el.options) {
+          if (option.selected) val.push(option.value)
+        }
       }
       else
       {
@@ -45,44 +45,46 @@ module.exports = inputMixin = {
     }
     // The value is cast to a string when we get it from DOM.value. Lookup
     // the original value in the options list and return that instead.
-    if (this.frigProps.options != undefined) {
-      for (option in this.frigProps.options) {
+    if (this.frigProps.options != null) {
+      for (var option of this.frigProps.options) {
         option = this.normalizeFriggingOption(option)
-        if (option.value.toString() == val) return option.value
+        if (option.value.toString() === val) return option.value
       }
     }
     return val
   },
 
   normalizeFriggingOption: function (opts) {
-    if (opts == undefined) return undefined
+    if (opts == null) return undefined
     // converting opts in the format of [key] to key
-    if (typeof(opts) == "object" && opts.length == 1) opts = opts[0]
+    if (typeof opts == "object" && opts.length === 1) opts = opts[0]
     // if opts is in the format [key, value]
-    if (typeof(opts) == "object" && opts.length == 2) {
-      {
+    if (typeof opts == "object" && opts.length === 2) {
+      return {
         value: opts[0],
         label: opts[1],
       }
     }
     // if opts is in the format key
-    else
-      {
+    else {
+      return {
         value: opts,
         label: opts,
       }
+    }
   },
 
   validate: function (value = this.getFriggingValue(), renderErrors = true) {
-    if (this.frigProps.type == "submit" || this.frigProps.validate?() == false) {
-      this.setState(errors: undefined)
+    let validate = this.frigProps.validate || () => {}
+    if (this.frigProps.type === "submit" || validate === false) {
+      this.setState({errors: undefined})
       return true
     }
     var errors = []
     // Running each validation
-    for (k, validationOpts of this.frigProps.validations) {
-      if (validationOpts == false || validationOpts == undefined) continue
-      opts = {
+    for (var [k, validationOpts] of entries(this.frigProps.validations)) {
+      if (validationOpts === false || validationOpts == null) continue
+      let opts = {
         data:       this.frigProps.data,
         fieldkey:   this.frigProps.fieldKey,
         value:      value,
@@ -91,17 +93,17 @@ module.exports = inputMixin = {
       errors = errors.concat(frigValidations[k](opts) || [])
     }
     // If there are no errors then errors should be falsie
-    if (errors.length == 0) errors = undefined
+    if (errors.length === 0) errors = undefined
     // Adding the errors to the state
     if (renderErrors) this.setState({errors: errors})
     // Return true if there are no errors
-    return errors == undefined
+    return errors == null
   },
 
   _frigOnChange: function() {
-    if (this.frigProps.type == "submit") return
+    if (this.frigProps.type === "submit") return
     var value = this.getFriggingValue()
-    var valid = this.validate value
+    var valid = this.validate(value)
     // Call the form-level user specified onChange function
     if (this.frigProps.onFriggingChildChange) {
       this.frigProps.onFriggingChildChange(this.frigProps.fieldKey, value, valid)

@@ -1,34 +1,58 @@
-module.exports = helpers = {
+let isConfigObj, entries
+let helpers = module.exports = {
+  /* Similar to the ECMA Script 7 proposed Object values function.
+   * Returns an array of [key, value] arrays.
+   * See http://stackoverflow.com/a/16643074/386193
+   */
+  entries: entries = function (object) {
+    let values = []
+    for (let k in object) values.push([k, object[k]])
+    return values
+  },
+
+  isConfigObj: isConfigObj = function (obj) {
+    var type = typeof obj
+    return (
+      type !== "string" &&
+      type !== "number" &&
+      type !== "boolean" &&
+      type !== "function" &&
+      type !== "undefined" &&
+      obj  != null &&
+      obj.length == null
+    )
+  },
+
   humanize: function (key) {
-    if (key == undefined) return undefined
+    if (key == null) return undefined
     var startOfWord = /([A-Z]|[0-9]+|_[a-z])/g
     var humanString = key.replace(startOfWord, " $1").replace(/_/g, "")
-    return humanString[0].toUpperCase() + humanString[1..].toLowerCase()
+    return humanString[0].toUpperCase() + humanString.slice(1, -1).toLowerCase()
   },
 
   clone: function (obj) {
     var objClone = {}
-    for (k, v of obj) objClone[k] = v
+    for (let [k, v] of entries(obj)) objClone[k] = v
     return objClone
   },
 
   merge: function (target, ...others) {
-    var target ||= {}
-    for (other in others) {
-      for (k, v of other || {}) target[k] = v
+    target = target || {}
+    for (let other of others) {
+      for (let [k, v] of entries(other || {})) target[k] = v
     }
     return target
   },
 
   map: function (array, fn) {
     var out = []
-    for (k in array) out.push(fn(k))
+    for (let k of array) out.push(fn(k))
     return out
   },
 
   mapObj: function (obj, fn) {
     var out = {}
-    for (k, v of obj) out[k] = fn(k, v)
+    for (let [k, v] of entries(obj)) out[k] = fn(k, v)
     return out
   },
 
@@ -39,11 +63,12 @@ module.exports = helpers = {
   // * The keys are the superset of all keys from all the layer.
   // * The keys are in the same order as the defaults with keys from other layers
   //   being appended after the defaults.
-  setDefaults: function (...layers, cb) {
+  setDefaults: function (...layers) {
+    let cb = layers.pop()
     // No callback: Defaulting the callback to a passthrough function
-    if (typeof(cb) != "function") {
+    if (typeof cb != "function") {
       layers.push(cb)
-      cb = function (k, v) {v}
+      cb = (k, v) => v
     }
     // setting the target to the first layer
     var target = layers[layers.length - 1] || {}
@@ -51,47 +76,32 @@ module.exports = helpers = {
     var reversedLayers = layers.slice(0).reverse()
     // The iterator is used to set a final value for each key in the returned
     // object
-    var iterator = (k, v) => {
+    var iterator = (k) => {
       // Setting the value for non-objects by "failing through" the defaults
       // until a non-null value is found
-      val = undefined
-      for (layer in reversedLayers) {
-        if (val == undefined) val = layer[k]
+      let val
+      for (let layer of reversedLayers) {
+        if (val == null) val = layer[k]
       }
       return cb(k, val, layers)
     }
     // Recursively mapping the iterator over nested objects
-    for (k, v of helpers.merge({}, ...layers)) {
-      if (isConfigObj layers[0][k]){
-        namespacedLayers = helpers.map(layers, (layer) => { layer[k] || {} })
-        v = helpers.setDefaults namespacedLayers..., cb
+    for (let [k, v] of entries(helpers.merge({}, ...layers))) {
+      if (isConfigObj(layers[0][k])) {
+        let namespacedLayers = helpers.map(layers, (layer) => layer[k] || {})
+        v = helpers.setDefaults(...namespacedLayers, cb)
       }
       else {
-        v = iterator k, v
+        v = iterator(k)
       }
       target[k] = v
     }
     return target
   },
 
-  isConfigObj: function (obj) {
-    var type = typeof(obj)
-    return (
-      type != "string" &&
-      type != "number" &&
-      type != "boolean" &&
-      type != "function" &&
-      type != "undefined" &&
-      obj  != null &&
-      obj.length == undefined
-    )
+  capitalize: function (string) {
+    if (string == null) return undefined
+    return `${string[0].toUpperCase()}${string.slice(1, -1)}`
   },
 
-  capitalize: function (string) {
-    if (string == undefined) return undefined
-    return `${string[0].toUpperCase()}${string[1..]}`
-  }
-
 }
-
-{humanize, clone, merge, map, mapObj, isConfigObj, setDefaults} = helpers

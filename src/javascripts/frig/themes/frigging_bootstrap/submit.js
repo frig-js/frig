@@ -5,29 +5,29 @@ var {div, input}                  = React.DOM
 var {sizeClassNames}              = friggingBootstrap
 var cx = React.addons.classSet
 
-friggingBootstrap.Submit = React.createClass
+friggingBootstrap.Submit = React.createClass({
 
-  displayName: 'Frig.friggingBootstrap.Submit',
+  displayName: "Frig.friggingBootstrap.Submit",
 
   mixins: [InputMixin],
 
   getFriggingProps: function () {
     return {
       inputHtml: {
-        className: @frigProps.className || "btn btn-default",
-        placeholder: function {return this.frigProps.placeholder},
-        type: function {return this.frigProps.htmlInputType},
-        defaultValue: function {return this.frigProps.initialValue},
+        className:    this.frigProps.className || "btn btn-default",
+        placeholder:  () => this.frigProps.placeholder,
+        type:         () => this.frigProps.htmlInputType,
+        defaultValue: () => this.frigProps.initialValue,
       },
     }
   },
 
   render: function () {
-    div({className: cx(sizeClassNames @frigProps)},
+    return div({className: cx(sizeClassNames(this.frigProps))},
       div({className: "form-group"},
-        input(@frigProps.inputHtml),
+        input(this.frigProps.inputHtml),
       ),
     )
   },
 
-}
+})

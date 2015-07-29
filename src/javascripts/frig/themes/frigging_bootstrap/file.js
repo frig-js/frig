@@ -8,7 +8,7 @@ var cx = React.addons.classSet
 
 friggingBootstrap.File = React.createClass({
 
-  displayName: 'Frig.friggingBootstrap.FileInput',
+  displayName: "Frig.friggingBootstrap.FileInput",
 
   mixins: [InputMixin],
 
@@ -21,27 +21,27 @@ friggingBootstrap.File = React.createClass({
 
   getFriggingProps: function() {
     return {
-      # Bootstrap input addon texts
+      // Bootstrap input addon texts
       prefix:          undefined,
       suffix:          undefined,
       inputHtml: {
         className: "form-control",
         placeholder: function() {return this.frigProps.placeholder},
-        type: function() {return 'file'},
-        accept: function() {return 'image/png,image/gif,image/jpeg'},
+        type: function() {return "file"},
+        accept: function() {return "image/png,image/gif,image/jpeg"},
         defaultValue: function() {return this.frigProps.initialValue},
       },
     }
   },
 
   componentDidMount: function() {
-    this.setState(image: this.frigProps.initialValue)
+    this.setState({image: this.frigProps.initialValue})
   },
 
   _cx: function() {
     return cx({
-      "has-error": this.state.errors != undefined,
-      "has-success": this.state.edited && this.state.errors == undefined,
+      "has-error": this.state.errors != null,
+      "has-success": this.state.edited && this.state.errors == null,
     })
   },
 
@@ -57,16 +57,16 @@ friggingBootstrap.File = React.createClass({
   },
 
   _onFileLoad: function() {
-    v = this.fReader.result[0..-1]
+    v = this.fReader.result.slice(0, -1)
     this.setState({image: v})
-    this.getFriggingValue = () => {return v}
+    this.getFriggingValue = () => v
     if (this.frigProps.onFriggingChildChange) {
-      this.frigProps.onFriggingChildChange('image', v, true)
+      this.frigProps.onFriggingChildChange("image", v, true)
     }
   },
 
   _image: function() {
-    if (this.state.image == undefined) return ""
+    if (this.state.image == null) return ""
     return img({
       className: "thumbnail",
       height: "125",
@@ -76,12 +76,12 @@ friggingBootstrap.File = React.createClass({
   },
 
   _inputPrefix: function() {
-    if (this.frigProps.prefix == undefined) return ""
+    if (this.frigProps.prefix == null) return ""
     return div({className: "input-group-addon"}, this.frigProps.prefix)
   },
 
   _inputSuffix: function() {
-    if (this.frigProps.suffix == undefined) return ""
+    if (this.frigProps.suffix == null) return ""
     div({className: "input-group-addon"}, this.frigProps.suffix)
   },
 
@@ -99,12 +99,12 @@ friggingBootstrap.File = React.createClass({
   },
 
   _errorList: function() {
-    return "" if (this.state.errors == undefined)
+    if (this.state.errors == null) return ""
     return errorList(this.state.errors)
   },
 
   _label: function() {
-    return "" if this.frigProps.label == undefined
+    if (this.frigProps.label == null) return ""
     return label(this.frigProps.labelHtml, this.frigProps.label)
   },
 
@@ -119,7 +119,7 @@ friggingBootstrap.File = React.createClass({
             this._inputGroup(),
           ),
         ),
-        @_errorList(),
+        this._errorList(),
       ),
     ),
   },

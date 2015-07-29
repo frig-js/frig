@@ -3,6 +3,7 @@ path = require "path"
 
 module.exports =
   entry:
+    # frig: "./src/javascripts/frig.js"
     # jsx: "./examples/jsx/example.jsx"
     coffeescript: "./examples/coffeescript/example.coffee"
   devtool: "inline-source-map"
@@ -10,8 +11,14 @@ module.exports =
     filename: "./dist/examples/[name]/example.js"
   resolve:
     alias:
-      frig: path.join(__dirname, "src", "javascripts", "frig.coffee")
+      frig: path.join(__dirname, "src", "javascripts", "frig.js")
+  eslint: {
+    failOnError: true
+  }
   module:
+    preLoaders: [
+      {test: /\.js$/, loader: "eslint-loader", exclude: /node_modules/}
+    ]
     loaders: [
       {
         test: /\.css$/
@@ -22,9 +29,13 @@ module.exports =
         loader: "style-loader!css-loader!stylus-loader"
       }
       {
+        test: /\.coffee$/
+        loader: "coffee"
+      }
+      {
         test: /\.js$/
-        exclude: /(node_modules)/
-        loader: "babel"
+        exclude: /^(node_modules|dist|scripts)/
+        loader: "babel?stage=0"
       }
       {
           test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,

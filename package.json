@@ -14,12 +14,16 @@
     "stylus-loader": "*",
     "extract-text-webpack-plugin": "*",
     "babel-loader": "*",
+    "babel-core": "5.8.12",
     "coffee-loader": "*",
     "jade-loader": "*",
     "react": "0.13.3",
     "bootstrap": "*",
     "url-loader": "*",
-    "jsx-loader": "*"
+    "jsx-loader": "*",
+    "eslint-loader": "git+https://github.com/MoOx/eslint-loader.git#master",
+    "eslint": "git+https://github.com/eslint/eslint.git#master",
+    "babel-eslint": "*"
   },
   "engines": {
     "node": "~0.12.x",

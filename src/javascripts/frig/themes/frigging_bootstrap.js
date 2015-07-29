@@ -1,24 +1,26 @@
 var React                         = require("react/addons")
-var frigHelpers                   = require("../helpers.js")
-var {humanize, clone, merge, map} = frigHelpers
+var {map} = require("../helpers.js")
 var {span, i}                     = React.DOM
 require("../../../stylesheets/frig/themes/frigging_bootstrap.styl")
 
+var friggingBootstrap
 module.exports = friggingBootstrap = {
-  # # Optional: a theme-specific list of defaults that override the global
-  # # Frig.defaults
+  /*
+   * Optional: a theme-specific list of defaults that override the global
+   * Frig.defaults
+   */
   defaults: {
     layout:          "vertical",
-    # Sizes
+    // Sizes
     xs:              "12",
-    sm:              function() {return @frigProps.xs || "12"},
-    md:              function() {return @frigProps.sm || "12"},
-    lg:              function() {return @frigProps.md || "12"},
-    # Offsets
+    sm:              () => this.frigProps.xs || "12",
+    md:              () => this.frigProps.sm || "12",
+    lg:              () => this.frigProps.md || "12",
+    // Offsets
     xsOffset:        undefined,
-    smOffset:        function() {return @frigProps.xsOffset},
-    mdOffset:        function() {return @frigProps.smOffset},
-    lgOffset:        function() {return @frigProps.mdOffset},
+    smOffset:        () => this.frigProps.xsOffset,
+    mdOffset:        () => this.frigProps.smOffset,
+    lgOffset:        () => this.frigProps.mdOffset,
   },
 
   errorList: function(errors) {
@@ -34,14 +36,14 @@ module.exports = friggingBootstrap = {
   sizeClassNames: function(props) {
     var classes = {}
     var sizes = ["xs", "sm", "md", "lg"]
-    # Adding column classes
-    for (k in sizes) {
-      if (props[k] != undefined) classes[`col-${k}-${props[k]}`] = true
+    // Adding column classes
+    for (var k of sizes) {
+      if (props[k] != null) classes[`col-${k}-${props[k]}`] = true
     }
-    # Adding offset classes
-    for (size in sizes) {
+    // Adding offset classes
+    for (var size of sizes) {
       k = `${size}Offset`
-      if (props[k] == undefined) continue
+      if (props[k] == null) continue
       classes[`col-${size}-offset-${props[k]}`] = true
     }
     return classes

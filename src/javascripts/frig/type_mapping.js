@@ -1,4 +1,4 @@
-module.exports = typeMapping = {
+module.exports = {
   form:         {template: "form"},
   errors:       {template: "errors"},
   submit:       {template: "submit",   htmlInputType: "submit"},
@@ -17,14 +17,14 @@ module.exports = typeMapping = {
   float:        {template: "input",    htmlInputType: "number"},
   decimal:      {template: "input",    htmlInputType: "number"},
   range:        {template: "input",    htmlInputType: "range"},
-  # datetime:     {template: "datetime"},
-  # date:         {template: "datetime"},
-  # time:         {template: "datetime"},
+  // datetime:     {template: "datetime"},
+  // date:         {template: "datetime"},
+  // time:         {template: "datetime"},
   select:       {template: "select"},
   multiselect:  {template: "select"},
   typeahead:    {template: "typeahead"},
-  # radioButtons: {template: "radioButtons"},
-  # checkBoxes:   {template: "checkBoxes"},
-  # country:      {template: "country"},
-  # timeZone:     {template: "timeZone"},
+  // radioButtons: {template: "radioButtons"},
+  // checkBoxes:   {template: "checkBoxes"},
+  // country:      {template: "country"},
+  // timeZone:     {template: "timeZone"},
 }

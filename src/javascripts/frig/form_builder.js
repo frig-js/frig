@@ -1,6 +1,7 @@
 var React                         = require("react/addons")
 var frigDefaults                  = require("./defaults.js")
 var frigThemes                    = require("./themes.js")
+var {entries}                     = require("./helpers.js")
 
 module.exports = class FormBuilder {
   constructor(parent, opts = {}, cb = function() {}, isCoffeescript) {
@@ -9,39 +10,40 @@ module.exports = class FormBuilder {
     this.cb = cb
     this.isCoffeescript = isCoffeescript
     this.props = {}
-    for (k in ["data", "ref", "typeMapping", "errors", "onChange"]) {
+    for (let k of ["data", "ref", "typeMapping", "errors", "onChange"]) {
       this.props[k] = this.opts[k]
       delete this.opts[k]
     }
-    # this.props.validationState = {}
-    for (k, v of this._defaults()) this.props[k] = v
+    // this.props.validationState = {}
+    for (let [k, v] of entries(this._defaults())) this.props[k] = v
   }
 
   _defaults() {
-    {
+    return {
       type:          "form",
       ref:           "form",
       cb:            this.cb,
       parent:        this.parent,
       theme:         this._theme(),
       themeDefaults: this._theme().defaults,
-      formDefaults:  this.opts
+      formDefaults:  this.opts,
     }
   }
 
-  # Create a theme-specific form React element
+  // Create a theme-specific form React element
   render() {
-    Form = this._theme().Form
-    if (this.isCoffeescript) Form = React.createFactory(Form)
-    return Form(this.props)
+    var form = this._theme().Form
+    if (this.isCoffeescript) form = React.createFactory(form)
+    return form(this.props)
   }
 
-  # returns the theme based on a cascading lookup
+  // returns the theme based on a cascading lookup
   _theme() {
-    themeName = this.opts.theme ||= frigDefaults.theme
-    if (themeName == undefined) throw "A theme name is required"
-    theme = frigThemes[themeName]
-    if (theme == undefined) throw "Frig.#{themeName} does not exist"
+    this.opts.theme = this.opts.theme || frigDefaults.theme
+    let themeName = this.opts.theme
+    if (themeName == null) throw "A theme name is required"
+    let theme = frigThemes[themeName]
+    if (theme == null) throw `Frig.${themeName} does not exist`
     return theme
   }
 

@@ -1,20 +1,19 @@
-React                         = require "react/addons"
-friggingBootstrap             = require "../frigging_bootstrap.js"
-frigHelpers                   = require "../../helpers.js"
-InputMixin                    = require "../../mixins/input_mixin.js"
-{errorList, sizeClassNames}   = friggingBootstrap
-{humanize, clone, merge, map} = frigHelpers
-{div, label, select, option}  = React.DOM
-cx = React.addons.classSet
+var React                         = require("react/addons")
+var friggingBootstrap             = require("../frigging_bootstrap.js")
+var InputMixin                    = require("../../mixins/input_mixin.js")
+var {map}                         = require("../../helpers.js")
+var {errorList, sizeClassNames}   = friggingBootstrap
+var {div, label, select, option}  = React.DOM
+var cx = React.addons.classSet
 
 friggingBootstrap.Select = React.createClass({
 
-  displayName: 'Frig.friggingBootstrap.Select',
+  displayName: "Frig.friggingBootstrap.Select",
 
   mixins: [InputMixin],
 
   getInitialState: function() {
-    {
+    return {
       errors: undefined,
       edited: false,
     }
@@ -24,7 +23,7 @@ friggingBootstrap.Select = React.createClass({
     return {
       inputHtml: {
         className: "form-control",
-        defaultValue: () => {return this.frigProps.initialValue},
+        defaultValue: () => this.frigProps.initialValue,
       },
       labelHtml: {
         className: "",
@@ -34,36 +33,37 @@ friggingBootstrap.Select = React.createClass({
 
   _cx: function() {
     return cx({
-      "form-group": true
-      "has-error": this.state.errors != undefined,
-      "has-success": this.state.edited && this.state.errors == undefined,
+      "form-group": true,
+      "has-error": this.state.errors != null,
+      "has-success": this.state.edited && this.state.errors == null,
     })
   },
 
   _selectOption: function (opts) {
-    var opts = this.normalizeFriggingOption(opts)
-    return option({value: opts.value, opts.label})
+    opts = this.normalizeFriggingOption(opts)
+    return option({value: opts.value}, opts.label)
   },
 
   _errorList: function() {
-    return "" if (this.state.errors == undefined)
+    if (this.state.errors == null) return ""
     return errorList(this.state.errors)
   },
 
   _label: function() {
-    return "" if this.frigProps.label == undefined
+    if (this.frigProps.label == null) return ""
     return label(this.frigProps.labelHtml, this.frigProps.label)
   },
 
   render: function() {
-    return div({className: cx(sizeClassNames this.frigProps)},
+    return div({className: cx(sizeClassNames(this.frigProps))},
       div({className: this._cx()},
         this._label(),
         div({className: "controls"},
           select(this.frigProps.inputHtml,
             map(this.frigProps.options, this._selectOption)
           ),
-        this._errorList(),
+          this._errorList(),
+        )
       )
     )
   },
