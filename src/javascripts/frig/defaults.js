@@ -17,10 +17,10 @@ module.exports = {
   data:            {},
   type:            undefined,
   initialValue:    undefined,
-  title:           () => humanize(this.frigProps.fieldKey),
-  label:           () => this.frigProps.title,
-  placeholder:     () => this.frigProps.title,
-  htmlInputType:   () => typeMapping[this.frigProps.type].htmlInputType,
+  title:           function () {return humanize(this.frigProps.fieldKey)},
+  label:           function () {return this.frigProps.title},
+  placeholder:     function () {return this.frigProps.title},
+  htmlInputType:   function () {return typeMapping[this.frigProps.type].htmlInputType},
   options:         undefined,
   layout:          undefined,
   className:       undefined,
@@ -29,7 +29,7 @@ module.exports = {
   theme:           "friggingBootstrap",
 
   // Validation flags
-  required:        () => this.frigProps.type !== "boolean",
+  required:        function () {return this.frigProps.type !== "boolean"},
   min:             undefined,
   max:             undefined,
 
@@ -40,25 +40,25 @@ module.exports = {
   // DOM attributes + React ref + callbacks for the form element
   formHtml: {
     // For Frig internal use only
-    ref:           () => this.frigProps.formRef,
-    onSubmit:      () => this._frigOnSubmit,
+    ref:           function () {return this.frigProps.formRef},
+    onSubmit:      function () {return this._frigOnSubmit},
   },
 
   // DOM attributes for the label element
   labelHtml: {
-    htmlFor:       () => this.frigProps.fieldKey,
+    htmlFor:       function () {return this.frigProps.fieldKey},
   },
 
   // DOM attributes + React ref + callbacks for the input element
   inputHtml: {
     ref:           "input",                  // For Frig internal use only
-    name:          () => this.frigProps.fieldKey,
-    autoFocus:     () => this.frigProps.autoFocus,
-    onChange:      () => this._frigOnChange, // For Frig internal use only
-    onBlur:        () => this._frigOnBlur,   // For Frig internal use only
-    className:     () => this.frigProps.className,
-    disabled:      () => this.frigProps.disabled,
-    multiple:      () => this.frigProps.multiple,
+    name:          function () {return this.frigProps.fieldKey},
+    autoFocus:     function () {return this.frigProps.autoFocus},
+    onChange:      function () {return this._frigOnChange}, // For Frig internal use only
+    onBlur:        function () {return this._frigOnBlur},   // For Frig internal use only
+    className:     function () {return this.frigProps.className},
+    disabled:      function () {return this.frigProps.disabled},
+    multiple:      function () {return this.frigProps.multiple},
   },
 
   // The compiled list of validations to run (based on validation flags /\)

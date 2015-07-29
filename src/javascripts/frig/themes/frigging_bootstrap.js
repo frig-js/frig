@@ -13,14 +13,14 @@ module.exports = friggingBootstrap = {
     layout:          "vertical",
     // Sizes
     xs:              "12",
-    sm:              () => this.frigProps.xs || "12",
-    md:              () => this.frigProps.sm || "12",
-    lg:              () => this.frigProps.md || "12",
+    sm:              function () {return this.frigProps.xs || "12"},
+    md:              function () {return this.frigProps.sm || "12"},
+    lg:              function () {return this.frigProps.md || "12"},
     // Offsets
     xsOffset:        undefined,
-    smOffset:        () => this.frigProps.xsOffset,
-    mdOffset:        () => this.frigProps.smOffset,
-    lgOffset:        () => this.frigProps.mdOffset,
+    smOffset:        function () {return this.frigProps.xsOffset},
+    mdOffset:        function () {return this.frigProps.smOffset},
+    lgOffset:        function () {return this.frigProps.mdOffset},
   },
 
   errorList: function(errors) {

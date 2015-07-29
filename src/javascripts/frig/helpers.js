@@ -1,6 +1,7 @@
 let isConfigObj, entries
 let helpers = module.exports = {
-  /* Similar to the ECMA Script 7 proposed Object values function.
+  /*
+   * Similar to the ECMA Script 7 proposed Object values function.
    * Returns an array of [key, value] arrays.
    * See http://stackoverflow.com/a/16643074/386193
    */
@@ -27,7 +28,7 @@ let helpers = module.exports = {
     if (key == null) return undefined
     var startOfWord = /([A-Z]|[0-9]+|_[a-z])/g
     var humanString = key.replace(startOfWord, " $1").replace(/_/g, "")
-    return humanString[0].toUpperCase() + humanString.slice(1, -1).toLowerCase()
+    return humanString[0].toUpperCase() + humanString.slice(1).toLowerCase()
   },
 
   clone: function (obj) {
@@ -101,7 +102,7 @@ let helpers = module.exports = {
 
   capitalize: function (string) {
     if (string == null) return undefined
-    return `${string[0].toUpperCase()}${string.slice(1, -1)}`
+    return `${string[0].toUpperCase()}${string.slice(1)}`
   },
 
 }

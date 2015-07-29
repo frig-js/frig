@@ -57,7 +57,7 @@ friggingBootstrap.File = React.createClass({
   },
 
   _onFileLoad: function() {
-    v = this.fReader.result.slice(0, -1)
+    v = this.fReader.result.slice(0)
     this.setState({image: v})
     this.getFriggingValue = () => v
     if (this.frigProps.onFriggingChildChange) {
