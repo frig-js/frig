@@ -75,7 +75,7 @@ module.exports = {
     // initial values passed in to the form (allowing non-form data to be
     // persisted)
     let reactLinkData = merge({}, this.initialValues(), this._frigFormData)
-    if (this.frigProps.data.requestChange) {
+    if (this.frigProps.data.requestChange != null) {
       this.frigProps.data.requestChange(reactLinkData)
     }
   },

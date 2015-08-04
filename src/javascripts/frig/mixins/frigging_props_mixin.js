@@ -53,7 +53,7 @@ module.exports = {
     // True properties should enable frigDefaults behavior
     // obj = defaultVal if this.frigProps[k] == true
     // evaluate value functions and replace them with their values
-    var fnNameRegex = /^on|^cb$|^validate$/
+    var fnNameRegex = /^on|^cb$|^validate$|^requestChange$/
     if (
       typeof obj == "function" &&
       (obj === defaultVal || !k.match(fnNameRegex))

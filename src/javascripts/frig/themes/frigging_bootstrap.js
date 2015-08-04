@@ -12,15 +12,15 @@ module.exports = friggingBootstrap = {
   defaults: {
     layout:          "vertical",
     // Sizes
-    xs:              "12",
-    sm:              function () {return this.frigProps.xs || "12"},
-    md:              function () {return this.frigProps.sm || "12"},
-    lg:              function () {return this.frigProps.md || "12"},
+    xs:              12,
+    sm:              undefined,
+    md:              undefined,
+    lg:              undefined,
     // Offsets
     xsOffset:        undefined,
-    smOffset:        function () {return this.frigProps.xsOffset},
-    mdOffset:        function () {return this.frigProps.smOffset},
-    lgOffset:        function () {return this.frigProps.mdOffset},
+    smOffset:        undefined,
+    mdOffset:        undefined,
+    lgOffset:        undefined,
   },
 
   errorList: function(errors) {
