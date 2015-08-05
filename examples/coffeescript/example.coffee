@@ -1,10 +1,12 @@
+require "babel-core/polyfill"
+require("frig").theme = require("frigging_bootstrap")
+
 React         = require "react/addons"
-Frig          = require "frig"
+{frig}        = require "frig/dsl"
 {div, h2, h3} = React.DOM
 
 AccountForm = React.createClass
   mixins: [
-    Frig.Mixin
     React.addons.LinkedStateMixin
   ]
 
@@ -15,7 +17,7 @@ AccountForm = React.createClass
       shareSketchyInfo: false
 
   render: ->
-    @frig data: @linkState("account"), (f) =>
+    frig data: @linkState("account"), (f) =>
       div className: "container",
         div className: "row",
           div className: "sm-col-12",

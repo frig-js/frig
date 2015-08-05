@@ -1,5 +1,5 @@
 // var React                         = require("react/addons")
-// var friggingBootstrap             = require("../frigging_bootstrap.js")
+// var friggingBootstrap             = require("../index.js")
 // var frigHelpers                   = require("../../helpers.js")
 // var InputMixin                    = require("../../mixins/input_mixin.js")
 // var {errorList, sizeClassNames}   = friggingBootstrap

@@ -1,11 +1,11 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../frigging_bootstrap.js")
-var InputMixin                    = require("../../mixins/input_mixin.js")
+var friggingBootstrap             = require("../index.js")
+var InputMixin                    = require("frig/components/input_mixin")
 var {errorList, sizeClassNames}   = friggingBootstrap
 var {div, label, input}           = React.DOM
 var cx = React.addons.classSet
 
-friggingBootstrap.Checkbox = React.createClass({
+module.exports = React.createClass({
 
   displayName: "Frig.friggingBootstrap.Checkbox",
 

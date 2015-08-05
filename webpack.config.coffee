@@ -11,7 +11,10 @@ module.exports =
     filename: "./dist/examples/[name]/example.js"
   resolve:
     alias:
-      frig: path.join(__dirname, "src", "javascripts", "frig.js")
+      frig: path.join(__dirname, "src", "javascripts", "frig")
+      frigging_bootstrap: path.join(
+        __dirname, "src", "javascripts", "frigging_bootstrap"
+      )
   eslint: {
     failOnError: true
   }
@@ -38,7 +41,7 @@ module.exports =
         loader: "babel?stage=0"
       }
       {
-          test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
-          loader: "url-loader"
+        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+        loader: "url-loader"
       }
     ]

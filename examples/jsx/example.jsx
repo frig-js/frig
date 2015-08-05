@@ -1,12 +1,11 @@
 'use strict'
 
 require("../../node_modules/bootstrap/dist/css/bootstrap.css")
-var React         = require("react/addons")
-var Frig          = require("frig")
+let React         = require("react/addons")
+let {frig}        = require("frig/components/form")
 
-var AccountForm = React.createClass({
+let AccountForm = React.createClass({
   mixins: [
-    Frig.Mixin,
     React.addons.LinkedStateMixin
   ],
 
@@ -52,14 +51,9 @@ var AccountForm = React.createClass({
   },
 
   render: function() {
-    console.log("RENDER");
-    // return this.frig({
-    //   content: this.formContent,
-    //   data: this.linkState("account")
-    // })
-    return <this.frig
-      content={this.formContent}
+    return <frig
       data={this.linkState("account")}
+      form={this.formContent}
     />
   }
 })

@@ -1,11 +1,11 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../frigging_bootstrap.js")
-var InputMixin                    = require("../../mixins/input_mixin.js")
+var friggingBootstrap             = require("../index.js")
+var InputMixin                    = require("frig/components/input_mixin")
 var {div, input}                  = React.DOM
 var {sizeClassNames}              = friggingBootstrap
 var cx = React.addons.classSet
 
-friggingBootstrap.Submit = React.createClass({
+module.exports = React.createClass({
 
   displayName: "Frig.friggingBootstrap.Submit",
 

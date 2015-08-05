@@ -1,10 +1,15 @@
-var React                         = require("react/addons")
-var {map} = require("../helpers.js")
+var React                         = require("react")
+var {map} = require("frig/helpers")
 var {span, i}                     = React.DOM
-require("../../../stylesheets/frig/themes/frigging_bootstrap.styl")
+require("../../stylesheets/frigging_bootstrap/index.styl")
 
 var friggingBootstrap
 module.exports = friggingBootstrap = {
+
+  component(name) {
+    return require(`./components/${name}.js`)
+  },
+
   /*
    * Optional: a theme-specific list of defaults that override the global
    * Frig.defaults

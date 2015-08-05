@@ -1,12 +1,12 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../frigging_bootstrap.js")
-var InputMixin                    = require("../../mixins/input_mixin.js")
-var {map}                         = require("../../helpers.js")
+var friggingBootstrap             = require("../index.js")
+var InputMixin                    = require("frig/components/input_mixin")
+var {map}                         = require("frig/helpers")
 var {errorList, sizeClassNames}   = friggingBootstrap
 var {div, label, select, option}  = React.DOM
 var cx = React.addons.classSet
 
-friggingBootstrap.Select = React.createClass({
+module.exports = React.createClass({
 
   displayName: "Frig.friggingBootstrap.Select",
 

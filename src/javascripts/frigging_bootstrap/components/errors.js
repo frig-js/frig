@@ -1,9 +1,9 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../frigging_bootstrap.js")
+// var friggingBootstrap             = require("../index.js")
 var {div, span, i}                = React.DOM
-var {map} = require("../../helpers.js")
+var {map} = require("frig/helpers")
 
-friggingBootstrap.Errors = class {
+module.exports = class {
 
   constructor() {
     this.displayName = "Frig.friggingBootstrap.Errors"
