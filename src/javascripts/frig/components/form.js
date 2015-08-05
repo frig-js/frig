@@ -7,7 +7,7 @@ var {capitalize, setDefaults, entries} = frigHelpers
  * FrigForm should be used as the top level component for Frig forms in JSX.
  * In coffeescript FrigForm is called by FrigDSL.
  */
-module.exports = class FrigForm extends React.Component {
+export default class FrigForm extends React.Component {
   static propTypes = {
     data: React.PropTypes.func.isRequired,
     form: React.PropTypes.func.isRequired,
@@ -210,7 +210,7 @@ module.exports = class FrigForm extends React.Component {
     // Guessing the type and using it to lookup the template
     inputProps.type = this._frigGuessInputType(inputProps)
     // looking up the template name with the type mappings and the type
-    let templateName = this._frigGetTemplateName(
+    let templateName = this._frigGetComponentName(
       inputProps,
       this.props.theme,
       typeMapping,
@@ -262,13 +262,13 @@ module.exports = class FrigForm extends React.Component {
 
   // Lookup the template name via a cascading lookup of the type through the
   // type mapping sources
-  _frigGetTemplateName({type, key, template}, theme, inputTypeMapping) {
-    if (template != null) return capitalize(template)
-    // mapping is either a template name string or an object of the form
-    // {template: STRING, htmlInputType: STRING}
+  _frigGetComponentName({type, key, component}, theme, inputTypeMapping) {
+    if (component != null) return capitalize(component)
+    // mapping is either a component name string or an object of the form
+    // {component: STRING, htmlInputType: STRING}
     let mapping = this._typeMapping(inputTypeMapping)[type]
     if (mapping == null) return undefined
-    return mapping.template || mapping
+    return mapping.component || mapping
   }
 
   _getThemedInputComponent(props, componentName) {
