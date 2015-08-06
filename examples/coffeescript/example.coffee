@@ -31,6 +31,12 @@ AccountForm = React.createClass
           f.input "passwordConfirmation", xs: 6
 
         div className: "row",
+          f.input "time_of_day",
+            type: "switch", 
+            xs: "6"
+            label: "Time of Day"
+
+        div className: "row",
           div className: "sm-col-12",
             h3 {}, "Additional Sketchy Info"
 
