@@ -1,6 +1,6 @@
-var React                        = require("react/addons")
-var frigHelpers                  = require("../helpers.js")
-var {capitalize, setDefaults, entries} = frigHelpers
+let React                        = require("react/addons")
+let frigInput                    = React.createFactory(require("./input.js"))
+let {entries}                    = require("../util.js")
 
 /*
  * A JSX-compatible React DOM Component.
@@ -9,7 +9,7 @@ var {capitalize, setDefaults, entries} = frigHelpers
  */
 export default class FrigForm extends React.Component {
   static propTypes = {
-    data: React.PropTypes.func.isRequired,
+    data: React.PropTypes.object.isRequired,
     form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
@@ -39,7 +39,7 @@ export default class FrigForm extends React.Component {
 
   validate() {
     let valid = true
-    for (let [key, input] of entries(this._inputRefs())) {
+    for (let [key, input] of entries(this.refs)) {
       if (key.match(/Input$/) != null && input.validate != null) {
         valid &= input.validate()
       }
@@ -67,8 +67,7 @@ export default class FrigForm extends React.Component {
   }
 
   render() {
-    console.log(this._themedForm)
-    return this._themedForm(this.props, this._friggingChildren())
+    return this._themedForm(this._themedFormProps(), this._friggingChildren())
   }
 
   /*
@@ -76,6 +75,15 @@ export default class FrigForm extends React.Component {
    * Private functions
    * =========================================================================
    */
+
+  _themedFormProps() {
+    let formProps = Object.assign({}, this.props)
+    formProps.formHtml = Object.assign({}, formProps.formHtml || {}, {
+      ref: "form",
+      onSubmit: this._onSubmit.bind(this),
+    })
+    return formProps
+  }
 
   // Generate the type mapping for an input component
   _typeMapping(inputTypeMapping) {
@@ -85,10 +93,6 @@ export default class FrigForm extends React.Component {
       this.props.theme.type_mapping,
       inputTypeMapping,
     )
-  }
-
-  _inputRefs() {
-    return this.refs.form.refs
   }
 
   _initialValues() {
@@ -135,7 +139,7 @@ export default class FrigForm extends React.Component {
     }
   }
 
-  _frigOnSubmit(e) {
+  _onSubmit(e) {
     e.preventDefault()
     if (!this.validate()) return
     this.props.onSubmit(e, this._frigFormData)
@@ -172,7 +176,7 @@ export default class FrigForm extends React.Component {
       props = value
       value = undefined
     }
-    setDefaults(this._frigSubmitDefaults(value), props)
+    props = Object.assign(this._frigSubmitDefaults(value), props)
     return this._frigInput("submit", props)
   }
 
@@ -206,37 +210,37 @@ export default class FrigForm extends React.Component {
     var typeMapping = inputProps.typeMapping
     delete inputProps.typeMapping
     // Setting the defaults
-    setDefaults(this._frigInputDefaults(key), inputProps)
+    inputProps = Object.assign(this._frigInputDefaults(key), inputProps)
     // Guessing the type and using it to lookup the template
     inputProps.type = this._frigGuessInputType(inputProps)
     // looking up the template name with the type mappings and the type
-    let templateName = this._frigGetComponentName(
-      inputProps,
-      this.props.theme,
-      typeMapping,
-    )
-    let component = this._getThemedInputComponent(inputProps, templateName)
-    console.log(component)
-    console.log(isCoffeescript)
+    let mapping = this._typeMapping(typeMapping)[inputProps.type]
+    let component = this._getThemedInputComponent(inputProps, mapping.component)
     if (isCoffeescript) component = React.createFactory(component)
+    inputProps.component = component
+    inputProps.inputHtml = Object.assign(
+      {type: mapping.htmlInputType},
+      inputProps.inputHtml,
+    )
     // Creating and returning the component instance
-    return component(inputProps)
+    return frigInput(inputProps)
   }
 
   _frigInputDefaults(key) {
     return {
       ref:                    `${key}Input`,
-      fieldKey:               key,
-      initialValue:           this._initialValues()[key],
-      onFriggingChildChange:  this._onFriggingChildChange.bind(this),
-      onFriggingChildInit:    this._onFriggingChildInit.bind(this),
-      formDefaults:           this.props.formDefaults,
-      themeDefaults:          this.props.theme.defaults || {},
+      key:                    `${key}Input`,
+      name:                   key,
+      valueLink: {
+        value: this._initialValues()[key],
+        requestChange: this._onFriggingChildChange.bind(this, [key]),
+      },
+      onFriggingChildInit:    this._onFriggingChildInit.bind(this, [key]),
     }
   }
 
   _frigGuessInputType(inputProps) {
-    let jsType = typeof inputProps.initialValue
+    let jsType = typeof inputProps.valueLink.value
     if (inputProps.type != null) {
       return inputProps.type
     }
@@ -252,23 +256,12 @@ export default class FrigForm extends React.Component {
     else if (jsType === "number") {
       return "float"
     }
-    else if (inputProps.fieldKey.match(/[pP]assword^/)) {
+    else if (inputProps.name.match(/[pP]assword^/)) {
       return "password"
     }
     else {
       return "string"
     }
-  }
-
-  // Lookup the template name via a cascading lookup of the type through the
-  // type mapping sources
-  _frigGetComponentName({type, key, component}, theme, inputTypeMapping) {
-    if (component != null) return capitalize(component)
-    // mapping is either a component name string or an object of the form
-    // {component: STRING, htmlInputType: STRING}
-    let mapping = this._typeMapping(inputTypeMapping)[type]
-    if (mapping == null) return undefined
-    return mapping.component || mapping
   }
 
   _getThemedInputComponent(props, componentName) {

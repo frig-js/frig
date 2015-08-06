@@ -5,7 +5,7 @@
 // var {errorList, sizeClassNames}   = friggingBootstrap
 // var {humanize, clone, merge, map} = frigHelpers
 // var {div, span, input, label}     = React.DOM
-// var cx = React.addons.classSet
+// var cx = require("classnames")
 
 // /*
 //  * Example 1) Using a switch for one input:

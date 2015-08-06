@@ -1,5 +1,5 @@
 require "babel-core/polyfill"
-require("frig").theme = require("frigging_bootstrap")
+require("frig").defaultTheme require("frigging_bootstrap")
 
 React         = require "react/addons"
 {frig}        = require "frig/dsl"

@@ -4,7 +4,7 @@
 // var {humanize, clone, merge, map} = require("frig/helpers")
 // var {errorList, sizeClassNames}   = friggingBootstrap
 // var {div, label, input, img}      = React.DOM
-// var cx = React.addons.classSet
+// var cx = require("classnames")
 
 // friggingBootstrap.File = React.createClass({
 

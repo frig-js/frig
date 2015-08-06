@@ -1,33 +1,26 @@
 var React                         = require("react/addons")
-var friggingBootstrap             = require("../index.js")
-var InputMixin                    = require("frig/components/input_mixin")
 var {div, input}                  = React.DOM
-var {sizeClassNames}              = friggingBootstrap
-var cx = React.addons.classSet
+var {sizeClassNames}              = require("../util.js")
+var cx = require("classnames")
 
-module.exports = React.createClass({
+export default class extends React.Component {
 
-  displayName: "Frig.friggingBootstrap.Submit",
+  displayName = "Frig.friggingBootstrap.Submit"
 
-  mixins: [InputMixin],
+  static defaultProps = require("../default_props.js")
 
-  getFriggingProps: function () {
-    return {
-      inputHtml: {
-        className:    this.frigProps.className || "btn btn-default",
-        placeholder:  () => this.frigProps.placeholder,
-        type:         () => this.frigProps.htmlInputType,
-        defaultValue: () => this.frigProps.initialValue,
-      },
-    }
-  },
+  _inputHtml() {
+    return Object.assign({}, this.props.inputHtml, {
+      className: `${this.props.className || ""} btn btn-default`.trim(),
+    })
+  }
 
-  render: function () {
-    return div({className: cx(sizeClassNames(this.frigProps))},
+  render() {
+    return div({className: cx(sizeClassNames(this.props))},
       div({className: "form-group"},
-        input(this.frigProps.inputHtml),
+        input(this._inputHtml()),
       ),
     )
-  },
+  }
 
-})
+}

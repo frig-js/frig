@@ -4,7 +4,7 @@
 // var InputMixin                    = require("../../mixins/input_mixin.js")
 // var {errorList, sizeClassNames}   = friggingBootstrap
 // var {humanize, clone, merge, map} = frigHelpers
-// var cx = React.addons.classSet
+// var cx = require("classnames")
 
 // friggingBootstrap.Typeahead = React.createClass({
 

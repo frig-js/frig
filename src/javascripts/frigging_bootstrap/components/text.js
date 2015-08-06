@@ -5,7 +5,7 @@
 // var {errorList, sizeClassNames}   = friggingBootstrap
 // var {humanize, clone, merge, map} = frigHelpers
 // var {div, label, textarea}        = React.DOM
-// var cx = React.addons.classSet
+// var cx = require("classnames")
 
 // friggingBootstrap.Text = React.createClass({
 

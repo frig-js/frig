@@ -1,17 +1,15 @@
-var React                         = require("react/addons")
-// var friggingBootstrap             = require("../index.js")
+var React                         = require("react")
 var {div, span, i}                = React.DOM
-var {map} = require("frig/helpers")
 
-module.exports = class {
+export default class extends React.Component {
 
-  constructor() {
-    this.displayName = "Frig.friggingBootstrap.Errors"
-  }
+  displayName = "Frig.friggingBootstrap.Errors"
+
+  static defaultProps = require("../default_props.js")
 
   render() {
     return div({className: "row"},
-      map(this.props.errors, (error) => {
+      this.props.errors.map((error) => {
         return [
           div({className: "col-xs-12 col-sm-12 col-md-12 col-lg-12"},
             div({className: "frigging-bootstrap-error", ref: `error-${error}`},

@@ -1,53 +1,34 @@
-var React                         = require("react/addons")
-var friggingBootstrap             = require("../index.js")
-var InputMixin                    = require("frig/components/input_mixin")
-var {errorList, sizeClassNames}   = friggingBootstrap
+var React                         = require("react")
+var {errorList, sizeClassNames, formGroupCx} = require("../util.js")
 var {div, label, input}           = React.DOM
-var cx = React.addons.classSet
+var cx                            = require("classnames")
 
-module.exports = React.createClass({
+export default class extends React.Component {
 
-  displayName: "Frig.friggingBootstrap.Checkbox",
+  displayName = "Frig.friggingBootstrap.Checkbox"
 
-  mixins: [InputMixin],
+  static defaultProps = require("../default_props.js")
 
-  getInitialState: function() {
-    return {
-      errors: undefined,
-      edited: false,
-    }
-  },
-
-  getFriggingProps: function() {
-    return {
-      inputHtml: {
-        type: "checkbox",
-        value: this.frigProps.key,
-        checked: () => this.frigProps.initialValue,
-      },
-    }
-  },
-
-  _cx: function() {
-    return cx({
-      "checkbox": true,
-      "has-error": this.state.errors,
-      "has-success": this.state.edited && this.state.errors == null,
+  _inputHtml() {
+    return Object.assign({}, this.props.inputHtml, {
+      type: "checkbox",
+      value: this.props.key,
+      checkedLink: this.props.valueLink,
     })
-  },
+  }
 
-  render: function() {
+  render() {
     return div({className: "form-group"},
-      div({className: cx(sizeClassNames(this.frigProps))},
-        div({className: this._cx()},
-          label(this.frigProps.labelHtml,
-            input(this.frigProps.inputHtml),
-            this.frigProps.label ? ` ${this.frigProps.label}` : "",
+      div({className: cx(sizeClassNames(this.props))},
+        div({className: formGroupCx(this.props)},
+          label(this.props.labelHtml,
+            input(this._inputHtml()),
+            this.props.label ? ` ${this.props.label}` : "",
           ),
-          this.state.errors != null ? errorList(this.state.errors) : "",
+          errorList(this.props.errors),
         ),
       ),
     )
-  },
+  }
 
-})
+}

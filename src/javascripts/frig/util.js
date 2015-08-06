@@ -1,5 +1,5 @@
 let isConfigObj, entries
-let helpers = module.exports = {
+let util = module.exports = {
   /*
    * Similar to the ECMA Script 7 proposed Object values function.
    * Returns an array of [key, value] arrays.
@@ -87,10 +87,10 @@ let helpers = module.exports = {
       return cb(k, val, layers)
     }
     // Recursively mapping the iterator over nested objects
-    for (let [k, v] of entries(helpers.merge({}, ...layers))) {
+    for (let [k, v] of entries(util.merge({}, ...layers))) {
       if (isConfigObj(layers[0][k])) {
-        let namespacedLayers = helpers.map(layers, (layer) => layer[k] || {})
-        v = helpers.setDefaults(...namespacedLayers, cb)
+        let namespacedLayers = util.map(layers, (layer) => layer[k] || {})
+        v = util.setDefaults(...namespacedLayers, cb)
       }
       else {
         v = iterator(k)
