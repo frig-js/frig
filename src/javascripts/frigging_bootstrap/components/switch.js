@@ -1,132 +1,143 @@
-// var React                         = require("react/addons")
-// var friggingBootstrap             = require("../index.js")
-// var frigHelpers                   = require("../../helpers.js")
-// var InputMixin                    = require("../../mixins/input_mixin.js")
-// var {errorList, sizeClassNames}   = friggingBootstrap
-// var {humanize, clone, merge, map} = frigHelpers
-// var {div, span, input, label}     = React.DOM
-// var cx = require("classnames")
+var React                         = require("react/addons")
 
-// /*
-//  * Example 1) Using a switch for one input:
-//  *
-//  *   data = allIsWell: true
-//  *
-//  *   this.frig ref: "ex1", data: data ->
-//  *     f.input "allIsWell", template: "switch"
+var friggingBootstrap             = require("../frigging_bootstrap.js")
+var frigHelpers                   = require("../../helpers.js")
+var InputMixin                    = require("../../mixins/input_mixin.js")
 
-//  * Example 2) Using switches as the default for all boolean inputs in a form:
-//  *
-//  *   data = allIsWell: true
-//  *
-//  *   this.frig ref: "ex2", data: data, typeMapping: {boolean: "switch"}, ->
-//  *     f.input "allisWell"
+var {errorList, sizeClassNames}   = friggingBootstrap
+var {humanize, clone, merge, map} = frigHelpers
+var {div, span, input, label}     = React.DOM
 
-//  * Example 3) Using switches as the default for all boolean inputs in all forms:
-//  *
-//  *   Frig.typeMapping.boolean.template = "switch"
-//  *
-//  *   data = allIsWell: true
-//  *
-//  *   this.frig ref: "ex2", data: data, ->
-//  *     f.input "allisWell"
+var cx = React.addons.classSet
 
-//  * This optional add-on component depends on BootstrapSwitch and jQuery
-//  */
-// friggingBootstrap.Switch = React.createClass({
+/*
+ * Example 1) Using a switch for one input:
+ *
+ *   data = allIsWell: true
+ *
+ *   this.frig ref: "ex1", data: data ->
+ *     f.input "allIsWell", template: "switch"
 
-//   displayName: "Frig.friggingBootstrap.Switch",
+ * Example 2) Using switches as the default for all boolean inputs in a form:
+ *
+ *   data = allIsWell: true
+ *
+ *   this.frig ref: "ex2", data: data, typeMapping: {boolean: "switch"}, ->
+ *     f.input "allisWell"
 
-//   mixins: [InputMixin],
+ * Example 3) Using switches as the default for all boolean inputs in all forms:
+ *
+ *   Frig.typeMapping.boolean.template = "switch"
+ *
+ *   data = allIsWell: true
+ *
+ *   this.frig ref: "ex2", data: data, ->
+ *     f.input "allisWell"
 
-//   getFriggingProps: function() {
-//     return {
-//       handleWidth:     undefined,
-//       inputHtml: {
-//         className:     "switch",
-//         type:          "checkbox",
-//       },
-//       offColor:        undefined,
-//       offText:         undefined,
-//       offValue:        false,
-//       onColor:         "success",
-//       onText:          undefined,
-//       onValue:         true,
-//     }
-//   },
+ * This optional add-on component depends on BootstrapSwitch and jQuery
+*/
 
-//   componentDidMount: function() {
-//     // get initial state (boolean) by checking whether the initialValue
-//     // is the same as the onValue/offValue (-> true/false) of the switch
-//     this._$el().bootstrapSwitch({
-//       disabled: this.frigProps.disabled,
-//       handleWidth: this.frigProps.handleWidth,
-//       offColor: this.frigProps.offColor,
-//       offText: this.frigProps.offText,
-//       onColor: this.frigProps.onColor,
-//       onText: this.frigProps.onText,
-//       size: "small",
-//       state: this._getBooleanVal(),
-//       onSwitchChange: this._onSwitchChange,
-//     })
-//   },
+friggingBootstrap.Switch = React.createClass({
 
-//   _getBooleanVal: function() {
-//     if (this._booleanVal == null) {
-//       this._booleanVal = this.frigProps.onValue == this.frigProps.initialValue
-//     }
-//     return this._booleanVal
-//   },
+  displayName: "Frig.friggingBootstrap.Switch",
 
-//   getFriggingValue: function() {
-//     // boolean value is undefined on initial page load, so value defaults to
-//     // false
-//     return this.frigProps[this._getBooleanVal() ? "onValue" : "offValue"]
-//   },
+  mixins: [InputMixin],
 
-//   _$el: function() {
-//     $(this.refs[this.frigProps.inputHtml.ref].getDOMNode())
-//   },
+  getInitialState() {
+  	return {
+  		errors: undefined,
+  	}
+  },
 
-//   _onSwitchChange: function (e, val) {
-//     this._booleanVal = val
-//     this._$el().val(this.getFriggingValue())
-//     this.frigProps.inputHtml.onChange()
-//   },
+  getFriggingProps: function() {
+    return {
+      handleWidth:     undefined,
+      inputHtml: {
+        className:     "switch",
+        type:          "checkbox",
+      },
+      offColor:        undefined,
+      offText:         undefined,
+      offValue:        false,
+      onColor:         "success",
+      onText:          undefined,
+      onValue:         true,
+    }
+  },
 
-//   _labelContainerCx: function() {
-//     return cx({
-//       "pull-left": this.frigProps.layout == "horizontal",
-//     })
-//   },
+  componentDidMount: function() {
+    // get initial state (boolean) by checking whether the initialValue
+    // is the same as the onValue/offValue (-> true/false) of the switch
+    this._$el().bootstrapSwitch({
+      disabled: this.frigProps.disabled,
+      handleWidth: this.frigProps.handleWidth,
+      offColor: this.frigProps.offColor,
+      offText: this.frigProps.offText,
+      onColor: this.frigProps.onColor,
+      onText: this.frigProps.onText,
+      size: "small",
+      state: this._getBooleanVal(),
+      onSwitchChange: this._onSwitchChange,
+    })
+  },
 
-//   _inputContainerCx: function() {
-//     return cx({
-//       "pull-right": this.frigProps.layout == "horizontal",
-//       "controls": this.frigProps.layout == "vertical",
-//     })
-//   },
+  _getBooleanVal: function() {
+    if (this._booleanVal == null) {
+      this._booleanVal = this.frigProps.onValue === this.frigProps.initialValue
+    }
 
-//   _label: function() {
-//     if (this.frigProps.label == null) return ""
-//     return label(this.frigProps.labelHtml, this.frigProps.label)
-//   },
+    return this._booleanVal
+  },
 
-//   _errorList: function() {
-//     if (this.state.errors == null) return ""
-//     return errorList(this.state.errors)
-//   },
+  getFriggingValue: function() {
+    // boolean value is undefined on initial page load, so value defaults to
+    // false
+    return this.frigProps[this._getBooleanVal() ? "onValue" : "offValue"]
+  },
 
-//   render: function() {
-//     return div({className: cx(sizeClassNames(this.frigProps))},
-//       div({className: this._labelContainerCx()},
-//         this._label(),
-//       ),
-//       div({className: this._inputContainerCx()},
-//         input(this.frigProps.inputHtml),
-//         this._errorList(),
-//       ),
-//     )
-//   },
+  _$el: function() {
+    $(this.refs[this.frigProps.inputHtml.ref].getDOMNode())
+  },
 
-// })
+  _onSwitchChange: function (e, val) {
+    this._booleanVal = val
+    this._$el().val(this.getFriggingValue())
+    this.frigProps.inputHtml.onChange()
+  },
+
+  _labelContainerCx: function() {
+    return cx({
+      "pull-left": this.frigProps.layout === "horizontal",
+    })
+  },
+
+  _inputContainerCx: function() {
+    return cx({
+      "pull-right": this.frigProps.layout === "horizontal",
+      "controls": this.frigProps.layout === "vertical",
+    })
+  },
+
+  _label: function() {
+    if (this.frigProps.label === null) return ""
+    return label(this.frigProps.labelHtml, this.frigProps.label)
+  },
+
+  _errorList: function() {
+    if (this.state.errors === null) return ""
+    return errorList(this.state.errors)
+  },
+
+  render: function() {
+    return div({className: cx(sizeClassNames(this.frigProps))},
+      div({className: this._labelContainerCx()},
+        this._label(),
+      ),
+      div({className: this._inputContainerCx()},
+        input(this.frigProps.inputHtml),
+        this._errorList(),
+      ),
+    )
+  },
+
+})
