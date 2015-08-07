@@ -58,15 +58,15 @@ export default class extends React.Component {
     return Object.assign({}, this.props.inputHtml, {
       className:     "switch",
       type:          "checkbox",
-      size: "small",
-      state: this._getBooleanVal(),
-      disabled: this.props.disabled,
-      handleWidth: this.props.handleWidth,
-      offColor: this.props.offColor,
-      onColor: this.props.onColor,
-      offText: this.props.offText,
-      onText: this.props.onText,
-      onSwitchChange: this._onSwitchChange,
+      size:           "small",
+      state:          this._getBooleanVal(),
+      disabled:       this.props.disabled,
+      offColor:       this.props.offColor,
+      onColor:        this.props.onColor,
+      offText:        this.props.offText,
+      onText:         this.props.onText,
+      handleWidth:    this.props.handleWidth,
+      onChange:       this._onSwitchChange,
     })
   }
 
@@ -84,16 +84,8 @@ export default class extends React.Component {
     return this.props[this._getBooleanVal() ? "onValue" : "offValue"]
   }
 
-  _getSwitchProps() {
-    console.log(this)
-    console.log(this.refs[this.props.inputHtml.ref].getDOMNode())
-    return this.refs[this.props.inputHtml.ref].getDOMNode()
-  }
-
-  _onSwitchChange (e, val) {
-    this._booleanVal = val
-    this._getSwitchProps().val(this.getFriggingValue())
-    this.props.inputHtml.onChange()
+  _onSwitchChange (newValue) {
+    this._booleanVal = newValue
   }
 
   _labelContainerCx() {
