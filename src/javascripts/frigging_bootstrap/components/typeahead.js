@@ -33,8 +33,14 @@ export default class extends React.Component {
   }
 
   _select(option) {
-    let options = this.props.valueLink.value.concat(option.value)
-    this.props.valueLink.requestChange(options)
+    let requestChange = this.props.valueLink.requestChange
+    if (this.props.multiple) {
+      requestChange(this.props.valueLink.value.concat(option.value))
+    }
+    else {
+      // TODO: decouple the upstream value from the displayed label
+      requestChange(option.label)
+    }
   }
 
   _deselect(option) {
@@ -43,21 +49,38 @@ export default class extends React.Component {
     this.props.valueLink.requestChange(options)
   }
 
-  async _onInputChange(val) {
-    console.log("SHATE CHANGE!", val)
+  _onInputChange(val) {
     this.setState({inputValue: val})
+    // Set the upstream valueLink value to that of the input if this is not a
+    // multiple-select
+    if(!this.props.multiple) this.props.valueLink.requestChange(val)
     // If the input text is greater then the mininum length and a remote is set
-    // lookup the options that match the inputted value via AJAX.
-    if (val.length < this.props.minLength || this.props.remote == null) return
-    // Cancel the previous request
-    if (this._suggestionReq != null) this._suggestionReq.abort()
+    // request an updated list of options that match the inputted value via
+    // AJAX.
+    if (val.length >= this.props.minLength && this.props.remote != null) {
+      this._requestRemoteUpdate(val)
+    }
+  }
+
+  async _requestRemoteUpdate(val) {
+    let remote = this.props.remote
+    // Rate limiting
+    if (remote.maxReqsPerMinute != null) {
+      let msSinceReq = Date.now() - (this._suggestionReqTimestamp||0)
+      if (msSinceReq < 60000.0 / remote.maxReqsPerMinute) return
+      // TODO: set a timeout to run the update asyncronously once the request
+      // rate limiting has been satisfied
+    }
     // Make the request and await an ajax response
     try {
-      this._suggestionReq = await fetch(this.props.remote.url(val))
-      await this._suggestionReq.json()
+      this._suggestionReqTimestamp = Date.now()
+      let req = this._suggestionReq = fetch(remote.url(val))
+      let res = await req
+      // If another request is made after this one abort this one
+      if (this._suggestionReq !== req) return
       // Parse the response and update the state
-      let parser = this.props.remote.parser || ((res) => res.json())
-      this.setState({options: parser(this._suggestionReq)})
+      let parser = remote.parser || (() => res.json())
+      this.setState({options: parser(await res.json())})
       this._suggestionReq = undefined
     } catch (e) {
       // TODO: handle AJAX failures
@@ -78,6 +101,8 @@ export default class extends React.Component {
       let matches = fuzzy.filter(this._inputValue(), this._options(), fuzzyOpts)
       suggestions = matches.map((match) => match.original)
     }
+    // TODO: filter out already selected options from the suggestions
+
     // truncate the suggestions to it's max length
     suggestions.length = Math.min(suggestions.length, this.props.maxSuggestions)
     return suggestions
@@ -134,7 +159,7 @@ export default class extends React.Component {
       return this.state.inputValue
     }
     else {
-      return this.state.inputValue || this.props.valueLink.value
+      return this.props.valueLink.value
     }
   }
 

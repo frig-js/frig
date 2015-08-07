@@ -16,13 +16,11 @@ AccountForm = React.createClass
       password: "test"
       shareSketchyInfo: false
 
-  countriesUrl: ->
-    "https://gist.githubusercontent.com/Keeguon/2310008/raw/"+
-    "bdc2ce1c1e3f28f9cab5b4393c7549f38361be4e/countries.json"
+  githubSearchUrl: (username) ->
+    "https://api.github.com/search/users?q=#{username}&per_page=5"
 
-  parseCountriesIntoOptions: (res) ->
-    console.log res.json()
-    res.json().map (country) => label: country.name, value: country.code
+  parseGithubResponse: (json) ->
+    json.items.map (user) => label: user.login, value: user.login
 
   render: ->
     frig data: @linkState("account"), (f) =>
@@ -35,11 +33,12 @@ AccountForm = React.createClass
           f.input "email"
 
         div className: "row",
-          f.input("country",
+          f.input("githubAccount",
             type: "typeahead",
             remote: {
-              url: @countriesUrl
-              parser: @parseCountriesIntoOptions
+              url: @githubSearchUrl
+              parser: @parseGithubResponse
+              maxReqsPerMinute: 20
             }
           )
 
