@@ -54,26 +54,19 @@ export default class extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // get initial state (boolean) by checking whether the initialValue
-    // is the same as the onValue/offValue (-> true/false) of the switch
-    this._$el().bootstrapSwitch({
-      disabled: this.props.disabled,
-      handleWidth: this.props.handleWidth,
-      offColor: this.props.offColor,
-      offText: this.props.offText,
-      onColor: this.props.onColor,
-      onText: this.props.onText,
-      size: "small",
-      state: this._getBooleanVal(),
-      onSwitchChange: this._onSwitchChange,
-    })
-  }
-
   _inputHtml() {
     return Object.assign({}, this.props.inputHtml, {
       className:     "switch",
       type:          "checkbox",
+      size: "small",
+      state: this._getBooleanVal(),
+      disabled: this.props.disabled,
+      handleWidth: this.props.handleWidth,
+      offColor: this.props.offColor,
+      onColor: this.props.onColor,
+      offText: this.props.offText,
+      onText: this.props.onText,
+      onSwitchChange: this._onSwitchChange,
     })
   }
 
@@ -91,13 +84,15 @@ export default class extends React.Component {
     return this.props[this._getBooleanVal() ? "onValue" : "offValue"]
   }
 
-  _$el() {
-    $(this.refs[this.props.inputHtml.ref].getDOMNode())
+  _getSwitchProps() {
+    console.log(this)
+    console.log(this.refs[this.props.inputHtml.ref].getDOMNode())
+    return this.refs[this.props.inputHtml.ref].getDOMNode()
   }
 
   _onSwitchChange (e, val) {
     this._booleanVal = val
-    this._$el().val(this.getFriggingValue())
+    this._getSwitchProps().val(this.getFriggingValue())
     this.props.inputHtml.onChange()
   }
 
