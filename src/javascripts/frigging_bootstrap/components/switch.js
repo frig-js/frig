@@ -1,14 +1,9 @@
-var React                         = require("react/addons")
+var React                                    = require("react")
+var cx                                       = require("classnames")
 
-var friggingBootstrap             = require("../frigging_bootstrap.js")
-var frigHelpers                   = require("../../helpers.js")
-var InputMixin                    = require("../../mixins/input_mixin.js")
+var {errorList, sizeClassNames, formGroupCx} = require("../util.js")
 
-var {errorList, sizeClassNames}   = friggingBootstrap
-var {humanize, clone, merge, map} = frigHelpers
-var {div, span, input, label}     = React.DOM
-
-var cx = React.addons.classSet
+var {div, span, label, input}                = React.DOM
 
 /*
  * Example 1) Using a switch for one input:
@@ -37,107 +32,108 @@ var cx = React.addons.classSet
  * This optional add-on component depends on BootstrapSwitch and jQuery
 */
 
-friggingBootstrap.Switch = React.createClass({
+export default class extends React.Component {
 
-  displayName: "Frig.friggingBootstrap.Switch",
+  static displayName = "Frig.friggingBootstrap.Switch"
 
-  mixins: [InputMixin],
+  static defaultProps = Object.assign(require("../default_props.js"), {
+    handleWidth:     undefined,
+    offColor:        undefined,
+    offText:         undefined,
+    offValue:        false,
+    onColor:         "success",
+    onText:          undefined,
+    onValue:         true,
+  })
 
-  getInitialState() {
-  	return {
-  		errors: undefined,
-  	}
-  },
+  constructor(props) {
+    super(props)
 
-  getFriggingProps: function() {
-    return {
-      handleWidth:     undefined,
-      inputHtml: {
-        className:     "switch",
-        type:          "checkbox",
-      },
-      offColor:        undefined,
-      offText:         undefined,
-      offValue:        false,
-      onColor:         "success",
-      onText:          undefined,
-      onValue:         true,
+    this.state = {
+      errors: undefined,
     }
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     // get initial state (boolean) by checking whether the initialValue
     // is the same as the onValue/offValue (-> true/false) of the switch
     this._$el().bootstrapSwitch({
-      disabled: this.frigProps.disabled,
-      handleWidth: this.frigProps.handleWidth,
-      offColor: this.frigProps.offColor,
-      offText: this.frigProps.offText,
-      onColor: this.frigProps.onColor,
-      onText: this.frigProps.onText,
+      disabled: this.props.disabled,
+      handleWidth: this.props.handleWidth,
+      offColor: this.props.offColor,
+      offText: this.props.offText,
+      onColor: this.props.onColor,
+      onText: this.props.onText,
       size: "small",
       state: this._getBooleanVal(),
       onSwitchChange: this._onSwitchChange,
     })
-  },
+  }
 
-  _getBooleanVal: function() {
+  _inputHtml() {
+    return Object.assign({}, this.props.inputHtml, {
+      className:     "switch",
+      type:          "checkbox",
+    })
+  }
+
+  _getBooleanVal() {
     if (this._booleanVal == null) {
-      this._booleanVal = this.frigProps.onValue === this.frigProps.initialValue
+      this._booleanVal = this.props.onValue === this.props.initialValue
     }
 
     return this._booleanVal
-  },
+  }
 
-  getFriggingValue: function() {
+  getFriggingValue() {
     // boolean value is undefined on initial page load, so value defaults to
     // false
-    return this.frigProps[this._getBooleanVal() ? "onValue" : "offValue"]
-  },
+    return this.props[this._getBooleanVal() ? "onValue" : "offValue"]
+  }
 
-  _$el: function() {
-    $(this.refs[this.frigProps.inputHtml.ref].getDOMNode())
-  },
+  _$el() {
+    $(this.refs[this.props.inputHtml.ref].getDOMNode())
+  }
 
-  _onSwitchChange: function (e, val) {
+  _onSwitchChange (e, val) {
     this._booleanVal = val
     this._$el().val(this.getFriggingValue())
-    this.frigProps.inputHtml.onChange()
-  },
+    this.props.inputHtml.onChange()
+  }
 
-  _labelContainerCx: function() {
+  _labelContainerCx() {
     return cx({
-      "pull-left": this.frigProps.layout === "horizontal",
+      "pull-left": this.props.layout === "horizontal",
     })
-  },
+  }
 
-  _inputContainerCx: function() {
+  _inputContainerCx() {
     return cx({
-      "pull-right": this.frigProps.layout === "horizontal",
-      "controls": this.frigProps.layout === "vertical",
+      "pull-right": this.props.layout === "horizontal",
+      "controls": this.props.layout === "vertical",
     })
-  },
+  }
 
-  _label: function() {
-    if (this.frigProps.label === null) return ""
-    return label(this.frigProps.labelHtml, this.frigProps.label)
-  },
+  _label() {
+    if (this.props.label === null) return ""
+    return label(this.props.labelHtml, this.props.label)
+  }
 
-  _errorList: function() {
+  _errorList() {
     if (this.state.errors === null) return ""
     return errorList(this.state.errors)
-  },
+  }
 
-  render: function() {
-    return div({className: cx(sizeClassNames(this.frigProps))},
+  render() {
+    return div({className: cx(sizeClassNames(this.props))},
       div({className: this._labelContainerCx()},
         this._label(),
       ),
       div({className: this._inputContainerCx()},
-        input(this.frigProps.inputHtml),
+        input(this._inputHtml()),
         this._errorList(),
       ),
     )
-  },
+  }
 
-})
+}
