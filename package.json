@@ -25,7 +25,9 @@
 
     "react": "0.13.3",
     "bootstrap": "*",
-    "classnames": "*"
+    "classnames": "*",
+    "whatwg-fetch": "*",
+    "fuzzy": "*"
   },
   "engines": {
     "node": "~0.12.x",

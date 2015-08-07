@@ -11,6 +11,7 @@ export default class extends React.Component {
     // Bootstrap input addon texts
     prefix:          undefined,
     suffix:          undefined,
+    inputWrapper:    input,
   })
 
   _inputHtml() {
@@ -21,7 +22,7 @@ export default class extends React.Component {
   }
 
   _input() {
-    return input(this._inputHtml())
+    return this.props.inputWrapper(this._inputHtml())
   }
 
   _inputPrefix() {

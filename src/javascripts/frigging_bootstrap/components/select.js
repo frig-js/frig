@@ -1,4 +1,4 @@
-var React                         = require("react/addons")
+var React                         = require("react")
 var {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
 var {div, select, option}  = React.DOM
 var cx = require("classnames")

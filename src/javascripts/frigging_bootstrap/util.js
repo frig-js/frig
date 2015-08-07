@@ -34,14 +34,14 @@ module.exports = {
     return classes
   },
 
-  formGroupCx(props) {
+  formGroupCx(props, overrides = {}) {
     let isCheckbox = props.inputHtml.type === "checkbox"
-    return cx({
+    return cx(Object.assign({
       "form-group": !isCheckbox,
       "checkbox": isCheckbox,
       "has-error": props.errors != null,
       "has-success": props.modified && props.errors == null,
-    })
+    }, overrides))
   },
 
 }
