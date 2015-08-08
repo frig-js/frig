@@ -21,6 +21,15 @@ export default class extends React.Component {
     persistedOptions: [],
   }
 
+  componentDidMount() {
+    this._onDocumentClick = this._onDocumentClick.bind(this)
+    document.addEventListener("click", this._onDocumentClick)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("click", this._onDocumentClick)
+  }
+
   // Select the user-entered option if they press enter
   _onKeyDown(e) {
     if (!(e.key === 'Enter') || !this.props.multiple) return
@@ -39,7 +48,11 @@ export default class extends React.Component {
     return this._options().filter(filter)[0]
   }
 
-  _select(option) {
+  _select(option, e) {
+    if (e != null) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
     // Reseting the suggestions and input text for multiple-selects and updating
     // the input text for single-selects
     this.setState({
@@ -61,7 +74,10 @@ export default class extends React.Component {
   }
 
   _deselect(option, e) {
-    if (e!=null) e.stopPropagation()
+    if (e != null) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
     let filter = (o) => o.hash !== option.hash
     let persistedOptions = this.state.persistedOptions.filter(filter)
     this.setState({persistedOptions})
@@ -187,17 +203,19 @@ export default class extends React.Component {
     React.findDOMNode(this._inputComponent).focus()
   }
 
+  _onDocumentClick(e) {
+    let target = (e.originalTarget) ? e.originalTarget : e.srcElement
+    let isInside = React.findDOMNode(this._wrapperComponent).contains(target)
+    if (!isInside) this.setState({focused: false})
+  }
+
   _suggestionsList() {
     let suggestions = this._suggestions()
     let wrapperCx = cx("dropdown", {
-      open: suggestions.length > 0,
+      open: suggestions.length > 0 && this.state.focused,
     })
-    let menuCx = cx(
-      "dropdown-menu frigb-ta-suggestions",
-      sizeClassNames(this.props),
-    )
     return div({className: wrapperCx},
-      ul({className: menuCx},
+      ul({className: "dropdown-menu frigb-ta-suggestions col-xs-12"},
         suggestions.map((o) => {
           return li({onClick: this._select.bind(this, o)}, o.label)
         })
@@ -210,9 +228,10 @@ export default class extends React.Component {
     inputHtml = Object.assign({}, inputHtml, {
       className: "frigb-ta-input",
       ref: (component) => this._inputComponent = component,
+      onFocus: (e) => this.setState({focused: true}),
     })
     inputHtml.onKeyDown = this._onKeyDown.bind(this)
-    return div({className: "frigb-ta", ref: "wuuut"},
+    return div({className: "frigb-ta", ref: (c) => this._wrapperComponent = c},
       div({className, onClick: this._focusInput.bind(this)},
         this._selectionsList(),
         input(inputHtml),
