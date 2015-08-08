@@ -20,11 +20,13 @@
     "url-loader": "*",
     "jsx-loader": "*",
     "eslint-loader": "git+https://github.com/MoOx/eslint-loader.git#master",
-    "eslint": "git+https://github.com/eslint/eslint.git#master",
+    "eslint": "1.0.0",
     "babel-eslint": "*",
 
     "react": "0.13.3",
     "bootstrap": "*",
+    "json5": "*",
+    "font-awesome-webpack": "*",
     "classnames": "*",
     "whatwg-fetch": "*",
     "fuzzy": "*"

@@ -6,6 +6,7 @@ let {div, p, input, i, ul, li} = React.DOM
 let BootstrapInput = React.createFactory(require("./input.js"))
 let FrigInput = React.createFactory(require("frig/components/input"))
 let {errorList, sizeClassNames, formGroupCx} = require("../util")
+let {promisedTimeout} = require("frig/util")
 
 export default class extends React.Component {
 
@@ -16,14 +17,15 @@ export default class extends React.Component {
     maxSuggestions: 5,
   })
 
-  state = {}
+  state = {
+    persistedOptions: [],
+  }
 
-  // Add the user-entered option to the multiple-selection if they press enter
+  // Select the user-entered option if they press enter
   _onKeyDown(e) {
     if (!(e.key === 'Enter') || !this.props.multiple) return
     e.preventDefault()
-    let filter = (o) => o.label === this._inputValue()
-    let option = this._options().filter(filter)[0]
+    let option = this._optionForCurrentInput()
     if (option == null) {
       // TODO: Present the user with an error if their input is not an option
     }
@@ -32,34 +34,58 @@ export default class extends React.Component {
     }
   }
 
+  _optionForCurrentInput(inputValue = this._inputValue()) {
+    let filter = (o) => o.label === inputValue
+    return this._options().filter(filter)[0]
+  }
+
   _select(option) {
+    // Reseting the suggestions and input text for multiple-selects and updating
+    // the input text for single-selects
+    this.setState({
+      inputValue: this.props.multiple ? "" : option.label,
+      options: [],
+      // Selected options are persisted so that they are not lost when the
+      // remote overwrites the options list
+      persistedOptions: this.state.persistedOptions.concat(option),
+    })
     let requestChange = this.props.valueLink.requestChange
     if (this.props.multiple) {
-      requestChange(this.props.valueLink.value.concat(option.value))
+      this._remotePromise = undefined
+      let value = this.props.valueLink.value || []
+      requestChange(value.concat(option.value))
     }
     else {
-      // TODO: decouple the upstream value from the displayed label
-      requestChange(option.label)
+      requestChange(option.value)
     }
   }
 
-  _deselect(option) {
-    let options = this.props.valueLink.value
-    options = options.splice(options.indexOf(option.value))
-    this.props.valueLink.requestChange(options)
+  _deselect(option, e) {
+    if (e!=null) e.stopPropagation()
+    let filter = (o) => o.hash !== option.hash
+    let persistedOptions = this.state.persistedOptions.filter(filter)
+    this.setState({persistedOptions})
+    if (this.props.multiple) {
+      let value = this.props.valueLink.value.filter(filter)
+      this.props.valueLink.requestChange(value)
+    }
+    else {
+      this.props.valueLink.requestChange(undefined)
+    }
   }
 
-  _onInputChange(val) {
+  async _onInputChange(val) {
     this.setState({inputValue: val})
-    // Set the upstream valueLink value to that of the input if this is not a
-    // multiple-select
-    if(!this.props.multiple) this.props.valueLink.requestChange(val)
+    this._remotePromise = undefined
     // If the input text is greater then the mininum length and a remote is set
     // request an updated list of options that match the inputted value via
     // AJAX.
     if (val.length >= this.props.minLength && this.props.remote != null) {
-      this._requestRemoteUpdate(val)
+      await this._requestRemoteUpdate(val)
     }
+    // select the user's input if it matches an option (single-selects only)
+    let option = this._optionForCurrentInput(val)
+    if(!this.props.multiple && option != null) this._select(option)
   }
 
   async _requestRemoteUpdate(val) {
@@ -67,21 +93,29 @@ export default class extends React.Component {
     // Rate limiting
     if (remote.maxReqsPerMinute != null) {
       let msSinceReq = Date.now() - (this._suggestionReqTimestamp||0)
-      if (msSinceReq < 60000.0 / remote.maxReqsPerMinute) return
-      // TODO: set a timeout to run the update asyncronously once the request
-      // rate limiting has been satisfied
+      if (msSinceReq < 60000.0 / remote.maxReqsPerMinute) {
+        // If a request or timeout is in progress do not set a timeout
+        if (this._remotePromise != null) return
+        // Set a timeout to run the update asyncronously once the request
+        // rate limiting has been satisfied
+        let timeUntilRequest = 60000.0 / remote.maxReqsPerMinute - msSinceReq
+        let timeout = this._remotePromise = promisedTimeout(timeUntilRequest)
+        await timeout
+        // If another request or timeout is made after this one abort this one
+        if (this._remotePromise !== timeout) return
+      }
     }
     // Make the request and await an ajax response
     try {
       this._suggestionReqTimestamp = Date.now()
-      let req = this._suggestionReq = fetch(remote.url(val))
+      let req = this._remotePromise = fetch(remote.url(val))
       let res = await req
       // If another request is made after this one abort this one
-      if (this._suggestionReq !== req) return
+      if (this._remotePromise !== req) return
       // Parse the response and update the state
       let parser = remote.parser || (() => res.json())
       this.setState({options: parser(await res.json())})
-      this._suggestionReq = undefined
+      this._remotePromise = undefined
     } catch (e) {
       // TODO: handle AJAX failures
       throw e
@@ -89,89 +123,119 @@ export default class extends React.Component {
   }
 
   _options() {
-    return (this.props.remote == null ? this.props : this.state).options || []
+    let options = (this.props.remote == null ? this.props : this.state).options
+    options = (options || []).concat(this.state.persistedOptions)
+    let hashes = []
+    // Adding hashes (for selection lookup) and removing duplicates
+    for (let i in options) {
+      let hash = options[i].hash = JSON.stringify(options[i].value)
+      if (hashes.includes(hash)) delete options[i]
+      hashes.push(hash)
+    }
+    return options
+  }
+
+  _selections() {
+    let values = this.props.valueLink.value
+    if (values == null) return []
+    if (!this.props.multiple) values = [values]
+    let hashedValues = values.map((value) => JSON.stringify(value))
+    return this._options().filter((o) => hashedValues.includes(o.hash))
   }
 
   _suggestions() {
-    let suggestions = this._options()
+    let suggestions
     // If the suggestions are not loaded via ajax then fuzzy match on the
     // options
-    if (!this.props.remote) {
+    if (this.props.remote) {
+      suggestions = this._options()
+    }
+    else {
       let fuzzyOpts = {extract: (o) => o.label}
       let matches = fuzzy.filter(this._inputValue(), this._options(), fuzzyOpts)
       suggestions = matches.map((match) => match.original)
     }
-    // TODO: filter out already selected options from the suggestions
-
+    // filter out already selected options from the suggestions
+    let selectionHashes = this._selections().map((o) => o.hash)
+    suggestions = suggestions.filter((o) => !selectionHashes.includes(o.hash))
     // truncate the suggestions to it's max length
     suggestions.length = Math.min(suggestions.length, this.props.maxSuggestions)
     return suggestions
   }
 
-  // _selectionsList() {
-  //   if (!this.props.multiple) return ""
-  //   if (this.selectedItems.length == 0) return this._emptyList()
-  //   // if there are selected items and multiple is true return the actual list
-  //   return this.state.selectedItems.map((item) => {
-  //     return div({className: "row"},
-  //       div({className: "col-xs-12 col-sm-12 col-md-12 col-lg-12"},
-  //         p({className: "pull-left"}, item.name),
-  //         i({
-  //           className: "fa fa-times delete-trigger pull-right",
-  //           onClick: this._deselect.bind(this, [item.key]),
-  //           title: "Remove from list",
-  //         }),
-  //       ),
-  //     )
-  //   })
-  // },
+  _selectionsList() {
+    if (!this.props.multiple) return ""
+    let className = "label label-primary frigb-ta-selection"
+    let index = 0
+    // if there are selected items and multiple is true return the actual list
+    return this._selections().map((o) => {
+      return div({className, key: `selection-${index++}`},
+        o.label,
+        " ",
+        i({
+          className: "fa fa-times",
+          onClick: this._deselect.bind(this, o),
+          title: "Remove from list",
+        }),
+      )
+    })
+  }
 
-  _emptyList() {
-    return div({className: "row"},
-      div({className: "col-xs-12 col-sm-12 col-md-12 col-lg-12"},
-        p({className: "pull-left"},
-          `No ${this.props.label.toLowerCase()}...`
-        ),
+  // Transfers focus to the nested React.DOM.input component
+  // (nested inside the FriggingBootstrapInput inside the FrigInput)
+  _focusInput() {
+    React.findDOMNode(this._inputComponent).focus()
+  }
+
+  _suggestionsList() {
+    let suggestions = this._suggestions()
+    let wrapperCx = cx("dropdown", {
+      open: suggestions.length > 0,
+    })
+    let menuCx = cx(
+      "dropdown-menu frigb-ta-suggestions",
+      sizeClassNames(this.props),
+    )
+    return div({className: wrapperCx},
+      ul({className: menuCx},
+        suggestions.map((o) => {
+          return li({onClick: this._select.bind(this, o)}, o.label)
+        })
       ),
     )
   }
 
-  _suggestionsList() {
-    return ul({className: "frigb-typeahead-suggestions"},
-      this._suggestions().map((o) => {
-        return li({onClick: this._select.bind(this, o)}, o.label)
-      })
+  _inputWrapper(inputHtml) {
+    let className = inputHtml.className
+    inputHtml = Object.assign({}, inputHtml, {
+      className: "frigb-ta-input",
+      ref: (component) => this._inputComponent = component,
+    })
+    inputHtml.onKeyDown = this._onKeyDown.bind(this)
+    return div({className: "frigb-ta", ref: "wuuut"},
+      div({className, onClick: this._focusInput.bind(this)},
+        this._selectionsList(),
+        input(inputHtml),
+      ),
+      this._suggestionsList(),
+      errorList(this.state.errors),
     )
   }
 
-  _wrapInput(inputHtml) {
-    inputHtml.onKeyDown = this._onKeyDown.bind(this)
-    return [
-      input(inputHtml),
-      // this._selectionsList(),
-      this._suggestionsList(),
-      errorList(this.state.errors),
-    ]
-  }
-
   _inputValue() {
-    if (this.multiple) {
-      return this.state.inputValue
-    }
-    else {
-      return this.props.valueLink.value
-    }
+    return this.state.inputValue
   }
 
   render() {
     let inputPropOverrides = {
       component: BootstrapInput,
-      inputWrapper: this._wrapInput.bind(this),
+      inputWrapper: this._inputWrapper.bind(this),
       valueLink: {
         value: this._inputValue(),
         requestChange: this._onInputChange.bind(this),
       },
-      validations: [],
+      required: false,
+      ref: "frigInput",
     }
     return FrigInput(Object.assign({}, this.props, inputPropOverrides))
   }

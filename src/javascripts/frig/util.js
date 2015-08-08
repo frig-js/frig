@@ -45,6 +45,10 @@ let util = module.exports = {
     return target
   },
 
+  promisedTimeout(duration) {
+    return new Promise((resolve, reject) => setTimeout(resolve, duration))
+  },
+
   map: function (array, fn) {
     var out = []
     for (let k of array) out.push(fn(k))
