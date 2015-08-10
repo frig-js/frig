@@ -46,13 +46,22 @@ export default class extends React.Component {
       checked: true,
     }
   }
-
+  
   _inputHtml() {
-    return div({className: `bootstrap-switch-container`},
+    return div({
+        className: `bootstrap-switch-container`,
+        ref: "switchContainer",
+        onClick: this._onClick.bind(this),
+      },
       span({className: `bootstrap-switch-handle-on bootstrap-switch-primary`}, "ON"),
       span({className: `bootstrap-switch-label`}, "\u00a0"),
       span({className: `bootstrap-switch-handle-off bootstrap-switch-default`}, "OFF"),
     )
+  }
+
+  _onClick() {
+    React.findDOMNode(this.refs.switchContainer).style.marginLeft = (this.state.checked === true) ? "-50px" : "0"
+    this.setState({ checked: !this.state.checked })
   }
 
   _labelContainerCx() {
