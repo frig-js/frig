@@ -36,7 +36,10 @@ export default class extends React.Component {
 
   static displayName = "Frig.friggingBootstrap.Switch"
 
-  static defaultProps = Object.assign(require("../default_props.js"))
+  static defaultProps = Object.assign(require("../default_props.js"), {
+    onText:   "ON",
+    offText:  "OFF",
+  })
 
   constructor(props) {
     super(props)
@@ -57,9 +60,9 @@ export default class extends React.Component {
         ref: "switchContainer",
         onClick: this._onClick.bind(this),
       },
-      span({className: `bootstrap-switch-handle-on bootstrap-switch-primary`}, "ON"),
+      span({className: `bootstrap-switch-handle-on bootstrap-switch-primary`}, this.props.onText),
       span({className: `bootstrap-switch-label`}, "\u00a0"),
-      span({className: `bootstrap-switch-handle-off bootstrap-switch-default`}, "OFF"),
+      span({className: `bootstrap-switch-handle-off bootstrap-switch-default`}, this.props.offText),
     )
   }
 
