@@ -55,24 +55,6 @@ export default class extends React.Component {
     )
   }
 
-  _getBooleanVal() {
-    if (this._booleanVal == null) {
-      this._booleanVal = this.props.onValue === this.props.initialValue
-    }
-
-    return this._booleanVal
-  }
-
-  getFriggingValue() {
-    // boolean value is undefined on initial page load, so value defaults to
-    // false
-    return this.props[this._getBooleanVal() ? "onValue" : "offValue"]
-  }
-
-  _onSwitchChange (newValue) {
-    this._booleanVal = newValue
-  }
-
   _labelContainerCx() {
     return cx({
       "pull-left": this.props.layout === "horizontal",
