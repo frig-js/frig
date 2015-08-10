@@ -117,9 +117,19 @@ export default class extends React.Component {
         this._label(),
       ),
       div({className: this._inputContainerCx()},
-        input(this._inputHtml()),
-        this._errorList(),
-      ),
+        div({className: `bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-id-switch-state bootstrap-switch-animate`},
+          div({className: `bootstrap-switch-container`},
+            span({className: `bootstrap-switch-handle-on bootstrap-switch-primary`},
+              "ON"),
+            span({className: `bootstrap-switch-label`},
+              "&nbsp;"),
+            span({className: `bootstrap-switch-handle-off bootstrap-switch-default`},
+              "OFF"),
+            input({id: "switch-size", type: "checkbox"}),
+            this._errorList(),
+          ),
+        )
+      )
     )
   }
 
