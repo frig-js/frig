@@ -46,7 +46,11 @@ export default class extends React.Component {
       checked: true,
     }
   }
-  
+
+  isChecked() {
+    return this.state.checked
+  }
+
   _inputHtml() {
     return div({
         className: `bootstrap-switch-container`,
