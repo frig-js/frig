@@ -36,15 +36,7 @@ export default class extends React.Component {
 
   static displayName = "Frig.friggingBootstrap.Switch"
 
-  static defaultProps = Object.assign(require("../default_props.js"), {
-    handleWidth:     undefined,
-    offColor:        undefined,
-    offText:         undefined,
-    offValue:        false,
-    onColor:         "success",
-    onText:          undefined,
-    onValue:         true,
-  })
+  static defaultProps = Object.assign(require("../default_props.js"))
 
   constructor(props) {
     super(props)
