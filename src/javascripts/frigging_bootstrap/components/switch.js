@@ -43,6 +43,7 @@ export default class extends React.Component {
 
     this.state = {
       errors: undefined,
+      checked: true,
     }
   }
 
@@ -51,10 +52,6 @@ export default class extends React.Component {
       span({className: `bootstrap-switch-handle-on bootstrap-switch-primary`}, "ON"),
       span({className: `bootstrap-switch-label`}, "\u00a0"),
       span({className: `bootstrap-switch-handle-off bootstrap-switch-default`}, "OFF"),
-      input({
-        type: "checkbox",
-        checked: true,
-      }),
     )
   }
 
