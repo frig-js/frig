@@ -55,19 +55,12 @@ export default class extends React.Component {
   }
 
   _inputHtml() {
-    return Object.assign({}, this.props.inputHtml, {
-      className:     "switch",
-      type:          "checkbox",
-      size:           "small",
-      state:          this._getBooleanVal(),
-      disabled:       this.props.disabled,
-      offColor:       this.props.offColor,
-      onColor:        this.props.onColor,
-      offText:        this.props.offText,
-      onText:         this.props.onText,
-      handleWidth:    this.props.handleWidth,
-      onChange:       this._onSwitchChange,
-    })
+    return div({className: `bootstrap-switch-container`},
+      span({className: `bootstrap-switch-handle-on bootstrap-switch-primary`}, "ON"),
+      span({className: `bootstrap-switch-label`}, "\u00a0"),
+      span({className: `bootstrap-switch-handle-off bootstrap-switch-default`}, "OFF"),
+      input({id: "switch-size", type: "checkbox"})
+    )
   }
 
   _getBooleanVal() {
@@ -118,16 +111,8 @@ export default class extends React.Component {
       ),
       div({className: this._inputContainerCx()},
         div({className: `bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-id-switch-state bootstrap-switch-animate`},
-          div({className: `bootstrap-switch-container`},
-            span({className: `bootstrap-switch-handle-on bootstrap-switch-primary`},
-              "ON"),
-            span({className: `bootstrap-switch-label`},
-              "&nbsp;"),
-            span({className: `bootstrap-switch-handle-off bootstrap-switch-default`},
-              "OFF"),
-            input({id: "switch-size", type: "checkbox"}),
-            this._errorList(),
-          ),
+          this._inputHtml(),
+          this._errorList(),
         )
       )
     )
