@@ -1,7 +1,8 @@
-var React                         = require("react")
-var {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
-var {div, select, option}  = React.DOM
-var cx = require("classnames")
+let React                                           = require("react")
+let cx                                              = require("classnames")
+
+let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
+let {div, select, option}                           = React.DOM
 
 export default class extends React.Component {
 
@@ -30,7 +31,7 @@ export default class extends React.Component {
       div({className: formGroupCx(this.props)},
         label(this.props, {className: ""}),
         div({className: "controls"},
-          select(this._inputHtml,
+          select(this._inputHtml(),
             this.props.options.map(this._selectOption)
           ),
           errorList(this.props.errors),
