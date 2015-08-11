@@ -5,33 +5,6 @@ var {errorList, sizeClassNames, formGroupCx} = require("../util.js")
 
 var {div, span, label, input}                = React.DOM
 
-/*
- * Example 1) Using a switch for one input:
- *
- *   data = allIsWell: true
- *
- *   this.frig ref: "ex1", data: data ->
- *     f.input "allIsWell", template: "switch"
-
- * Example 2) Using switches as the default for all boolean inputs in a form:
- *
- *   data = allIsWell: true
- *
- *   this.frig ref: "ex2", data: data, typeMapping: {boolean: "switch"}, ->
- *     f.input "allisWell"
-
- * Example 3) Using switches as the default for all boolean inputs in all forms:
- *
- *   Frig.typeMapping.boolean.template = "switch"
- *
- *   data = allIsWell: true
- *
- *   this.frig ref: "ex2", data: data, ->
- *     f.input "allisWell"
-
- * This optional add-on component depends on BootstrapSwitch and jQuery
-*/
-
 export default class extends React.Component {
 
   static displayName = "Frig.friggingBootstrap.Switch"
