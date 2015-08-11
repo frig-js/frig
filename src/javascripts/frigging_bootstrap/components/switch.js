@@ -41,6 +41,7 @@ export default class extends React.Component {
     onText:   "ON",
     offColor: "default",
     offText:  "OFF",
+    size:     "normal",
   })
 
   constructor(props) {
@@ -102,7 +103,7 @@ export default class extends React.Component {
         this._label(),
       ),
       div({className: this._inputContainerCx()},
-        div({className: `bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-id-switch-state bootstrap-switch-animate`},
+        div({className: `bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-id-switch-state bootstrap-switch-animate bootstrap-switch-${this.props.size}`},
           this._inputHtml(),
           this._errorList(),
         )
