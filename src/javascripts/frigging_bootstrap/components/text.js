@@ -1,67 +1,51 @@
-// var React                         = require("react/addons")
-// var friggingBootstrap             = require("../index.js")
-// var frigHelpers                   = require("../../helpers.js")
-// var InputMixin                    = require("../../mixins/input_mixin.js")
-// var {errorList, sizeClassNames}   = friggingBootstrap
-// var {humanize, clone, merge, map} = frigHelpers
-// var {div, label, textarea}        = React.DOM
-// var cx = require("classnames")
+let React = require("react")
+let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
+let {div, textarea} = React.DOM
+let cx = require("classnames")
 
-// friggingBootstrap.Text = React.createClass({
+export default class extends React.Component {
 
-//   displayName: "Frig.friggingBootstrap.Text",
+  static displayName = "Frig.friggingBootstrap.Text"
 
-//   mixins: [InputMixin],
+  static defaultProps = Object.assign(require("../default_props.js"))
 
-//   getInitialState: function () {
-//     return {
-//       errors: undefined,
-//       edited: false,
-//     }
-//   },
+  constructor(props) {
+    super(props)
 
-//   getFriggingProps: function () {
-//     return {
-//       inputHtml: {
-//         className: "form-control",
-//         placeholder: () => this.frigProps.placeholder,
-//         defaultValue: () => this.frigProps.initialValue,
-//         rows: 3,
-//       },
-//       labelHtml: {
-//         className: "control-label",
-//       },
-//     }
-//   },
+    this.state = {
+      errors: undefined,
+      edited: false,
+    }
+  }
 
-//   _cx: function () {
-//     return cx({
-//       "form-group": true,
-//       "has-error": this.state.errors != null,
-//       "has-success": this.state.edited && this.state.errors == null,
-//     })
-//   },
+  _cx() {
+    return cx({
+      "form-group": true,
+      "has-error": this.state.errors != null,
+      "has-success": this.state.edited && this.state.errors == null,
+    })
+  }
 
-//   _errorList: function() {
-//     if (this.state.errors == null) return ""
-//     return errorList(this.state.errors)
-//   },
+  _errorList() {
+    if (this.state.errors == null) return ""
+    return errorList(this.state.errors)
+  }
 
-//   _label: function() {
-//     if (this.frigProps.label == null) return ""
-//     return label(this.frigProps.labelHtml, this.frigProps.label)
-//   },
+  _label() {
+    if (this.props.label == null) return ""
+    return label(this.props.labelHtml, this.props.label)
+  }
 
-//   render: function() {
-//     return div({className: cx(sizeClassNames(this.frigProps))},
-//       div({className: this._cx()},
-//         this._label(),
-//         div({className: "controls"},
-//           textarea(this.frigProps.inputHtml),
-//         ),
-//         this._errorList(),
-//       ),
-//     )
-//   },
-
-// })
+  render() {
+    return div({className: cx(sizeClassNames(this.props))},
+      div({className: this._cx()},
+        this._label(),
+        div({className: "controls"},
+          textarea(this.props.inputHtml),
+        ),
+        this._errorList(),
+      ),
+    )
+  }
+  
+}
