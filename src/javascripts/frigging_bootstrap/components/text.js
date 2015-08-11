@@ -18,6 +18,12 @@ export default class extends React.Component {
     }
   }
 
+  _inputHtml() {
+  	return Object.assign({}, this.props.inputHtml, {
+  		className: `${this.props.className || ""} form-control`.trim(), 
+  	})
+  }
+
   _cx() {
     return cx({
       "form-group": true,
@@ -41,7 +47,7 @@ export default class extends React.Component {
       div({className: this._cx()},
         this._label(),
         div({className: "controls"},
-          textarea(this.props.inputHtml),
+          textarea(this._inputHtml()),
         ),
         this._errorList(),
       ),
