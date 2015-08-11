@@ -224,7 +224,9 @@ export default class FrigInput extends React.Component {
     if (this.props.type === "submit") return
     // Workaround for select elements (the val returned by react will be
     // incorrect)
-    if (this.options.length > 0 || this.props.multiple) {
+    let hasOptions = this.options.length > 0
+    if (hasOptions && typeof val == "string" ) {
+      console.log(val)
       val = this._getSelectElementValue()
     }
     // Set the state and run validations

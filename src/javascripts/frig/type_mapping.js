@@ -17,6 +17,7 @@ module.exports = {
   float:        {component: "input",    htmlInputType: "number"},
   decimal:      {component: "input",    htmlInputType: "number"},
   range:        {component: "input",    htmlInputType: "range"},
+  switch:       {component: "switch"},
   // datetime:     {component: "datetime"},
   // date:         {component: "datetime"},
   // time:         {component: "datetime"},

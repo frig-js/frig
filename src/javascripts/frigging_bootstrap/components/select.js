@@ -1,4 +1,4 @@
-let React                                           = require("react/addons")
+let React                                           = require("react")
 let cx                                              = require("classnames")
 
 let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")

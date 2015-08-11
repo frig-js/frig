@@ -1,231 +1,262 @@
-// var React                         = require("react/addons")
-// var friggingBootstrap             = require("../index.js")
-// var frigHelpers                   = require("../../helpers.js")
-// var InputMixin                    = require("../../mixins/input_mixin.js")
-// var {errorList, sizeClassNames}   = friggingBootstrap
-// var {humanize, clone, merge, map} = frigHelpers
-// var cx = require("classnames")
+require("whatwg-fetch/fetch.js")
+let React = require("react")
+let cx = require("classnames")
+let fuzzy = require('fuzzy')
+let {div, p, input, i, ul, li} = React.DOM
+let BootstrapInput = React.createFactory(require("./input.js"))
+let FrigInput = React.createFactory(require("frig/components/input"))
+let {errorList, sizeClassNames, formGroupCx} = require("../util")
+let {promisedTimeout} = require("frig/util")
 
-// friggingBootstrap.Typeahead = React.createClass({
+export default class extends React.Component {
 
-//   displayName: "Frig.friggingBootstrap.Select",
+  displayName = "Frig.friggingBootstrap.Typeahead"
 
-//   mixins: [InputMixin],
+  static defaultProps = Object.assign(require("../default_props.js"), {
+    minLength: 3,
+    maxSuggestions: 5,
+  })
 
-//   getInitialState: function() {
-//     return {
-//       errors: undefined,
-//       edited: false,
-//       selectedItems: [],
-//     }
-//   },
+  state = {
+    persistedOptions: [],
+  }
 
-//   getFriggingProps: function() {
-//     return {
-//       inputHtml: {
-//         className: "form-control typeahead",
-//         defaultValue: function() {this.frigProps.initialValue},
-//         placeholder: function() {this.frigProps.placeholder},
-//       },
-//       labelHtml: {
-//         className: "",
-//       },
-//     }
-//   },
+  componentDidMount() {
+    this._onDocumentClick = this._onDocumentClick.bind(this)
+    document.addEventListener("click", this._onDocumentClick)
+  }
 
-//   componentDidMount: function() {
-//     var source
-//     if (this.frigProps.options.length > -1)
-//     {
-//       source = this.frigProps.options
-//     }
-//     else
-//     {
-//       source = this.frigProps.options.execute
-//     }
-//     var options = {
-//       source: source,
-//       updater: this._afterSelect,
-//       minLength: 0,
-//       items: 5,
-//       showHintOnFocus: true,
-//     }
-//     if (this.frigProps.addToListMessage) {
-//       options["addItem"] = {name: this.frigProps.addToListMessage}
-//     }
-//     if (this.frigProps.multiple) {
-//       options["afterSelect"] = this._clearTypeahead
-//     }
-//     this._setInitialValue()
-//     this._$el().typeahead(options)
-//   },
+  componentWillUnmount() {
+    document.removeEventListener("click", this._onDocumentClick)
+  }
 
-//   _setInitialValue: function() {
-//     if (initialValue = this._$el().val()) {
-//       if (this.frigProps.multiple) {
-//         initialItems = this._multipleInitialItems(initialValue)
-//         this._clearTypeahead()
-//       }
-//       else {
-//         initialItems = [this._initalItem(initialValue)]
-//         if(initialItems[0]) this._$el().val(initialItems[0].name)
-//       }
-//       this.setState({selectedItems: initialItems})
-//     }
-//   },
+  // Select the user-entered option if they press enter
+  _onKeyDown(e) {
+    if (!(e.key === 'Enter') || !this.props.multiple) return
+    e.preventDefault()
+    let option = this._optionForCurrentInput()
+    if (option == null) {
+      // TODO: Present the user with an error if their input is not an option
+    }
+    else {
+      this._select(option)
+    }
+  }
 
-//   _multipleInitialItems: function (initialValue) {
-//     let initialVals = initialValue.split(",")
-//     if (this.frigProps.options.length > -1) {
-//       // if options is an array, find initialItems by their ids
-//       let initialItems = _.filter(this.frigProps.options, (item) => {
-//         return _.includes(initialVals, item.id.toString())
-//       })
-//       // remove used vals from typeahead options
-//       _.pull(this.frigProps.options, ...initialItems)
-//       return initialItems
-//     }
-//     else {
-//       // if options is a function, initialItems must be passed in
-//       return this.frigProps.initialItems
-//     }
-//   },
+  _optionForCurrentInput(inputValue = this._inputValue()) {
+    let filter = (o) => o.label === inputValue
+    return this._options().filter(filter)[0]
+  }
 
-//   _initalItem: function (initialValue) {
-//     return _.find(this.frigProps.options, {id: parseInt(initialValue)})
-//   },
+  _select(option, e) {
+    if (e != null) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
+    // Reseting the suggestions and input text for multiple-selects and updating
+    // the input text for single-selects
+    this.setState({
+      inputValue: this.props.multiple ? "" : option.label,
+      options: [],
+      // Selected options are persisted so that they are not lost when the
+      // remote overwrites the options list
+      persistedOptions: this.state.persistedOptions.concat(option),
+    })
+    let requestChange = this.props.valueLink.requestChange
+    if (this.props.multiple) {
+      this._remotePromise = undefined
+      let value = this.props.valueLink.value || []
+      requestChange(value.concat(option.value))
+    }
+    else {
+      requestChange(option.value)
+    }
+  }
 
-//   _$el: function() {
-//     $(this.refs[this.frigProps.inputHtml.ref].getDOMNode())
-//   },
+  _deselect(option, e) {
+    if (e != null) {
+      e.stopPropagation()
+      e.preventDefault()
+    }
+    let filter = (o) => o.hash !== option.hash
+    let persistedOptions = this.state.persistedOptions.filter(filter)
+    this.setState({persistedOptions})
+    if (this.props.multiple) {
+      let value = this.props.valueLink.value.filter(filter)
+      this.props.valueLink.requestChange(value)
+    }
+    else {
+      this.props.valueLink.requestChange(undefined)
+    }
+  }
 
-//   _afterSelect: function (item) {
-//     if (
-//       this.frigProps.addToListMessage &&
-//       item.name == this.frigProps.addToListMessage
-//     ) {
-//       // post the item (create)
-//       this.frigProps.addToList.execute(this._$el().val(), (data, itemType) => {
-//         // callback should append (via _.partialRight) the model type
-//         // eg: "sales_category"
-//         item = data[itemType]
-//         // add newly created item to typeahead options
-//         this.frigProps.options.push(item)
-//         this._$el().val(item.name)
-//         this._addToSelectedItems(item)
-//       })
-//     }
-//     else {
-//       this._addToSelectedItems(item)
-//     }
-//     return item
-//   },
+  async _onInputChange(val) {
+    this.setState({inputValue: val})
+    this._remotePromise = undefined
+    // If the input text is greater then the mininum length and a remote is set
+    // request an updated list of options that match the inputted value via
+    // AJAX.
+    if (val.length >= this.props.minLength && this.props.remote != null) {
+      await this._requestRemoteUpdate(val)
+    }
+    // select the user's input if it matches an option (single-selects only)
+    let option = this._optionForCurrentInput(val)
+    if(!this.props.multiple && option != null) this._select(option)
+  }
 
-//   _addToSelectedItems: function (item) {
-//     if (this.frigProps.multiple) {
-//       this.setState({selectedItems: this.state.selectedItems.concat(item)})
-//       _.pull(this.frigProps.options, item)
-//     }
-//     else {
-//       this.setState({selectedItems: [item]})
-//     }
-//     setTimeout(this.frigProps.inputHtml.onChange, 0)
-//   },
+  async _requestRemoteUpdate(val) {
+    let remote = this.props.remote
+    // Rate limiting
+    if (remote.maxReqsPerMinute != null) {
+      let msSinceReq = Date.now() - (this._suggestionReqTimestamp||0)
+      if (msSinceReq < 60000.0 / remote.maxReqsPerMinute) {
+        // If a request or timeout is in progress do not set a timeout
+        if (this._remotePromise != null) return
+        // Set a timeout to run the update asyncronously once the request
+        // rate limiting has been satisfied
+        let timeUntilRequest = 60000.0 / remote.maxReqsPerMinute - msSinceReq
+        let timeout = this._remotePromise = promisedTimeout(timeUntilRequest)
+        await timeout
+        // If another request or timeout is made after this one abort this one
+        if (this._remotePromise !== timeout) return
+      }
+    }
+    // Make the request and await an ajax response
+    try {
+      this._suggestionReqTimestamp = Date.now()
+      let req = this._remotePromise = fetch(remote.url(val))
+      let res = await req
+      // If another request is made after this one abort this one
+      if (this._remotePromise !== req) return
+      // Parse the response and update the state
+      let parser = remote.parser || (() => res.json())
+      this.setState({options: parser(await res.json())})
+      this._remotePromise = undefined
+    } catch (e) {
+      // TODO: handle AJAX failures
+      throw e
+    }
+  }
 
-//   _clearTypeahead: function() {
-//     this._$el().val("")
-//   },
+  _options() {
+    let options = (this.props.remote == null ? this.props : this.state).options
+    options = (options || []).concat(this.state.persistedOptions)
+    let hashes = []
+    // Adding hashes (for selection lookup) and removing duplicates
+    for (let i in options) {
+      let hash = options[i].hash = JSON.stringify(options[i].value)
+      if (hashes.includes(hash)) delete options[i]
+      hashes.push(hash)
+    }
+    return options
+  }
 
-//   getFriggingValue: function() {
-//     if (this.frigProps.multiple) {
-//       return _.map(this.state.selectedItems, "id")
-//     }
-//     else if (this.state.selectedItems[0]) {
-//       return this.state.selectedItems[0].id
-//     }
-//   },
+  _selections() {
+    let values = this.props.valueLink.value
+    if (values == null) return []
+    if (!this.props.multiple) values = [values]
+    let hashedValues = values.map((value) => JSON.stringify(value))
+    return this._options().filter((o) => hashedValues.includes(o.hash))
+  }
 
-//   _cx: function() {
-//     return cx({
-//       "form-group": true,
-//       "has-error": this.state.errors != null,
-//       "has-success": this.state.edited && this.state.errors == null,
-//       "items": true,
-//     })
-//   },
+  _suggestions() {
+    let suggestions
+    // If the suggestions are not loaded via ajax then fuzzy match on the
+    // options
+    if (this.props.remote) {
+      suggestions = this._options()
+    }
+    else {
+      let fuzzyOpts = {extract: (o) => o.label}
+      let matches = fuzzy.filter(this._inputValue(), this._options(), fuzzyOpts)
+      suggestions = matches.map((match) => match.original)
+    }
+    // filter out already selected options from the suggestions
+    let selectionHashes = this._selections().map((o) => o.hash)
+    suggestions = suggestions.filter((o) => !selectionHashes.includes(o.hash))
+    // truncate the suggestions to it's max length
+    suggestions.length = Math.min(suggestions.length, this.props.maxSuggestions)
+    return suggestions
+  }
 
-//   _deleteItem: function (item) {
-//     this.setState({
-//       selectedItems: _.without(this.state.selectedItems, item)
-//     })
-//     if (this.frigProps.options.length > -1) {
-//       this.frigProps.options.push(item)
-//     }
-//     setTimeout(this.frigProps.inputHtml.onChange, 0)
-//   },
+  _selectionsList() {
+    if (!this.props.multiple) return ""
+    let className = "label label-primary frigb-ta-selection"
+    let index = 0
+    // if there are selected items and multiple is true return the actual list
+    return this._selections().map((o) => {
+      return div({className, key: `selection-${index++}`},
+        o.label,
+        " ",
+        i({
+          className: "fa fa-times",
+          onClick: this._deselect.bind(this, o),
+          title: "Remove from list",
+        }),
+      )
+    })
+  }
 
-//   _input: function() {
-//     if (this.frigProps.multiple) {
-//       return [
-//         label(this.frigProps.labelHtml, this.frigProps.label),
-//         input(this.frigProps.inputHtml),
-//       ]
-//     }
-//     else {
-//       return [
-//         input(this.frigProps.inputHtml),
-//         label(this.frigProps.labelHtml, this.frigProps.label),
-//       ]
-//     }
-//   },
+  // Transfers focus to the nested React.DOM.input component
+  // (nested inside the FriggingBootstrapInput inside the FrigInput)
+  _focusInput() {
+    React.findDOMNode(this._inputComponent).focus()
+  }
 
+  _onDocumentClick(e) {
+    let target = (e.originalTarget) ? e.originalTarget : e.srcElement
+    let isInside = React.findDOMNode(this._wrapperComponent).contains(target)
+    if (!isInside) this.setState({focused: false})
+  }
 
-//   _list: function() {
-//     if (!this.frigProps.multiple) {
-//       return ""
-//     }
-//     return _.map(this.state.selectedItems, (item) => {
-//       return div({className: "row"},
-//         div({className: "col-xs-12 col-sm-12 col-md-12 col-lg-12"},
-//           p({className: "pull-left"}, item.name),
-//           i({
-//             className: "fa fa-times delete-trigger pull-right",
-//             onClick: _.partial(this._deleteItem, item),
-//             title: "Remove from list",
-//           }),
-//         ),
-//       )
-//     })
-//   },
+  _suggestionsList() {
+    let suggestions = this._suggestions()
+    let wrapperCx = cx("dropdown", {
+      open: suggestions.length > 0 && this.state.focused,
+    })
+    return div({className: wrapperCx},
+      ul({className: "dropdown-menu frigb-ta-suggestions col-xs-12"},
+        suggestions.map((o) => {
+          return li({onClick: this._select.bind(this, o)}, o.label)
+        })
+      ),
+    )
+  }
 
-//   _emptyList: function() {
-//     if (this.state.selectedItems.length > 0 || !this.frigProps.multiple) {
-//       return ""
-//     }
-//     return div({className: "row"},
-//       div({className: "col-xs-12 col-sm-12 col-md-12 col-lg-12"},
-//         p({className: "pull-left"},
-//           `No ${this.frigProps.label.toLowerCase()}...`
-//         ),
-//       ),
-//     )
-//   },
+  _inputWrapper(inputHtml) {
+    let className = inputHtml.className
+    inputHtml = Object.assign({}, inputHtml, {
+      className: "frigb-ta-input",
+      ref: (component) => this._inputComponent = component,
+      onFocus: (e) => this.setState({focused: true}),
+    })
+    inputHtml.onKeyDown = this._onKeyDown.bind(this)
+    return div({className: "frigb-ta", ref: (c) => this._wrapperComponent = c},
+      div({className, onClick: this._focusInput.bind(this)},
+        this._selectionsList(),
+        input(inputHtml),
+      ),
+      this._suggestionsList(),
+      errorList(this.state.errors),
+    )
+  }
 
-//   _errorList: function() {
-//     if (this.state.errors == null) return ""
-//     return errorList(this.state.errors)
-//   },
+  _inputValue() {
+    return this.state.inputValue
+  }
 
-//   render: function() {
-//     return div({className: cx(sizeClassNames(this.props)) + " typeahead"},
-//       div({className: "controls"},
-//         this._input()
-//       ),
-//       div({className: this._cx()},
-//         this._list(),
-//         this._errorList(),
-//       ),
-//     )
-//   },
+  render() {
+    let inputPropOverrides = {
+      component: BootstrapInput,
+      inputWrapper: this._inputWrapper.bind(this),
+      valueLink: {
+        value: this._inputValue(),
+        requestChange: this._onInputChange.bind(this),
+      },
+      required: false,
+      ref: "frigInput",
+    }
+    return FrigInput(Object.assign({}, this.props, inputPropOverrides))
+  }
 
-// })
+}

@@ -1,9 +1,10 @@
 require "babel-core/polyfill"
+require "font-awesome-webpack"
 require("frig").defaultTheme require("frigging_bootstrap")
 
 React         = require "react/addons"
 {frig}        = require "frig/dsl"
-{div, h2, h3} = React.DOM
+{div, h2, h3, img} = React.DOM
 
 AccountForm = React.createClass
   mixins: [
@@ -16,6 +17,14 @@ AccountForm = React.createClass
       password: "test"
       shareSketchyInfo: false
 
+  githubSearchUrl: (username) ->
+    "https://api.github.com/search/users?q=#{username}&per_page=30"
+
+  parseGithubResponse: (json) ->
+    json.items.map (user) => label: user.login, value:
+      login: user.login
+      avatar_url: user.avatar_url
+
   render: ->
     frig data: @linkState("account"), (f) =>
       div className: "container",
@@ -24,11 +33,44 @@ AccountForm = React.createClass
             h2 {}, "My Account"
 
         div className: "row",
-          f.input "email"
+          # The avatar image
+          div className: "col-xs-2 pull-right", style: {textAlign: "center"},
+            if @state.account.githubAccount?
+              img src: @state.account.githubAccount.avatar_url, width: "100%"
+            else
+              "No Avatar"
+          # Email and github account emails (to the left of the avatar image)
+          f.input "email", xs: 10
+          f.input("githubAccount",
+            type: "typeahead",
+            remote: {
+              url: @githubSearchUrl
+              parser: @parseGithubResponse
+              maxReqsPerMinute: 20
+            }
+            xs: 10
+          ),
+
+        div className: "row",
+          f.input("friendsGithubAccounts",
+            type: "typeahead",
+            multiple: true,
+            remote: {
+              url: @githubSearchUrl
+              parser: @parseGithubResponse
+              maxReqsPerMinute: 20
+            }
+          ),
 
         div className: "row",
           f.input "password", xs: 6
           f.input "passwordConfirmation", xs: 6
+
+        div className: "row",
+          f.input "time_of_day",
+            type: "switch",
+            xs: "6"
+            label: "Time of Day"
 
         div className: "row",
           div className: "sm-col-12",
