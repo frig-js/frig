@@ -15,6 +15,7 @@ export default class extends React.Component {
     offColor: "default",
     offText:  "OFF",
     size:     "normal",
+    disabled: false,
   })
 
   constructor(props) {
@@ -41,6 +42,14 @@ export default class extends React.Component {
         ]),
       })
     }
+
+    if (this.props.disabled === true) {
+      this.setState({
+        bootstrapSwitchClasses: this.state.bootstrapSwitchClasses.concat([
+          "bootstrap-switch-disabled",
+        ]),
+      })
+    }
   }
 
   isChecked() {
@@ -60,8 +69,10 @@ export default class extends React.Component {
   }
 
   _onClick() {
-    React.findDOMNode(this.refs.switchContainer).style.marginLeft = (this.state.checked === true) ? "-50px" : "0"
-    this.setState({ checked: !this.state.checked })
+    if (this.props.disabled === false) {
+      React.findDOMNode(this.refs.switchContainer).style.marginLeft = (this.state.checked === true) ? "-50px" : "0"
+      this.setState({ checked: !this.state.checked })
+    }
   }
 
   _labelContainerCx() {
