@@ -32,7 +32,7 @@ AccountForm = React.createClass
 
         div className: "row",
           f.input "time_of_day",
-            type: "switch", 
+            type: "switch",
             xs: "6"
             label: "Time of Day"
 

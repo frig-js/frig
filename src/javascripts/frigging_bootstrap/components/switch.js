@@ -1,9 +1,9 @@
 let React                                    = require("react")
 let cx                                       = require("classnames")
 
-let {errorList, sizeClassNames, formGroupCx} = require("../util.js")
+let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
 
-let {div, span, label, input}                = React.DOM
+let {div, span, input} = React.DOM
 
 export default class extends React.Component {
 
@@ -18,73 +18,39 @@ export default class extends React.Component {
     disabled: false,
   })
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      errors: undefined,
-      checked: true,
-      bootstrapSwitchClasses:
-        `bootstrap-switch 
-        bootstrap-switch-wrapper 
-        bootstrap-switch-on 
-        bootstrap-switch-id-switch-state 
-        bootstrap-switch-animate`,
-      bootstrapSwitchOnClasses:  "bootstrap-switch-handle-on",
-      bootstrapSwitchOffClasses: "bootstrap-switch-handle-off",
-    }
-  }
-
-  componentWillMount() {
-    let switchClasses = cx(this.state.bootstrapSwitchClasses, {
-      [`bootstrap-switch-${this.props.size}`]: this.props.size != null,
-      "bootstrap-switch-disabled": this.props.disabled,
-    })
-    
-    let onClasses = cx(this.state.bootstrapSwitchOnClasses, {
-      [`bootstrap-switch-${this.props.onColor}`]: this.props.onColor != null,
-    })
-
-    let offClasses = cx(this.state.bootstrapSwitchOffClasses, {
-      [`bootstrap-switch-${this.props.offColor}`]: this.props.offColor != null,
-    })
-
-    this.setState({
-      bootstrapSwitchClasses:    switchClasses,
-      bootstrapSwitchOnClasses:  onClasses,
-      bootstrapSwitchOffClasses: offClasses,
-    })
-  }
-
   isChecked() {
-    return this.state.checked
-  }
-
-  _inputHtml() {
-    return div({
-        className: `bootstrap-switch-container`,
-        ref: "switchContainer",
-        onClick: this._onClick.bind(this),
-      },
-      span({ 
-          className: this.state.bootstrapSwitchOnClasses,
-        }, 
-        this.props.onText
-      ),
-      span({ className: `bootstrap-switch-label` }, "\u00a0"),
-      span({ 
-          className: this.state.bootstrapSwitchOffClasses, 
-        }, 
-        this.props.offText
-      ),
-    )
+    return this.props.valueLink.value
   }
 
   _onClick() {
-    if (this.props.disabled === false) {
-      React.findDOMNode(this.refs.switchContainer).style.marginLeft = (this.state.checked === true) ? "-50px" : "0"
-      this.setState({ checked: !this.state.checked })
-    }
+    if (this.props.disabled === true) return
+    this.props.valueLink.requestChange(!this.props.valueLink.value)
+  }
+
+  _switchCx() {
+    return cx(
+      "bootstrap-switch",
+      "bootstrap-switch-wrapper",
+      "bootstrap-switch-on",
+      "bootstrap-switch-id-switch-state",
+      "bootstrap-switch-animate",
+      {
+        [`bootstrap-switch-${this.props.size}`]: this.props.size != null,
+        "bootstrap-switch-disabled": this.props.disabled,
+      },
+    )
+  }
+
+  _onSpanCx() {
+    return cx("bootstrap-switch-handle-on", {
+      [`bootstrap-switch-${this.props.onColor}`]: this.props.onColor != null,
+    })
+  }
+
+  _offSpanCx() {
+    return cx("bootstrap-switch-handle-off", {
+      [`bootstrap-switch-${this.props.offColor}`]: this.props.offColor != null,
+    })
   }
 
   _labelContainerCx() {
@@ -100,25 +66,34 @@ export default class extends React.Component {
     })
   }
 
-  _label() {
-    if (this.props.label === null) return ""
-    return label(this.props.labelHtml, this.props.label)
-  }
-
-  _errorList() {
-    if (this.state.errors === null) return ""
-    return errorList(this.state.errors)
+  _input() {
+    return div({
+        className: `bootstrap-switch-container`,
+        ref: "switchContainer",
+        onClick: this._onClick.bind(this),
+        style: {marginLeft: this.isChecked() ? "0" : "-50px"},
+      },
+      span({className: this._onSpanCx()},
+        this.props.onText
+      ),
+      span({className: `bootstrap-switch-label`},
+        "\u00a0"
+      ),
+      span({className: this._offSpanCx()},
+        this.props.offText
+      ),
+    )
   }
 
   render() {
     return div({className: cx(sizeClassNames(this.props))},
       div({className: this._labelContainerCx()},
-        this._label(),
+        label(this.props.labelHtml, this.props.label)
       ),
       div({className: this._inputContainerCx()},
-        div({className: this.state.bootstrapSwitchClasses},
-          this._inputHtml(),
-          this._errorList(),
+        div({className: this._switchCx()},
+          this._input(),
+          errorList(this.props.errors),
         )
       )
     )
