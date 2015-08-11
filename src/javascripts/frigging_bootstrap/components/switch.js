@@ -93,8 +93,8 @@ export default class extends React.Component {
       div({className: this._inputContainerCx()},
         div({className: this._switchCx()},
           this._input(),
-          errorList(this.props.errors),
-        )
+        ),
+        errorList(this.props.errors),
       )
     )
   }

@@ -65,19 +65,9 @@ export default class FrigInput extends React.Component {
    * =========================================================================
    */
 
-  _propsWillUpdate(nextProps) {
-    if (this._value() !== nextProps.valueLink.value) {
-      console.log("PROPS", nextProps.valueLink.value)
-    }
-    this.validate(nextProps)
-  }
-
   _errors(value = this._value()) {
     if (!this._isModified() && !this.state.validationRequested) return undefined
-    if (this.props.type === "submit" || this.props.validate === false) {
-      this.setState({errors: undefined})
-      return true
-    }
+    if (this.props.type === "submit" || !this.props.validate) return undefined
     let errors = []
     // Running each validation
     for (let [k, validationOpts] of entries(this._validations())) {
@@ -191,7 +181,7 @@ export default class FrigInput extends React.Component {
     if (this.props.type === "submit") return
     // Set the state and run validations
     this.setState({modified: true})
-    let valid = this.validate({valueLink: {value: val}})
+    let valid = this._errors(val) == null
     // Update the value link (used by Frig form components)
     this.props.valueLink.requestChange(val, valid)
     // Run the external callbacks (external API, not used by Frig internally)
@@ -200,7 +190,7 @@ export default class FrigInput extends React.Component {
   }
 
   _onBlur() {
-    this.validate()
+    this.setState({modified: true})
   }
 
 }
