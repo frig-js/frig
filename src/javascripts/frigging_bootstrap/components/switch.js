@@ -23,6 +23,13 @@ export default class extends React.Component {
     this.state = {
       errors: undefined,
       checked: true,
+      bootstrapSwitchClasses: [
+        "bootstrap-switch",
+        "bootstrap-switch-wrapper",
+        "bootstrap-switch-on",
+        "bootstrap-switch-id-switch-state",
+        "bootstrap-switch-animate",
+      ],
     }
   }
 
@@ -76,7 +83,7 @@ export default class extends React.Component {
         this._label(),
       ),
       div({className: this._inputContainerCx()},
-        div({className: `bootstrap-switch bootstrap-switch-wrapper bootstrap-switch-on bootstrap-switch-id-switch-state bootstrap-switch-animate bootstrap-switch-${this.props.size}`},
+        div({className: this.state.bootstrapSwitchClasses.join(" ")},
           this._inputHtml(),
           this._errorList(),
         )
