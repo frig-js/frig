@@ -24,19 +24,14 @@ export default class extends React.Component {
     })
   }
 
-  _label() {
-    if (this.props.label == null) return ""
-    return label(this.props.labelHtml, this.props.label)
-  }
-
   render() {
     return div({className: cx(sizeClassNames(this.props))},
       div({className: this._cx()},
-        this._label(),
+        label(this.props),
         div({className: "controls"},
           textarea(this._inputHtml()),
         ),
-        this._errorList(this.props.errors),
+        errorList(this.props.errors),
       ),
     )
   }
