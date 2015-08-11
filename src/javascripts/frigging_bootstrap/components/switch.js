@@ -24,13 +24,12 @@ export default class extends React.Component {
     this.state = {
       errors: undefined,
       checked: true,
-      bootstrapSwitchClasses: [
-        "bootstrap-switch",
-        "bootstrap-switch-wrapper",
-        "bootstrap-switch-on",
-        "bootstrap-switch-id-switch-state",
-        "bootstrap-switch-animate",
-      ],
+      bootstrapSwitchClasses:
+        `bootstrap-switch 
+        bootstrap-switch-wrapper 
+        bootstrap-switch-on 
+        bootstrap-switch-id-switch-state 
+        bootstrap-switch-animate`,
       bootstrapSwitchOnClassess: ["bootstrap-switch-handle-on"],
       bootstrapSwitchOffClassess: ["bootstrap-switch-handle-off"],
     }
