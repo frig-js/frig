@@ -10,11 +10,11 @@ export default class extends React.Component {
   static defaultProps = Object.assign(require("../default_props.js"))
 
   _inputHtml() {
-  	return Object.assign({}, this.props.inputHtml, {
-  		className: `${this.props.className || ""} form-control`.trim(),
-  		valueLink: this.props.valueLink,
-  		rows: this.props.rows,
-  	})
+    return Object.assign({}, this.props.inputHtml, {
+      className: cx(this.props.className, "form-control"),
+      valueLink: this.props.valueLink,
+      rows: this.props.rows,
+    })
   }
 
   _cx() {
@@ -36,5 +36,5 @@ export default class extends React.Component {
       ),
     )
   }
-  
+
 }
