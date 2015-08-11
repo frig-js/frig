@@ -37,13 +37,14 @@ export default class extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.size !== undefined && this.props.size !== null) {
-      this.setState({
-        bootstrapSwitchClasses: this.state.bootstrapSwitchClasses.concat([
-          `bootstrap-switch-${this.props.size}`,
-        ]),
-      })
-    }
+    let switchClasses = cx(this.state.bootstrapSwitchClasses, {
+      [`bootstrap-switch-${this.props.size}`]: this.props.size != null,
+      "bootstrap-switch-disabled": this.props.disabled,
+    })
+
+    this.setState({
+      bootstrapSwitchClasses: switchClasses,
+    })
 
     if (this.props.onColor !== undefined && this.props.onColor !== null) {
       this.setState({
@@ -57,14 +58,6 @@ export default class extends React.Component {
       this.setState({
         bootstrapSwitchOffClassess: this.state.bootstrapSwitchOffClassess.concat([
           `bootstrap-switch-${this.props.offColor}`,
-        ]),
-      })
-    }
-    
-    if (this.props.disabled === true) {
-      this.setState({
-        bootstrapSwitchClasses: this.state.bootstrapSwitchClasses.concat([
-          "bootstrap-switch-disabled",
         ]),
       })
     }
@@ -130,7 +123,7 @@ export default class extends React.Component {
         this._label(),
       ),
       div({className: this._inputContainerCx()},
-        div({className: this.state.bootstrapSwitchClasses.join(" ")},
+        div({className: this.state.bootstrapSwitchClasses},
           this._inputHtml(),
           this._errorList(),
         )
