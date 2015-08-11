@@ -1,8 +1,9 @@
-var React                         = require("react")
-var {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
-var {div} = React.DOM
-var select = require("frig/components/value_linked_select")
-var cx = require("classnames")
+let React                                           = require("react")
+let cx                                              = require("classnames")
+
+let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
+let {div, option}                                   = React.DOM
+let select = require("frig/components/value_linked_select")
 
 export default class extends React.Component {
 
@@ -24,7 +25,7 @@ export default class extends React.Component {
       div({className: formGroupCx(this.props)},
         label(this.props, {className: ""}),
         div({className: "controls"},
-          select(this._inputHtml),
+          select(this._inputHtml()),
           errorList(this.props.errors),
         )
       )
