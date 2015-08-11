@@ -70,8 +70,7 @@ AccountForm = React.createClass
           f.input "description",
             className: "testing-class-name"
             type: "text"
-            rows: 3
-            cols: 4
+            rows: 10
 
         div className: "row",
           f.input "time_of_day",

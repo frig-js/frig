@@ -13,6 +13,7 @@ export default class extends React.Component {
   	return Object.assign({}, this.props.inputHtml, {
   		className: `${this.props.className || ""} form-control`.trim(),
   		valueLink: this.props.valueLink,
+  		rows: this.props.rows,
   	})
   }
 
