@@ -88,7 +88,7 @@ export default class extends React.Component {
   render() {
     return div({className: cx(sizeClassNames(this.props))},
       div({className: this._labelContainerCx()},
-        label(this.props.labelHtml, this.props.label)
+        label(this.props)
       ),
       div({className: this._inputContainerCx()},
         div({className: this._switchCx()},

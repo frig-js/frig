@@ -1,4 +1,4 @@
-var React                         = require("react/addons")
+let React                         = require("react")
 let frigValidations               = require("../validations.js")
 let {entries, humanize}           = require("../util.js")
 

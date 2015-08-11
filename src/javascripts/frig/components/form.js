@@ -1,4 +1,4 @@
-let React                        = require("react/addons")
+let React                        = require("react")
 let frigInput                    = React.createFactory(require("./input.js"))
 let {entries}                    = require("../util.js")
 
@@ -206,8 +206,8 @@ export default class FrigForm extends React.Component {
   //     false: disables the label
   //     [STRING]: sets the label to the given string
   _frigInput(key, inputProps = {}) {
-    var isCoffeescript = key != null
-    var typeMapping = inputProps.typeMapping
+    let isCoffeescript = key != null
+    let typeMapping = inputProps.typeMapping
     delete inputProps.typeMapping
     // Setting the defaults
     inputProps = Object.assign(this._frigInputDefaults(key), inputProps)

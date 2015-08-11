@@ -1,5 +1,5 @@
-var React = require("react/addons")
-var {select} = React.DOM
+let React = require("react")
+let {select, option} = React.DOM
 
 /*
  * A minimal wrapper for the select component to provide the correct value
@@ -33,7 +33,7 @@ export default class extends React.Component {
 
   // Reads the value from the DOM for the select input fields
   _getValue() {
-    let el = React.findDomNode(this.input.getDOMNode)
+    let el = React.findDOMNode(this.refs.input)
     // The value is cast to a string when we get it from DOM.value. This is a
     // mapping of those strings to their original values in the options list.
     let originalValues = {}
@@ -62,7 +62,7 @@ export default class extends React.Component {
       valueLink: {
         value: value,
         requestChange: this._onChange.bind(this),
-      }
+      },
     })
     for (let k in ["valueLink", "options"]) delete inputHtml[k]
     return inputHtml

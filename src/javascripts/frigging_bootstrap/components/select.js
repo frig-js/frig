@@ -1,9 +1,9 @@
-let React                                           = require("react")
-let cx                                              = require("classnames")
+let React = require("react")
+let cx = require("classnames")
 
 let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
-let {div, option}                                   = React.DOM
-let select = require("frig/components/value_linked_select")
+let {div, option} = React.DOM
+let select = React.createFactory(require("frig/components/value_linked_select"))
 
 export default class extends React.Component {
 
