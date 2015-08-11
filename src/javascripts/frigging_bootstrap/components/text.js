@@ -9,15 +9,6 @@ export default class extends React.Component {
 
   static defaultProps = Object.assign(require("../default_props.js"))
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      errors: undefined,
-      edited: false,
-    }
-  }
-
   _inputHtml() {
   	return Object.assign({}, this.props.inputHtml, {
   		className: `${this.props.className || ""} form-control`.trim(),
@@ -28,14 +19,9 @@ export default class extends React.Component {
   _cx() {
     return cx({
       "form-group": true,
-      "has-error": this.state.errors != null,
-      "has-success": this.state.edited && this.state.errors == null,
+      "has-error": this.props.errors != null,
+      "has-success": this.state.edited && this.props.errors == null,
     })
-  }
-
-  _errorList() {
-    if (this.state.errors == null) return ""
-    return errorList(this.state.errors)
   }
 
   _label() {
@@ -50,7 +36,7 @@ export default class extends React.Component {
         div({className: "controls"},
           textarea(this._inputHtml()),
         ),
-        this._errorList(),
+        this._errorList(this.props.errors),
       ),
     )
   }
