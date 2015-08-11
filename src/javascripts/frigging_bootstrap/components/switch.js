@@ -33,6 +33,16 @@ export default class extends React.Component {
     }
   }
 
+  componentWillMount() {
+    if (this.props.size !== undefined && this.props.size !== null) {
+      this.setState({
+        bootstrapSwitchClasses: this.state.bootstrapSwitchClasses.concat([
+          `bootstrap-switch-${this.props.size}`,
+        ]),
+      })
+    }
+  }
+
   isChecked() {
     return this.state.checked
   }
