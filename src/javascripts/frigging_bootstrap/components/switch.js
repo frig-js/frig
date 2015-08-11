@@ -1,9 +1,9 @@
-var React                                    = require("react")
-var cx                                       = require("classnames")
+let React                                    = require("react")
+let cx                                       = require("classnames")
 
-var {errorList, sizeClassNames, formGroupCx} = require("../util.js")
+let {errorList, sizeClassNames, formGroupCx} = require("../util.js")
 
-var {div, span, label, input}                = React.DOM
+let {div, span, label, input}                = React.DOM
 
 export default class extends React.Component {
 
