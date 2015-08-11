@@ -7,8 +7,7 @@ export default class FrigInput extends React.Component {
   static propTypes = {
     name:            React.PropTypes.string.isRequired,
     component:       React.PropTypes.func.isRequired,
-    valueLink:       React.PropTypes.object,
-    value:           React.PropTypes.any,
+    valueLink:       React.PropTypes.object.isRequired,
     theme:           React.PropTypes.object.isRequired,
     type:            React.PropTypes.string,
     options:         React.PropTypes.array,
@@ -40,8 +39,42 @@ export default class FrigInput extends React.Component {
    * =========================================================================
    */
 
-  validate(value = this._value(), renderErrors = true) {
-    if (!this._isModified()) return true
+  validate() {
+    let errors = this._errors()
+    this.setState({validationRequested: true})
+    return errors == null
+  }
+
+  /*
+   * =========================================================================
+   * React Lifecycle + Render
+   * =========================================================================
+   */
+
+  componentWillMount() {
+    let valid = this._errors() == null
+    this.props.onFriggingChildInit(this._value(), valid)
+  }
+
+  render() {
+    return this.props.component(this._themedInputProps())
+  }
+
+  /*
+   * =========================================================================
+   * Private functions
+   * =========================================================================
+   */
+
+  _propsWillUpdate(nextProps) {
+    if (this._value() !== nextProps.valueLink.value) {
+      console.log("PROPS", nextProps.valueLink.value)
+    }
+    this.validate(nextProps)
+  }
+
+  _errors(value = this._value()) {
+    if (!this._isModified() && !this.state.validationRequested) return undefined
     if (this.props.type === "submit" || this.props.validate === false) {
       this.setState({errors: undefined})
       return true
@@ -60,62 +93,16 @@ export default class FrigInput extends React.Component {
     }
     // If there are no errors then errors should be falsie
     if (errors.length === 0) errors = undefined
-    // Adding the errors to the state
-    if (renderErrors) this.setState({errors: errors})
-    // Return true if there are no errors
-    return errors == null
-  }
-
-  /*
-   * =========================================================================
-   * React Lifecycle + Render
-   * =========================================================================
-   */
-
-  componentWillMount() {
-    this._propsWillUpdate(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this._propsWillUpdate(nextProps)
-  }
-
-  componentDidMount() {
-    let val = this._value()
-    let valid = this.validate(val, false)
-    this.props.onFriggingChildInit(val, valid)
-  }
-
-  render() {
-    return this.props.component(this._themedInputProps())
-  }
-
-  /*
-   * =========================================================================
-   * Private functions
-   * =========================================================================
-   */
-
-  _propsWillUpdate(nextProps) {
-    this.options = (nextProps.options || []).map(this._normalizeOption)
-    this.validate()
+    // Return the errors
+    return errors
   }
 
   _value() {
-    let isLink = this.props.valueLink != null
-    if (isLink) {
-      return this.props.valueLink.value
-    }
-    else if (this.state.value != null) {
-      return this.state.value
-    }
-    else {
-      return this.props.value
-    }
+    return this.props.valueLink.value
   }
 
   _isModified() {
-    return this.state.value != null
+    return this.state.modified != null
   }
 
   _themedInputProps(nextProps = this.props) {
@@ -130,7 +117,7 @@ export default class FrigInput extends React.Component {
     let themedProps = Object.assign(defaults, nextProps)
     // Overrides
     let overrides = {
-      options: this.options,
+      options: (nextProps.options || []).map(this._normalizeOption),
       modified: this._isModified(),
       // DOM attributes for the label element
       labelHtml: Object.assign({}, themedProps.labelHtml || {}, {
@@ -152,7 +139,7 @@ export default class FrigInput extends React.Component {
         value: this._value(),
         requestChange: this._onChange.bind(this),
       },
-      errors: this.state.errors,
+      errors: this._errors(),
     }
     // TODO: Add type mapping
     return Object.assign(themedProps, overrides)
@@ -204,12 +191,10 @@ export default class FrigInput extends React.Component {
   _onChange(val) {
     if (this.props.type === "submit") return
     // Set the state and run validations
-    this.setState({value: val})
-    let valid = this.validate(val)
-    // Run the internal callbacks
-    if (this.props.valueLink != null) {
-      this.props.valueLink.requestChange(val, valid)
-    }
+    this.setState({modified: true})
+    let valid = this.validate({valueLink: {value: val}})
+    // Update the value link (used by Frig form components)
+    this.props.valueLink.requestChange(val, valid)
     // Run the external callbacks (external API, not used by Frig internally)
     this.props.onChange(val, valid)
     if (valid) this.props.onValidChange(val, valid)
