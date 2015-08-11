@@ -1,15 +1,16 @@
 var React                         = require("react")
-var {span, i, label} = React.DOM
+var {span, label} = React.DOM
 var cx = require("classnames")
 
 module.exports = {
   errorList(errors) {
-    return (errors || []).map(module.exports.error)
+    let i = 0
+    return (errors || []).map( (msg) => module.exports.error(msg, i++))
   },
 
-  error(msg) {
-    return span({className: "help-block"},
-      i({className: "fa fa-exclamation-circle"}, ` ${msg}`),
+  error(msg, i=0) {
+    return span({className: "help-block", key: `error-$#{i}`},
+      React.DOM.i({className: "fa fa-exclamation-circle"}, ` ${msg}`),
     )
   },
 
