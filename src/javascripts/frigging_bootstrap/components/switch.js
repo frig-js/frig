@@ -31,7 +31,7 @@ export default class extends React.Component {
         bootstrap-switch-id-switch-state 
         bootstrap-switch-animate`,
       bootstrapSwitchOnClasses:  "bootstrap-switch-handle-on",
-      bootstrapSwitchOffClasses: ["bootstrap-switch-handle-off"],
+      bootstrapSwitchOffClasses: "bootstrap-switch-handle-off",
     }
   }
 
@@ -45,18 +45,15 @@ export default class extends React.Component {
       [`bootstrap-switch-${this.props.onColor}`]: this.props.onColor != null,
     })
 
+    let offClasses = cx(this.state.bootstrapSwitchOffClasses, {
+      [`bootstrap-switch-${this.props.offColor}`]: this.props.offColor != null,
+    })
+
     this.setState({
       bootstrapSwitchClasses:    switchClasses,
       bootstrapSwitchOnClasses:  onClasses,
+      bootstrapSwitchOffClasses: offClasses,
     })
-
-    if (this.props.offColor !== undefined && this.props.offColor !== null) {
-      this.setState({
-        bootstrapSwitchOffClassess: this.state.bootstrapSwitchOffClassess.concat([
-          `bootstrap-switch-${this.props.offColor}`,
-        ]),
-      })
-    }
   }
 
   isChecked() {
@@ -76,7 +73,7 @@ export default class extends React.Component {
       ),
       span({ className: `bootstrap-switch-label` }, "\u00a0"),
       span({ 
-          className: this.state.bootstrapSwitchOffClassess.join(" "), 
+          className: this.state.bootstrapSwitchOffClasses, 
         }, 
         this.props.offText
       ),
