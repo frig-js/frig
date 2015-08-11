@@ -20,7 +20,7 @@ export default class extends React.Component {
     return cx({
       "form-group": true,
       "has-error": this.props.errors != null,
-      "has-success": this.state.edited && this.props.errors == null,
+      "has-success": this.props.modified && this.props.errors == null,
     })
   }
 
