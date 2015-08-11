@@ -114,25 +114,6 @@ export default class FrigInput extends React.Component {
     }
   }
 
-  // Reads the value from the DOM for the select input fields
-  _getSelectElementValue() {
-    let el = this.refs.themedInput.refs.input.getDOMNode()
-    // The value is cast to a string when we get it from DOM.value. This is a
-    // mapping of those strings to their original values in the options list.
-    let originalValues = {}
-    for (let option of this.options) {
-      originalValues[option.value.toString()] = option.value
-    }
-    if (el.type === "select-multiple")
-    {
-      return [for (o of el.options) if (o.selected) originalValues[o.value]]
-    }
-    else
-    {
-      return originalValues[el.value] || el.value
-    }
-  }
-
   _isModified() {
     return this.state.value != null
   }
@@ -222,13 +203,6 @@ export default class FrigInput extends React.Component {
 
   _onChange(val) {
     if (this.props.type === "submit") return
-    // Workaround for select elements (the val returned by react will be
-    // incorrect)
-    let hasOptions = this.options.length > 0
-    if (hasOptions && typeof val == "string" ) {
-      console.log(val)
-      val = this._getSelectElementValue()
-    }
     // Set the state and run validations
     this.setState({value: val})
     let valid = this.validate(val)
