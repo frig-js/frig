@@ -32,6 +32,7 @@ export default class extends React.Component {
         "bootstrap-switch-animate",
       ],
       bootstrapSwitchOnClassess: ["bootstrap-switch-handle-on"],
+      bootstrapSwitchOffClassess: ["bootstrap-switch-handle-off"],
     }
   }
 
@@ -48,6 +49,14 @@ export default class extends React.Component {
       this.setState({
         bootstrapSwitchOnClassess: this.state.bootstrapSwitchOnClassess.concat([
           `bootstrap-switch-${this.props.onColor}`,
+        ]),
+      })
+    }
+
+    if (this.props.offColor !== undefined && this.props.offColor !== null) {
+      this.setState({
+        bootstrapSwitchOffClassess: this.state.bootstrapSwitchOffClassess.concat([
+          `bootstrap-switch-${this.props.offColor}`,
         ]),
       })
     }
@@ -76,8 +85,12 @@ export default class extends React.Component {
         }, 
         this.props.onText
       ),
-      span({className: `bootstrap-switch-label`}, "\u00a0"),
-      span({className: `bootstrap-switch-handle-off bootstrap-switch-${this.props.offColor}`}, this.props.offText),
+      span({ className: `bootstrap-switch-label` }, "\u00a0"),
+      span({ 
+          className: this.state.bootstrapSwitchOffClassess.join(" "), 
+        }, 
+        this.props.offText
+      ),
     )
   }
 
