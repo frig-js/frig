@@ -40,9 +40,8 @@ export default class FrigInput extends React.Component {
    */
 
   validate() {
-    let errors = this._errors()
     this.setState({validationRequested: true})
-    return errors == null
+    return errors == this._errors()
   }
 
   /*
