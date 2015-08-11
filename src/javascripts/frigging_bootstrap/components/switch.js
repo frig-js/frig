@@ -30,8 +30,8 @@ export default class extends React.Component {
         bootstrap-switch-on 
         bootstrap-switch-id-switch-state 
         bootstrap-switch-animate`,
-      bootstrapSwitchOnClassess: ["bootstrap-switch-handle-on"],
-      bootstrapSwitchOffClassess: ["bootstrap-switch-handle-off"],
+      bootstrapSwitchOnClasses:  "bootstrap-switch-handle-on",
+      bootstrapSwitchOffClasses: ["bootstrap-switch-handle-off"],
     }
   }
 
@@ -40,18 +40,15 @@ export default class extends React.Component {
       [`bootstrap-switch-${this.props.size}`]: this.props.size != null,
       "bootstrap-switch-disabled": this.props.disabled,
     })
-
-    this.setState({
-      bootstrapSwitchClasses: switchClasses,
+    
+    let onClasses = cx(this.state.bootstrapSwitchOnClasses, {
+      [`bootstrap-switch-${this.props.onColor}`]: this.props.onColor != null,
     })
 
-    if (this.props.onColor !== undefined && this.props.onColor !== null) {
-      this.setState({
-        bootstrapSwitchOnClassess: this.state.bootstrapSwitchOnClassess.concat([
-          `bootstrap-switch-${this.props.onColor}`,
-        ]),
-      })
-    }
+    this.setState({
+      bootstrapSwitchClasses:    switchClasses,
+      bootstrapSwitchOnClasses:  onClasses,
+    })
 
     if (this.props.offColor !== undefined && this.props.offColor !== null) {
       this.setState({
@@ -73,7 +70,7 @@ export default class extends React.Component {
         onClick: this._onClick.bind(this),
       },
       span({ 
-          className: this.state.bootstrapSwitchOnClassess.join(" "),
+          className: this.state.bootstrapSwitchOnClasses,
         }, 
         this.props.onText
       ),
