@@ -80,6 +80,14 @@ AccountForm = React.createClass
 
         div className: "row",
           div className: "sm-col-12",
+            f.input "startTime",
+              type: "time",
+              xs: "6"
+              placeholder: "12:00pm"
+              label: "Start Time"
+
+        div className: "row",
+          div className: "sm-col-12",
             h3 {}, "Additional Sketchy Info"
 
         div className: "row",
