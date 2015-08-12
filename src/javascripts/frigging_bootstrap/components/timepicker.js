@@ -11,10 +11,17 @@ export default class extends React.Component {
 
   _input() {
     return input(Object.assign({}, this.props.inputHtml, {
-        valueLink: this.props.valueLink,
-        className: cx(this.props.inputHtml.className, "form-control"),
+        valueLink: {
+          value: this.props.valueLink.value,
+          requestChange: this._onTimeChange,
+        },
+		className: cx(this.props.inputHtml.className, "form-control"),
       })
     )
+  }
+
+  _onTimeChange(newTime) {
+    console.log(`New Time ${newTime}`)
   }
 
   render() {
