@@ -22,7 +22,6 @@ let AccountForm = React.createClass({
   },
 
   formContent: function(f) {
-    console.log("FORM CONTENT");
     return <div className="container">
       <div className="row">
         <div className="sm-col-12">

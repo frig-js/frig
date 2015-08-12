@@ -18,13 +18,13 @@ let dsl = {
     return React.createElement(component, props)
   },
 
-  submit(component, value, props = {}) {
-    if (arguments.length === 1 && typeof value != "string")
+  submit(component, title, props = {}) {
+    if (arguments.length === 1 && typeof title != "string")
     {
-      props = value
-      value = undefined
+      props = title
+      title = undefined
     }
-    props = Object.assign({key: `${name}Input`, value}, props)
+    props = Object.assign({key: `${name}Input`, title}, props)
     return React.createElement(component, props)
   },
 }

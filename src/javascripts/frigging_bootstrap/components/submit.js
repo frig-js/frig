@@ -1,6 +1,6 @@
-var React                         = require("react/addons")
-var {div, input}                  = React.DOM
-var {sizeClassNames}              = require("../util.js")
+var React = require("react/addons")
+var {div, button} = React.DOM
+var {sizeClassNames} = require("../util.js")
 var cx = require("classnames")
 
 export default class extends React.Component {
@@ -11,14 +11,15 @@ export default class extends React.Component {
 
   _inputHtml() {
     return Object.assign({}, this.props.inputHtml, {
-      className: `${this.props.className || ""} btn btn-default`.trim(),
+      className: cx(this.props.className, "btn btn-default"),
+      type: "submit",
     })
   }
 
   render() {
     return div({className: cx(sizeClassNames(this.props))},
       div({className: "form-group"},
-        input(this._inputHtml()),
+        button(this._inputHtml(), this.props.title),
       ),
     )
   }

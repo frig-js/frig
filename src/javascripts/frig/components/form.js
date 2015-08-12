@@ -173,7 +173,9 @@ export default class FrigForm extends React.Component {
   _errorsComponentClass() {
     // Returning a input component modified with this form's defaults and
     // overrides
-    return propsClosure(frigInput, {
+    let mapping = this._typeMapping().errors
+    let component = this._getThemedInputComponent({}, mapping.component)
+    return propsClosure(component, {
       defaults: {key: "errors"},
       overrides: this._errorsOverrides.bind(this),
     })
@@ -192,7 +194,9 @@ export default class FrigForm extends React.Component {
   _submitComponentClass() {
     // Returning a input component modified with this form's defaults and
     // overrides
-    return propsClosure(frigInput, {
+    let mapping = this._typeMapping().submit
+    let component = this._getThemedInputComponent({}, mapping.component)
+    return propsClosure(component, {
       defaults: {key: "submit"},
       overrides: this._submitOverrides.bind(this),
     })
