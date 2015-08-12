@@ -9,7 +9,6 @@ let React = require("react")
  * valueLink value to convert it into the onValue or offValue.
  */
 export default function(componentClass) {
-  console.log(arguments)
   return class extends React.Component {
 
     static propTypes = {

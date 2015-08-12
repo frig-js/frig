@@ -46,7 +46,7 @@ AccountForm = React.createClass
             remote: {
               url: @githubSearchUrl
               parser: @parseGithubResponse
-              maxReqsPerMinute: 20
+              maxReqsPerMinute: 10
             }
             xs: 10
           ),

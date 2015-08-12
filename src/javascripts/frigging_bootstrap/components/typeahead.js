@@ -30,6 +30,11 @@ export default class extends React.Component {
     document.removeEventListener("click", this._onDocumentClick)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.inputValue === prevState.inputValue) return
+    this._onInputChange(this.state.inputValue)
+  }
+
   // Select the user-entered option if they press enter
   _onKeyDown(e) {
     if (!(e.key === 'Enter') || !this.props.multiple) return
@@ -91,17 +96,19 @@ export default class extends React.Component {
   }
 
   async _onInputChange(val) {
-    this.setState({inputValue: val})
     this._remotePromise = undefined
     // If the input text is greater then the mininum length and a remote is set
     // request an updated list of options that match the inputted value via
     // AJAX.
-    if (val.length >= this.props.minLength && this.props.remote != null) {
-      await this._requestRemoteUpdate(val)
-    }
-    // select the user's input if it matches an option (single-selects only)
-    let option = this._optionForCurrentInput(val)
-    if(!this.props.multiple && option != null) this._select(option)
+      if (val.length >= this.props.minLength && this.props.remote != null) {
+        // Ignoring failed and aborted AJAX requests
+        try {
+          await this._requestRemoteUpdate(val)
+        } catch (e) {}
+      }
+      // select the user's input if it matches an option (single-selects only)
+      let option = this._optionForCurrentInput(val)
+      if(!this.props.multiple && option != null) this._select(option)
   }
 
   async _requestRemoteUpdate(val) {
@@ -110,15 +117,16 @@ export default class extends React.Component {
     if (remote.maxReqsPerMinute != null) {
       let msSinceReq = Date.now() - (this._suggestionReqTimestamp||0)
       if (msSinceReq < 60000.0 / remote.maxReqsPerMinute) {
-        // If a request or timeout is in progress do not set a timeout
-        if (this._remotePromise != null) return
         // Set a timeout to run the update asyncronously once the request
         // rate limiting has been satisfied
         let timeUntilRequest = 60000.0 / remote.maxReqsPerMinute - msSinceReq
         let timeout = this._remotePromise = promisedTimeout(timeUntilRequest)
         await timeout
-        // If another request or timeout is made after this one abort this one
-        if (this._remotePromise !== timeout) return
+        // If another request or timeout is made after this one or if the input
+        // value has subsequently changed abort this request
+        if (this._remotePromise !== timeout || this.state.inputValue !== val) {
+          throw "request aborted"
+        }
       }
     }
     // Make the request and await an ajax response
@@ -127,7 +135,7 @@ export default class extends React.Component {
       let req = this._remotePromise = fetch(remote.url(val))
       let res = await req
       // If another request is made after this one abort this one
-      if (this._remotePromise !== req) return
+      if (this._remotePromise !== req) throw "request aborted"
       // Parse the response and update the state
       let parser = remote.parser || (() => res.json())
       this.setState({options: parser(await res.json())})
@@ -253,7 +261,7 @@ export default class extends React.Component {
       inputWrapper: this._inputWrapper.bind(this),
       valueLink: {
         value: this._inputValue(),
-        requestChange: this._onInputChange.bind(this),
+        requestChange: (inputValue) => this.setState({inputValue}),
       },
       required: false,
       ref: "frigInput",
