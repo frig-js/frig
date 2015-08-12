@@ -12,10 +12,7 @@ export default class extends React.Component {
 
   _input() {
     return input(Object.assign({}, this.props.inputHtml, {
-        valueLink: {
-          value: this.props.valueLink.value,
-          requestChange: this._onTimeChange,
-        },
+        valueLink: this.props.valueLink,
 		className: cx(this.props.inputHtml.className, "form-control"),
       })
     )
@@ -34,7 +31,9 @@ export default class extends React.Component {
         this._input(),
         errorList(this.props.errors),
       ),
-      popup()
+      popup({
+        valueLink: this.props.valueLink,
+      })
     )
   }
 
