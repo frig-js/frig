@@ -17,17 +17,9 @@ export default class extends React.Component {
     })
   }
 
-  _cx() {
-    return cx({
-      "form-group": true,
-      "has-error": this.props.errors != null,
-      "has-success": this.props.modified && this.props.errors == null,
-    })
-  }
-
   render() {
     return div({className: cx(sizeClassNames(this.props))},
-      div({className: this._cx()},
+      div({className: formGroupCx(this.props)},
         label(this.props),
         div({className: "controls"},
           textarea(this._inputHtml()),

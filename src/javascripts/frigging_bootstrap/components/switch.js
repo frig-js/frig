@@ -1,11 +1,11 @@
-let React                                    = require("react")
-let cx                                       = require("classnames")
-
+let React = require("react")
+let cx = require("classnames")
+let booleanHOF = require("frig/higher_order_functions/boolean")
 let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
 
 let {div, span, input} = React.DOM
 
-export default class extends React.Component {
+export default booleanHOF(class extends React.Component {
 
   static displayName = "Frig.friggingBootstrap.Switch"
 
@@ -18,7 +18,7 @@ export default class extends React.Component {
     disabled: false,
   })
 
-  isChecked() {
+  _isChecked() {
     return this.props.valueLink.value
   }
 
@@ -71,7 +71,7 @@ export default class extends React.Component {
         className: `bootstrap-switch-container`,
         ref: "switchContainer",
         onClick: this._onClick.bind(this),
-        style: {marginLeft: this.isChecked() ? "0" : "-50px"},
+        style: {marginLeft: this._isChecked() ? "0" : "-50px"},
       },
       span({className: this._onSpanCx()},
         this.props.onText
@@ -87,16 +87,18 @@ export default class extends React.Component {
 
   render() {
     return div({className: cx(sizeClassNames(this.props))},
-      div({className: this._labelContainerCx()},
-        label(this.props)
-      ),
-      div({className: this._inputContainerCx()},
-        div({className: this._switchCx()},
-          this._input(),
+      div({className: formGroupCx(this.props)},
+        div({className: this._labelContainerCx()},
+          label(this.props)
         ),
-        errorList(this.props.errors),
-      )
+        div({className: this._inputContainerCx()},
+          div({className: this._switchCx()},
+            this._input(),
+          ),
+          errorList(this.props.errors),
+        ),
+      ),
     )
   }
 
-}
+})

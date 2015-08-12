@@ -168,7 +168,7 @@ export default class FrigInput extends React.Component {
   _validations(nextProps = this.props) {
     // Validations (these get mixed into the overrides)
     let defaults = {
-      required: nextProps.type !== "boolean",
+      required: true,
     }
     let validations = {}
     for (let [k] of entries(frigValidations)) {
