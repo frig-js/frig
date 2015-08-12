@@ -18,6 +18,10 @@ export default booleanHOF(class extends React.Component {
     disabled: false,
   })
 
+  componentWillMount() {
+    console.log("MOUNT!")
+  }
+
   _isChecked() {
     return this.props.valueLink.value
   }

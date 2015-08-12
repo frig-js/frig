@@ -163,7 +163,8 @@ export default class FrigForm extends React.Component {
    * Component classes for children
    */
   _componentClasses() {
-    return {
+    if (this._componentClassesCache != null) return this._componentClassesCache
+    return this._componentClassesCache = {
       errors: this._errorsComponentClass(),
       input: this._inputComponentClass(),
       submit: this._submitComponentClass(),
