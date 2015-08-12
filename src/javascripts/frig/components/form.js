@@ -9,7 +9,7 @@ let {entries}                    = require("../util.js")
  */
 export default class FrigForm extends React.Component {
   static propTypes = {
-    data: React.PropTypes.object.isRequired,
+    data: React.PropTypes.object,
     form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
@@ -95,14 +95,24 @@ export default class FrigForm extends React.Component {
     )
   }
 
-  _initialValues() {
-    // If the data is a ReactLink extract its value
-    if (this.props.data.requestChange != null) {
-      return this.props.data.value
-    }
-    else {
+  /*
+   * Returns a value link regardles of whether the property is a value or value
+   * link
+   */
+  _valueLink() {
+    if (this.props.data.requestChange) {
       return this.props.data
     }
+    else {
+      return {
+        value: this.props.data,
+        requestChange: () => {},
+      }
+    }
+  }
+
+  _value() {
+    return this._valueLink().value
   }
 
   // Generates React DOM elements to pass to the themed form component as
@@ -127,16 +137,14 @@ export default class FrigForm extends React.Component {
     // clone the form data object to avoid the situation where subsequent form
     // updates unexpectedly mutate the data object
     let formData = Object.assign({}, this._frigFormData)
-    let reactLinkData = Object.assign({}, this._initialValues(), formData)
+    let reactLinkData = Object.assign({}, this._value(), formData)
     // Notify the event listeners
     this.props.onChange(formData)
     if (valid) this.props.onValidChange(formData)
     // Update the ReactLink with the merged combination of form data and the
     // initial values passed in to the form (allowing non-form data to be
     // persisted)
-    if (this.props.data.requestChange != null) {
-      this.props.data.requestChange(reactLinkData)
-    }
+    this._valueLink().requestChange(reactLinkData)
   }
 
   _onSubmit(e) {
@@ -232,7 +240,7 @@ export default class FrigForm extends React.Component {
       key:                    `${key}Input`,
       name:                   key,
       valueLink: {
-        value: this._initialValues()[key],
+        value: this._value()[key],
         requestChange: this._onFriggingChildChange.bind(this, [key]),
       },
       onFriggingChildInit:    this._onFriggingChildInit.bind(this, [key]),
