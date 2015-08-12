@@ -2,7 +2,7 @@ require("whatwg-fetch/fetch.js")
 let React = require("react")
 let cx = require("classnames")
 let fuzzy = require('fuzzy')
-let {div, p, input, i, ul, li} = React.DOM
+let {div, p, a, input, i, ul, li} = React.DOM
 let BootstrapInput = require("./input.js")
 let FrigInput = React.createFactory(require("frig/components/input"))
 let {errorList, sizeClassNames, formGroupCx} = require("../util")
@@ -217,7 +217,9 @@ export default class extends React.Component {
     return div({className: wrapperCx},
       ul({className: "dropdown-menu frigb-ta-suggestions col-xs-12"},
         suggestions.map((o) => {
-          return li({onClick: this._select.bind(this, o)}, o.label)
+          return li({},
+            a({href: "#", onClick: this._select.bind(this, o)}, o.label),
+          )
         })
       ),
     )

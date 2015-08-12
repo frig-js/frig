@@ -7,7 +7,7 @@ let React = require("react")
  * This component will request a change to the valueLink for any non-boolean
  * valueLink value to convert it into a boolean.
  */
-export default function(component, opts) {
+export default function(componentClass, opts) {
   return class extends React.Component {
     _get(k, props) {
       if (typeof(opts[k]) == "function") {
@@ -27,7 +27,7 @@ export default function(component, opts) {
       // Adding the overrides
       childProps = Object.assign(childProps, this._get("overrides", childProps))
       // Rendering
-      return React.createElement(component, childProps)
+      return React.createElement(componentClass, childProps)
     }
 
   }

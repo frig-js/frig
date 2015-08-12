@@ -2,9 +2,10 @@ var React                         = require("react")
 var {errorList, sizeClassNames, formGroupCx} = require("../util.js")
 var {div, label, input}           = React.DOM
 var cx                            = require("classnames")
-let booleanHOF = require("frig/higher_order_functions/boolean")
+let booleanHOC = require("frig/higher_order_components/boolean")
 
-export default booleanHOF(class extends React.Component {
+@booleanHOC
+export default class extends React.Component {
 
   displayName = "Frig.friggingBootstrap.Checkbox"
 
@@ -32,4 +33,4 @@ export default booleanHOF(class extends React.Component {
     )
   }
 
-})
+}
