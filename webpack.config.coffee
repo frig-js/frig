@@ -4,7 +4,7 @@ path = require "path"
 module.exports =
   entry:
     # frig: "./src/javascripts/frig.js"
-    # jsx: "./examples/jsx/example.jsx"
+    jsx: "./examples/jsx/example.jsx"
     coffeescript: "./examples/coffeescript/example.coffee"
   devtool: "inline-source-map"
   output:
@@ -36,7 +36,7 @@ module.exports =
         loader: "coffee"
       }
       {
-        test: /\.js$/
+        test: /\.jsx?$/
         exclude: /^(node_modules|dist|scripts)/
         loader: "babel?stage=0"
       }

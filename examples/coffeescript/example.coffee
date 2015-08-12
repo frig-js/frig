@@ -93,7 +93,7 @@ AccountForm = React.createClass
               ]
             ]
 
-          f.submit "Save"
+        #   f.submit "Save"
 
 document.addEventListener "DOMContentLoaded", ->
   reactElement = React.createElement AccountForm

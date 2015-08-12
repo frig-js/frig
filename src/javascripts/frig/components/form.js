@@ -1,6 +1,7 @@
-let React                        = require("react")
-let frigInput                    = React.createFactory(require("./input.js"))
-let {entries}                    = require("../util.js")
+let React = require("react")
+let frigInput = require("./input.js")
+let propsClosure = require("../higher_order_functions/props_closure.js")
+let {entries} = require("../util.js")
 
 /*
  * A JSX-compatible React DOM Component.
@@ -86,12 +87,11 @@ export default class FrigForm extends React.Component {
   }
 
   // Generate the type mapping for an input component
-  _typeMapping(inputTypeMapping) {
+  _typeMapping() {
     return Object.assign(
       {},
       require("../type_mapping.js"),
       this.props.theme.type_mapping,
-      inputTypeMapping,
     )
   }
 
@@ -118,7 +118,7 @@ export default class FrigForm extends React.Component {
   // Generates React DOM elements to pass to the themed form component as
   // child components.
   _friggingChildren() {
-    return this.props.form(this._frigDSL())
+    return this.props.form(this._componentClasses())
   }
 
   _onFriggingChildInit(k, v) {
@@ -159,40 +159,50 @@ export default class FrigForm extends React.Component {
    * =========================================================================
    */
 
-
-  _frigDSL() {
+  /*
+   * Component classes for children
+   */
+  _componentClasses() {
     return {
-      errors: this._frigErrors.bind(this),
-      input: this._frigInput.bind(this),
-      submit: this._frigSubmit.bind(this),
+      errors: this._errorsComponentClass(),
+      input: this._inputComponentClass(),
+      submit: this._submitComponentClass(),
     }
   }
 
-  _frigErrors() {
-    return this._frigInput("errors", {
+  _errorsComponentClass() {
+    // Returning a input component modified with this form's defaults and
+    // overrides
+    return propsClosure(frigInput, {
+      defaults: {key: "errors"},
+      overrides: this._errorsOverrides.bind(this),
+    })
+  }
+
+  _errorsOverrides() {
+    return {
       type: "errors",
       errors: this.props.errors,
-    })
+    }
   }
 
   // Create a submit button
   // value: [STRING] The label text for the submit button
   // props: [OBJECT] properties to send to the React Component (see input props)
-  _frigSubmit(value, props = {}) {
-    if (arguments.length === 1 && typeof value != "string")
-    {
-      props = value
-      value = undefined
-    }
-    props = Object.assign(this._frigSubmitDefaults(value), props)
-    return this._frigInput("submit", props)
+  _submitComponentClass() {
+    // Returning a input component modified with this form's defaults and
+    // overrides
+    return propsClosure(frigInput, {
+      defaults: {key: "submit"},
+      overrides: this._submitOverrides.bind(this),
+    })
   }
 
-  _frigSubmitDefaults(value) {
+  _submitOverrides(submitProps) {
     return {
       type: "submit",
       inputHtml: {
-        defaultValue: value,
+        defaultValue: submitProps.value,
       },
     }
   }
@@ -213,38 +223,42 @@ export default class FrigForm extends React.Component {
   //           of the key
   //     false: disables the label
   //     [STRING]: sets the label to the given string
-  _frigInput(key, inputProps = {}) {
-    let isCoffeescript = key != null
-    let typeMapping = inputProps.typeMapping
-    delete inputProps.typeMapping
-    // Setting the defaults
-    inputProps = Object.assign(this._frigInputDefaults(key), inputProps)
-    // Guessing the type and using it to lookup the template
-    inputProps.type = this._frigGuessInputType(inputProps)
-    // looking up the template name with the type mappings and the type
-    let mapping = this._typeMapping(typeMapping)[inputProps.type]
-    let component = this._getThemedInputComponent(inputProps, mapping.component)
-    if (isCoffeescript) component = React.createFactory(component)
-    inputProps.component = component
-    inputProps.inputHtml = Object.assign(
-      {type: mapping.htmlInputType},
-      inputProps.inputHtml,
-    )
-    // Creating and returning the component instance
-    return frigInput(inputProps)
+  _inputComponentClass() {
+    // Returning a input component modified with this form's defaults and
+    // overrides
+    return propsClosure(frigInput, {
+      defaults: this._inputDefaults.bind(this),
+      overrides: this._inputOverrides.bind(this),
+    })
   }
 
-  _frigInputDefaults(key) {
+  _inputDefaults({name}) {
     return {
-      ref:                    `${key}Input`,
-      key:                    `${key}Input`,
-      name:                   key,
+      name,
+      key: `${name}Input`,
       valueLink: {
-        value: this._data()[key],
-        requestChange: this._onFriggingChildChange.bind(this, [key]),
+        value: this._data()[name],
+        requestChange: this._onFriggingChildChange.bind(this, [name]),
       },
-      onFriggingChildInit:    this._onFriggingChildInit.bind(this, [key]),
+      onFriggingChildInit: this._onFriggingChildInit.bind(this, [name]),
     }
+  }
+
+  _inputOverrides(inputProps) {
+    let name = inputProps.name
+    // Guessing the type and using it to lookup the template
+    let type = this._frigGuessInputType(inputProps)
+    // looking up the template name with the type mappings and the type
+    let mapping = this._typeMapping()[type]
+    let component = this._getThemedInputComponent(inputProps, mapping.component)
+    let inputHtmlDefaults = {type: mapping.htmlInputType}
+    // Generating the overrides object
+    return Object.assign({}, inputProps, {
+      type,
+      component,
+      ref: `${name}Input`,
+      inputHtml: Object.assign(inputHtmlDefaults, inputProps.inputHtml),
+    })
   }
 
   _frigGuessInputType(inputProps) {
@@ -274,11 +288,11 @@ export default class FrigForm extends React.Component {
 
   _getThemedInputComponent(props, componentName) {
     if (componentName == null) {
-      throw `${props.key}: No type mapping found for type ${props.type}`
+      throw `${props.name}: No type mapping found for type ${props.type}`
     }
     let component = this.props.theme.component(componentName)
     if (component == null) {
-      throw `${props.key}: No ${componentName} component found in theme`
+      throw `${props.name}: No ${componentName} component found in theme`
     }
     return component
   }

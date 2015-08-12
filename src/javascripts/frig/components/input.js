@@ -56,7 +56,7 @@ export default class FrigInput extends React.Component {
   }
 
   render() {
-    return this.props.component(this._themedInputProps())
+    return React.createElement(this.props.component, this._themedInputProps())
   }
 
   /*

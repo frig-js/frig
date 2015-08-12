@@ -1,8 +1,10 @@
 'use strict'
+require("babel-core/polyfill")
+require("font-awesome-webpack")
+require("frig").defaultTheme(require("frigging_bootstrap"))
 
-require("../../node_modules/bootstrap/dist/css/bootstrap.css")
-let React         = require("react/addons")
-let {frig}        = require("frig/components/form")
+let React = require("react/addons")
+let Frig = require("frig/components/form")
 
 let AccountForm = React.createClass({
   mixins: [
@@ -10,12 +12,11 @@ let AccountForm = React.createClass({
   ],
 
   getInitialState: function() {
-    console.log("initial state???")
     return {
       account: {
         email: "me@test.com",
         password: "test",
-        shareSketchyInfo: false
+        shareSketchyInfo: false,
       }
     }
   },
@@ -51,7 +52,7 @@ let AccountForm = React.createClass({
   },
 
   render: function() {
-    return <frig
+    return <Frig
       data={this.linkState("account")}
       form={this.formContent}
     />
