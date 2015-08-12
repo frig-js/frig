@@ -1,5 +1,6 @@
 let React = require("react")
 let cx = require("classnames")
+let popup = React.createFactory(require("./timepicker_popup"))
 let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
 let {div, input} = React.DOM
 
@@ -33,6 +34,7 @@ export default class extends React.Component {
         this._input(),
         errorList(this.props.errors),
       ),
+      popup()
     )
   }
 
