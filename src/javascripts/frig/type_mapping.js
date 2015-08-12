@@ -20,7 +20,7 @@ module.exports = {
   switch:       {component: "switch"},
   // datetime:     {component: "datetime"},
   // date:         {component: "datetime"},
-  // time:         {component: "datetime"},
+  time:         {component: "timepicker"},
   select:       {component: "select"},
   multiselect:  {component: "select"},
   typeahead:    {component: "typeahead"},
