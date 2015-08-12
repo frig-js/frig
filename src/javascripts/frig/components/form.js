@@ -96,10 +96,10 @@ export default class FrigForm extends React.Component {
   }
 
   /*
-   * Returns a value link regardles of whether the property is a value or value
-   * link
+   * Returns a value link-type object regardles of whether the data property is
+   * a value or value link
    */
-  _valueLink() {
+  _dataLink() {
     if (this.props.data.requestChange) {
       return this.props.data
     }
@@ -111,8 +111,8 @@ export default class FrigForm extends React.Component {
     }
   }
 
-  _value() {
-    return this._valueLink().value
+  _data() {
+    return this._dataLink().value
   }
 
   // Generates React DOM elements to pass to the themed form component as
@@ -137,14 +137,14 @@ export default class FrigForm extends React.Component {
     // clone the form data object to avoid the situation where subsequent form
     // updates unexpectedly mutate the data object
     let formData = Object.assign({}, this._frigFormData)
-    let reactLinkData = Object.assign({}, this._value(), formData)
+    let reactLinkData = Object.assign({}, this._data(), formData)
     // Notify the event listeners
     this.props.onChange(formData)
     if (valid) this.props.onValidChange(formData)
     // Update the ReactLink with the merged combination of form data and the
     // initial values passed in to the form (allowing non-form data to be
     // persisted)
-    this._valueLink().requestChange(reactLinkData)
+    this._dataLink().requestChange(reactLinkData)
   }
 
   _onSubmit(e) {
@@ -240,7 +240,7 @@ export default class FrigForm extends React.Component {
       key:                    `${key}Input`,
       name:                   key,
       valueLink: {
-        value: this._value()[key],
+        value: this._data()[key],
         requestChange: this._onFriggingChildChange.bind(this, [key]),
       },
       onFriggingChildInit:    this._onFriggingChildInit.bind(this, [key]),
