@@ -48,10 +48,6 @@ export default class extends React.Component {
     this._setMinutesSinceMidnight(val, isAM)
   }
 
-  _inputWrapper(inputHtml) {
-    return input(inputHtml)
-  }
-
   _calculateHourChange(hour) {
     hour = (parseInt(hour)||0)
     hour = hour % 12

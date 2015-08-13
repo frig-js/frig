@@ -18,10 +18,6 @@ export default class extends React.Component {
     )
   }
 
-  _onTimeChange(newTime) {
-    console.log(`New Time ${newTime}`)
-  }
-
   render() {
     return div({className: cx(sizeClassNames(this.props))},
       div({className: formGroupCx(this.props)},
