@@ -12,21 +12,19 @@ export default class extends React.Component {
     suffix:          undefined,
   })
 
-  state = {
-    image: null,
-  }
-
   componentDidMount() {
     this.setState({image: this.props.initialValue})
   }
 
   _input() {
     return input(Object.assign({}, this.props.inputHtml, {
-      className: cx(this.props.inputHtml.className, "form-control"),
+      className: cx(this.props.className, "form-control"),
       type: "file",
       accept: "image/png,image/gif,image/jpeg",
       ref: "frigFile",
-      onChange: this._loadFile.bind(this),
+      valueLink: {
+        requestChange: this._loadFile.bind(this),
+      },
     }))
   }
 
@@ -39,20 +37,16 @@ export default class extends React.Component {
 
   _onFileLoad() {
     let v = this.fReader.result.slice(0)
-    this.setState({image: v})
-    this.getFriggingValue = () => v
-    if (this.props.onFriggingChildChange) {
-      this.props.onFriggingChildChange("image", v, true)
-    }
+    this.props.valueLink.requestChange(v)
   }
 
   _image() {
-    if (this.state.image == null) return ""
+    if (this.props.valueLink.value == null) return ""
     return img({
       className: "thumbnail",
       height: "125",
       width: "125",
-      src: this.state.image,
+      src: this.props.valueLink.value,
     })
   }
 
