@@ -58,8 +58,6 @@ export default class extends React.Component {
 
   _calculateHourChange(hour) {
     hour = (parseInt(hour)||0)
-    let meridiem = this._isMeridiemAM()
-    if (hour < 1 || hour > 11) meridiem = meridiem === true ? "AM" : "PM"
     hour = hour % 12
 
     return this._getMinutes() + hour * 60
