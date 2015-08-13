@@ -10,12 +10,29 @@ export default class extends React.Component {
 
   static defaultProps = Object.assign(require("../default_props.js"))
 
+  state = {
+    showPopup: false,
+  }
+
+  _onInputClick() {
+    this.setState({
+      showPopup: !this.state.showPopup,
+    })
+  }
+
   _input() {
     return input(Object.assign({}, this.props.inputHtml, {
         valueLink: this.props.valueLink,
-		className: cx(this.props.inputHtml.className, "form-control"),
+        className: cx(this.props.inputHtml.className, "form-control"),
+        onClick: this._onInputClick.bind(this),
       })
     )
+  }
+
+  _inputPopup() {
+    if(this.state.showPopup === false) return
+
+    return popup({ valueLink: this.props.valueLink })
   }
 
   render() {
@@ -27,9 +44,7 @@ export default class extends React.Component {
         this._input(),
         errorList(this.props.errors),
       ),
-      popup({
-        valueLink: this.props.valueLink,
-      })
+      this._inputPopup(),
     )
   }
 
