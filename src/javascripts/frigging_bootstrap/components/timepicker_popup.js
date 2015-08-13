@@ -100,6 +100,7 @@ export default class extends React.Component {
 
     if(hours < 0) hours = 11
     if(hours === 12 && minutes === 0) isAM = !currentMeridiem
+    minutes = minutes < 10 ? `0${minutes}` : minutes
 
     let meridiem = isAM ? "AM" : "PM"
 
