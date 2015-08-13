@@ -52,7 +52,7 @@ export default class extends React.Component {
   _calculateHourChange(hour) {
     hour = (parseInt(hour)||0)
     let meridiem = this._isMeridiemAM()
-    if (hour < 1 || hour > 11) meridiem = meridiem === true ? "PM" : "AM"
+    if (hour < 1 || hour > 11) meridiem = meridiem === true ? "AM" : "PM"
     hour = hour % 12
 
     return this._getMinutes() + hour * 60
@@ -74,20 +74,20 @@ export default class extends React.Component {
     // Parsing the input string
     let [hours, minutes] = val.split(":").map((s) => parseInt(s))
 
-    let isPM = /pm$/i.test(val)
+    let isAM = /am$/i.test(val)
 
-    return [hours, minutes, isPM]
+    return [hours, minutes, isAM]
   }
 
   _minutesSinceMidnight() {
-    let [hours, minutes, isPM] = this._getValuesFromTimepicker()
+    let [hours, minutes, isAM] = this._getValuesFromTimepicker()
 
     // Limiting the hours to a range of 0 to 11 and the minutes to 0 to 59
     hours = (hours || 0) % 12
     minutes = (minutes || 0) % 60
 
     // Calculating the number of minutes since midnight
-    return hours * 60 + minutes + (isPM ? 12 * 60 : 0)
+    return hours * 60 + minutes + (isAM ? 0 : 12 * 60)
   }
 
   _setMinutesSinceMidnight(m) {
