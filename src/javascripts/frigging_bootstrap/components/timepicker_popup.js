@@ -18,6 +18,8 @@ export default class extends React.Component {
 
   // Returns the minutes portion of the valueLink's time value from 0 to 59
   _getMinutes(minutesSinceMidnight = this._minutesSinceMidnight()) {
+    if (minutesSinceMidnight < 0) minutesSinceMidnight = minutesSinceMidnight*-1
+
     return minutesSinceMidnight % 60
   }
 
@@ -96,6 +98,7 @@ export default class extends React.Component {
     let minutes = this._getMinutes(m)
     let [, , currentMeridiem] = this._getValuesFromTimepicker()
 
+    if(hours < 0) hours = 11
     if(hours === 12 && minutes === 0) isAM = !currentMeridiem
 
     let meridiem = isAM ? "AM" : "PM"
