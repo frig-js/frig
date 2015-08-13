@@ -158,7 +158,9 @@ export default class extends React.Component {
               xs: 4,
               name: "meridiem",
               onText: "AM",
+              onColor: "warning",
               offText: "PM",
+              offColor: "primary",
               valueLink: {
                 value: this._isMeridiemAM(),
                 requestChange: this._onMeridiemChange.bind(this),
