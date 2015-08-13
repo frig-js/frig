@@ -21,8 +21,10 @@ export default class extends React.Component {
     return minutesSinceMidnight % 60
   }
 
-  _isMeridiemAM(minutesSinceMidnight = this._minutesSinceMidnight()) {
-    return minutesSinceMidnight >= 12*60 ? false : true
+  _isMeridiemAM() {
+    let [hours, minutes, isAM] = this._getValuesFromTimepicker()
+
+    return isAM
   }
 
   _onHourChange(hour) {
@@ -40,9 +42,10 @@ export default class extends React.Component {
   }
 
   _onMeridiemChange(isAM) {
-    let val = this._calculateHourChange(hour)
+    let [hours] = this._getValuesFromTimepicker()
+    let val = this._calculateHourChange(hours)
 
-    this._setMinutesSinceMidnight(val)
+    this._setMinutesSinceMidnight(val, isAM)
   }
 
   _inputWrapper(inputHtml) {
@@ -87,11 +90,11 @@ export default class extends React.Component {
     minutes = (minutes || 0) % 60
 
     // Calculating the number of minutes since midnight
-    return hours * 60 + minutes + (isAM ? 0 : 12 * 60)
+    return hours * 60 + minutes
   }
 
-  _setMinutesSinceMidnight(m) {
-    let meridiem = this._isMeridiemAM(m) ? "AM" : "PM"
+  _setMinutesSinceMidnight(m, isAM = this._isMeridiemAM()) {
+    let meridiem = isAM ? "AM" : "PM"
 
     m = m % (12 * 60)
 
