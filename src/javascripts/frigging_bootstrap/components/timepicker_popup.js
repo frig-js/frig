@@ -30,14 +30,12 @@ export default class extends React.Component {
   _onHourChange(hour) {
     let val = this._calculateHourChange(hour)
 
-    val = val + (this._isMeridiemAM() === false ? 12 * 60 : 0)
     this._setMinutesSinceMidnight(val)
   }
 
   _onMinutesChange(minutes) {
     let val = this._calculateMinutesChange(minutes)
 
-    val = val + (this._isMeridiemAM() === false ? 12 * 60 : 0)
     this._setMinutesSinceMidnight(val)
   }
 
