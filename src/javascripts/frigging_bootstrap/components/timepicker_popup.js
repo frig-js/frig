@@ -29,12 +29,6 @@ export default class extends React.Component {
 
   _onHourChange(hour) {
     let val = this._calculateHourChange(hour)
-<<<<<<< HEAD
-=======
-    let [hours, , isAM] = this._getValuesFromTimepicker()
-
-    if(hour === "12") isAM = !isAM
->>>>>>> 1e327f0... Remove Unused Valuables In Destructures
 
     this._setMinutesSinceMidnight(val)
   }
@@ -96,11 +90,17 @@ export default class extends React.Component {
   }
 
   _setMinutesSinceMidnight(m, isAM = this._isMeridiemAM()) {
-    let meridiem = isAM ? "AM" : "PM"
-
     m = m % (12 * 60)
 
-    let s = `${this._getHour(m)}:${this._getMinutes(m)} ${meridiem}`
+    let hours = this._getHour(m)
+    let minutes = this._getMinutes(m)
+    let [, , currentMeridiem] = this._getValuesFromTimepicker()
+
+    if(hours === 12 && minutes === 0) isAM = !currentMeridiem
+
+    let meridiem = isAM ? "AM" : "PM"
+
+    let s = `${hours}:${minutes} ${meridiem}`
     this.props.valueLink.requestChange(s)
   }
 
