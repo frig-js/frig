@@ -22,13 +22,19 @@ export default class extends React.Component {
   }
 
   _isMeridiemAM() {
-    let [hours, minutes, isAM] = this._getValuesFromTimepicker()
+    let [, , isAM] = this._getValuesFromTimepicker()
 
     return isAM
   }
 
   _onHourChange(hour) {
     let val = this._calculateHourChange(hour)
+<<<<<<< HEAD
+=======
+    let [hours, , isAM] = this._getValuesFromTimepicker()
+
+    if(hour === "12") isAM = !isAM
+>>>>>>> 1e327f0... Remove Unused Valuables In Destructures
 
     this._setMinutesSinceMidnight(val)
   }
@@ -81,7 +87,7 @@ export default class extends React.Component {
   }
 
   _minutesSinceMidnight() {
-    let [hours, minutes, isAM] = this._getValuesFromTimepicker()
+    let [hours, minutes] = this._getValuesFromTimepicker()
 
     // Limiting the hours to a range of 0 to 11 and the minutes to 0 to 59
     hours = (hours || 0) % 12
