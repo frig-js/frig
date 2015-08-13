@@ -26,28 +26,42 @@ export default class extends React.Component {
   }
 
   _onHourChange(hour) {
-    hour = (parseInt(hour)||0)
-    let meridiem = this._isMeridiemAM()
-    if (hour < 1 || hour > 11) meridiem = meridiem === true ? "PM" : "AM"
-    hour = hour % 12
-    let val = this._getMinutes() + hour * 60
+    let val = this._calculateHourChange(hour)
+
     val = val + (this._isMeridiemAM() === false ? 12 * 60 : 0)
     this._setMinutesSinceMidnight(val)
   }
 
   _onMinutesChange(minutes) {
-    minutes = (parseInt(minutes)||0)
-    let val = minutes + this._hoursSinceMeridiem() * 60
+    let val = this._calculateMinutesChange(minutes)
+
     val = val + (this._isMeridiemAM() === false ? 12 * 60 : 0)
     this._setMinutesSinceMidnight(val)
   }
 
-  _onMeridiemChange(isPM) {
+  _onMeridiemChange(isAM) {
+    let val = this._calculateHourChange(hour)
+
     this._setMinutesSinceMidnight(val)
   }
 
   _inputWrapper(inputHtml) {
     return input(inputHtml)
+  }
+
+  _calculateHourChange(hour) {
+    hour = (parseInt(hour)||0)
+    let meridiem = this._isMeridiemAM()
+    if (hour < 1 || hour > 11) meridiem = meridiem === true ? "PM" : "AM"
+    hour = hour % 12
+
+    return this._getMinutes() + hour * 60
+  }
+
+  _calculateMinutesChange(minutes) {
+    minutes = (parseInt(minutes)||0)
+
+    return minutes + this._hoursSinceMeridiem() * 60
   }
 
   _hoursSinceMeridiem(minutesSinceMidnight = this._minutesSinceMidnight()) {
@@ -71,8 +85,10 @@ export default class extends React.Component {
   }
 
   _setMinutesSinceMidnight(m) {
-    let meridiem = this._isMeridiemAM(m) ? "AM": "PM"
-    m = m % (24 * 60)
+    let meridiem = this._isMeridiemAM(m) ? "AM" : "PM"
+
+    m = m % (12 * 60)
+
     let s = `${this._getHour(m)}:${this._getMinutes(m)} ${meridiem}`
     this.props.valueLink.requestChange(s)
   }
