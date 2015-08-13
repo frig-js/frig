@@ -1,6 +1,6 @@
 let React = require("react")
 let frigInput = require("./input.js")
-let propsClosure = require("../higher_order_functions/props_closure.js")
+let propsClosure = require("../higher_order_components/props_closure.js")
 let {entries} = require("../util.js")
 
 /*
