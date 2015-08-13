@@ -68,13 +68,19 @@ export default class extends React.Component {
     return Math.floor(minutesSinceMidnight / 60)
   }
 
-  _minutesSinceMidnight() {
+  _getValuesFromTimepicker() {
     let val = this.props.valueLink.value || ""
 
     // Parsing the input string
     let [hours, minutes] = val.split(":").map((s) => parseInt(s))
 
     let isPM = /pm$/i.test(val)
+
+    return [hours, minutes, isPM]
+  }
+
+  _minutesSinceMidnight() {
+    let [hours, minutes, isPM] = this._getValuesFromTimepicker()
 
     // Limiting the hours to a range of 0 to 11 and the minutes to 0 to 59
     hours = (hours || 0) % 12
