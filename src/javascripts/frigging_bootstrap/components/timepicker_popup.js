@@ -21,24 +21,24 @@ export default class extends React.Component {
     return minutesSinceMidnight % 60
   }
 
-  _getMeridiem(minutesSinceMidnight = this._minutesSinceMidnight()) {
+  _isMeridiemAM(minutesSinceMidnight = this._minutesSinceMidnight()) {
     return minutesSinceMidnight >= 12*60 ? false : true
   }
 
   _onHourChange(hour) {
     hour = (parseInt(hour)||0)
-    let meridiem = this._getMeridiem()
+    let meridiem = this._isMeridiemAM()
     if (hour < 1 || hour > 11) meridiem = meridiem === true ? "PM" : "AM"
     hour = hour % 12
     let val = this._getMinutes() + hour * 60
-    val = val + (this._getMeridiem() === false ? 12 * 60 : 0)
+    val = val + (this._isMeridiemAM() === false ? 12 * 60 : 0)
     this._setMinutesSinceMidnight(val)
   }
 
   _onMinutesChange(minutes) {
     minutes = (parseInt(minutes)||0)
     let val = minutes + this._hoursSinceMeridiem() * 60
-    val = val + (this._getMeridiem() === false ? 12 * 60 : 0)
+    val = val + (this._isMeridiemAM() === false ? 12 * 60 : 0)
     this._setMinutesSinceMidnight(val)
   }
 
@@ -71,7 +71,7 @@ export default class extends React.Component {
   }
 
   _setMinutesSinceMidnight(m) {
-    let meridiem = this._getMeridiem(m) ? "AM": "PM"
+    let meridiem = this._isMeridiemAM(m) ? "AM": "PM"
     m = m % (24 * 60)
     let s = `${this._getHour(m)}:${this._getMinutes(m)} ${meridiem}`
     this.props.valueLink.requestChange(s)
@@ -132,7 +132,7 @@ export default class extends React.Component {
             onText: "AM",
             offText: "PM",
             valueLink: {
-              value: this._getMeridiem(),
+              value: this._isMeridiemAM(),
               requestChange: this._onMeridiemChange.bind(this),
             },
             inputHtml: {
