@@ -111,63 +111,65 @@ export default class extends React.Component {
       xs: 4,
     }
 
-    return div({className: "row"},
-      FrigInput(
-        Object.assign(
-          {},
-          this.props,
-          inputPropOverrides, {
-            name: "hours",
-            inputHtml: {
-              type: "number",
-              step: 1,
-            },
-            valueLink: {
-              value: this._getHour(),
-              requestChange: this._onHourChange.bind(this),
-            },
-          }
-        )
-      ),
+    return div({className: "popup-container"},
+      div({className: "row"},
+        FrigInput(
+          Object.assign(
+            {},
+            this.props,
+            inputPropOverrides, {
+              name: "hours",
+              inputHtml: {
+                type: "number",
+                step: 1,
+              },
+              valueLink: {
+                value: this._getHour(),
+                requestChange: this._onHourChange.bind(this),
+              },
+            }
+          )
+        ),
 
-      FrigInput(
-        Object.assign(
-          {},
-          this.props,
-          inputPropOverrides, {
-            name: "minutes",
-            valueLink: {
-              value: this._getMinutes(),
-              requestChange: this._onMinutesChange.bind(this),
-            },
-            inputHtml: {
-              type: "number",
-              step: 15,
-            },
-          }
-        )
-      ),
+        FrigInput(
+          Object.assign(
+            {},
+            this.props,
+            inputPropOverrides, {
+              name: "minutes",
+              valueLink: {
+                value: this._getMinutes(),
+                requestChange: this._onMinutesChange.bind(this),
+              },
+              inputHtml: {
+                type: "number",
+                step: 15,
+              },
+            }
+          )
+        ),
 
-      FrigInput(
-        Object.assign(
-          {},
-          this.props, {
-            component: BootstrapSwitch,
-            required: false,
-            xs: 4,
-            name: "meridiem",
-            onText: "AM",
-            offText: "PM",
-            valueLink: {
-              value: this._isMeridiemAM(),
-              requestChange: this._onMeridiemChange.bind(this),
-            },
-            inputHtml: {
-              type: "switch",
-            },
-          }
-        )
-      ),
+        FrigInput(
+          Object.assign(
+            {},
+            this.props, {
+              component: BootstrapSwitch,
+              required: false,
+              xs: 4,
+              name: "meridiem",
+              onText: "AM",
+              offText: "PM",
+              valueLink: {
+                value: this._isMeridiemAM(),
+                requestChange: this._onMeridiemChange.bind(this),
+              },
+              inputHtml: {
+                type: "switch",
+              },
+            }
+          )
+        ),
+      )
     )
   }
 
