@@ -78,6 +78,12 @@ AccountForm = React.createClass
             xs: "6"
             label: "Time of Day"
 
+          f.input("uploadAvatar",
+            type: "file",
+            xs: "6"
+            label: "Uploading Avatar"
+          ),
+
         div className: "row",
           div className: "sm-col-12",
             h3 {}, "Additional Sketchy Info"

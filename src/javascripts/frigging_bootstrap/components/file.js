@@ -1,127 +1,91 @@
-// var React                         = require("react/addons")
-// var friggingBootstrap             = require("../index.js")
-// var InputMixin                    = require("frig/components/input_mixin")
-// var {humanize, clone, merge, map} = require("frig/helpers")
-// var {errorList, sizeClassNames}   = friggingBootstrap
-// var {div, label, input, img}      = React.DOM
-// var cx = require("classnames")
+let React = require("react")
+let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
+let {div, input, img} = React.DOM
+let cx = require("classnames")
 
-// friggingBootstrap.File = React.createClass({
+export default class extends React.Component {
 
-//   displayName: "Frig.friggingBootstrap.FileInput",
+  static displayName = "Frig.friggingBootstrap.FileInput"
 
-//   mixins: [InputMixin],
+  static defaultProps = Object.assign(require("../default_props.js"), {
+    prefix:          undefined,
+    suffix:          undefined,
+  })
 
-//   getInitialState: function() {
-//     return {
-//       errors: undefined,
-//       edited: false,
-//     }
-//   },
+  componentDidMount() {
+    this.setState({image: this.props.initialValue})
+  }
 
-//   getFriggingProps: function() {
-//     return {
-//       // Bootstrap input addon texts
-//       prefix:          undefined,
-//       suffix:          undefined,
-//       inputHtml: {
-//         className: "form-control",
-//         placeholder: function() {return this.frigProps.placeholder},
-//         type: function() {return "file"},
-//         accept: function() {return "image/png,image/gif,image/jpeg"},
-//         defaultValue: function() {return this.frigProps.initialValue},
-//       },
-//     }
-//   },
+  _input() {
+    return input(Object.assign({}, this.props.inputHtml, {
+      className: cx(this.props.className, "form-control"),
+      type: "file",
+      accept: "image/png,image/gif,image/jpeg",
+      ref: "frigFile",
+      valueLink: {
+        requestChange: this._loadFile.bind(this),
+      },
+    }))
+  }
 
-//   componentDidMount: function() {
-//     this.setState({image: this.frigProps.initialValue})
-//   },
+  _loadFile() {
+    this.fReader = new FileReader()
+    this.fReader.onloadend = this._onFileLoad.bind(this)
+    let file = React.findDOMNode(this.refs.frigFile).files[0]
+    this.fReader.readAsDataURL(file)
+  }
 
-//   _cx: function() {
-//     return cx({
-//       "has-error": this.state.errors != null,
-//       "has-success": this.state.edited && this.state.errors == null,
-//     })
-//   },
+  _onFileLoad() {
+    let v = this.fReader.result.slice(0)
+    this.props.valueLink.requestChange(v)
+  }
 
-//   _input: function() {
-//     input(this.frigProps.inputHtml)
-//   },
+  _image() {
+    if (this.props.valueLink.value == null) return ""
+    return img({
+      className: "thumbnail",
+      height: "125",
+      width: "125",
+      src: this.props.valueLink.value,
+    })
+  }
 
-//   _loadFile: function() {
-//     this.fReader = new FileReader()
-//     this.fReader.onloadend = this._onFileLoad
-//     var file = this.refs[this.frigProps.inputHtml.ref].getDOMNode().files[0]
-//     this.fReader.readAsDataURL(file)
-//   },
+  _inputPrefix() {
+    if (this.props.prefix == null) return ""
+    return div({className: "input-group-addon"}, this.props.prefix)
+  }
 
-//   _onFileLoad: function() {
-//     v = this.fReader.result.slice(0)
-//     this.setState({image: v})
-//     this.getFriggingValue = () => v
-//     if (this.frigProps.onFriggingChildChange) {
-//       this.frigProps.onFriggingChildChange("image", v, true)
-//     }
-//   },
+  _inputSuffix() {
+    if (this.props.suffix == null) return ""
+    div({className: "input-group-addon"}, this.props.suffix)
+  }
 
-//   _image: function() {
-//     if (this.state.image == null) return ""
-//     return img({
-//       className: "thumbnail",
-//       height: "125",
-//       width: "125",
-//       src: this.state.image,
-//     })
-//   },
+  _inputGroup() {
+    if (this.props.prefix || this.props.suffix) {
+      return div({className: "input-group"},
+        this._inputPrefix(),
+        this._input(),
+        this._inputSuffix(),
+      )
+    }
+    else {
+      return this._input()
+    }
+  }
 
-//   _inputPrefix: function() {
-//     if (this.frigProps.prefix == null) return ""
-//     return div({className: "input-group-addon"}, this.frigProps.prefix)
-//   },
+  render() {
+    return div({className: cx(sizeClassNames(this.props))},
+      div({className: formGroupCx(this.props)},
+        label(this.props),
+        div({className: "controls"},
+          div({className: "image-upload"},
+            this._image(),
+            this._inputGroup(),
+          ),
+        ),
+        errorList(this.props.errors),
+      ),
+    )
+  }
 
-//   _inputSuffix: function() {
-//     if (this.frigProps.suffix == null) return ""
-//     div({className: "input-group-addon"}, this.frigProps.suffix)
-//   },
-
-//   _inputGroup: function() {
-//     if (this.frigProps.prefix || this.frigProps.suffix) {
-//       return div({className: "input-group"},
-//         this._inputPrefix(),
-//         this._input(),
-//         this._inputSuffix(),
-//       )
-//     }
-//     else {
-//       return this._input()
-//     }
-//   },
-
-//   _errorList: function() {
-//     if (this.state.errors == null) return ""
-//     return errorList(this.state.errors)
-//   },
-
-//   _label: function() {
-//     if (this.frigProps.label == null) return ""
-//     return label(this.frigProps.labelHtml, this.frigProps.label)
-//   },
-
-//   render: function() {
-//     this.frigProps.inputHtml.onChange = this._loadFile
-//     return div({className: cx(sizeClassNames(this.frigProps))},
-//       div({className: this._cx()},
-//         this._label(),
-//         div({className: "controls"},
-//           div({className: "image-upload"},
-//             this._image(),
-//             this._inputGroup(),
-//           ),
-//         ),
-//         this._errorList(),
-//       ),
-//     )
-//   },
-
-// })
+}
