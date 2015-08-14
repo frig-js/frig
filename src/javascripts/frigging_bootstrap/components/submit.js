@@ -1,4 +1,4 @@
-var React = require("react/addons")
+var React = require("react")
 var {div, button} = React.DOM
 var {sizeClassNames} = require("../util.js")
 var cx = require("classnames")

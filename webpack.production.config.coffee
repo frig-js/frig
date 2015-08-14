@@ -1,21 +1,31 @@
 ExtractTextPlugin = require "extract-text-webpack-plugin"
 path = require "path"
+webpack = require "webpack"
+
+# isProduction = process.env.FRIG_ENV == "production"
+isProduction = true
 
 module.exports =
-  entry: "./src/javascripts/frig.coffee"
+  entry:
+    frig: "./src/javascripts/frig/index.js"
+    frigging_bootstrap: "./src/javascripts/frigging_bootstrap/index.js"
   devtool: "source-map"
   output:
     path: path.join(__dirname, "dist")
-    filename: "frig.min.js"
+    filename: "[name].min.js"
     libraryTarget: "var"
-    library: "Frig"
+    library: "[name]"
   externals:
     "react/addons": "React.addons"
+    "react": "React"
+    "frig/higher_order_components/boolean": "Frig.higherOrderComponents.Boolean"
+    "frig/components/input": "Frig.components.Input"
+    "frig/util": "Frig.util"
+    # "whatwg-fetch/fetch.js": "fetch"
   resolve:
     root: [
       path.join(__dirname, "src", "javascripts")
       path.join(__dirname, "src", "stylesheets")
-      path.join(__dirname, "bower_components")
     ]
   module:
     loaders: [
@@ -33,11 +43,19 @@ module.exports =
       }
       {
         test: /\.coffee$/
-        # # See https://github.com/babel/babel-loader/issues/44
-        # loader: "babel!coffee"
         loader: "coffee"
+      }
+      {
+        test: /\.jsx?$/
+        exclude: /^(node_modules|dist|scripts)/
+        loader: "babel?stage=0"
+      }
+      {
+        test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+        loader: "url-loader"
       }
     ]
   plugins: [
-    new ExtractTextPlugin("frig.min.css")
+    new webpack.optimize.UglifyJsPlugin(minimize: isProduction),
+    new ExtractTextPlugin("frigging_bootstrap.min.css")
   ]
