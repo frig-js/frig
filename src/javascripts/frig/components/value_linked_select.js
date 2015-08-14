@@ -50,7 +50,7 @@ export default class extends React.Component {
     }
   }
 
-  _onChange(val) {
+  _onChange() {
     this.props.valueLink.requestChange(this._getValue())
   }
 

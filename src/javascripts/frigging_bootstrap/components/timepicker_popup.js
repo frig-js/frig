@@ -1,10 +1,8 @@
 let React = require("react")
-let cx = require("classnames")
 let BootstrapInput = require("./input.js")
 let FrigInput = React.createFactory(require("frig/components/input"))
 let BootstrapSwitch = require("./switch.js")
-let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
-let {div, input} = React.DOM
+let {div} = React.DOM
 
 export default class extends React.Component {
   static defaultProps = Object.assign(require("../default_props.js"))

@@ -46,7 +46,7 @@ let util = module.exports = {
   },
 
   promisedTimeout(duration) {
-    return new Promise((resolve, reject) => setTimeout(resolve, duration))
+    return new Promise((resolve) => setTimeout(resolve, duration))
   },
 
   map: function (array, fn) {

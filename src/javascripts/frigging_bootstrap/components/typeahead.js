@@ -2,10 +2,10 @@ require("whatwg-fetch/fetch.js")
 let React = require("react")
 let cx = require("classnames")
 let fuzzy = require('fuzzy')
-let {div, p, a, input, i, ul, li} = React.DOM
+let {div, a, input, i, ul, li} = React.DOM
 let BootstrapInput = require("./input.js")
 let FrigInput = React.createFactory(require("frig/components/input"))
-let {errorList, sizeClassNames, formGroupCx} = require("../util")
+let {errorList} = require("../util")
 let {promisedTimeout} = require("frig/util")
 
 export default class extends React.Component {
@@ -238,7 +238,7 @@ export default class extends React.Component {
     inputHtml = Object.assign({}, inputHtml, {
       className: "frigb-ta-input",
       ref: (component) => this._inputComponent = component,
-      onFocus: (e) => this.setState({focused: true}),
+      onFocus: () => this.setState({focused: true}),
     })
     inputHtml.onKeyDown = this._onKeyDown.bind(this)
     return div({className: "frigb-ta", ref: (c) => this._wrapperComponent = c},

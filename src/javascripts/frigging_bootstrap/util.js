@@ -9,7 +9,7 @@ module.exports = {
   },
 
   error(msg, i=0) {
-    return span({className: "help-block", key: `error-$#{i}`},
+    return span({className: "help-block", key: `error-${i}`},
       React.DOM.i({className: "fa fa-exclamation-circle"}, ` ${msg}`),
     )
   },

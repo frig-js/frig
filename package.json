@@ -14,7 +14,7 @@
     "stylus-loader": "*",
     "extract-text-webpack-plugin": "*",
     "babel-loader": "*",
-    "babel-core": "5.8.12",
+    "babel-core": "5.8.20",
     "coffee-loader": "*",
     "jade-loader": "*",
     "url-loader": "*",

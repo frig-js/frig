@@ -3,7 +3,7 @@ let cx = require("classnames")
 let booleanHOC = require("frig/higher_order_components/boolean")
 let {errorList, sizeClassNames, formGroupCx, label} = require("../util.js")
 
-let {div, span, input} = React.DOM
+let {div, span} = React.DOM
 
 @booleanHOC
 export default class extends React.Component {
