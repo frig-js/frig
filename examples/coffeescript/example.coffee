@@ -26,11 +26,14 @@ AccountForm = React.createClass
       avatar_url: user.avatar_url
 
   render: ->
-    frig data: @linkState("account"), (f) =>
+    frig data: @linkState("account"), errors: ["Test Error", "Moo"], (f) =>
       div className: "container",
         div className: "row",
           div className: "sm-col-12",
             h2 {}, "My Account"
+
+        div className: "row",
+          f.errors()
 
         div className: "row",
           # The avatar image

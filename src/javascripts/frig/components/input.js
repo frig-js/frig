@@ -9,7 +9,7 @@ export default class FrigInput extends React.Component {
     component:       React.PropTypes.func.isRequired,
     valueLink:       React.PropTypes.object.isRequired,
     theme:           React.PropTypes.object.isRequired,
-    errors:          React.PropTypes.string.isRequired,
+    errors:          React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     type:            React.PropTypes.string,
     options:         React.PropTypes.array,
     layout:          React.PropTypes.string,

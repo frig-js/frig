@@ -11,6 +11,7 @@ let {entries} = require("../util.js")
 export default class FrigForm extends React.Component {
   static propTypes = {
     data: React.PropTypes.object,
+    errors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
@@ -21,6 +22,7 @@ export default class FrigForm extends React.Component {
   }
 
   static defaultProps = {
+    errors: [],
     theme: undefined,
     typeMapping: {},
     onChange() {},
