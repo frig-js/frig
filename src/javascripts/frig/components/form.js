@@ -42,9 +42,14 @@ export default class FrigForm extends React.Component {
    */
 
   validate() {
+    console.log("VALIDATE??")
+    console.log(this)
+    console.log(this.props.nestedForm)
+    console.log(this.refs)
     let valid = true
     for (let [key, input] of entries(this.refs)) {
-      if (key.match(/Input$/) != null && input.validate != null) {
+      console.log(key)
+      if (key.match(/\-input$/) != null && input.validate != null) {
         valid &= input.validate()
       }
     }
@@ -202,6 +207,11 @@ export default class FrigForm extends React.Component {
   _nestedFieldsComponentClass() {
     // Returning a frig form component with this form's props set as defaults
     return propsClosure(NestedFeildset, {
+      // Note: this limits us to one nested field per form however we need
+      // to be able to access it via a ref ending in "input" for
+      // FrigForm#validate() to work.
+      ref: "nestedfields-input",
+      functionProxies: ["validate"],
       overrides: this._nestedFieldsOverrides.bind(this),
     })
   }
@@ -210,8 +220,10 @@ export default class FrigForm extends React.Component {
     return {
       theme: this.props.theme,
       typeMapping: this.props.typeMapping,
-      onChange: this._onFriggingChildChange.bind(this, [name]),
-      data: this._data()[name] || {},
+      data: {
+        value: this._data()[name] || {},
+        requestChange: this._onFriggingChildChange.bind(this, [name]),
+      },
     }
   }
 
@@ -266,7 +278,7 @@ export default class FrigForm extends React.Component {
   _inputDefaults({name}) {
     return {
       name,
-      key: `${name}Input`,
+      key: `${name}-input`,
       valueLink: {
         value: this._data()[name],
         requestChange: this._onFriggingChildChange.bind(this, [name]),

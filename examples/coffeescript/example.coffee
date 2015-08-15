@@ -16,7 +16,7 @@ AccountForm = React.createClass
       email: "me@test.com"
       password: "test"
       shareSketchyInfo: false
-      addresses: [{}, {}]
+      addresses: [{address: "55 Actual Place Rd."}, {}]
 
   githubSearchUrl: (username) ->
     "https://api.github.com/search/users?q=#{username}&per_page=30"
@@ -27,7 +27,6 @@ AccountForm = React.createClass
       avatar_url: user.avatar_url
 
   render: ->
-    console.log(this.state.account.addresses)
     frig data: @linkState("account"), errors: ["Test Error", "Moo"], (f) =>
       div className: "container",
         div className: "row",

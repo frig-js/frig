@@ -9,6 +9,15 @@ let React = require("react")
  */
 export default function(componentClass, opts) {
   return class extends React.Component {
+    static defaultProps = {ref: opts.ref, key: opts.key}
+
+    componentDidMount() {
+      // Adding function proxies
+      for (let k in (opts.functionProxies||[])) {
+        this[k] = () => this.refs.child[k](...arguments)
+      }
+    }
+
     _get(k, props) {
       if (typeof(opts[k]) == "function") {
         return opts[k](props)
@@ -26,6 +35,7 @@ export default function(componentClass, opts) {
       childProps = Object.assign(childProps, this.props)
       // Adding the overrides
       childProps = Object.assign(childProps, this._get("overrides", childProps))
+      childProps.key = "child"
       // Rendering
       return React.createElement(componentClass, childProps)
     }

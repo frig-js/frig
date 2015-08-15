@@ -8,24 +8,82 @@ export default class NestedFieldset extends React.Component {
     data: React.PropTypes.object.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
-    onChange: React.PropTypes.func.isRequired,
   }
 
-  _renderForm(instanceProps) {
-    let component = require("frig/components/form")
-    instanceProps = Object.assign({}, this.props, instanceProps, {
-      form: (f) => this.props.form(f, instanceProps.key),
+  state = {
+    invalidForms: [],
+  }
+
+  componentWillReceiveProps(nextProps) {
+    // Truncating the invalid forms list to prevent ghosting of invalid
+    // forms that are removed in the props.
+    let invalidForms = this.state.invalidForms
+    let numberOfForms = this._dataValues(nextProps).length
+    invalidForms = invalidForms.slice(0, numberOfForms)
+    this.setState({invalidForms})
+  }
+
+  validate() {
+    console.log("NESTED VALIDATE!!")
+    let valid = true
+    for (ref of this.refs) valid &= ref.validate()
+    return valid
+  }
+
+  _formProps({data, key}) {
+    return Object.assign({}, this.props, {
+      key,
+      ref: key,
+      form: (f) => this.props.form(f, key),
       nestedForm: true,
+      data: {
+        value: data,
+        requestChange: this._onFormRequestChange.bind(this, key),
+      },
     })
-    return React.createElement(component, instanceProps)
+  }
+
+  _onFormRequestChange(key, formData, valid) {
+    let data = this.props.data.value
+    // Combine the updated data from the form with the other forms or if this
+    // is a single form fieldset overwriting the previous form data.
+    if (Array.isArray(data)) {
+      data = data.slice()
+      data[key] = formData
+    }
+    else {
+      data = formData
+    }
+    // Combine this valid flag with the other nested form valid flags and relay
+    // a valid state to the upstream only if all nested forms are valid
+    let invalidForms = this.state.invalidForms
+    if (valid) {
+      invalidForms[key] = true
+    }
+    else {
+      delete invalidForms[key]
+    }
+    valid = invalidForms.select((invalid) => invalid === true).length === 0
+    this.setState({invalidForms})
+    // Relaying the request change to the upstream data
+    this.props.data.requestChange(data, valid)
+  }
+
+  _dataValues(nextProps = this.props) {
+    let dataValues = nextProps.data.value
+    return Array.isArray(dataValues) ? dataValues : [dataValues]
+  }
+
+  _renderForm(formProps) {
+    let component = require("frig/components/form")
+    return React.createElement(component, formProps)
   }
 
   render() {
     let i = 0
-    let datas = this.props.data
-    datas = Array.isArray(datas) ? datas : [datas]
+    let datas = this._dataValues()
     return div({},
-      datas.map((data) => this._renderForm({data, key: i++}))
+      datas.map((data) => this._renderForm(this._formProps({data, key: i++})))
     )
   }
 
