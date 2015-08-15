@@ -1,5 +1,6 @@
 let React = require("react")
 let frigForm = React.createFactory(require("./components/form.js"))
+let dslCallback
 
 /*
  * The DSL wraps each of the components passed to the frig form's "form"
@@ -9,12 +10,24 @@ let frigForm = React.createFactory(require("./components/form.js"))
  */
 let dsl = {
   errors(component, props = {}) {
-    props = Object.assign({key: `${name}Input`}, props)
+    props = Object.assign({key: `frig-errors`}, props)
     return React.createElement(component, props)
   },
 
   input(component, name, props = {}) {
-    props = Object.assign({key: `${name}Input`}, props, {name})
+    props = Object.assign({key: `frig-${name}`}, props, {name})
+    return React.createElement(component, props)
+  },
+
+  nestedFields(component, name, props = {}, form) {
+    if (typeof(props) == "function") {
+      form = props
+      props = {}
+    }
+    props = Object.assign({key: `frig-${name}`}, props, {
+      name,
+      form: dslCallback.bind(window, form),
+    })
     return React.createElement(component, props)
   },
 
@@ -24,7 +37,7 @@ let dsl = {
       props = title
       title = undefined
     }
-    props = Object.assign({key: `${name}Input`, title}, props)
+    props = Object.assign({key: `frig-submit`, title}, props)
     return React.createElement(component, props)
   },
 }
@@ -33,12 +46,12 @@ let dsl = {
  * Intercepts the "form" callback from a Frig form component and sends a
  * coffeescript-style DSL to the callback instead of the usual JSX components
  */
-let dslCallback = function(formCallback, components) {
+dslCallback = function(formCallback, components, ...args) {
   let dslInstance = {}
   for (let k in dsl) {
     dslInstance[k] = dsl[k].bind(window, components[k])
   }
-  return formCallback(dslInstance)
+  return formCallback(dslInstance, ...args)
 }
 
 module.exports = {

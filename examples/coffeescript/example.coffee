@@ -4,7 +4,7 @@ require("frig").defaultTheme require("frigging_bootstrap")
 
 React         = require "react/addons"
 {frig}        = require "frig/dsl"
-{div, h2, h3, img} = React.DOM
+{div, h2, h3, h4, img} = React.DOM
 
 AccountForm = React.createClass
   mixins: [
@@ -16,6 +16,7 @@ AccountForm = React.createClass
       email: "me@test.com"
       password: "test"
       shareSketchyInfo: false
+      addresses: [{}, {}]
 
   githubSearchUrl: (username) ->
     "https://api.github.com/search/users?q=#{username}&per_page=30"
@@ -26,6 +27,7 @@ AccountForm = React.createClass
       avatar_url: user.avatar_url
 
   render: ->
+    console.log(this.state.account.addresses)
     frig data: @linkState("account"), errors: ["Test Error", "Moo"], (f) =>
       div className: "container",
         div className: "row",
@@ -95,6 +97,17 @@ AccountForm = React.createClass
               xs: "6"
               placeholder: "12:00pm"
               label: "Start Time"
+
+        div className: "row",
+          div className: "sm-col-12",
+            h3 {}, "Nested Fields (Eg. Has Many)"
+            f.nestedFields "addresses", (f, index) ->
+              [
+                h4 {}, "Address ##{index+1}"
+                f.input "address"
+                f.input "city"
+                f.input "postal_code"
+              ]
 
         div className: "row",
           div className: "sm-col-12",

@@ -1,6 +1,7 @@
 let React = require("react")
 let frigInput = require("./input.js")
 let propsClosure = require("../higher_order_components/props_closure.js")
+let NestedFeildset = require("./nested_fieldset")
 let {entries} = require("../util.js")
 
 /*
@@ -70,7 +71,13 @@ export default class FrigForm extends React.Component {
   }
 
   render() {
-    return this._themedForm(this._themedFormProps(), this._friggingChildren())
+    // Support for nested fieldsets
+    if (this.props.nestedForm) {
+      return React.DOM.div({}, this._friggingChildren())
+    }
+    else {
+      return this._themedForm(this._themedFormProps(), this._friggingChildren())
+    }
   }
 
   /*
@@ -141,7 +148,7 @@ export default class FrigForm extends React.Component {
     let formData = Object.assign({}, this._frigFormData)
     let reactLinkData = Object.assign({}, this._data(), formData)
     // Notify the event listeners
-    this.props.onChange(formData)
+    this.props.onChange(formData, valid)
     if (valid) this.props.onValidChange(formData)
     // Update the ReactLink with the merged combination of form data and the
     // initial values passed in to the form (allowing non-form data to be
@@ -169,6 +176,7 @@ export default class FrigForm extends React.Component {
     return this._componentClassesCache = {
       errors: this._errorsComponentClass(),
       input: this._inputComponentClass(),
+      nestedFields: this._nestedFieldsComponentClass(),
       submit: this._submitComponentClass(),
     }
   }
@@ -188,6 +196,22 @@ export default class FrigForm extends React.Component {
     return {
       type: "errors",
       errors: this.props.errors,
+    }
+  }
+
+  _nestedFieldsComponentClass() {
+    // Returning a frig form component with this form's props set as defaults
+    return propsClosure(NestedFeildset, {
+      overrides: this._nestedFieldsOverrides.bind(this),
+    })
+  }
+
+  _nestedFieldsOverrides({name}) {
+    return {
+      theme: this.props.theme,
+      typeMapping: this.props.typeMapping,
+      onChange: this._onFriggingChildChange.bind(this, [name]),
+      data: this._data()[name] || {},
     }
   }
 
