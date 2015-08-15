@@ -9,6 +9,7 @@ export default class FrigInput extends React.Component {
     component:       React.PropTypes.func.isRequired,
     valueLink:       React.PropTypes.object.isRequired,
     theme:           React.PropTypes.object.isRequired,
+    errors:          React.PropTypes.string.isRequired,
     type:            React.PropTypes.string,
     options:         React.PropTypes.array,
     layout:          React.PropTypes.string,
@@ -24,10 +25,11 @@ export default class FrigInput extends React.Component {
   }
 
   static defaultProps = {
-    theme:           undefined,
-    validate:        true,
-    onChange:        () => {},
-    onValidChange:   () => {},
+    theme: undefined,
+    validate: true,
+    errors: [],
+    onChange: () => {},
+    onValidChange: () => {},
     onFriggingChildInit: () => {},
   }
 
@@ -68,7 +70,7 @@ export default class FrigInput extends React.Component {
   _errors(value = this._value()) {
     if (!this._isModified() && !this.state.validationRequested) return undefined
     if (this.props.type === "submit" || !this.props.validate) return undefined
-    let errors = []
+    let errors = this.props.errors.slice()
     // Running each validation
     for (let [k, validationOpts] of entries(this._validations())) {
       if (validationOpts === false || validationOpts == null) continue

@@ -77,6 +77,7 @@ AccountForm = React.createClass
             type: "switch",
             xs: "6"
             label: "Time of Day"
+            errors: ["This error is an example", "As is this one"]
 
           f.input("uploadAvatar",
             type: "file",
