@@ -10,7 +10,7 @@ let {promisedTimeout} = require("frig/util")
 
 export default class extends React.Component {
 
-  displayName = "Frig.friggingBootstrap.Typeahead"
+  static displayName = "Frig.friggingBootstrap.Typeahead"
 
   static defaultProps = Object.assign(require("../default_props.js"), {
     minLength: 3,
@@ -263,7 +263,7 @@ export default class extends React.Component {
         value: this._inputValue(),
         requestChange: (inputValue) => this.setState({inputValue}),
       },
-      required: false,
+      validate: false,
       ref: "frigInput",
     }
     return FrigInput(Object.assign({}, this.props, inputPropOverrides))

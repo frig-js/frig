@@ -55,6 +55,7 @@ AccountForm = React.createClass
           f.input "email", xs: 10
           f.input("githubAccount",
             type: "typeahead",
+            errors: ["test"],
             remote: {
               url: @githubSearchUrl
               parser: @parseGithubResponse

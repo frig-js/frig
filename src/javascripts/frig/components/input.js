@@ -44,7 +44,6 @@ export default class FrigInput extends React.Component {
    */
 
   validate() {
-    console.log("VALIDATE!", this.props.name)
     this.setState({validationRequested: true})
     return this.isValid()
   }
@@ -82,20 +81,23 @@ export default class FrigInput extends React.Component {
    */
 
   _errors(value = this._value()) {
-    console.log(this.props.name, this.state.validationRequested)
-    if (!this.isModified() && !this.state.validationRequested) return undefined
-    if (this.props.type === "submit" || !this.props.validate) return undefined
     let errors = this.props.errors.slice()
-    // Running each validation
-    for (let [k, validationOpts] of entries(this._validations())) {
-      if (validationOpts === false || validationOpts == null) continue
-      let opts = {
-        data:   this.props.data,
-        name:   this.props.name,
-        value:  value,
-        opts:   validationOpts,
+    let validate = (
+      (this.isModified() || this.state.validationRequested) &&
+      this.props.validate
+    )
+    if (validate) {
+      // Running each validation
+      for (let [k, validationOpts] of entries(this._validations())) {
+        if (validationOpts === false || validationOpts == null) continue
+        let opts = {
+          data:   this.props.data,
+          name:   this.props.name,
+          value:  value,
+          opts:   validationOpts,
+        }
+        errors = errors.concat(frigValidations[k](opts) || [])
       }
-      errors = errors.concat(frigValidations[k](opts) || [])
     }
     // If there are no errors then errors should be falsie
     if (errors.length === 0) errors = undefined
@@ -204,6 +206,8 @@ export default class FrigInput extends React.Component {
 
   _onBlur() {
     this.setState({modified: true})
+    let inputHtml = this.props.inputHtml
+    if (inputHtml != null && inputHtml.onBlur != null) inputHtml.onBlur()
   }
 
 }
