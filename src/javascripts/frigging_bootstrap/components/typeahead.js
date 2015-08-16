@@ -265,6 +265,8 @@ export default class extends React.Component {
       },
       validate: false,
       ref: "frigInput",
+      onComponentMount: () => {},
+      onComponentUnmount: () => {},
     }
     return FrigInput(Object.assign({}, this.props, inputPropOverrides))
   }

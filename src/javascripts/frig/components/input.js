@@ -86,6 +86,7 @@ export default class FrigInput extends React.Component {
       (this.isModified() || this.state.validationRequested) &&
       this.props.validate
     )
+    console.log(this.props.name, this.isModified(), this.state.validationRequested, this.props.validate)
     if (validate) {
       // Running each validation
       for (let [k, validationOpts] of entries(this._validations())) {
