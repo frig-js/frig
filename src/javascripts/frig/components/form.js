@@ -10,7 +10,7 @@ let NestedFeildset = require("./nested_fieldset")
  */
 export default class FrigForm extends React.Component {
   static propTypes = {
-    data: React.PropTypes.object,
+    data: React.PropTypes.object.isRequired,
     errors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
