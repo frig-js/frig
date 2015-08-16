@@ -1,12 +1,15 @@
-let formDefaultProps = require("./components/form.js").defaultProps
-let inputDefaultProps = require("./components/input.js").defaultProps
+let form = require("./components/form.js")
+let input = require("./components/input.js")
+let dsl = require("./dsl.js")
 
 module.exports = {
+  form,
+  dsl,
   // Setter and getter for the Frig default theme
   defaultTheme(theme) {
-    if (theme == null) return formDefaultProps.theme
+    if (theme == null) return form.defaultProps.theme
     if (theme.component == null) throw "Invalid theme. Expected an object"
-    formDefaultProps.theme = theme
-    inputDefaultProps.theme = theme
+    form.defaultProps.theme = theme
+    input.defaultProps.theme = theme
   },
 }

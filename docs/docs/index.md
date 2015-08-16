@@ -74,5 +74,3 @@ We can see that the state of our component is updated in realtime with the input
 
 Frig is licensed under the [MIT license](https://raw.githubusercontent.com/TouchBistro/frig/master/LICENSE).
 
-
-** Next up: [Getting Started](getting_started) **
