@@ -109,7 +109,8 @@ export default class extends React.Component {
       xs: 4,
     }
 
-    return div({className: "frigb-popup-container"},
+    return div({className: "frigb-popup-container popover bottom"},
+      div({className: "arrow"}),
       div({className: "row"},
         FrigInput(
           Object.assign(
