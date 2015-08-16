@@ -21,7 +21,8 @@ export default class FrigInput extends React.Component {
     onChange:        React.PropTypes.func.isRequired,
     onValidChange:   React.PropTypes.func.isRequired,
     // Callbacks (Private API - reserved for form use only)
-    onFriggingChildInit: React.PropTypes.func.isRequired,
+    onComponentMount: React.PropTypes.func.isRequired,
+    onComponentUnmount: React.PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -30,7 +31,8 @@ export default class FrigInput extends React.Component {
     errors: [],
     onChange: () => {},
     onValidChange: () => {},
-    onFriggingChildInit: () => {},
+    onComponentMount: () => {},
+    onComponentUnmount: () => {},
   }
 
   state = {}
@@ -42,8 +44,17 @@ export default class FrigInput extends React.Component {
    */
 
   validate() {
+    console.log("VALIDATE!", this.props.name)
     this.setState({validationRequested: true})
+    return this.isValid()
+  }
+
+  isValid() {
     return this._errors() == null
+  }
+
+  isModified() {
+    return this.state.modified != null
   }
 
   /*
@@ -53,8 +64,11 @@ export default class FrigInput extends React.Component {
    */
 
   componentWillMount() {
-    let valid = this._errors() == null
-    this.props.onFriggingChildInit(this._value(), valid)
+    this.props.onComponentMount(this)
+  }
+
+  componentWillUnmount() {
+    this.props.onComponentUnmount(this)
   }
 
   render() {
@@ -68,7 +82,8 @@ export default class FrigInput extends React.Component {
    */
 
   _errors(value = this._value()) {
-    if (!this._isModified() && !this.state.validationRequested) return undefined
+    console.log(this.props.name, this.state.validationRequested)
+    if (!this.isModified() && !this.state.validationRequested) return undefined
     if (this.props.type === "submit" || !this.props.validate) return undefined
     let errors = this.props.errors.slice()
     // Running each validation
@@ -92,10 +107,6 @@ export default class FrigInput extends React.Component {
     return this.props.valueLink.value
   }
 
-  _isModified() {
-    return this.state.modified != null
-  }
-
   _themedInputProps(nextProps = this.props) {
     let title = nextProps.title || humanize(nextProps.name)
     // Defaults
@@ -109,7 +120,7 @@ export default class FrigInput extends React.Component {
     // Overrides
     let overrides = {
       options: (nextProps.options || []).map(this._normalizeOption),
-      modified: this._isModified(),
+      modified: this.isModified(),
       // DOM attributes for the label element
       labelHtml: Object.assign({}, themedProps.labelHtml || {}, {
         htmlFor:       themedProps.name,

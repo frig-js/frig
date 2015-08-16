@@ -14,6 +14,14 @@ export default class NestedFieldset extends React.Component {
     invalidForms: [],
   }
 
+  componentWillMount() {
+    this.props.onComponentMount(this)
+  }
+
+  componentWillUnmount() {
+    this.props.onComponentUnmount(this)
+  }
+
   componentWillReceiveProps(nextProps) {
     // Truncating the invalid forms list to prevent ghosting of invalid
     // forms that are removed in the props.
@@ -24,10 +32,22 @@ export default class NestedFieldset extends React.Component {
   }
 
   validate() {
-    console.log("NESTED VALIDATE!!")
-    let valid = true
-    for (ref of this.refs) valid &= ref.validate()
-    return valid
+    return this._everyForm("validate")
+  }
+
+  isValid() {
+    return this._everyForm("isValid")
+  }
+
+  isModified() {
+    return this._everyForm("isModified")
+  }
+
+  // Returns true if calling the function returns true for every child form
+  _everyForm(fnName) {
+    let forms = []
+    for (let k in this.refs) forms.push(this.refs[k])
+    return forms.filter((c) => !c[fnName]()).length === 0
   }
 
   _formProps({data, key}) {
@@ -63,7 +83,7 @@ export default class NestedFieldset extends React.Component {
     else {
       delete invalidForms[key]
     }
-    valid = invalidForms.select((invalid) => invalid === true).length === 0
+    valid = invalidForms.filter((invalid) => invalid === true).length === 0
     this.setState({invalidForms})
     // Relaying the request change to the upstream data
     this.props.data.requestChange(data, valid)

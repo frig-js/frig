@@ -26,8 +26,16 @@ AccountForm = React.createClass
       login: user.login
       avatar_url: user.avatar_url
 
+  onSubmit: (e) ->
+    e.preventDefault()
+
+  formOpts: ->
+    data: @linkState("account")
+    errors: ["Test Error", "Moo"]
+    onSubmit: @onSubmit
+
   render: ->
-    frig data: @linkState("account"), errors: ["Test Error", "Moo"], (f) =>
+    frig @formOpts(), (f) =>
       div className: "container",
         div className: "row",
           div className: "sm-col-12",
