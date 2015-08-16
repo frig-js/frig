@@ -110,12 +110,11 @@ AccountForm = React.createClass
           div className: "sm-col-12",
             h3 {}, "Nested Fields (Eg. Has Many)"
             f.nestedFields "addresses", (f, index) ->
-              [
+              div {},
                 h4 {}, "Address ##{index+1}"
                 f.input "address"
                 f.input "city"
                 f.input "postal_code"
-              ]
 
         div className: "row",
           div className: "sm-col-12",
