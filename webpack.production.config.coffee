@@ -7,7 +7,7 @@ isProduction = true
 
 module.exports =
   entry:
-    frig: "./src/javascripts/frig/index.js"
+    frig: "./src/javascripts/index.js"
     frigging_bootstrap: "./src/javascripts/frigging_bootstrap/index.js"
   devtool: "source-map"
   output:
@@ -16,7 +16,6 @@ module.exports =
     libraryTarget: "var"
     library: "[name]"
   externals:
-    "react/addons": "React.addons"
     "react": "React"
     "frig/higher_order_components/boolean": "Frig.higherOrderComponents.Boolean"
     "frig/components/input": "Frig.components.Input"

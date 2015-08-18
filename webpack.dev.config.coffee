@@ -2,7 +2,7 @@ ExtractTextPlugin = require "extract-text-webpack-plugin"
 path = require "path"
 
 module.exports =
-  entry: "./src/javascripts/frig/index.js"
+  entry: "./src/javascripts/index.js"
   devtool: "inline-source-map"
   output:
     path: path.join(__dirname, "dist")
@@ -10,7 +10,6 @@ module.exports =
     libraryTarget: "var"
     library: "Frig"
   externals:
-    "react/addons": "React.addons"
     "react": "React"
   resolve:
     root: [

@@ -11,10 +11,7 @@ module.exports =
     filename: "./dist/examples/[name]/example.js"
   resolve:
     alias:
-      frig: path.join(__dirname, "src", "javascripts", "frig")
-      frigging_bootstrap: path.join(
-        __dirname, "src", "javascripts", "frigging_bootstrap"
-      )
+      frig: path.join(__dirname, "src", "javascripts")
   eslint: {
     failOnError: true
   }
