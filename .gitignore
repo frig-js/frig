@@ -2,6 +2,8 @@ node_modules
 bower_components
 /examples/*/*.js
 /examples/*/*/*.js
-/release
+/frig.js
+/frig.min.js
+
 
 .DS_Store

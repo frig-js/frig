@@ -23,6 +23,7 @@
     "eslint": "1.0.0",
     "babel-eslint": "*",
 
+    "lodash": "*",
     "react": "0.13.3",
     "classnames": "*",
     "frigging-bootstrap": "*"

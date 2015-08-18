@@ -1,15 +1,18 @@
 ExtractTextPlugin = require "extract-text-webpack-plugin"
 path = require "path"
 webpack = require "webpack"
+_ = require "lodash"
 
 isProduction = process.env.FRIG_ENV == "production"
-minimize = process.env.FRIG_MIN == "minimize"
+minimize = process.env.FRIG_MIN == "minify"
+mode = process.env.FRIG_MODE || "examples"
 
 exPath = if isProduction then "examples/" else ""
 
 entry = {}
 
 example = (name, type) ->
+  return if mode != "examples"
   relativePath = [name, type, name].join("/")
   ext = if type == "jsx" then "jsx" else "coffee"
   entry["#{exPath}#{relativePath}"] = "./examples/#{relativePath}.#{ext}"
@@ -19,17 +22,19 @@ example "kitchen-sink", "coffeescript"
 example "the-basics", "jsx"
 example "two-way-data-binding", "jsx"
 
-if isProduction
-  entry = Object.assign entry,
-    "release/frig": "./src/javascripts/index.js"
+if isProduction and mode != "examples"
+  entry = _.merge entry,
+    "frig": "./src/javascripts/index.js"
 
-plugins = if isProduction
-  [
+if isProduction and mode != "examples"
+  plugins = [
     new webpack.optimize.UglifyJsPlugin(minimize: minimize)
-    new ExtractTextPlugin("examples/shared.#{if minimize then "min" else ""}.css")
   ]
 else
-  []
+  plugins = []
+
+if mode == "examples"
+  plugins.push new ExtractTextPlugin("examples/shared.css")
 
 output =
   path: if isProduction then "./dist" else "./examples"
@@ -41,7 +46,7 @@ externals =
   "react/addons": "React"
 
 if isProduction
-  externals = Object.assign externals,
+  externals = _.merge externals,
     "frig": "Frig"
     "frigging-bootstrap": "FriggingBootstrap"
 
@@ -51,16 +56,23 @@ else
   "frig": path.join __dirname, "src/javascripts/"
   "frigging-bootstrap": path.join __dirname, "node_modules/frigging-bootstrap/src/javascripts/"
 
-if isProduction
-  output = Object.assign ouput,
-    libraryTarget: "var"
+if isProduction and mode != "examples"
+  output = _.merge output,
+    libraryTarget: "umd"
     library: "[name]"
 
+devtool =
+  if isProduction and mode == "examples"
+    undefined
+  else if isProduction
+    "source-map"
+  else
+    "inline-source-map"
 
 console.log "[name]#{if minimize then ".min.js" else ".js"}"
 module.exports =
   entry: entry
-  devtool: if isProduction then "source-map" else "inline-source-map"
+  devtool: devtool
   output: output
   externals: externals
   resolve:
