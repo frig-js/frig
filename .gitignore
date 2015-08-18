@@ -1,5 +1,7 @@
 node_modules
 bower_components
-/tmp
+/examples/*/*.js
+/examples/*/*/*.js
+/release
 
 .DS_Store
