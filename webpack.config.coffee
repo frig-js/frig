@@ -7,10 +7,17 @@ minimize = process.env.FRIG_MIN == "minimize"
 
 exPath = if isProduction then "examples/" else ""
 
-entry =
-  "#{exPath}kitchen-sink/jsx/kitchen-sink": "./examples/kitchen-sink/jsx/kitchen-sink.jsx"
-  "#{exPath}kitchen-sink/coffeescript/kitchen-sink": "./examples/kitchen-sink/coffeescript/kitchen-sink.coffee"
-  "#{exPath}the-basics/jsx/the-basics": "./examples/the-basics/jsx/the-basics.jsx"
+entry = {}
+
+example = (name, type) ->
+  relativePath = [name, type, name].join("/")
+  ext = if type == "jsx" then "jsx" else "coffee"
+  entry["#{exPath}#{relativePath}"] = "./examples/#{relativePath}.#{ext}"
+
+example "kitchen-sink", "jsx"
+example "kitchen-sink", "coffeescript"
+example "the-basics", "jsx"
+example "two-way-data-binding", "jsx"
 
 if isProduction
   entry = Object.assign entry,

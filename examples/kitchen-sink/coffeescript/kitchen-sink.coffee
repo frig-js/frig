@@ -1,5 +1,3 @@
-# require "babel-core/polyfill"
-# require "font-awesome-webpack"
 require("frig").defaultTheme require("frigging-bootstrap")
 
 React = require "react/addons"

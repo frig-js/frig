@@ -1,6 +1,3 @@
-'use strict'
-// require("babel-core/polyfill")
-// require("font-awesome-webpack")
 require("frig").defaultTheme(require("frigging-bootstrap"))
 
 let React = require("react/addons")

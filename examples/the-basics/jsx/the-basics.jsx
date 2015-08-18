@@ -1,5 +1,3 @@
-'use strict'
-// require("font-awesome-webpack")
 require("frig").defaultTheme(require("frigging-bootstrap"))
 
 var React = require("react/addons")
