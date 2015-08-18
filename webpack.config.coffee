@@ -7,12 +7,11 @@ isProduction = process.env.FRIG_ENV == "production"
 minimize = process.env.FRIG_MIN == "minify"
 mode = process.env.FRIG_MODE || "examples"
 
-exPath = if isProduction then "examples/" else ""
-
 entry = {}
 
 example = (name, type) ->
   return if mode != "examples"
+  exPath = if isProduction then "examples/" else ""
   relativePath = [name, type, name].join("/")
   ext = if type == "jsx" then "jsx" else "coffee"
   entry["#{exPath}#{relativePath}"] = "./examples/#{relativePath}.#{ext}"
@@ -26,9 +25,9 @@ if isProduction and mode != "examples"
   entry = _.merge entry,
     "frig": "./src/javascripts/index.js"
 
-if isProduction and mode != "examples"
+if isProduction and mode != "examples" and minimize
   plugins = [
-    new webpack.optimize.UglifyJsPlugin(minimize: minimize)
+    new webpack.optimize.UglifyJsPlugin(minimize: true)
   ]
 else
   plugins = []
@@ -69,7 +68,6 @@ devtool =
   else
     "inline-source-map"
 
-console.log "[name]#{if minimize then ".min.js" else ".js"}"
 module.exports =
   entry: entry
   devtool: devtool

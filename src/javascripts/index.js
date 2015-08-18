@@ -1,3 +1,6 @@
+// Note: The babel polyfill bloats Frig by ~40kb after minification. If we
+// could find a smaller polyfill or a polyfill for just the things we use
+// it would save a lot of bytes.
 require("babel-core/polyfill")
 
 let Form = require("./components/form.js")
