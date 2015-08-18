@@ -2,11 +2,11 @@
   "name": "frig",
   "version": "0.1.4",
   "private": false,
-  "main": "src/javascripts/frig.coffee",
+  "main": "dist/frig.js",
   "dependencies": {
-    "coffee-script": "1.9.3"
   },
   "devDependencies":{
+    "coffee-script": "1.9.3",
     "webpack": "*",
     "webpack-dev-server": "*",
     "css-loader": "*",
@@ -24,12 +24,7 @@
     "babel-eslint": "*",
 
     "react": "0.13.3",
-    "bootstrap": "*",
-    "json5": "*",
-    "font-awesome-webpack": "*",
-    "classnames": "*",
-    "whatwg-fetch": "*",
-    "fuzzy": "*"
+    "classnames": "*"
   },
   "engines": {
     "node": "~0.12.x",
