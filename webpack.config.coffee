@@ -26,6 +26,7 @@ if isProduction
 plugins = if isProduction
   [
     new webpack.optimize.UglifyJsPlugin(minimize: minimize)
+    new ExtractTextPlugin("examples/shared.#{if minimize then "min" else ""}.css")
   ]
 else
   []

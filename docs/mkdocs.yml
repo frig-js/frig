@@ -2,6 +2,12 @@ site_name: Frig Docs
 theme: readthedocs
 repo_name: "GitHub"
 repo_url: https://github.com/TouchBistro/frig/
+extra_css:
+- "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+- "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+extra_javascript:
+- "dist/examples/the-basics/jsx/the-basics.js"
+- "dist/examples/two-way-data-binding/jsx/two-way-data-binding.js"
 pages:
 - "Frig": index.md
 - "Getting Started": getting_started.md

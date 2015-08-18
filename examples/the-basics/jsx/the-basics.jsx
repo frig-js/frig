@@ -29,4 +29,4 @@ var SignIn = React.createClass({
   }
 })
 
-React.render(<SignIn/>, document.getElementById('example'))
+React.render(<SignIn/>, document.getElementById('the-basics'))
