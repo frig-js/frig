@@ -64,11 +64,6 @@
 	    return React.createElement(
 	      "div",
 	      { className: "row" },
-	      React.createElement(
-	        "h3",
-	        { className: "col-xs-12" },
-	        "Sign In"
-	      ),
 	      React.createElement(f.input, { name: "email" }),
 	      React.createElement(f.input, { name: "password" }),
 	      React.createElement(f.input, { name: "rememberMe", type: "switch" }),
@@ -100,7 +95,8 @@
 	});
 
 	window.addEventListener('load', function () {
-	  React.render(React.createElement(SignIn, null), document.getElementById('two-way-data-binding'));
+	  var el = document.getElementById('two-way-data-binding-example');
+	  React.render(React.createElement(SignIn, null), el);
 	});
 
 /***/ },

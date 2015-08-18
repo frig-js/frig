@@ -13,7 +13,6 @@ var SignIn = React.createClass({
 
   form: function(f) {
     return <div className="row">
-      <h3 className="col-xs-12">Sign In</h3>
       <f.input name="email"/>
       <f.input name="password"/>
       <f.input name="rememberMe" type="switch"/>
@@ -35,5 +34,6 @@ var SignIn = React.createClass({
 })
 
 window.addEventListener('load', function() {
-  React.render(<SignIn/>, document.getElementById('two-way-data-binding'))
+  var el = document.getElementById('two-way-data-binding-example')
+  React.render(<SignIn/>, el)
 })

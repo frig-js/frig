@@ -9,7 +9,7 @@ The basic goal of **Frig** is to not touch the layout - leaving the specific pos
 
 Every input and form element in **Frig** is a React Component so you can mix them with your other React Components seemlessly. **Frig** should feel very familiar in any React project.
 
-As a basic example:
+### As a basic example this JSX
 
 ```jsx
 var SignIn = React.createClass({
@@ -37,19 +37,17 @@ var SignIn = React.createClass({
     />
   }
 })
-
-React.renderComponent(<SignIn/>, document.getElementById('the-basics'))
 ```
 
-Generates this sweet Bootstrap form:
+### Generates this sweet Bootstrap form
 
-<div id="the-basics"></div>
+<div id="the-basics-example"></div>
 
 ## Two-Way Data Binding
 
 **Frig** is built around [ReactLink's][react-link] powerful two-way databinding making accessing your form data as simple as `this.state` and updating a form element's value as easy as `this.setState`.
 
-For example if we modify the render function of the previous example to be:
+### If we modify the render function in the previous example
 
 ```jsx
   // ...
@@ -66,9 +64,9 @@ For example if we modify the render function of the previous example to be:
   // ...
 ```
 
-We can see that the state of our component is updated in realtime with the input:
+### We can see the state is automatically updated by user input
 
-<div id="two-way-data-binding"></div>
+<div id="two-way-data-binding-example"></div>
 
 [react-link]: https://facebook.github.io/react/docs/two-way-binding-helpers.html
 
