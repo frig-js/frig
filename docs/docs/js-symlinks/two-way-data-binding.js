@@ -1,0 +1,1 @@
+../../../dist/examples/two-way-data-binding/jsx/two-way-data-binding.js

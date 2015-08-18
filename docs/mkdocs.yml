@@ -5,9 +5,13 @@ repo_url: https://github.com/TouchBistro/frig/
 extra_css:
 - "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
 - "https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+- "css-symlinks/frigging-bootstrap.css"
 extra_javascript:
-- "dist/examples/the-basics/jsx/the-basics.js"
-- "dist/examples/two-way-data-binding/jsx/two-way-data-binding.js"
+- "https://fb.me/react-with-addons-0.13.3.js"
+- "js-symlinks/frig.js"
+- "js-symlinks/frigging-bootstrap.js"
+- "js-symlinks/the-basics.js"
+- "js-symlinks/two-way-data-binding.js"
 pages:
 - "Frig": index.md
 - "Getting Started": getting_started.md

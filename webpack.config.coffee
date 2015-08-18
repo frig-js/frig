@@ -32,9 +32,6 @@ if isProduction and mode != "examples" and minimize
 else
   plugins = []
 
-if mode == "examples"
-  plugins.push new ExtractTextPlugin("examples/shared.css")
-
 output =
   path: if isProduction then "./dist" else "./examples"
   filename: "[name]#{if minimize then ".min.js" else ".js"}"
@@ -44,7 +41,7 @@ externals =
   # react/addons is required for the examples
   "react/addons": "React"
 
-if isProduction
+if isProduction and mode == "examples"
   externals = _.merge externals,
     "frig": "Frig"
     "frigging-bootstrap": "FriggingBootstrap"
@@ -58,7 +55,7 @@ else
 if isProduction and mode != "examples"
   output = _.merge output,
     libraryTarget: "umd"
-    library: "[name]"
+    library: "Frig"
 
 devtool =
   if isProduction and mode == "examples"

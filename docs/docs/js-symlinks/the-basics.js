@@ -1,0 +1,1 @@
+../../../dist/examples/the-basics/jsx/the-basics.js

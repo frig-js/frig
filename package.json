@@ -3,6 +3,8 @@
   "version": "0.1.4",
   "private": false,
   "main": "dist/frig.js",
+  "preversion": "./scripts/preversion.sh",
+  "version": "git add ./dist",
   "dependencies": {
   },
   "devDependencies":{
