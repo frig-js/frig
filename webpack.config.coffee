@@ -4,7 +4,7 @@ webpack = require "webpack"
 _ = require "lodash"
 
 isProduction = process.env.FRIG_ENV == "production"
-minimize = process.env.FRIG_MIN == "minify"
+minify = process.env.FRIG_MIN == "minify"
 mode = process.env.FRIG_MODE || "examples"
 
 entry = {}
@@ -25,16 +25,14 @@ if isProduction and mode != "examples"
   entry = _.merge entry,
     "frig": "./src/javascripts/index.js"
 
-if isProduction and mode != "examples" and minimize
-  plugins = [
-    new webpack.optimize.UglifyJsPlugin(minimize: true)
-  ]
+if isProduction and mode != "examples" and minify
+  plugins = [new webpack.optimize.UglifyJsPlugin(minimize: true)]
 else
   plugins = []
 
 output =
   path: if isProduction then "./dist" else "./examples"
-  filename: "[name]#{if minimize then ".min.js" else ".js"}"
+  filename: "[name]#{if minify then ".min.js" else ".js"}"
 
 externals =
   "react": "React"
@@ -58,10 +56,8 @@ if isProduction and mode != "examples"
     library: "Frig"
 
 devtool =
-  if isProduction and mode == "examples"
+  if isProduction
     undefined
-  else if isProduction
-    "source-map"
   else
     "inline-source-map"
 

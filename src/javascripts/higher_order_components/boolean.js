@@ -8,7 +8,10 @@ let React = require("react")
  * This component will request a change to the valueLink for any invalid
  * valueLink value to convert it into the onValue or offValue.
  */
-export default function(componentClass) {
+console.log("BOOLEAN HOC")
+module.exports = function(componentClass) {
+  let childName = componentClass.prototype.displayName
+
   return class extends React.Component {
 
     static propTypes = {
@@ -21,6 +24,8 @@ export default function(componentClass) {
       onValue: true,
       offValue: false,
     }
+
+    displayName = `Frig.HigherOrderComponents.Boolean(${childName})`
 
     componentWillMount() {
       this._normalizeValue(this.props)

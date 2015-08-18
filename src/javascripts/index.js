@@ -1,15 +1,18 @@
-// Note: The babel polyfill bloats Frig by ~40kb after minification. If we
-// could find a smaller polyfill or a polyfill for just the things we use
-// it would save a lot of bytes.
-require("babel-core/polyfill")
-
 let Form = require("./components/form.js")
 let Input = require("./components/input.js")
+let ValueLinkedSelect = require("./components/value_linked_select.js")
+let booleanHOC = require("./higher_order_components/boolean.js")
+let util = require("./util.js")
 let dsl = require("./dsl.js")
-
+console.log("FRIG")
 module.exports = {
   Form,
+  Input,
   dsl,
+  util,
+  HigherOrderComponents: {
+    Boolean: booleanHOC
+  },
   // Setter and getter for the Frig default theme
   defaultTheme(theme) {
     if (theme == null) return form.defaultProps.theme
@@ -18,3 +21,4 @@ module.exports = {
     Input.defaultProps.theme = theme
   },
 }
+console.log(module.exports)

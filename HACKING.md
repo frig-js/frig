@@ -1,9 +1,10 @@
 ## Running the examples (for debugging)
 1. Install webpack-dev-server
-2. Run `webpack-dev-server`
-3. Run `cd docs; mkdocs serve`
-4. Go to http://localhost:8080/webpack-dev-server/ to view examples
-4. Go to http://localhost:8000/ to view docs
+2. Install mkdocs
+3. Run `webpack-dev-server`
+4. Run `cd docs; mkdocs serve`
+5. Go to http://localhost:8080/webpack-dev-server/ to view examples
+6. Go to http://localhost:8000/ to view docs
 
 ## Npm Link (Debugging Frigging Bootstrap)
 

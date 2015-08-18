@@ -29,4 +29,6 @@ var SignIn = React.createClass({
   }
 })
 
-React.render(<SignIn/>, document.getElementById('the-basics'))
+window.addEventListener('load', function() {
+  React.render(<SignIn/>, document.getElementById('the-basics'))
+})

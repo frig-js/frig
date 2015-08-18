@@ -7,9 +7,14 @@ let React = require("react")
  * This component will request a change to the valueLink for any non-boolean
  * valueLink value to convert it into a boolean.
  */
-export default function(componentClass, opts) {
+module.exports = function(componentClass, opts) {
+  let childName = componentClass.prototype.displayName
+
   return class extends React.Component {
+
     static defaultProps = {ref: opts.ref, key: opts.key}
+
+    displayName = `Frig.HigherOrderComponents.PropsClosure(${childName})`
 
     componentDidMount() {
       // Adding function proxies

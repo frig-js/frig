@@ -34,4 +34,6 @@ var SignIn = React.createClass({
 
 })
 
-React.render(<SignIn/>, document.getElementById('two-way-data-binding'))
+window.addEventListener('load', function() {
+  React.render(<SignIn/>, document.getElementById('two-way-data-binding'))
+})
