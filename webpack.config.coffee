@@ -5,29 +5,64 @@ webpack = require "webpack"
 isProduction = process.env.FRIG_ENV == "production"
 minimize = process.env.FRIG_MIN == "minimize"
 
-module.exports =
-  entry:
-    frig: "./src/javascripts/frig.js" if isProduction
-    if !isProduction
-      "kitchen-sink/jsx": "./examples/jsx/example.jsx"
-      "kitchen-sink/coffeescript": "./examples/coffeescript/example.coffee"
-  devtool: if isProduction then "source-map" else "inline-source-map"
-  output:
-    if isProduction
-      path: path.join(__dirname, "dist")
-      filename: "[name]#{if minimize then ".min.js" else ".js"}"
-      libraryTarget: "var"
-      library: "[name]"
-    else
-      path: path.join(__dirname, "tmp")
-  externals: if isProduction
-    "react": "React"
+exPath = if isProduction then "examples/" else ""
+
+entry =
+  "#{exPath}kitchen-sink/jsx/kitchen-sink": "./examples/kitchen-sink/jsx/kitchen-sink.jsx"
+  "#{exPath}kitchen-sink/coffeescript/kitchen-sink": "./examples/kitchen-sink/coffeescript/kitchen-sink.coffee"
+  "#{exPath}the-basics/jsx/the-basics": "./examples/the-basics/jsx/the-basics.jsx"
+
+if isProduction
+  entry = Object.assign entry,
+    "release/frig": "./src/javascripts/index.js"
+
+plugins = if isProduction
+  [
+    new webpack.optimize.UglifyJsPlugin(minimize: minimize)
+  ]
+else
+  []
+
+output =
+  path: if isProduction then "./dist" else "./examples"
+  filename: "[name]#{if minimize then ".min.js" else ".js"}"
+
+externals =
+  "react": "React"
+  # react/addons is required for the examples
+  "react/addons": "React"
+
+if isProduction
+  externals = Object.assign externals,
     "frig": "Frig"
+    "frigging-bootstrap": "FriggingBootstrap"
+
+alias = if isProduction
+  {}
+else
+  "frig": path.join __dirname, "src/javascripts/"
+  "frigging-bootstrap": path.join __dirname, "node_modules/frigging-bootstrap/src/javascripts/"
+
+if isProduction
+  output = Object.assign ouput,
+    libraryTarget: "var"
+    library: "[name]"
+
+
+console.log "[name]#{if minimize then ".min.js" else ".js"}"
+module.exports =
+  entry: entry
+  devtool: if isProduction then "source-map" else "inline-source-map"
+  output: output
+  externals: externals
   resolve:
     root: [
       path.join(__dirname, "src", "javascripts")
       path.join(__dirname, "src", "stylesheets")
     ]
+    alias: alias
+  devServer:
+    contentBase: "./examples",
   module:
     loaders: [
       if isProduction
@@ -53,7 +88,4 @@ module.exports =
         loader: "url-loader"
       }
     ]
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin(minimize: minimize) if isProduction
-    new ExtractTextPlugin("frigging_bootstrap.min.css") if isProduction
-  ]
+  plugins: plugins

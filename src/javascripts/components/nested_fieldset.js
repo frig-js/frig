@@ -95,7 +95,7 @@ export default class NestedFieldset extends React.Component {
   }
 
   _renderForm(formProps) {
-    let component = require("frig/components/form")
+    let component = require("./form.js")
     return React.createElement(component, formProps)
   }
 

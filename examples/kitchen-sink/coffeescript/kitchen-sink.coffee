@@ -1,9 +1,9 @@
-require "babel-core/polyfill"
-require "font-awesome-webpack"
-require("frig").defaultTheme require("frigging_bootstrap")
+# require "babel-core/polyfill"
+# require "font-awesome-webpack"
+require("frig").defaultTheme require("frigging-bootstrap")
 
-React         = require "react/addons"
-{frig}        = require "frig/dsl"
+React = require "react/addons"
+{frig} = require("frig").dsl
 {div, h2, h3, h4, img} = React.DOM
 
 AccountForm = React.createClass
@@ -36,7 +36,7 @@ AccountForm = React.createClass
 
   render: ->
     frig @formOpts(), (f) =>
-      div className: "container",
+      div {},
         div className: "row",
           div className: "sm-col-12",
             h2 {}, "My Account"

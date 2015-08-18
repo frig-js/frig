@@ -1,10 +1,10 @@
 'use strict'
-require("babel-core/polyfill")
-require("font-awesome-webpack")
-require("frig").defaultTheme(require("frigging_bootstrap"))
+// require("babel-core/polyfill")
+// require("font-awesome-webpack")
+require("frig").defaultTheme(require("frigging-bootstrap"))
 
 let React = require("react/addons")
-let Frig = require("frig/components/form")
+let Frig = require("frig").Form
 
 let AccountForm = React.createClass({
   mixins: [
@@ -22,7 +22,7 @@ let AccountForm = React.createClass({
   },
 
   formContent: function(f) {
-    return <div className="container">
+    return <div>
       <div className="row">
         <div className="sm-col-12">
           <h2>My Account</h2>

@@ -95,14 +95,10 @@ export default class FrigForm extends React.Component {
    * a value or value link
    */
   _dataLink() {
-    if (this.props.data.requestChange) {
-      return this.props.data
-    }
-    else {
-      return {
-        value: this.props.data,
-        requestChange: () => {},
-      }
+    let data = this.props.data
+    return {
+      value: (data.requestChange ? data.value : data) || {},
+      requestChange: data.requestChange || () => {}
     }
   }
 
@@ -160,7 +156,7 @@ export default class FrigForm extends React.Component {
     else if (jsType === "number") {
       return "float"
     }
-    else if (inputProps.name.match(/[pP]assword^/)) {
+    else if (inputProps.name.match(/password$/i)) {
       return "password"
     }
     else {
