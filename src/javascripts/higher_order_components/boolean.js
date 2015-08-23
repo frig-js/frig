@@ -8,7 +8,6 @@ let React = require("react")
  * This component will request a change to the valueLink for any invalid
  * valueLink value to convert it into the onValue or offValue.
  */
-console.log("BOOLEAN HOC")
 module.exports = function(componentClass) {
   let childName = componentClass.prototype.displayName
 

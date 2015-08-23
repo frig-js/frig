@@ -1,7 +1,6 @@
 let Form = require("./components/form.js")
 let Input = require("./components/input.js")
 let ValueLinkedSelect = require("./components/value_linked_select.js")
-let booleanHOC = require("./higher_order_components/boolean.js")
 let util = require("./util.js")
 let dsl = require("./dsl.js")
 console.log("FRIG")
@@ -11,7 +10,8 @@ module.exports = {
   dsl,
   util,
   HigherOrderComponents: {
-    Boolean: booleanHOC
+    Boolean: require("./higher_order_components/boolean.js"),
+    Focusable: require("./higher_order_components/focusable.js"),
   },
   // Setter and getter for the Frig default theme
   defaultTheme(theme) {
