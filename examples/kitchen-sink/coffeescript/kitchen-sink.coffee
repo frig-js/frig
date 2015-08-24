@@ -135,6 +135,5 @@ AccountForm = React.createClass
           f.submit "Save"
 
 document.addEventListener "DOMContentLoaded", ->
-  reactElement = React.createElement AccountForm
-  domElement = document.getElementById('example')
-  React.render reactElement, domElement
+  el = document.getElementById "kitchen-sink"
+  React.render React.createElement(AccountForm), el

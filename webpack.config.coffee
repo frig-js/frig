@@ -18,6 +18,7 @@ example = (name, type) ->
 
 example "kitchen-sink", "jsx"
 example "kitchen-sink", "coffeescript"
+example "horizontal-login", "coffeescript"
 example "the-basics", "jsx"
 example "two-way-data-binding", "jsx"
 

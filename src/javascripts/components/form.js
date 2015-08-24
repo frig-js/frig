@@ -15,6 +15,8 @@ export default class FrigForm extends React.Component {
     form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
+    layout: React.PropTypes.string.isRequired,
+    align: React.PropTypes.string.isRequired,
     // Callbacks
     onSubmit: React.PropTypes.func,
   }
@@ -23,6 +25,8 @@ export default class FrigForm extends React.Component {
     errors: [],
     theme: undefined,
     typeMapping: {},
+    layout: "vertical",
+    align: "left",
     onSubmit() {},
   }
 
@@ -51,6 +55,14 @@ export default class FrigForm extends React.Component {
    * React Lifecycle + Render
    * =========================================================================
    */
+
+  componentWillMount() {
+    this._updateDataLink(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this._updateDataLink(nextProps)
+  }
 
   render() {
     // Nested forms (forms inside nested fieldsets)
@@ -91,19 +103,29 @@ export default class FrigForm extends React.Component {
   }
 
   /*
-   * Returns a value link-type object regardles of whether the data property is
-   * a value or value link
+   * Normalizes a valueLink-type data object out of the nextProps regardless of
+   * whether the nextProps.data is a value or value link and stores it in state.
+   *
+   * If the nextProps.data is a valueLink then state.dataLink is a reference
+   * to that same valueLink object.
+   *
+   * If the nextProps.data is not a valueLink then state.dataLink is a valueLink
+   * to this component's state (only updating it's internal value). In this
+   * scenario changes to nextProps.data will override any state stored in the
+   * dataLink.
    */
-  _dataLink() {
-    let data = this.props.data
-    return {
-      value: (data.requestChange ? data.value : data) || {},
-      requestChange: data.requestChange || () => {}
+  _updateDataLink(nextProps) {
+    let data = nextProps.data || {}
+    let {requestChange} = data
+    let dataLink = {
+      value: (requestChange ? data.value : data) || {},
+      requestChange: requestChange || ((data) => this._updateDataLink({data}))
     }
+    this.setState({dataLink})
   }
 
   _data() {
-    return this._dataLink().value
+    return this.state.dataLink.value
   }
 
   // Generates React DOM elements to pass to the themed form component as
@@ -130,7 +152,7 @@ export default class FrigForm extends React.Component {
   _onChildRequestChange(k, v) {
     // Update the ReactLink with a copy of the existing data merged with this
     // new input value
-    this._dataLink().requestChange(Object.assign({}, this._data(), {[k]: v}))
+    this.state.dataLink.requestChange(Object.assign({}, this._data(), {[k]: v}))
   }
 
   _onSubmit(e) {
@@ -199,8 +221,9 @@ export default class FrigForm extends React.Component {
     // overrides
     let mapping = this._typeMapping().errors
     let component = this._getThemedInputComponent({}, mapping.component)
+    let {layout, align} = this.props
     return propsClosure(component, {
-      defaults: {key: "errors"},
+      defaults: {key: "errors", layout, align},
       overrides: this._errorsOverrides.bind(this),
     })
   }
@@ -222,6 +245,8 @@ export default class FrigForm extends React.Component {
   _nestedFieldsDefaults({name}) {
     return {
       key: `${name}-nestedfields`,
+      layout: this.props.layout,
+      align: this.props.align,
       theme: this.props.theme,
       typeMapping: this.props.typeMapping,
       onComponentMount: this._onChildComponentMount.bind(this, [name]),
@@ -241,8 +266,9 @@ export default class FrigForm extends React.Component {
     // overrides
     let mapping = this._typeMapping().submit
     let component = this._getThemedInputComponent({}, mapping.component)
+    let {layout, align} = this.props
     return propsClosure(component, {
-      defaults: {key: "submit"},
+      defaults: {key: "submit", layout, align},
       overrides: this._submitOverrides.bind(this),
     })
   }
@@ -284,6 +310,8 @@ export default class FrigForm extends React.Component {
   _inputDefaults({name}) {
     return {
       name,
+      layout: this.props.layout,
+      align: this.props.align,
       key: `${name}-input`,
       valueLink: {
         value: this._data()[name],
