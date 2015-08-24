@@ -13,7 +13,7 @@ MinimalLogin = React.createClass
 
   form: (f) ->
     div className: "row",
-      h2 {}, "Please sign in"
+      h2 {className: "col-xs-12"}, "Please sign in"
       f.errors()
       f.input "account",
         autoFocus: true
@@ -28,8 +28,10 @@ MinimalLogin = React.createClass
         block: true
 
   render: ->
+    containerClasses =
+      "col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12"
     div className: "row",
-      div className: "col-xs-4 col-xs-offset-4",
+      div className: containerClasses,
         frig data: {}, layout: "horizontal", align: "right", @form
 
 window.addEventListener "load", ->
