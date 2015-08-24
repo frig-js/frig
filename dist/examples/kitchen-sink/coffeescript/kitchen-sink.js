@@ -102,7 +102,7 @@
 	        return div({}, div({
 	          className: "row"
 	        }, div({
-	          className: "sm-col-12"
+	          className: "col-xs-12"
 	        }, h2({}, "My Account"))), div({
 	          className: "row"
 	        }, f.errors()), div({
@@ -161,23 +161,26 @@
 	          label: "Uploading Avatar"
 	        })), div({
 	          className: "row"
-	        }, div({
-	          className: "sm-col-12"
 	        }, f.input("startTime", {
 	          type: "time",
 	          xs: "6",
 	          placeholder: "12:00pm",
 	          label: "Start Time"
-	        }))), div({
+	        }), f.input("color", {
+	          type: "color",
+	          xs: "6"
+	        })), div({
 	          className: "row"
 	        }, div({
-	          className: "sm-col-12"
-	        }, h3({}, "Nested Fields (Eg. Has Many)"), f.nestedFields("addresses", function(f, index) {
-	          return div({}, h4({}, "Address #" + (index + 1)), f.input("address"), f.input("city"), f.input("postal_code"));
-	        }))), div({
+	          className: "col-xs-12"
+	        }, h3({}, "Nested Fields (Eg. Has Many)")), f.nestedFields("addresses", function(f, index) {
+	          return div({}, div({
+	            className: "col-xs-12"
+	          }, h4({}, "Address #" + (index + 1))), f.input("address"), f.input("city"), f.input("postal_code"));
+	        })), div({
 	          className: "row"
 	        }, div({
-	          className: "sm-col-12"
+	          className: "col-xs-12"
 	        }, h3({}, "Additional Sketchy Info"))), div({
 	          className: "row"
 	        }, f.input("shareSketchyInfo"), _this.state.account.shareSketchyInfo ? [

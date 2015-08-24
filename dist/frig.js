@@ -56,12 +56,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var Form = __webpack_require__(3);
-	var Input = __webpack_require__(4);
-	var ValueLinkedSelect = __webpack_require__(10);
-	var booleanHOC = __webpack_require__(1);
-	var util = __webpack_require__(6);
-	var dsl = __webpack_require__(11);
+	var Form = __webpack_require__(1);
+	var Input = __webpack_require__(3);
+	var ValueLinkedSelect = __webpack_require__(9);
+	var util = __webpack_require__(5);
+	var dsl = __webpack_require__(10);
 	console.log("FRIG");
 	module.exports = {
 	  Form: Form,
@@ -69,7 +68,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  dsl: dsl,
 	  util: util,
 	  HigherOrderComponents: {
-	    Boolean: booleanHOC
+	    Boolean: __webpack_require__(11),
+	    Focusable: __webpack_require__(12)
 	  },
 	  // Setter and getter for the Frig default theme
 	  defaultTheme: function defaultTheme(theme) {
@@ -83,111 +83,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(2);
-
-	/*
-	 * A higher order function wrapper for components that only allow 2 possible
-	 * values in their valueLinks (an onValue and an offValue - true and false by
-	 * default).
-	 *
-	 * This component will request a change to the valueLink for any invalid
-	 * valueLink value to convert it into the onValue or offValue.
-	 */
-	console.log("BOOLEAN HOC");
-	module.exports = function (componentClass) {
-	  var childName = componentClass.prototype.displayName;
-
-	  return (function (_React$Component) {
-	    _inherits(_class, _React$Component);
-
-	    function _class() {
-	      _classCallCheck(this, _class);
-
-	      _get(Object.getPrototypeOf(_class.prototype), "constructor", this).apply(this, arguments);
-
-	      this.displayName = "Frig.HigherOrderComponents.Boolean(" + childName + ")";
-	    }
-
-	    _createClass(_class, [{
-	      key: "componentWillMount",
-	      value: function componentWillMount() {
-	        this._normalizeValue(this.props);
-	      }
-	    }, {
-	      key: "componentWillReceiveProps",
-	      value: function componentWillReceiveProps(nextProps) {
-	        this._normalizeValue(nextProps);
-	      }
-	    }, {
-	      key: "_normalizeValue",
-	      value: function _normalizeValue(nextProps) {
-	        var value = nextProps.valueLink.value;
-	        if (value !== this.props.offValue && value !== this.props.onValue) {
-	          nextProps.valueLink.requestChange(value != null);
-	        }
-	      }
-
-	      /*
-	       * Intercept the nested component's true/false value change and convert it
-	       * into an onValue or offValue before relaying it to the valueLink.
-	       */
-	    }, {
-	      key: "_onChange",
-	      value: function _onChange(val) {
-	        this.props.valueLink.requestChange(val ? this.props.onValue : this.props.offValue);
-	      }
-	    }, {
-	      key: "render",
-	      value: function render() {
-	        var childProps = Object.assign({}, this.props, {
-	          valueLink: {
-	            value: this.props.valueLink.value === this.props.onValue,
-	            requestChange: this._onChange.bind(this)
-	          }
-	        });
-	        return React.createElement(componentClass, childProps);
-	      }
-	    }], [{
-	      key: "propTypes",
-	      value: {
-	        valueLink: React.PropTypes.object.isRequired,
-	        onValue: React.PropTypes.bool.isRequired,
-	        offValue: React.PropTypes.bool.isRequired
-	      },
-	      enumerable: true
-	    }, {
-	      key: "defaultProps",
-	      value: {
-	        onValue: true,
-	        offValue: false
-	      },
-	      enumerable: true
-	    }]);
-
-	    return _class;
-	  })(React.Component);
-	};
-
-/***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-/***/ },
-/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -207,9 +102,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(2);
-	var frigInput = __webpack_require__(4);
-	var propsClosure = __webpack_require__(7);
-	var NestedFeildset = __webpack_require__(8);
+	var frigInput = __webpack_require__(3);
+	var propsClosure = __webpack_require__(6);
+	var NestedFeildset = __webpack_require__(7);
 
 	/*
 	 * A JSX-compatible React DOM Component.
@@ -300,7 +195,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_typeMapping",
 	    value: function _typeMapping() {
-	      return Object.assign({}, __webpack_require__(9), this.props.theme.type_mapping);
+	      return Object.assign({}, __webpack_require__(8), this.props.theme.type_mapping);
 	    }
 
 	    /*
@@ -576,7 +471,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 4 */
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -596,9 +497,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(2);
-	var frigValidations = __webpack_require__(5);
+	var frigValidations = __webpack_require__(4);
 
-	var _require = __webpack_require__(6);
+	var _require = __webpack_require__(5);
 
 	var entries = _require.entries;
 	var humanize = _require.humanize;
@@ -899,7 +800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 5 */
+/* 4 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -931,7 +832,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 6 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1233,7 +1134,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 7 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1322,7 +1223,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 8 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1461,7 +1362,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_renderForm",
 	    value: function _renderForm(formProps) {
-	      var component = __webpack_require__(3);
+	      var component = __webpack_require__(1);
 	      return React.createElement(component, formProps);
 	    }
 	  }, {
@@ -1494,7 +1395,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1523,7 +1424,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // date:         {component: "datetime"},
 	  time: { component: "timepicker" },
 	  select: { component: "select" },
-	  typeahead: { component: "typeahead" }
+	  typeahead: { component: "typeahead" },
+	  color: { component: "color" }
 	};
 	// radioButtons: {component: "radioButtons"},
 	// checkBoxes:   {component: "checkBoxes"},
@@ -1531,7 +1433,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// timeZone:     {component: "timeZone"},
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1709,13 +1611,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
 	var React = __webpack_require__(2);
-	var frigForm = React.createFactory(__webpack_require__(3));
+	var frigForm = React.createFactory(__webpack_require__(1));
 	var dslCallback = undefined;
 
 	/*
@@ -1792,6 +1694,188 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return frigForm(formProps);
 	  }
 
+	};
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(2);
+
+	/*
+	 * A higher order function wrapper for components that only allow 2 possible
+	 * values in their valueLinks (an onValue and an offValue - true and false by
+	 * default).
+	 *
+	 * This component will request a change to the valueLink for any invalid
+	 * valueLink value to convert it into the onValue or offValue.
+	 */
+	module.exports = function (componentClass) {
+	  var childName = componentClass.prototype.displayName;
+
+	  return (function (_React$Component) {
+	    _inherits(_class, _React$Component);
+
+	    function _class() {
+	      _classCallCheck(this, _class);
+
+	      _get(Object.getPrototypeOf(_class.prototype), "constructor", this).apply(this, arguments);
+
+	      this.displayName = "Frig.HigherOrderComponents.Boolean(" + childName + ")";
+	    }
+
+	    _createClass(_class, [{
+	      key: "componentWillMount",
+	      value: function componentWillMount() {
+	        this._normalizeValue(this.props);
+	      }
+	    }, {
+	      key: "componentWillReceiveProps",
+	      value: function componentWillReceiveProps(nextProps) {
+	        this._normalizeValue(nextProps);
+	      }
+	    }, {
+	      key: "_normalizeValue",
+	      value: function _normalizeValue(nextProps) {
+	        var value = nextProps.valueLink.value;
+	        if (value !== this.props.offValue && value !== this.props.onValue) {
+	          nextProps.valueLink.requestChange(value != null);
+	        }
+	      }
+
+	      /*
+	       * Intercept the nested component's true/false value change and convert it
+	       * into an onValue or offValue before relaying it to the valueLink.
+	       */
+	    }, {
+	      key: "_onChange",
+	      value: function _onChange(val) {
+	        this.props.valueLink.requestChange(val ? this.props.onValue : this.props.offValue);
+	      }
+	    }, {
+	      key: "render",
+	      value: function render() {
+	        var childProps = Object.assign({}, this.props, {
+	          valueLink: {
+	            value: this.props.valueLink.value === this.props.onValue,
+	            requestChange: this._onChange.bind(this)
+	          }
+	        });
+	        return React.createElement(componentClass, childProps);
+	      }
+	    }], [{
+	      key: "propTypes",
+	      value: {
+	        valueLink: React.PropTypes.object.isRequired,
+	        onValue: React.PropTypes.bool.isRequired,
+	        offValue: React.PropTypes.bool.isRequired
+	      },
+	      enumerable: true
+	    }, {
+	      key: "defaultProps",
+	      value: {
+	        onValue: true,
+	        offValue: false
+	      },
+	      enumerable: true
+	    }]);
+
+	    return _class;
+	  })(React.Component);
+	};
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(2);
+
+	/*
+	 * A higher order component that passes a focused attribute to it's child
+	 * component. The focused is true when the component should be focused
+	 * (ie. when it is clicked on or tabbed into) and false when it is not (ie.
+	 * initially, when it is clicked off of and when another input is selected).
+	 *
+	 * This is useful for implementing popups in Frig Themes.
+	 */
+	module.exports = function (componentClass) {
+	  var childName = componentClass.prototype.displayName;
+
+	  return (function (_React$Component) {
+	    _inherits(_class, _React$Component);
+
+	    function _class() {
+	      _classCallCheck(this, _class);
+
+	      _get(Object.getPrototypeOf(_class.prototype), "constructor", this).call(this);
+	      this.state = {
+	        focused: false
+	      };
+	      this.displayName = "Frig.HigherOrderComponents.Focusable(" + childName + ")";
+	      this._onDocumentClick = this._onDocumentClick.bind(this);
+	      this._onFocus = this._onFocus.bind(this);
+	    }
+
+	    _createClass(_class, [{
+	      key: "componentDidMount",
+	      value: function componentDidMount() {
+	        window.addEventListener("click", this._onDocumentClick);
+	        window.addEventListener("focus", this._onFocus, true);
+	      }
+	    }, {
+	      key: "componentWillUnmount",
+	      value: function componentWillUnmount() {
+	        window.removeEventListener("click", this._onDocumentClick);
+	        window.removeEventListener("focus", this._onFocus);
+	      }
+	    }, {
+	      key: "_onDocumentClick",
+	      value: function _onDocumentClick(e) {
+	        this.setState({ focused: this._containsDOMElement(e.target) });
+	      }
+	    }, {
+	      key: "_onFocus",
+	      value: function _onFocus(e) {
+	        this.setState({ focused: this._containsDOMElement(document.activeElement) });
+	      }
+	    }, {
+	      key: "_containsDOMElement",
+	      value: function _containsDOMElement(otherElement) {
+	        var el = React.findDOMNode(this);
+	        return el == otherElement || el.contains(otherElement);
+	      }
+	    }, {
+	      key: "render",
+	      value: function render() {
+	        var childProps = Object.assign({}, this.props, {
+	          focused: this.state.focused
+	        });
+	        return React.createElement(componentClass, childProps);
+	      }
+	    }]);
+
+	    return _class;
+	  })(React.Component);
 	};
 
 /***/ }
