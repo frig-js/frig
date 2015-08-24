@@ -56,17 +56,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	"use strict";
 
-	var Form = __webpack_require__(1);
-	var Input = __webpack_require__(3);
-	var ValueLinkedSelect = __webpack_require__(9);
-	var util = __webpack_require__(5);
-	var dsl = __webpack_require__(10);
-	console.log("FRIG");
+	var Form = __webpack_require__(3);
+	var Input = __webpack_require__(4);
+	var ValueLinkedSelect = __webpack_require__(10);
+	var util = __webpack_require__(6);
+	var dsl = __webpack_require__(1);
+
 	module.exports = {
 	  Form: Form,
 	  Input: Input,
 	  dsl: dsl,
 	  util: util,
+	  typeMapping: __webpack_require__(9),
 	  HigherOrderComponents: {
 	    Boolean: __webpack_require__(11),
 	    Focusable: __webpack_require__(12)
@@ -79,10 +80,101 @@ return /******/ (function(modules) { // webpackBootstrap
 	    Input.defaultProps.theme = theme;
 	  }
 	};
-	console.log(module.exports);
 
 /***/ },
 /* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(2);
+	var frigForm = React.createFactory(__webpack_require__(3));
+	var dslCallback = undefined;
+
+	/*
+	 * The DSL wraps each of the components passed to the frig form's "form"
+	 * callback in a simplified interface.
+	 *
+	 * This is whats used behind the scenes of calls like `f.input("name", props)`
+	 */
+	var dsl = {
+	  errors: function errors(component) {
+	    var props = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+	    props = Object.assign({ key: "frig-errors" }, props);
+	    return React.createElement(component, props);
+	  },
+
+	  input: function input(component, name) {
+	    var props = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	    props = Object.assign({ key: "frig-" + name }, props, { name: name });
+	    return React.createElement(component, props);
+	  },
+
+	  nestedFields: function nestedFields(component, name, props, form) {
+	    if (props === undefined) props = {};
+
+	    if (typeof props == "function") {
+	      form = props;
+	      props = {};
+	    }
+	    props = Object.assign({ key: "frig-" + name }, props, {
+	      name: name,
+	      form: dslCallback.bind(window, form)
+	    });
+	    return React.createElement(component, props);
+	  },
+
+	  submit: function submit(component, title) {
+	    var props = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+	    if (arguments.length === 1 && typeof title != "string") {
+	      props = title;
+	      title = undefined;
+	    }
+	    props = Object.assign({ key: "frig-submit", title: title }, props);
+	    return React.createElement(component, props);
+	  }
+	};
+
+	/*
+	 * Intercepts the "form" callback from a Frig form component and sends a
+	 * coffeescript-style DSL to the callback instead of the usual JSX components
+	 */
+	dslCallback = function (formCallback, components) {
+	  var dslInstance = {};
+	  for (var k in dsl) {
+	    dslInstance[k] = dsl[k].bind(window, components[k]);
+	  }
+
+	  for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	    args[_key - 2] = arguments[_key];
+	  }
+
+	  return formCallback.apply(undefined, [dslInstance].concat(args));
+	};
+
+	module.exports = {
+	  frig: function frig(props, form) {
+	    // inject the form content into the props
+	    var formProps = Object.assign({}, props, {
+	      form: dslCallback.bind(window, form)
+	    });
+	    // return the frig form component
+	    return frigForm(formProps);
+	  }
+
+	};
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -102,9 +194,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(2);
-	var frigInput = __webpack_require__(3);
-	var propsClosure = __webpack_require__(6);
-	var NestedFeildset = __webpack_require__(7);
+	var frigInput = __webpack_require__(4);
+	var propsClosure = __webpack_require__(7);
+	var NestedFeildset = __webpack_require__(8);
 
 	/*
 	 * A JSX-compatible React DOM Component.
@@ -195,7 +287,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_typeMapping",
 	    value: function _typeMapping() {
-	      return Object.assign({}, __webpack_require__(8), this.props.theme.type_mapping);
+	      return Object.assign({}, __webpack_require__(9), this.props.theme.type_mapping);
 	    }
 
 	    /*
@@ -471,13 +563,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 2 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
-
-/***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -497,9 +583,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(2);
-	var frigValidations = __webpack_require__(4);
+	var frigValidations = __webpack_require__(5);
 
-	var _require = __webpack_require__(5);
+	var _require = __webpack_require__(6);
 
 	var entries = _require.entries;
 	var humanize = _require.humanize;
@@ -800,7 +886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -832,7 +918,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1134,7 +1220,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1223,7 +1309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1362,7 +1448,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_renderForm",
 	    value: function _renderForm(formProps) {
-	      var component = __webpack_require__(1);
+	      var component = __webpack_require__(3);
 	      return React.createElement(component, formProps);
 	    }
 	  }, {
@@ -1395,7 +1481,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1433,7 +1519,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// timeZone:     {component: "timeZone"},
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1609,92 +1695,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports["default"] = _default;
 	module.exports = exports["default"];
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var React = __webpack_require__(2);
-	var frigForm = React.createFactory(__webpack_require__(1));
-	var dslCallback = undefined;
-
-	/*
-	 * The DSL wraps each of the components passed to the frig form's "form"
-	 * callback in a simplified interface.
-	 *
-	 * This is whats used behind the scenes of calls like `f.input("name", props)`
-	 */
-	var dsl = {
-	  errors: function errors(component) {
-	    var props = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-
-	    props = Object.assign({ key: "frig-errors" }, props);
-	    return React.createElement(component, props);
-	  },
-
-	  input: function input(component, name) {
-	    var props = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	    props = Object.assign({ key: "frig-" + name }, props, { name: name });
-	    return React.createElement(component, props);
-	  },
-
-	  nestedFields: function nestedFields(component, name, props, form) {
-	    if (props === undefined) props = {};
-
-	    if (typeof props == "function") {
-	      form = props;
-	      props = {};
-	    }
-	    props = Object.assign({ key: "frig-" + name }, props, {
-	      name: name,
-	      form: dslCallback.bind(window, form)
-	    });
-	    return React.createElement(component, props);
-	  },
-
-	  submit: function submit(component, title) {
-	    var props = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-	    if (arguments.length === 1 && typeof title != "string") {
-	      props = title;
-	      title = undefined;
-	    }
-	    props = Object.assign({ key: "frig-submit", title: title }, props);
-	    return React.createElement(component, props);
-	  }
-	};
-
-	/*
-	 * Intercepts the "form" callback from a Frig form component and sends a
-	 * coffeescript-style DSL to the callback instead of the usual JSX components
-	 */
-	dslCallback = function (formCallback, components) {
-	  var dslInstance = {};
-	  for (var k in dsl) {
-	    dslInstance[k] = dsl[k].bind(window, components[k]);
-	  }
-
-	  for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-	    args[_key - 2] = arguments[_key];
-	  }
-
-	  return formCallback.apply(undefined, [dslInstance].concat(args));
-	};
-
-	module.exports = {
-	  frig: function frig(props, form) {
-	    // inject the form content into the props
-	    var formProps = Object.assign({}, props, {
-	      form: dslCallback.bind(window, form)
-	    });
-	    // return the frig form component
-	    return frigForm(formProps);
-	  }
-
-	};
 
 /***/ },
 /* 11 */
