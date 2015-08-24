@@ -194,10 +194,9 @@
 	});
 
 	document.addEventListener("DOMContentLoaded", function() {
-	  var domElement, reactElement;
-	  reactElement = React.createElement(AccountForm);
-	  domElement = document.getElementById('example');
-	  return React.render(reactElement, domElement);
+	  var el;
+	  el = document.getElementById("kitchen-sink");
+	  return React.render(React.createElement(AccountForm), el);
 	});
 
 

@@ -251,6 +251,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	     */
 
 	  }, {
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      this._updateDataLink(this.props);
+	    }
+	  }, {
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(nextProps) {
+	      this._updateDataLink(nextProps);
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      // Nested forms (forms inside nested fieldsets)
@@ -291,22 +301,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    /*
-	     * Returns a value link-type object regardles of whether the data property is
-	     * a value or value link
+	     * Normalizes a valueLink-type data object out of the nextProps regardless of
+	     * whether the nextProps.data is a value or value link and stores it in state.
+	     *
+	     * If the nextProps.data is a valueLink then state.dataLink is a reference
+	     * to that same valueLink object.
+	     *
+	     * If the nextProps.data is not a valueLink then state.dataLink is a valueLink
+	     * to this component's state (only updating it's internal value). In this
+	     * scenario changes to nextProps.data will override any state stored in the
+	     * dataLink.
 	     */
 	  }, {
-	    key: "_dataLink",
-	    value: function _dataLink() {
-	      var data = this.props.data;
-	      return {
-	        value: (data.requestChange ? data.value : data) || {},
-	        requestChange: data.requestChange || function () {}
+	    key: "_updateDataLink",
+	    value: function _updateDataLink(nextProps) {
+	      var _this = this;
+
+	      var data = nextProps.data || {};
+	      var requestChange = data.requestChange;
+
+	      var dataLink = {
+	        value: (requestChange ? data.value : data) || {},
+	        requestChange: requestChange || function (data) {
+	          return _this._updateDataLink({ data: data });
+	        }
 	      };
+	      this.setState({ dataLink: dataLink });
 	    }
 	  }, {
 	    key: "_data",
 	    value: function _data() {
-	      return this._dataLink().value;
+	      return this.state.dataLink.value;
 	    }
 
 	    // Generates React DOM elements to pass to the themed form component as
@@ -340,7 +365,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _onChildRequestChange(k, v) {
 	      // Update the ReactLink with a copy of the existing data merged with this
 	      // new input value
-	      this._dataLink().requestChange(Object.assign({}, this._data(), _defineProperty({}, k, v)));
+	      this.state.dataLink.requestChange(Object.assign({}, this._data(), _defineProperty({}, k, v)));
 	    }
 	  }, {
 	    key: "_onSubmit",
@@ -408,8 +433,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // overrides
 	      var mapping = this._typeMapping().errors;
 	      var component = this._getThemedInputComponent({}, mapping.component);
+	      var _props = this.props;
+	      var layout = _props.layout;
+	      var align = _props.align;
+
 	      return propsClosure(component, {
-	        defaults: { key: "errors" },
+	        defaults: { key: "errors", layout: layout, align: align },
 	        overrides: this._errorsOverrides.bind(this)
 	      });
 	    }
@@ -436,6 +465,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return {
 	        key: name + "-nestedfields",
+	        layout: this.props.layout,
+	        align: this.props.align,
 	        theme: this.props.theme,
 	        typeMapping: this.props.typeMapping,
 	        onComponentMount: this._onChildComponentMount.bind(this, [name]),
@@ -457,8 +488,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // overrides
 	      var mapping = this._typeMapping().submit;
 	      var component = this._getThemedInputComponent({}, mapping.component);
+	      var _props2 = this.props;
+	      var layout = _props2.layout;
+	      var align = _props2.align;
+
 	      return propsClosure(component, {
-	        defaults: { key: "submit" },
+	        defaults: { key: "submit", layout: layout, align: align },
 	        overrides: this._submitOverrides.bind(this)
 	      });
 	    }
@@ -506,6 +541,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return {
 	        name: name,
+	        layout: this.props.layout,
+	        align: this.props.align,
 	        key: name + "-input",
 	        valueLink: {
 	          value: this._data()[name],
@@ -541,6 +578,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      form: React.PropTypes.func.isRequired,
 	      theme: React.PropTypes.object.isRequired,
 	      typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
+	      layout: React.PropTypes.string.isRequired,
+	      align: React.PropTypes.string.isRequired,
 	      // Callbacks
 	      onSubmit: React.PropTypes.func
 	    },
@@ -551,6 +590,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      errors: [],
 	      theme: undefined,
 	      typeMapping: {},
+	      layout: "vertical",
+	      align: "left",
 	      onSubmit: function onSubmit() {}
 	    },
 	    enumerable: true
