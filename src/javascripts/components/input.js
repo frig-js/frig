@@ -29,7 +29,7 @@ export default class FrigInput extends React.Component {
   static defaultProps = {
     theme: undefined,
     validate: true,
-    saved: true,
+    saved: false,
     errors: [],
     onChange: () => {},
     onValidChange: () => {},
