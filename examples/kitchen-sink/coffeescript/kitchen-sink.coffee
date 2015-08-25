@@ -50,7 +50,7 @@ AccountForm = React.createClass
             else
               "No Avatar"
           # Email and github account emails (to the left of the avatar image)
-          f.input "email", xs: 10
+          f.input "email", xs: 10, saved: false
           f.input("githubAccount",
             type: "typeahead",
             errors: ["test"],

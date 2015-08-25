@@ -16,6 +16,7 @@ export default class FrigInput extends React.Component {
     className:       React.PropTypes.string,
     disabled:        React.PropTypes.bool,
     multiple:        React.PropTypes.bool,
+    saved:           React.PropTypes.bool,
     validate:        React.PropTypes.bool.isRequired,
     // Callbacks (Public API)
     onChange:        React.PropTypes.func.isRequired,
@@ -28,6 +29,7 @@ export default class FrigInput extends React.Component {
   static defaultProps = {
     theme: undefined,
     validate: true,
+    saved: true,
     errors: [],
     onChange: () => {},
     onValidChange: () => {},
