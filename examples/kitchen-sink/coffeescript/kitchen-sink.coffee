@@ -30,7 +30,8 @@ AccountForm = React.createClass
   formOpts: ->
     data: @linkState("account")
     errors: ["Test Error", "Moo"]
-    onSubmit: @onSubmit
+    onSubmit: @onSubmit,
+    # layout: "horizontal"
 
   render: ->
     frig @formOpts(), (f) =>
@@ -50,7 +51,12 @@ AccountForm = React.createClass
             else
               "No Avatar"
           # Email and github account emails (to the left of the avatar image)
-          f.input "email", xs: 10, saved: false
+          f.input "InputWithoutALabel",
+            xs: 10
+            label: false
+            saved: true
+            placeholder: "Input Without a Label"
+          f.input "email", xs: 10, saved: true
           f.input("githubAccount",
             type: "typeahead",
             errors: ["test"],
@@ -59,13 +65,16 @@ AccountForm = React.createClass
               parser: @parseGithubResponse
               maxReqsPerMinute: 10
             }
-            xs: 10
+            xs: 10,
+            saved: true
           ),
 
         div className: "row",
           f.input("friendsGithubAccounts",
             type: "typeahead",
             multiple: true,
+            label: false,
+            saved: true
             remote: {
               url: @githubSearchUrl
               parser: @parseGithubResponse
@@ -81,31 +90,69 @@ AccountForm = React.createClass
           f.input "description",
             className: "testing-class-name"
             type: "text"
-            rows: 10
+            rows: 5
+            xs: 12
+            saved: true
+
+          f.input "description-two",
+            className: "testing-class-name"
+            type: "text"
+            rows: 5
+            label: false
+            placeholder: "Description without a label"
+            saved: true
+            xs: 12
 
         div className: "row",
           f.input "time_of_day",
             type: "switch",
-            xs: "6"
-            label: "Time of Day"
+            xs: "6",
+            label: "Time of Day",
+            saved: true
             errors: ["This error is an example", "As is this one"]
+          f.input "time_of_night",
+            type: "switch",
+            xs: "6",
+            label: "Time of Night",
+            label: false
+            saved: true
 
+        div className: "row",
           f.input("uploadAvatar",
             type: "file",
             xs: "6"
             label: "Uploading Avatar"
+            saved: true
           ),
-
+          f.input "uploadVirus",
+            type: "file",
+            xs: "6"
+            label: false
+            saved: true
         div className: "row",
           f.input "startTime",
             type: "time"
-            xs: "6"
+            xs: "12"
             placeholder: "12:00pm"
             label: "Start Time"
-          f.input "color",
+            saved: true
+          f.input "endTime",
+            type: "time"
+            xs: "12"
+            placeholder: "End Time"
+            label: false
+            saved: true
+        div className: "row",
+          f.input "colorOne",
             type: "color"
-            xs: "6"
-
+            xs: "12"
+            label: "Color One"
+            saved: true
+          f.input "colorTwo",
+            type: "color"
+            xs: "12",
+            label: false
+            saved: true
         div className: "row",
           div className: "col-xs-12",
             h3 {}, "Nested Fields (Eg. Has Many)"
@@ -122,7 +169,7 @@ AccountForm = React.createClass
             h3 {}, "Additional Sketchy Info"
 
         div className: "row",
-          f.input "shareSketchyInfo"
+          f.input "shareSketchyInfo", saved: true
           if @state.account.shareSketchyInfo
             [
               f.input "socialSecurityNumber"
