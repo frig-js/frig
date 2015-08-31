@@ -74,6 +74,21 @@ AccountForm = React.createClass
           ),
 
         div className: "row",
+          f.input("stuff_or_things",
+            type: "typeahead",
+            multiple: true,
+            options: [
+              # The 3 formats for options
+              # 1. An object with a label and a value (perfered)
+              {label: "Stuff", value: "stuff-value"},
+              # 2. An array of the [label, value]
+              ["Things", "thing-value"],
+              # 3. A string. For scenarios where the label equals the value.
+              "why not both?"
+            ]
+          ),
+
+        div className: "row",
           f.input "password", xs: 6
           f.input "passwordConfirmation", xs: 6
 
