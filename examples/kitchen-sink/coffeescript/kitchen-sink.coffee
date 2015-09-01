@@ -2,7 +2,7 @@ require("frig").defaultTheme require("frigging-bootstrap")
 
 React = require "react/addons"
 {frig} = require("frig").dsl
-{div, h2, h3, h4, img} = React.DOM
+{div, h2, h3, h4, img, ul, li} = React.DOM
 
 AccountForm = React.createClass
   mixins: [
@@ -97,6 +97,30 @@ AccountForm = React.createClass
             ]
           ),
 
+        div className: "row",
+          f.input("customSelectionRendering",
+            type: "typeahead",
+            multiple: true,
+            displaySelections: false,
+            options: [
+              # The 3 formats for options
+              # 1. An object with a label and a value (perfered)
+              {label: "Stuff", value: "stuff-value"},
+              # 2. An array of the [value, label]
+              ["thing-value", "Things"],
+              # 3. A string. For scenarios where the label equals the value.
+              "why not both?"
+            ]
+          ),
+          # Rendering the selection independently of the typeahead for
+          # customization purposes
+          div className: "col-xs-12",
+            h4 {}, "Custom Selections"
+            ul {},
+              (@state.account.customSelectionRendering||[]).map (selection) =>
+                li {key: "o-#{selection}"}, "I choose #{selection}"
+            if !@state.account.customSelectionRendering?
+              div {}, "No Selection"
         div className: "row",
           f.input "password", xs: 6
           f.input "passwordConfirmation", xs: 6
