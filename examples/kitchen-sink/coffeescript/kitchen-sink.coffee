@@ -90,8 +90,8 @@ AccountForm = React.createClass
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
               {label: "Stuff", value: "stuff-value"},
-              # 2. An array of the [label, value]
-              ["Things", "thing-value"],
+              # 2. An array of the [value, label]
+              ["thing-value", "Things"],
               # 3. A string. For scenarios where the label equals the value.
               "why not both?"
             ]
