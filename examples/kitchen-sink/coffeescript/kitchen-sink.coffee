@@ -27,10 +27,14 @@ AccountForm = React.createClass
   onSubmit: (e) ->
     e.preventDefault()
 
+  onChange: (e) ->
+    e.preventDefault()
+
   formOpts: ->
     data: @linkState("account")
     errors: ["Test Error", "Moo"]
     onSubmit: @onSubmit,
+    onChange: @onChange,
     # layout: "horizontal"
 
   render: ->
