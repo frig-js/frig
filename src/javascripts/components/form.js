@@ -19,6 +19,7 @@ export default class FrigForm extends React.Component {
     align: React.PropTypes.string.isRequired,
     // Callbacks
     onSubmit: React.PropTypes.func,
+    onChange: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -28,6 +29,7 @@ export default class FrigForm extends React.Component {
     layout: "vertical",
     align: "left",
     onSubmit() {},
+    onChange() {},
   }
 
   _childComponentsByName = []
@@ -89,8 +91,10 @@ export default class FrigForm extends React.Component {
     formProps.formHtml = Object.assign({}, formProps.formHtml || {}, {
       ref: "form",
       onSubmit: this._onSubmit.bind(this),
+      onChange: this._onChange.bind(this),
     })
     return formProps
+
   }
 
   // Generate the type mapping for an input component
@@ -160,6 +164,10 @@ export default class FrigForm extends React.Component {
     this.props.onSubmit(e)
   }
 
+  _onChange(e) {
+    if (!this.validate()) return e.preventDefault()
+    this.props.onChange(e)
+  }
 
   _guessInputType(inputProps) {
     let jsType = typeof inputProps.valueLink.value
