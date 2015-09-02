@@ -37,7 +37,10 @@ export default class FrigInput extends React.Component {
     onComponentUnmount: () => {},
   }
 
-  state = {}
+  state = {
+    modified: false,
+    validationRequested: false
+  }
 
   /*
    * =========================================================================
@@ -55,7 +58,18 @@ export default class FrigInput extends React.Component {
   }
 
   isModified() {
-    return this.state.modified != null
+    return this.state.modified
+  }
+
+  resetModified() {
+    this.setState({modified: false})
+  }
+
+  reset() {
+    this.setState({
+      modified: false,
+      validationRequested: false,
+    })
   }
 
   /*
@@ -194,10 +208,10 @@ export default class FrigInput extends React.Component {
     return validations
   }
 
-  _onChange(val) {
+  _onChange(val, opts) {
     if (this.props.type === "submit") return
     // Set the state and run validations
-    this.setState({modified: true})
+    if ((opts||{}).setModified !== false) this.setState({modified: true})
     let valid = this._errors(val) == null
     // Update the value link (used by Frig form components)
     this.props.valueLink.requestChange(val, valid)
@@ -207,7 +221,7 @@ export default class FrigInput extends React.Component {
   }
 
   _onBlur() {
-    this.setState({modified: true})
+    this.validate()
     let inputHtml = this.props.inputHtml
     if (inputHtml != null && inputHtml.onBlur != null) inputHtml.onBlur()
   }

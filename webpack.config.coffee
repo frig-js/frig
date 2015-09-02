@@ -21,6 +21,7 @@ example "kitchen-sink", "coffeescript"
 example "horizontal-login", "coffeescript"
 example "the-basics", "jsx"
 example "two-way-data-binding", "jsx"
+example "component-functions", "jsx"
 
 if isProduction and mode != "examples"
   entry = _.merge entry,

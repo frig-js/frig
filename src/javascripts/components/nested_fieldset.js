@@ -43,10 +43,18 @@ export default class NestedFieldset extends React.Component {
     return this._everyForm("isModified")
   }
 
+  resetModified() {
+    this._everyForm("resetModified")
+  }
+
+  reset() {
+    this._everyForm("reset")
+  }
+
   // Returns true if calling the function returns true for every child form
   _everyForm(fnName) {
     let forms = []
-    for (let k in this.refs) forms.push(this.refs[k])
+    for (let form of this.refs) forms.push(form)
     return forms.filter((c) => !c[fnName]()).length === 0
   }
 

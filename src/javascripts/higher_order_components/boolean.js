@@ -37,7 +37,7 @@ module.exports = function(componentClass) {
     _normalizeValue(nextProps) {
       let value = nextProps.valueLink.value
       if (value !== this.props.offValue && value !== this.props.onValue) {
-        nextProps.valueLink.requestChange(value != null)
+        nextProps.valueLink.requestChange(value != null, {setModified: false})
       }
     }
 
