@@ -243,6 +243,60 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return c.isModified();
 	      }).length !== 0;
 	    }
+	  }, {
+	    key: "resetModified",
+	    value: function resetModified() {
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+
+	      try {
+	        for (var _iterator = this._childComponents()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var c = _step.value;
+	          c.resetModified();
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator["return"]) {
+	            _iterator["return"]();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: "reset",
+	    value: function reset() {
+	      var _iteratorNormalCompletion2 = true;
+	      var _didIteratorError2 = false;
+	      var _iteratorError2 = undefined;
+
+	      try {
+	        for (var _iterator2 = this._childComponents()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	          var c = _step2.value;
+	          c.reset();
+	        }
+	      } catch (err) {
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion2 && _iterator2["return"]) {
+	            _iterator2["return"]();
+	          }
+	        } finally {
+	          if (_didIteratorError2) {
+	            throw _iteratorError2;
+	          }
+	        }
+	      }
+	    }
 
 	    /*
 	     * =========================================================================
@@ -639,7 +693,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _get(Object.getPrototypeOf(FrigInput.prototype), "constructor", this).apply(this, arguments);
 
-	    this.state = {};
+	    this.state = {
+	      modified: false,
+	      validationRequested: false
+	    };
 	  }
 
 	  _createClass(FrigInput, [{
@@ -663,7 +720,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "isModified",
 	    value: function isModified() {
-	      return this.state.modified != null;
+	      return this.state.modified;
+	    }
+	  }, {
+	    key: "resetModified",
+	    value: function resetModified() {
+	      this.setState({ modified: false });
+	    }
+	  }, {
+	    key: "reset",
+	    value: function reset() {
+	      this.setState({
+	        modified: false,
+	        validationRequested: false
+	      });
 	    }
 
 	    /*
@@ -865,10 +935,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  }, {
 	    key: "_onChange",
-	    value: function _onChange(val) {
+	    value: function _onChange(val, opts) {
 	      if (this.props.type === "submit") return;
 	      // Set the state and run validations
-	      this.setState({ modified: true });
+	      if ((opts || {}).setModified !== false) this.setState({ modified: true });
 	      var valid = this._errors(val) == null;
 	      // Update the value link (used by Frig form components)
 	      this.props.valueLink.requestChange(val, valid);
@@ -879,7 +949,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_onBlur",
 	    value: function _onBlur() {
-	      this.setState({ modified: true });
+	      this.validate();
 	      var inputHtml = this.props.inputHtml;
 	      if (inputHtml != null && inputHtml.onBlur != null) inputHtml.onBlur();
 	    }
@@ -897,6 +967,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      className: React.PropTypes.string,
 	      disabled: React.PropTypes.bool,
 	      multiple: React.PropTypes.bool,
+	      saved: React.PropTypes.bool,
 	      validate: React.PropTypes.bool.isRequired,
 	      // Callbacks (Public API)
 	      onChange: React.PropTypes.func.isRequired,
@@ -911,6 +982,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: {
 	      theme: undefined,
 	      validate: true,
+	      saved: false,
 	      errors: [],
 	      onChange: function onChange() {},
 	      onValidChange: function onValidChange() {},
@@ -1418,15 +1490,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function isModified() {
 	      return this._everyForm("isModified");
 	    }
+	  }, {
+	    key: "resetModified",
+	    value: function resetModified() {
+	      this._everyForm("resetModified");
+	    }
+	  }, {
+	    key: "reset",
+	    value: function reset() {
+	      this._everyForm("reset");
+	    }
 
 	    // Returns true if calling the function returns true for every child form
 	  }, {
 	    key: "_everyForm",
 	    value: function _everyForm(fnName) {
 	      var forms = [];
-	      for (var k in this.refs) {
-	        forms.push(this.refs[k]);
-	      }return forms.filter(function (c) {
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+
+	      try {
+	        for (var _iterator = this.refs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var form = _step.value;
+	          forms.push(form);
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator["return"]) {
+	            _iterator["return"]();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+
+	      return forms.filter(function (c) {
 	        return !c[fnName]();
 	      }).length === 0;
 	    }
@@ -1790,7 +1894,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function _normalizeValue(nextProps) {
 	        var value = nextProps.valueLink.value;
 	        if (value !== this.props.offValue && value !== this.props.onValue) {
-	          nextProps.valueLink.requestChange(value != null);
+	          nextProps.valueLink.requestChange(value != null, { setModified: false });
 	        }
 	      }
 

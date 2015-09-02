@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AccountForm, React, div, frig, h2, h3, h4, img, ref;
+	var AccountForm, React, div, frig, h2, h3, h4, img, li, ref, ul;
 
 	__webpack_require__(1).defaultTheme(__webpack_require__(2));
 
@@ -52,7 +52,7 @@
 
 	frig = __webpack_require__(1).dsl.frig;
 
-	ref = React.DOM, div = ref.div, h2 = ref.h2, h3 = ref.h3, h4 = ref.h4, img = ref.img;
+	ref = React.DOM, div = ref.div, h2 = ref.h2, h3 = ref.h3, h4 = ref.h4, img = ref.img, ul = ref.ul, li = ref.li;
 
 	AccountForm = React.createClass({
 	  mixins: [React.addons.LinkedStateMixin],
@@ -115,8 +115,14 @@
 	        }, _this.state.account.githubAccount != null ? img({
 	          src: _this.state.account.githubAccount.avatar_url,
 	          width: "100%"
-	        }) : "No Avatar"), f.input("email", {
-	          xs: 10
+	        }) : "No Avatar"), f.input("InputWithoutALabel", {
+	          xs: 10,
+	          label: false,
+	          saved: true,
+	          placeholder: "Input Without a Label"
+	        }), f.input("email", {
+	          xs: 10,
+	          saved: true
 	        }), f.input("githubAccount", {
 	          type: "typeahead",
 	          errors: ["test"],
@@ -125,18 +131,50 @@
 	            parser: _this.parseGithubResponse,
 	            maxReqsPerMinute: 10
 	          },
-	          xs: 10
+	          xs: 10,
+	          saved: true
 	        })), div({
 	          className: "row"
 	        }, f.input("friendsGithubAccounts", {
 	          type: "typeahead",
 	          multiple: true,
+	          label: false,
+	          saved: true,
 	          remote: {
 	            url: _this.githubSearchUrl,
 	            parser: _this.parseGithubResponse,
 	            maxReqsPerMinute: 20
 	          }
 	        })), div({
+	          className: "row"
+	        }, f.input("stuff_or_things", {
+	          type: "typeahead",
+	          multiple: true,
+	          options: [
+	            {
+	              label: "Stuff",
+	              value: "stuff-value"
+	            }, ["thing-value", "Things"], "why not both?"
+	          ]
+	        })), div({
+	          className: "row"
+	        }, f.input("customSelectionRendering", {
+	          type: "typeahead",
+	          multiple: true,
+	          displaySelections: false,
+	          options: [
+	            {
+	              label: "Stuff",
+	              value: "stuff-value"
+	            }, ["thing-value", "Things"], "why not both?"
+	          ]
+	        }), div({
+	          className: "col-xs-12"
+	        }, h4({}, "Custom Selections"), ul({}, (_this.state.account.customSelectionRendering || []).map(function(selection) {
+	          return li({
+	            key: "o-" + selection
+	          }, "I choose " + selection);
+	        })), _this.state.account.customSelectionRendering == null ? div({}, "No Selection") : void 0)), div({
 	          className: "row"
 	        }, f.input("password", {
 	          xs: 6
@@ -147,28 +185,69 @@
 	        }, f.input("description", {
 	          className: "testing-class-name",
 	          type: "text",
-	          rows: 10
+	          rows: 5,
+	          xs: 12,
+	          saved: true
+	        }), f.input("description-two", {
+	          className: "testing-class-name",
+	          type: "text",
+	          rows: 5,
+	          label: false,
+	          placeholder: "Description without a label",
+	          saved: true,
+	          xs: 12
 	        })), div({
 	          className: "row"
 	        }, f.input("time_of_day", {
 	          type: "switch",
 	          xs: "6",
 	          label: "Time of Day",
+	          saved: true,
 	          errors: ["This error is an example", "As is this one"]
-	        }), f.input("uploadAvatar", {
+	        }), f.input("time_of_night", {
+	          type: "switch",
+	          xs: "6",
+	          label: "Time of Night",
+	          label: false,
+	          saved: true
+	        })), div({
+	          className: "row"
+	        }, f.input("uploadAvatar", {
 	          type: "file",
 	          xs: "6",
-	          label: "Uploading Avatar"
+	          label: "Uploading Avatar",
+	          saved: true
+	        }), f.input("uploadVirus", {
+	          type: "file",
+	          xs: "6",
+	          label: false,
+	          saved: true
 	        })), div({
 	          className: "row"
 	        }, f.input("startTime", {
 	          type: "time",
-	          xs: "6",
+	          xs: "12",
 	          placeholder: "12:00pm",
-	          label: "Start Time"
-	        }), f.input("color", {
+	          label: "Start Time",
+	          saved: true
+	        }), f.input("endTime", {
+	          type: "time",
+	          xs: "12",
+	          placeholder: "End Time",
+	          label: false,
+	          saved: true
+	        })), div({
+	          className: "row"
+	        }, f.input("colorOne", {
 	          type: "color",
-	          xs: "6"
+	          xs: "12",
+	          label: "Color One",
+	          saved: true
+	        }), f.input("colorTwo", {
+	          type: "color",
+	          xs: "12",
+	          label: false,
+	          saved: true
 	        })), div({
 	          className: "row"
 	        }, div({
@@ -183,7 +262,9 @@
 	          className: "col-xs-12"
 	        }, h3({}, "Additional Sketchy Info"))), div({
 	          className: "row"
-	        }, f.input("shareSketchyInfo"), _this.state.account.shareSketchyInfo ? [
+	        }, f.input("shareSketchyInfo", {
+	          saved: true
+	        }), _this.state.account.shareSketchyInfo ? [
 	          f.input("socialSecurityNumber"), f.input("fullName"), f.input("eyeColor", {
 	            options: ["blue", "green", "red", "left"]
 	          })
