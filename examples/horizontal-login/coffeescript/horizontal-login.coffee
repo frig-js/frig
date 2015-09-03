@@ -16,12 +16,15 @@ MinimalLogin = React.createClass
       h2 {className: "col-xs-12"}, "Please sign in"
       f.errors()
       f.input "account",
+        block: true
         autoFocus: true
         inputHtml: {autoComplete: "off"}
       f.input "password",
-        type: "password"
+        block: true
         inputHtml: {autoComplete: "off"}
-      f.input "remember_me", type: "boolean"
+      f.input "remember_me",
+        labelWidth: {sm: 4}
+        type: "boolean"
       f.submit "Sign in",
         bsStyle: "primary"
         bsSize: "lg"
