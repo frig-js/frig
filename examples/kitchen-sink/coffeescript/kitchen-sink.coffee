@@ -15,6 +15,7 @@ AccountForm = React.createClass
       password: "test"
       shareSketchyInfo: false
       addresses: [{address: "55 Actual Place Rd."}, {}]
+      stuff_or_things: ["stuff-value"]
 
   githubSearchUrl: (username) ->
     "https://api.github.com/search/users?q=#{username}&per_page=30"
