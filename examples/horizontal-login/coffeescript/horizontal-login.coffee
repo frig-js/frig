@@ -23,7 +23,7 @@ MinimalLogin = React.createClass
         block: true
         inputHtml: {autoComplete: "off"}
       f.input "remember_me",
-        labelWidth: {sm: 4}
+        labelWidth: {xs: 6}
         type: "boolean"
       f.submit "Sign in",
         bsStyle: "primary"
