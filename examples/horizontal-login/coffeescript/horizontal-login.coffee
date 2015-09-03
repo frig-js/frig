@@ -13,19 +13,19 @@ MinimalLogin = React.createClass
 
   form: (f) ->
     div className: "row",
-      h2 {className: "col-xs-12"}, "Please sign in"
+      h2 {className: "col-xs-12"}, "Sign In"
       f.errors()
-      f.input "account",
+      f.input "email",
         block: true
         autoFocus: true
         inputHtml: {autoComplete: "off"}
       f.input "password",
         block: true
         inputHtml: {autoComplete: "off"}
-      f.input "remember_me",
+      f.input "turbo_mode",
         labelWidth: {xs: 6}
         type: "boolean"
-      f.submit "Sign in",
+      f.submit "Let's do this!",
         bsStyle: "primary"
         bsSize: "lg"
         block: true
