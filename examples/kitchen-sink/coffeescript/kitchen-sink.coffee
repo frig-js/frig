@@ -148,6 +148,9 @@ AccountForm = React.createClass
             xs: "6",
             label: "Time of Day",
             saved: true
+            handleWidth: 100
+            onText: "Enabled"
+            offText: "Disabled"
             errors: ["This error is an example", "As is this one"]
           f.input "time_of_night",
             type: "switch",
