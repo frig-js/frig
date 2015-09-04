@@ -15,16 +15,15 @@ AccountForm = React.createClass
       password: "test"
       shareSketchyInfo: false
       addresses: [{address: "55 Actual Place Rd."}, {}]
-      friendsGithubAccounts: ["D1plo1d"]
       stuff_or_things: ["stuff-value"]
 
-  githubSearchUrl: (username) ->
-    "https://api.github.com/search/users?q=#{username}&per_page=30"
+  # githubSearchUrl: (username) ->
+  #   "https://api.github.com/search/users?q=#{username}&per_page=30"
 
-  parseGithubResponse: (json) ->
-    json.items.map (user) => label: user.login, value:
-      login: user.login
-      avatar_url: user.avatar_url
+  # parseGithubResponse: (json) ->
+  #   json.items.map (user) => label: user.login, value:
+  #     login: user.login
+  #     avatar_url: user.avatar_url
 
   onSubmit: (e) ->
     e.preventDefault()
@@ -46,43 +45,12 @@ AccountForm = React.createClass
           f.errors()
 
         div className: "row",
-          # The avatar image
-          div className: "col-xs-2 pull-right", style: {textAlign: "center"},
-            if @state.account.githubAccount?
-              img src: @state.account.githubAccount.avatar_url, width: "100%"
-            else
-              "No Avatar"
-          # Email and github account emails (to the left of the avatar image)
           f.input "InputWithoutALabel",
-            xs: 10
+            xs: 12
             label: false
             saved: true
             placeholder: "Input Without a Label"
           f.input "email", xs: 10, saved: true
-          f.input("githubAccount",
-            type: "typeahead",
-            errors: ["test"],
-            remote: {
-              url: @githubSearchUrl
-              parser: @parseGithubResponse
-              maxReqsPerMinute: 10
-            }
-            xs: 10,
-            saved: true
-          ),
-
-        div className: "row",
-          f.input("friendsGithubAccounts",
-            type: "typeahead",
-            multiple: true,
-            label: false,
-            saved: true
-            remote: {
-              url: @githubSearchUrl
-              parser: @parseGithubResponse
-              maxReqsPerMinute: 20
-            }
-          ),
 
         div className: "row",
           f.input("stuff_or_things",
@@ -97,12 +65,6 @@ AccountForm = React.createClass
               # 3. A string. For scenarios where the label equals the value.
               "why not both?"
             ]
-          ),
-          f.input("static_remote_string",
-            type: "typeahead",
-            multiple: true,
-            remote:
-              url: @githubSearchUrl "D1p"
           ),
 
         div className: "row",
