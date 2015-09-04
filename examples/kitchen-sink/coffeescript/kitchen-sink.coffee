@@ -15,6 +15,7 @@ AccountForm = React.createClass
       password: "test"
       shareSketchyInfo: false
       addresses: [{address: "55 Actual Place Rd."}, {}]
+      friendsGithubAccounts: ["D1plo1d"]
       stuff_or_things: ["stuff-value"]
 
   githubSearchUrl: (username) ->
@@ -96,6 +97,12 @@ AccountForm = React.createClass
               # 3. A string. For scenarios where the label equals the value.
               "why not both?"
             ]
+          ),
+          f.input("static_remote_string",
+            type: "typeahead",
+            multiple: true,
+            remote:
+              url: @githubSearchUrl "D1p"
           ),
 
         div className: "row",
