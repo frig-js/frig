@@ -9,6 +9,7 @@ module.exports = {
   Input,
   dsl,
   util,
+  ValueLinkedSelect,
   typeMapping: require("./type_mapping.js"),
   HigherOrderComponents: {
     Boolean: require("./higher_order_components/boolean.js"),

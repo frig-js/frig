@@ -24,7 +24,7 @@ let {select, option} = React.DOM
  * be the same as React.DOM.select.
  *
  */
-export default class extends React.Component {
+export default class ValueLinkedSelect extends React.Component {
 
   static propTypes = {
     options: React.PropTypes.array.isRequired,

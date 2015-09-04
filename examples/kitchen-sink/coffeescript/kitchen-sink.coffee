@@ -16,6 +16,7 @@ AccountForm = React.createClass
       shareSketchyInfo: false
       addresses: [{address: "55 Actual Place Rd."}, {}]
       stuff_or_things: ["stuff-value"]
+      single_select_typeahead: "stuff-value"
 
   # githubSearchUrl: (username) ->
   #   "https://api.github.com/search/users?q=#{username}&per_page=30"
@@ -51,9 +52,22 @@ AccountForm = React.createClass
             saved: true
             placeholder: "Input Without a Label"
           f.input "email", xs: 10, saved: true
+          f.input "select_example",
+            options: [
+              # The 3 formats for options
+              # 1. An object with a label and a value (perfered)
+              {label: "Stuff", value: "stuff-value"},
+              # 2. An array of the [value, label]
+              ["thing-value", "Things"],
+              # 3. A string. For scenarios where the label equals the value.
+              "why not both?"
+            ]
 
         div className: "row",
-          f.input("stuff_or_things",
+          div className: "col-xs-12",
+            h2 {}, "Typeaheads"
+
+          f.input "stuff_or_things",
             type: "typeahead",
             multiple: true,
             options: [
@@ -65,10 +79,20 @@ AccountForm = React.createClass
               # 3. A string. For scenarios where the label equals the value.
               "why not both?"
             ]
-          ),
 
-        div className: "row",
-          f.input("customSelectionRendering",
+          f.input "single_select_typeahead",
+            type: "typeahead",
+            options: [
+              # The 3 formats for options
+              # 1. An object with a label and a value (perfered)
+              {label: "Stuff", value: "stuff-value"},
+              # 2. An array of the [value, label]
+              ["thing-value", "Things"],
+              # 3. A string. For scenarios where the label equals the value.
+              "why not both?"
+            ]
+
+          f.input "customSelectionRendering",
             type: "typeahead",
             multiple: true,
             displaySelections: false,
@@ -81,7 +105,6 @@ AccountForm = React.createClass
               # 3. A string. For scenarios where the label equals the value.
               "why not both?"
             ]
-          ),
           # Rendering the selection independently of the typeahead for
           # customization purposes
           div className: "col-xs-12",
@@ -91,7 +114,10 @@ AccountForm = React.createClass
                 li {key: "o-#{selection}"}, "I choose #{selection}"
             if !@state.account.customSelectionRendering?
               div {}, "No Selection"
+
         div className: "row",
+          div className: "col-xs-12",
+            h2 {}, "Passwords"
           f.input "password", xs: 6
           f.input "passwordConfirmation", xs: 6
 
