@@ -66,25 +66,11 @@
 	          {
 	            address: "55 Actual Place Rd."
 	          }, {}
-	        ]
+	        ],
+	        stuff_or_things: ["stuff-value"],
+	        single_select_typeahead: "stuff-value"
 	      }
 	    };
-	  },
-	  githubSearchUrl: function(username) {
-	    return "https://api.github.com/search/users?q=" + username + "&per_page=30";
-	  },
-	  parseGithubResponse: function(json) {
-	    return json.items.map((function(_this) {
-	      return function(user) {
-	        return {
-	          label: user.login,
-	          value: {
-	            login: user.login,
-	            avatar_url: user.avatar_url
-	          }
-	        };
-	      };
-	    })(this));
 	  },
 	  onSubmit: function(e) {
 	    return e.preventDefault();
@@ -107,49 +93,15 @@
 	          className: "row"
 	        }, f.errors()), div({
 	          className: "row"
-	        }, div({
-	          className: "col-xs-2 pull-right",
-	          style: {
-	            textAlign: "center"
-	          }
-	        }, _this.state.account.githubAccount != null ? img({
-	          src: _this.state.account.githubAccount.avatar_url,
-	          width: "100%"
-	        }) : "No Avatar"), f.input("InputWithoutALabel", {
-	          xs: 10,
+	        }, f.input("InputWithoutALabel", {
+	          xs: 12,
 	          label: false,
 	          saved: true,
 	          placeholder: "Input Without a Label"
 	        }), f.input("email", {
 	          xs: 10,
 	          saved: true
-	        }), f.input("githubAccount", {
-	          type: "typeahead",
-	          errors: ["test"],
-	          remote: {
-	            url: _this.githubSearchUrl,
-	            parser: _this.parseGithubResponse,
-	            maxReqsPerMinute: 10
-	          },
-	          xs: 10,
-	          saved: true
-	        })), div({
-	          className: "row"
-	        }, f.input("friendsGithubAccounts", {
-	          type: "typeahead",
-	          multiple: true,
-	          label: false,
-	          saved: true,
-	          remote: {
-	            url: _this.githubSearchUrl,
-	            parser: _this.parseGithubResponse,
-	            maxReqsPerMinute: 20
-	          }
-	        })), div({
-	          className: "row"
-	        }, f.input("stuff_or_things", {
-	          type: "typeahead",
-	          multiple: true,
+	        }), f.input("select_example", {
 	          options: [
 	            {
 	              label: "Stuff",
@@ -158,7 +110,26 @@
 	          ]
 	        })), div({
 	          className: "row"
-	        }, f.input("customSelectionRendering", {
+	        }, div({
+	          className: "col-xs-12"
+	        }, h2({}, "Typeaheads")), f.input("stuff_or_things", {
+	          type: "typeahead",
+	          multiple: true,
+	          options: [
+	            {
+	              label: "Stuff",
+	              value: "stuff-value"
+	            }, ["thing-value", "Things"], "why not both?"
+	          ]
+	        }), f.input("single_select_typeahead", {
+	          type: "typeahead",
+	          options: [
+	            {
+	              label: "Stuff",
+	              value: "stuff-value"
+	            }, ["thing-value", "Things"], "why not both?"
+	          ]
+	        }), f.input("customSelectionRendering", {
 	          type: "typeahead",
 	          multiple: true,
 	          displaySelections: false,
@@ -176,7 +147,9 @@
 	          }, "I choose " + selection);
 	        })), _this.state.account.customSelectionRendering == null ? div({}, "No Selection") : void 0)), div({
 	          className: "row"
-	        }, f.input("password", {
+	        }, div({
+	          className: "col-xs-12"
+	        }, h2({}, "Passwords")), f.input("password", {
 	          xs: 6
 	        }), f.input("passwordConfirmation", {
 	          xs: 6
@@ -203,6 +176,9 @@
 	          xs: "6",
 	          label: "Time of Day",
 	          saved: true,
+	          handleWidth: 100,
+	          onText: "Enabled",
+	          offText: "Disabled",
 	          errors: ["This error is an example", "As is this one"]
 	        }), f.input("time_of_night", {
 	          type: "switch",

@@ -67,6 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Input: Input,
 	  dsl: dsl,
 	  util: util,
+	  ValueLinkedSelect: ValueLinkedSelect,
 	  typeMapping: __webpack_require__(9),
 	  HigherOrderComponents: {
 	    Boolean: __webpack_require__(11),
@@ -1710,16 +1711,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var select = _React$DOM.select;
 	var option = _React$DOM.option;
 
-	var _default = (function (_React$Component) {
-	  _inherits(_default, _React$Component);
+	var ValueLinkedSelect = (function (_React$Component) {
+	  _inherits(ValueLinkedSelect, _React$Component);
 
-	  function _default() {
-	    _classCallCheck(this, _default);
+	  function ValueLinkedSelect() {
+	    _classCallCheck(this, ValueLinkedSelect);
 
-	    _get(Object.getPrototypeOf(_default.prototype), "constructor", this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(ValueLinkedSelect.prototype), "constructor", this).apply(this, arguments);
 	  }
 
-	  _createClass(_default, [{
+	  _createClass(ValueLinkedSelect, [{
 	    key: "_getValue",
 
 	    // Reads the value from the DOM for the select input fields
@@ -1835,10 +1836,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    enumerable: true
 	  }]);
 
-	  return _default;
+	  return ValueLinkedSelect;
 	})(React.Component);
 
-	exports["default"] = _default;
+	exports["default"] = ValueLinkedSelect;
 	module.exports = exports["default"];
 
 /***/ },

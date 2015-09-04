@@ -67,19 +67,23 @@
 	      className: "row"
 	    }, h2({
 	      className: "col-xs-12"
-	    }, "Please sign in"), f.errors(), f.input("account", {
+	    }, "Sign In"), f.errors(), f.input("email", {
+	      block: true,
 	      autoFocus: true,
 	      inputHtml: {
 	        autoComplete: "off"
 	      }
 	    }), f.input("password", {
-	      type: "password",
+	      block: true,
 	      inputHtml: {
 	        autoComplete: "off"
 	      }
-	    }), f.input("remember_me", {
+	    }), f.input("turbo_mode", {
+	      labelWidth: {
+	        xs: 6
+	      },
 	      type: "boolean"
-	    }), f.submit("Sign in", {
+	    }), f.submit("Let's do this!", {
 	      bsStyle: "primary",
 	      bsSize: "lg",
 	      block: true
