@@ -43,7 +43,7 @@ var SignIn = React.createClass({
 
 <iframe src="examples/the-basics/jsx/the-basics.html" style="
   width: 100%;
-  height: 330px;
+  height: 300px;
   border: 1px solid #ccc;
   padding-right: 1px;
 "
