@@ -41,7 +41,7 @@ var SignIn = React.createClass({
 
 ### Generates this sweet Bootstrap form
 
-<div id="the-basics-example"></div>
+<iframe src="examples/the-basics/jsx/the-basics.html"></iframe>
 
 ## Two-Way Data Binding
 
@@ -66,8 +66,7 @@ var SignIn = React.createClass({
 
 ### We can see the state is automatically updated by user input
 
-<iframe src="http://google.com"></iframe>
-<div id="two-way-data-binding-example"></div>
+<iframe src="examples/two-way-data-binding/jsx/two-way-data-binding.html"></iframe>
 
 [react-link]: https://facebook.github.io/react/docs/two-way-binding-helpers.html
 
