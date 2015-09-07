@@ -2,7 +2,7 @@
 
 if [[ -z $(git status -s) ]]
 then
-  cp ../node_modules/frigging-bootstrap/dist/frigging-bootstrap.js ./dist/frigging-bootstrap.js
+  cp ./node_modules/frigging-bootstrap/dist/frigging-bootstrap.js ./dist/frigging-bootstrap.js
   mkdocs gh-deploy
   git add -A
   git reset --hard
