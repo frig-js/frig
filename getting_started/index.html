@@ -62,13 +62,17 @@
         
             <ul>
             
-                <li class="toctree-l3"><a href="#getting-started">Getting Started</a></li>
+                <li class="toctree-l3"><a href="#installation">Installation</a></li>
                 
-                    <li><a class="toctree-l4" href="#installation">Installation</a></li>
+            
+                <li class="toctree-l3"><a href="#setting-the-theme">Setting the theme</a></li>
                 
-                    <li><a class="toctree-l4" href="#coffeescript-dsl-or-jsx">Coffeescript DSL or JSX</a></li>
+            
+                <li class="toctree-l3"><a href="#coffeescript-dsl-or-jsx">Coffeescript DSL or JSX</a></li>
                 
-                    <li><a class="toctree-l4" href="#configuration">Configuration</a></li>
+                    <li><a class="toctree-l4" href="#dsl">DSL</a></li>
+                
+                    <li><a class="toctree-l4" href="#jsx">JSX</a></li>
                 
             
             </ul>
@@ -78,7 +82,14 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../components/">Components</a>
+        <a class="" href="../core_components/">Core Components</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../bootstrap_components/">Bootstrap Components</a>
         
     </li>
 <li>
@@ -119,19 +130,40 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="getting-started">Getting Started</h1>
-<h2 id="installation">Installation</h2>
+                <h2 id="installation">Installation</h2>
 <p>You have many options here. Choose one:</p>
 <ul>
 <li>Install with <code>npm install --save frig frigging-bootstrap</code></li>
 <li>Install with <code>bower install --save frig frigging-bootstrap</code></li>
 <li>Download <a href="https://google.com">frig.js</a> and <a href="https://google.com">frigging-bootstrap.js</a></li>
 </ul>
+<h2 id="setting-the-theme">Setting the theme</h2>
+<p>Frig requires a theme to be set.</p>
+<p>To set the theme to <strong>FriggingBootstrap</strong> add this line to the top of your javascript:</p>
+<pre><code class="jsx">Frig.defaultTheme(FriggingBootstrap)
+</code></pre>
+
 <h2 id="coffeescript-dsl-or-jsx">Coffeescript DSL or JSX</h2>
-<p>// TODO</p>
-<h2 id="configuration">Configuration</h2>
-<h3 id="setting-the-default-from">Setting the default from</h3>
-<p>// TODO</p>
+<p>Frig comes in two flavours, a coffeescript DSL and JSX components.</p>
+<p>Both are equally capable. If your new to React we recommend using the JSX components.</p>
+<p>These two examples are equivalent:</p>
+<h3 id="dsl">DSL</h3>
+<pre><code class="coffeescript">React.createClass
+  render: -&gt;
+    Frig.dsl formProps, (f) -&gt;
+      f.input &quot;username&quot;, inputProps
+</code></pre>
+
+<h3 id="jsx">JSX</h3>
+<pre><code class="jsx">React.createClass({
+  form: function (f) {
+    &lt;f.input name=&quot;username&quot; {...inputProps}/&gt;
+  }
+  render: function() {
+    &lt;Frig.Form form={this.form} {...formProps}/&gt;
+  }
+})
+</code></pre>
               
             </div>
           </div>
@@ -139,7 +171,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../components/" class="btn btn-neutral float-right" title="Components"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../core_components/" class="btn btn-neutral float-right" title="Core Components"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href=".." class="btn btn-neutral" title="Frig"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -173,7 +205,7 @@
         <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../components/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../core_components/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
