@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Components - Frig Docs</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Components";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Frig Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Frig</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../getting_started/">Getting Started</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Components</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#components">Components</a></li>
+                
+                    <li><a class="toctree-l4" href="#form">Form</a></li>
+                
+                    <li><a class="toctree-l4" href="#finput">f.input</a></li>
+                
+                    <li><a class="toctree-l4" href="#fnestedfields">f.nestedFields</a></li>
+                
+                    <li><a class="toctree-l4" href="#fsubmit">f.submit</a></li>
+                
+                    <li><a class="toctree-l4" href="#ferrors">f.errors</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Frig Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Components</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/TouchBistro/frig/" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="components">Components</h1>
+<p>Whether you choose the Coffeescript DSL or JSX <strong>Frig</strong> provides you with the following components to help create your forms.</p>
+<h2 id="form">Form</h2>
+<p><em>Available as <code>Frig.form</code> in JSX and <code>Frig.dsl</code> in the Coffeescript DSL</em></p>
+<h3 id="props">Props</h3>
+<ul>
+<li><strong>data (required)</strong> - either a ReactLink or an object. This is used to populate the values of each field in the form. The data property is also used by inputs for type inference where a <code>type</code> property is not provided. If a ReactLink is provided the ReactLink will be updated with the user's inputs. In the Coffeescript DSL version the form is the last argument.</li>
+<li><strong>form (required)</strong> - a function. The form callback is expected to generate the content of the form as either a single React component or array of components. The form callback receives an object <code>f</code> containing the Frig components needed to build a form (In the Coffeescript DSL these components are replaced with equivalent functions).</li>
+<li><strong>errors (optional)</strong> - an array of strings. The list of errors supplied here can be rendered by the <code>f.errors</code> component.</li>
+<li><strong>onSubmit (optional)</strong> - a function. Called after the submit button is clicked and all validations have passed. The DOM event is passed to the callback.</li>
+</ul>
+<h3 id="public-functions">Public Functions</h3>
+<p>These functions can be called on the frig form object (eg. using React refs).</p>
+<ul>
+<li><strong>validate()</strong> - validates the form's inputs and renders all errors.</li>
+<li><strong>isValid()</strong> - returns true if all of the form's inputs are in a valid state. Does not visibly render errors.</li>
+<li><strong>isModified()</strong> - returns true if any of the form's inputs have been modified by the user (in other words <code>props.data</code> changes do not count).</li>
+</ul>
+<h2 id="finput">f.input</h2>
+<p>Frig Inputs are your interface to any kind of form element that allow the user to edit their data.</p>
+<p>For example <code>&lt;f.input name="username"/&gt;</code> will render a HTML input element by default however <code>&lt;f.input name="friends" type="typeahead" multiple=true options=["Jane", "Joe"]/&gt;</code> will render a typeahead multi-select.</p>
+<p>An input receives a name and loads its value from the form's data (ie. <code>value = form.props.data[input.props.name]</code>). To specificy a type of form element to render you can either set its <code>props.type</code> or <code>props.component</code> or leave both blank and have the input guess its type based on the form data and its name (see <em>Type Inference</em>).</p>
+<h4 id="props_1">Props</h4>
+<ul>
+<li><strong>name (required)</strong> - a string. The key of the input's value in the form's <code>props.data</code></li>
+<li><strong>type (optional)</strong> - a string. The type of input. If a type is not provided it will be guessed based on the input's name and value (based on the form's data). the <code>f.input</code> is basically a wrapper for specific "themed inputs" (just normal react components defined by the Frig theme). See the <em>Available Input Types</em> section for a complete list of type values.</li>
+<li><strong>component (optional)</strong> - a React Component. Overrides the themed input specified by the type with a specific React Component to provide the user interface implementation of the input.</li>
+<li><strong>errors (optional)</strong> - an array of strings. These errors are appended to the errors generated by the input's validations.</li>
+<li><strong>options (optional)</strong> - Sets the options for a <code>select</code> or <code>typeahead</code> type input. An array of one of the following:<ul>
+<li><code>{value: OBJECT, label: STRING}</code></li>
+<li><code>[LABEL_STRING, VALUE_OBJECT]</code></li>
+<li><code>STRING</code></li>
+</ul>
+</li>
+<li><strong>className (optional)</strong> - string. Custom class names for the input.</li>
+<li><strong>disabled (optional)</strong> - boolean (default: false). If set to true will disable user input.</li>
+<li><strong>multiple (optional)</strong> - boolean (default: false). If set to true will enable mutiple-selection (eg. for a select form election).</li>
+<li><strong>validate (optional)</strong> - boolean (default: true). If set to false will prevent validations from running on this input.</li>
+</ul>
+<p><strong>In addition some input types can have additional props specified. Please read the frigging_bootstrap source code for details.</strong></p>
+<h4 id="available-input-types-and-their-themed-input-components">Available Input Types and their Themed Input Components</h4>
+<p>Each type identifies a React Component in the theme (eg. FriggingBootstrap) to use inside of the input as the user interface to that particular input. We call these component Themed Input Components to distinguish them from the Frig Input Component.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Component</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"string"</td>
+<td>input[type=text]</td>
+</tr>
+<tr>
+<td>"password"</td>
+<td>input[type=password]</td>
+</tr>
+<tr>
+<td>"email"</td>
+<td>input[type=email]</td>
+</tr>
+<tr>
+<td>"url"</td>
+<td>input[type=url]</td>
+</tr>
+<tr>
+<td>"tel"</td>
+<td>input[type=tel]</td>
+</tr>
+<tr>
+<td>"boolean"</td>
+<td>input[type=checkbox]</td>
+</tr>
+<tr>
+<td>"text"</td>
+<td>text</td>
+</tr>
+<tr>
+<td>"file"</td>
+<td>file[type=file]</td>
+</tr>
+<tr>
+<td>"float"</td>
+<td>input[type=number]</td>
+</tr>
+<tr>
+<td>"switch"</td>
+<td>switch</td>
+</tr>
+<tr>
+<td>"time"</td>
+<td>timepicker</td>
+</tr>
+<tr>
+<td>"select"</td>
+<td>select</td>
+</tr>
+<tr>
+<td>"typeahead"</td>
+<td>typeahead</td>
+</tr>
+</tbody>
+</table>
+<h4 id="type-inference">Type Inference</h4>
+<p>If a <code>type</code> isn't specified then the input's type will be guessed based on the form data and its name according to the following rules:</p>
+<ol>
+<li>If <code>multiple</code> or <code>options</code> is specified then the type will default to a <code>select</code></li>
+<li>If <code>form.props[input.props.name]</code> is an array then the type will default to a <code>select</code></li>
+<li>If the <code>name</code> ends in <code>"password"</code> then the type will default to a <code>password</code></li>
+<li>Otherwise the type is based on the <code>typeof</code> of the <code>form.props[input.props.name]</code></li>
+</ol>
+<h2 id="fnestedfields">f.nestedFields</h2>
+<p>A Nested field takes a name (some key in the form's data) and produces one or more recursive (ie. nested) forms. Nested fields accomidate both "has one" (nested objects) and "has many" (nested arrays of objects) relationships in form data.</p>
+<p>Calling validate/isValid/isModified on a parent form object will call it on all of it's nested fields and incorporate their values recursively.</p>
+<h4 id="props_2">Props</h4>
+<ul>
+<li><strong>name (required)</strong> - The key of the nested fields' data object (or array of data objects) in the form's <code>props.data</code></li>
+<li><strong>form (required)</strong> - a function. The form callback is expected to generate the content of the nested fields as either a single React component or array of components. The form callback receives an object <code>f</code> containing the Frig components needed to build a form (In the Coffeescript DSL these components are replaced with equivalent functions). A second integer <code>index</code> argument is added to nested field form callbacks since nested fields can be used on arrays of data.</li>
+</ul>
+<h4 id="coffeescript-dsl">Coffeescript DSL</h4>
+<ul>
+<li>In the Coffeescript DSL version of <code>f.nestedFields</code> the function accepts two arguments. The first argument is the name and second is the form callback.</li>
+</ul>
+<h4 id="examples">Examples</h4>
+<ul>
+<li>JSX: <code>&lt;f.nestedFields name="address" form=this.addressForm/&gt;</code></li>
+<li>Coffeescript <code>f.nestedFields "address", this.addressForm</code></li>
+</ul>
+<h2 id="fsubmit">f.submit</h2>
+<h4 id="props_3">Props</h4>
+<ul>
+<li><strong>title (optional)</strong> - a string. The text of the submit button. This is the first argument of the coffeescript DSL version.</li>
+</ul>
+<h4 id="examples_1">Examples</h4>
+<ul>
+<li>JSX: <code>&lt;f.submit title="Log In"/&gt;</code></li>
+<li>Coffeescript <code>f.submit("Log In")</code></li>
+</ul>
+<h2 id="ferrors">f.errors</h2>
+<p>The errors component renders all the form-level errors in the form's <code>props.errors</code>.</p>
+<h4 id="examples_2">Examples</h4>
+<ul>
+<li>JSX: <code>&lt;f.errors/&gt;</code></li>
+<li>Coffeescript <code>f.errors()</code></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../getting_started/" class="btn btn-neutral" title="Getting Started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../getting_started/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+
+</body>
+</html>
