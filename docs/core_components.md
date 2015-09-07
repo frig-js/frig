@@ -1,7 +1,3 @@
-# Components
-
-Whether you choose the Coffeescript DSL or JSX **Frig** provides you with the following components to help create your forms.
-
 ## Form
 *Available as `Frig.form` in JSX and `Frig.dsl` in the Coffeescript DSL*
 
@@ -19,7 +15,7 @@ These functions can be called on the frig form object (eg. using React refs).
 * **validate()** - validates the form's inputs and renders all errors.
 * **isValid()** - returns true if all of the form's inputs are in a valid state. Does not visibly render errors.
 * **isModified()** - returns true if any of the form's inputs have been modified by the user (in other words `props.data` changes do not count).
-
+* **
 
 ## f.input
 

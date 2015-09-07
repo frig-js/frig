@@ -6,4 +6,5 @@ site_dir: "dist"
 pages:
 - "Frig": index.md
 - "Getting Started": getting_started.md
-- "Components": components.md
+- "Core Components": core_components.md
+- "Bootstrap Components": bootstrap_components.md

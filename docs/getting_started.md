@@ -1,5 +1,3 @@
-# Getting Started
-
 ## Installation
 
 You have many options here. Choose one:
@@ -12,11 +10,44 @@ You have many options here. Choose one:
 [frigging-bootstrap.js]: https://google.com
 [frigging-bootstrap.css]: https://google.com
 
+## Setting the theme
+
+Frig requires a theme to be set.
+
+To set the theme to **FriggingBootstrap** add this line to the top of your javascript:
+
+```jsx
+Frig.defaultTheme(FriggingBootstrap)
+```
+
 ## Coffeescript DSL or JSX
-// TODO
 
-## Configuration
+Frig comes in two flavours, a coffeescript DSL and JSX components.
 
-### Setting the default from
-// TODO
+Both are equally capable. If your new to React we recommend using the JSX components.
+
+These two examples are equivalent:
+
+### DSL
+
+```coffeescript
+React.createClass
+  render: ->
+    Frig.dsl formProps, (f) ->
+      f.input "username", inputProps
+```
+
+### JSX
+
+```jsx
+React.createClass({
+  form: function (f) {
+    <f.input name="username" {...inputProps}/>
+  }
+  render: function() {
+    <Frig.Form form={this.form} {...formProps}/>
+  }
+})
+```
+
 
