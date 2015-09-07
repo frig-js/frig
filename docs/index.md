@@ -22,7 +22,6 @@ var SignIn = React.createClass({
 
   form: function(f) {
     return <div className="row">
-      <h3 className="col-xs-12">Sign In</h3>
       <f.input name="email"/>
       <f.input name="password"/>
       <f.input name="rememberMe" type="switch"/>
@@ -61,7 +60,7 @@ var SignIn = React.createClass({
   render: function() {
     return <div>
       <Frig
-        data={@linkState("account")}
+        data={this.linkState("account")}
         form={this.form}
       />
       <h3>State:</h3>
