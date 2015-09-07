@@ -1,5 +1,9 @@
 ## Form
-*Available as `Frig.form` in JSX and `Frig.dsl` in the Coffeescript DSL*
+*Available as `Frig.Form` in JSX and `Frig.dsl` in the Coffeescript DSL*
+
+```jsx
+<Frig.Form data={this.linkState("myAccount")} form={this.myAccountForm}/>
+```
 
 ### Props
 
@@ -18,6 +22,10 @@ These functions can be called on the frig form object (eg. using React refs).
 * **
 
 ## f.input
+
+```jsx
+<f.input name="example"/>
+```
 
 Frig Inputs are your interface to any kind of form element that allow the user to edit their data.
 

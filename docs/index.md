@@ -1,7 +1,7 @@
 
 # Frig
 
-React Forms made easy / Developed at [TouchBistro](http://touchbistro.com/) in Toronto.
+React Forms made easy. Developed at [TouchBistro](http://touchbistro.com/) in Toronto.
 
 **Frig** aims to help you build exactly the forms you want by providing you with a small toolkit of powerful React components.
 
