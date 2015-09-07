@@ -1,8 +1,6 @@
-## Shared Props
-
 Each type of FriggingBootstrap input component has properties that are specific to that type of input.
 
-In addition to the properties listed below and on the previous page every bootstrap input component can receive the following bootstrap-specific settings (the values here are the defaults):
+In addition to the properties listed under each component on this page and on the previous page every bootstrap input component can receive the following bootstrap-specific settings (the values here are the defaults):
 
 ```
 <f.input name="example"
