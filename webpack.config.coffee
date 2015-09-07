@@ -2,6 +2,8 @@ ExtractTextPlugin = require "extract-text-webpack-plugin"
 path = require "path"
 webpack = require "webpack"
 _ = require "lodash"
+mkpath = require 'mkpath'
+fsExtra = require "fs-extra"
 
 isProduction = process.env.FRIG_ENV == "production"
 minify = process.env.FRIG_MIN == "minify"
@@ -15,6 +17,12 @@ example = (name, type) ->
   relativePath = [name, type, name].join("/")
   ext = if type == "jsx" then "jsx" else "coffee"
   entry["#{exPath}#{relativePath}"] = "./examples/#{relativePath}.#{ext}"
+  # Copy the html outside of webpack
+  return unless isProduction
+  htmlSrc = "./examples/#{relativePath}.html"
+  htmlDest = "./dist/examples/#{relativePath}.html"
+  mkpath.sync path.dirname htmlDest
+  fsExtra.copySync htmlSrc, htmlDest
 
 example "kitchen-sink", "jsx"
 example "kitchen-sink", "coffeescript"
