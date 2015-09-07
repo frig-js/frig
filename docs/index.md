@@ -9,7 +9,7 @@ The basic goal of **Frig** is to not touch the layout - leaving the specific pos
 
 Every input and form element in **Frig** is a React Component so you can mix them with your other React Components seemlessly. **Frig** should feel very familiar in any React project.
 
-### As a basic example this JSX
+### A basic example
 
 ```jsx
 var SignIn = React.createClass({
@@ -66,6 +66,7 @@ var SignIn = React.createClass({
 
 ### We can see the state is automatically updated by user input
 
+<iframe src="http://google.com"></iframe>
 <div id="two-way-data-binding-example"></div>
 
 [react-link]: https://facebook.github.io/react/docs/two-way-binding-helpers.html

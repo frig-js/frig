@@ -1,1 +1,0 @@
-../../../node_modules/frigging-bootstrap/dist/frigging-bootstrap.js

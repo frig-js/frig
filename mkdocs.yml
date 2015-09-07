@@ -1,0 +1,9 @@
+site_name: Frig Docs
+theme: readthedocs
+repo_name: "GitHub"
+repo_url: https://github.com/TouchBistro/frig/
+site_dir: "dist"
+pages:
+- "Frig": index.md
+- "Getting Started": getting_started.md
+- "Components": components.md
