@@ -4,17 +4,15 @@ You have many options here. Choose one:
 
 * Install with `npm install --save frig frigging-bootstrap`
 * Install with `bower install --save frig frigging-bootstrap`
-* Download [frig.js][frig.js] and [frigging-bootstrap.js][frigging-bootstrap.js]
+* Download [frig.js][frig.js], [frigging-bootstrap.js][frigging-bootstrap.js] and [frigging-bootstrap.css][frigging-bootstrap.css]
 
-[frig.js]: https://google.com
-[frigging-bootstrap.js]: https://google.com
-[frigging-bootstrap.css]: https://google.com
+[frig.js]: frig.js
+[frigging-bootstrap.js]: frigging-bootstrap.js
+[frigging-bootstrap.css]: frigging-bootstrap.css
 
 ## Setting the theme
 
-Frig requires a theme to be set.
-
-To set the theme to **FriggingBootstrap** add this line to the top of your javascript:
+Frig requires a theme to be set. The only theme currently available is **FriggingBootstrap** so you'll need to add this line to the top of your javascript:
 
 ```jsx
 Frig.defaultTheme(FriggingBootstrap)

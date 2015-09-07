@@ -2,7 +2,7 @@
 
 React Forms made easy / Developed at [TouchBistro](http://touchbistro.com/) in Toronto.
 
-**See: https://frig-js.github.com/frig**
+**See: https://frig-js.github.io/frig**
 
 ## License
 
