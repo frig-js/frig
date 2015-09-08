@@ -15,8 +15,8 @@ module.exports = function(componentClass) {
 
     static propTypes = {
       valueLink: React.PropTypes.object.isRequired,
-      onValue: React.PropTypes.bool.isRequired,
-      offValue: React.PropTypes.bool.isRequired,
+      onValue: React.PropTypes.any.isRequired,
+      offValue: React.PropTypes.any.isRequired,
     }
 
     static defaultProps = {
@@ -37,7 +37,7 @@ module.exports = function(componentClass) {
     _normalizeValue(nextProps) {
       let value = nextProps.valueLink.value
       if (value !== this.props.offValue && value !== this.props.onValue) {
-        nextProps.valueLink.requestChange(value != null, {setModified: false})
+        this._change(value != null, {setModified: false})
       }
     }
 
@@ -45,17 +45,16 @@ module.exports = function(componentClass) {
      * Intercept the nested component's true/false value change and convert it
      * into an onValue or offValue before relaying it to the valueLink.
      */
-    _onChange(val) {
-      this.props.valueLink.requestChange(
-        val ? this.props.onValue : this.props.offValue
-      )
+    _change(val, ...args) {
+      let upstreamVal = val ? this.props.onValue : this.props.offValue
+      this.props.valueLink.requestChange(upstreamVal, ...args)
     }
 
     render() {
       let childProps = Object.assign({}, this.props, {
         valueLink: {
           value: this.props.valueLink.value === this.props.onValue,
-          requestChange: this._onChange.bind(this),
+          requestChange: this._change.bind(this),
         },
       })
       return React.createElement(componentClass, childProps)
