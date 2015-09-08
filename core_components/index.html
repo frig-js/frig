@@ -144,7 +144,7 @@
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/TouchBistro/frig/" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/frig-js/frig/" class="icon icon-github"> Edit on GitHub</a>
         
       
     </li>
@@ -155,13 +155,18 @@
             <div class="section">
               
                 <h2 id="form">Form</h2>
-<p><em>Available as <code>Frig.form</code> in JSX and <code>Frig.dsl</code> in the Coffeescript DSL</em></p>
+<p><em>Available as <code>Frig.Form</code> in JSX and <code>Frig.dsl</code> in the Coffeescript DSL</em></p>
+<pre><code class="jsx">&lt;Frig.Form data={this.linkState(&quot;myAccount&quot;)} form={this.myAccountForm}/&gt;
+</code></pre>
+
 <h3 id="props">Props</h3>
 <ul>
 <li><strong>data (required)</strong> - either a ReactLink or an object. This is used to populate the values of each field in the form. The data property is also used by inputs for type inference where a <code>type</code> property is not provided. If a ReactLink is provided the ReactLink will be updated with the user's inputs. In the Coffeescript DSL version the form is the last argument.</li>
 <li><strong>form (required)</strong> - a function. The form callback is expected to generate the content of the form as either a single React component or array of components. The form callback receives an object <code>f</code> containing the Frig components needed to build a form (In the Coffeescript DSL these components are replaced with equivalent functions).</li>
 <li><strong>errors (optional)</strong> - an array of strings. The list of errors supplied here can be rendered by the <code>f.errors</code> component.</li>
 <li><strong>onSubmit (optional)</strong> - a function. Called after the submit button is clicked and all validations have passed. The DOM event is passed to the callback.</li>
+<li><strong>layout (optional)</strong>  - a string. Either <code>"horizontal"</code> for a horizontally layed out form (with labels on the same row as their inputs) or <code>"vertical"</code> for a vertically layed out form (with labels above their inputs). Defaults to <code>"vertical"</code>.</li>
+<li><strong>align (optional)</strong> - a string. Either <code>"left"</code> to align all inputs along the left side of their containing divs or <code>"right"</code> to align all inputs on the right side of their containing divs. Defaults to <code>"left"</code>.</li>
 </ul>
 <h3 id="public-functions">Public Functions</h3>
 <p>These functions can be called on the frig form object (eg. using React refs).</p>
@@ -169,9 +174,13 @@
 <li><strong>validate()</strong> - validates the form's inputs and renders all errors.</li>
 <li><strong>isValid()</strong> - returns true if all of the form's inputs are in a valid state. Does not visibly render errors.</li>
 <li><strong>isModified()</strong> - returns true if any of the form's inputs have been modified by the user (in other words <code>props.data</code> changes do not count).</li>
-<li>**</li>
+<li><strong>resetModified()</strong> - resets the value of <code>isModified()</code> to false.</li>
+<li><strong>reset()</strong> - resets the value of <code>isModified()</code> to false and resets all validations (eg. hiding required feild error messages).</li>
 </ul>
 <h2 id="finput">f.input</h2>
+<pre><code class="jsx">&lt;f.input name=&quot;example&quot;/&gt;
+</code></pre>
+
 <p>Frig Inputs are your interface to any kind of form element that allow the user to edit their data.</p>
 <p>For example <code>&lt;f.input name="username"/&gt;</code> will render a HTML input element by default however <code>&lt;f.input name="friends" type="typeahead" multiple=true options=["Jane", "Joe"]/&gt;</code> will render a typeahead multi-select.</p>
 <p>An input receives a name and loads its value from the form's data (ie. <code>value = form.props.data[input.props.name]</code>). To specificy a type of form element to render you can either set its <code>props.type</code> or <code>props.component</code> or leave both blank and have the input guess its type based on the form data and its name (see <em>Type Inference</em>).</p>
