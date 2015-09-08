@@ -1,6 +1,6 @@
 {
   "name": "frig",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "private": false,
   "main": "dist/frig.js",
   "scripts": {
@@ -8,9 +8,8 @@
     "version": "git add -A dist",
     "postversion": "git push && git push --tags"
   },
-  "dependencies": {
-  },
-  "devDependencies":{
+  "dependencies": {},
+  "devDependencies": {
     "coffee-script": "1.9.3",
     "webpack": "*",
     "webpack-dev-server": "*",

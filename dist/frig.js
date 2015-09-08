@@ -1895,7 +1895,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function _normalizeValue(nextProps) {
 	        var value = nextProps.valueLink.value;
 	        if (value !== this.props.offValue && value !== this.props.onValue) {
-	          nextProps.valueLink.requestChange(value != null, { setModified: false });
+	          this._change(value != null, { setModified: false });
 	        }
 	      }
 
@@ -1904,9 +1904,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	       * into an onValue or offValue before relaying it to the valueLink.
 	       */
 	    }, {
-	      key: "_onChange",
-	      value: function _onChange(val) {
-	        this.props.valueLink.requestChange(val ? this.props.onValue : this.props.offValue);
+	      key: "_change",
+	      value: function _change(val) {
+	        var _props$valueLink;
+
+	        var upstreamVal = val ? this.props.onValue : this.props.offValue;
+
+	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	          args[_key - 1] = arguments[_key];
+	        }
+
+	        (_props$valueLink = this.props.valueLink).requestChange.apply(_props$valueLink, [upstreamVal].concat(args));
 	      }
 	    }, {
 	      key: "render",
@@ -1914,7 +1922,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var childProps = Object.assign({}, this.props, {
 	          valueLink: {
 	            value: this.props.valueLink.value === this.props.onValue,
-	            requestChange: this._onChange.bind(this)
+	            requestChange: this._change.bind(this)
 	          }
 	        });
 	        return React.createElement(componentClass, childProps);
@@ -1923,8 +1931,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      key: "propTypes",
 	      value: {
 	        valueLink: React.PropTypes.object.isRequired,
-	        onValue: React.PropTypes.bool.isRequired,
-	        offValue: React.PropTypes.bool.isRequired
+	        onValue: React.PropTypes.any.isRequired,
+	        offValue: React.PropTypes.any.isRequired
 	      },
 	      enumerable: true
 	    }, {
