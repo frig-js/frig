@@ -45,9 +45,23 @@ output =
   filename: "[name]#{if minify then ".min.js" else ".js"}"
 
 externals =
-  "react": "React"
+  "react": {
+    root: "React"
+    this: "React"
+    var: "React"
+    commonjs: "react"
+    commonjs2: "react"
+    amd: "react"
+  }
   # react/addons is required for the examples
-  "react/addons": "React"
+  "react/addons": {
+    root: "React"
+    this: "React"
+    var: "React"
+    commonjs: "react"
+    commonjs2: "react"
+    amd: "react"
+  }
 
 if isProduction and mode == "examples"
   externals = _.merge externals,
