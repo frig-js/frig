@@ -11,6 +11,8 @@
 * **form (required)** - a function. The form callback is expected to generate the content of the form as either a single React component or array of components. The form callback receives an object `f` containing the Frig components needed to build a form (In the Coffeescript DSL these components are replaced with equivalent functions).
 * **errors (optional)** - an array of strings. The list of errors supplied here can be rendered by the `f.errors` component.
 * **onSubmit (optional)** - a function. Called after the submit button is clicked and all validations have passed. The DOM event is passed to the callback.
+* **layout (optional)**  - a string. Either `"horizontal"` for a horizontally layed out form (with labels on the same row as their inputs) or `"vertical"` for a vertically layed out form (with labels above their inputs). Defaults to `"vertical"`.
+* **align (optional)** - a string. Either `"left"` to align all inputs along the left side of their containing divs or `"right"` to align all inputs on the right side of their containing divs. Defaults to `"left"`.
 
 ### Public Functions
 
@@ -19,7 +21,8 @@ These functions can be called on the frig form object (eg. using React refs).
 * **validate()** - validates the form's inputs and renders all errors.
 * **isValid()** - returns true if all of the form's inputs are in a valid state. Does not visibly render errors.
 * **isModified()** - returns true if any of the form's inputs have been modified by the user (in other words `props.data` changes do not count).
-* **
+* **resetModified()** - resets the value of `isModified()` to false.
+* **reset()** - resets the value of `isModified()` to false and resets all validations (eg. hiding required feild error messages).
 
 ## f.input
 
