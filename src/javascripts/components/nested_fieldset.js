@@ -54,7 +54,7 @@ export default class NestedFieldset extends React.Component {
   // Returns true if calling the function returns true for every child form
   _everyForm(fnName) {
     let forms = []
-    for (let form of this.refs) forms.push(form)
+    for (let k in this.refs||{}) forms.push(this.refs[k])
     return forms.filter((c) => !c[fnName]()).length === 0
   }
 
@@ -98,7 +98,7 @@ export default class NestedFieldset extends React.Component {
   }
 
   _dataValues(nextProps = this.props) {
-    let dataValues = nextProps.data.value
+    let dataValues = nextProps.data.value || []
     return Array.isArray(dataValues) ? dataValues : [dataValues]
   }
 
