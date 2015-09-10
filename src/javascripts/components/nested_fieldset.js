@@ -32,30 +32,28 @@ export default class NestedFieldset extends React.Component {
   }
 
   validate() {
-    return this._everyForm("validate")
+    this._forms().forEach((form) => form.validate())
+    return this.isValid()
   }
 
   isValid() {
-    return this._everyForm("isValid")
+    return this._forms().every((form) => form.isValid())
   }
 
   isModified() {
-    return this._everyForm("isModified")
+    return this._forms().some((form) => form.isModified())
   }
 
   resetModified() {
-    this._everyForm("resetModified")
+    this._forms().forEach((form) => form.resetModified())
   }
 
   reset() {
-    this._everyForm("reset")
+    this._forms().forEach((form) => form.reset())
   }
 
-  // Returns true if calling the function returns true for every child form
-  _everyForm(fnName) {
-    let forms = []
-    for (let k in this.refs||{}) forms.push(this.refs[k])
-    return forms.filter((c) => !c[fnName]()).length === 0
+  _forms() {
+    return Object.keys(this.refs||{}).map((k) => this.refs[k])
   }
 
   _formProps({data, key}) {
