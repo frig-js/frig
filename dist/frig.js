@@ -1479,44 +1479,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "validate",
 	    value: function validate() {
-	      return this._everyForm("validate");
+	      this._forms().forEach(function (form) {
+	        return form.validate();
+	      });
+	      return this.isValid();
 	    }
 	  }, {
 	    key: "isValid",
 	    value: function isValid() {
-	      return this._everyForm("isValid");
+	      return this._forms().every(function (form) {
+	        return form.isValid();
+	      });
 	    }
 	  }, {
 	    key: "isModified",
 	    value: function isModified() {
-	      return this._everyForm("isModified");
+	      return this._forms().some(function (form) {
+	        return form.isModified();
+	      });
 	    }
 	  }, {
 	    key: "resetModified",
 	    value: function resetModified() {
-	      this._everyForm("resetModified");
+	      this._forms().forEach(function (form) {
+	        return form.resetModified();
+	      });
 	    }
 	  }, {
 	    key: "reset",
 	    value: function reset() {
-	      this._everyForm("reset");
+	      this._forms().forEach(function (form) {
+	        return form.reset();
+	      });
 	    }
-
-	    // Returns true if calling the function returns true for every child form
 	  }, {
-	    key: "_everyForm",
-	    value: function _everyForm(fnName) {
-	      var forms = [];
-	      for (var k in this.refs || {}) {
-	        forms.push(this.refs[k]);
-	      }return forms.filter(function (c) {
-	        return !c[fnName]();
-	      }).length === 0;
+	    key: "_forms",
+	    value: function _forms() {
+	      var _this = this;
+
+	      return Object.keys(this.refs || {}).map(function (k) {
+	        return _this.refs[k];
+	      });
 	    }
 	  }, {
 	    key: "_formProps",
 	    value: function _formProps(_ref) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      var data = _ref.data;
 	      var key = _ref.key;
@@ -1525,7 +1533,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: key,
 	        ref: key,
 	        form: function form(f) {
-	          return _this.props.form(f, key);
+	          return _this2.props.form(f, key);
 	        },
 	        nestedForm: true,
 	        data: {
@@ -1578,12 +1586,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var i = 0;
 	      var datas = this._dataValues();
 	      return div({}, datas.map(function (data) {
-	        return _this2._renderForm(_this2._formProps({ data: data, key: i++ }));
+	        return _this3._renderForm(_this3._formProps({ data: data, key: i++ }));
 	      }));
 	    }
 	  }], [{
