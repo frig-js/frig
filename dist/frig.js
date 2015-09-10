@@ -1507,31 +1507,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: "_everyForm",
 	    value: function _everyForm(fnName) {
 	      var forms = [];
-	      var _iteratorNormalCompletion = true;
-	      var _didIteratorError = false;
-	      var _iteratorError = undefined;
-
-	      try {
-	        for (var _iterator = this.refs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	          var form = _step.value;
-	          forms.push(form);
-	        }
-	      } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	      } finally {
-	        try {
-	          if (!_iteratorNormalCompletion && _iterator["return"]) {
-	            _iterator["return"]();
-	          }
-	        } finally {
-	          if (_didIteratorError) {
-	            throw _iteratorError;
-	          }
-	        }
-	      }
-
-	      return forms.filter(function (c) {
+	      for (var k in this.refs || {}) {
+	        forms.push(this.refs[k]);
+	      }return forms.filter(function (c) {
 	        return !c[fnName]();
 	      }).length === 0;
 	    }
@@ -1588,7 +1566,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _dataValues() {
 	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
 
-	      var dataValues = nextProps.data.value;
+	      var dataValues = nextProps.data.value || [];
 	      return Array.isArray(dataValues) ? dataValues : [dataValues];
 	    }
 	  }, {
