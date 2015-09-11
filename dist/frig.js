@@ -1707,9 +1707,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(ValueLinkedSelect, [{
-	    key: "_getValue",
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      if ((this.props.options || []).length !== 0) this._setInitialValue(this.props);
+	    }
+	  }, {
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(nextProps) {
+	      var hasOptions = (nextProps.options || []).length !== 0;
+	      // Setting the intial value of the select when the options load
+	      if (hasOptions && nextProps.valueLink.value == null) {
+	        this._setInitialValue(nextProps);
+	      }
+	      // Nulling the select's value when the options are removed
+	      if (!hasOptions && nextProps.valueLink.value != null) {
+	        nextProps.valueLink.requestChange(undefined, { setModified: false });
+	      }
+	    }
+	  }, {
+	    key: "_setInitialValue",
+	    value: function _setInitialValue(nextProps) {
+	      var value = nextProps.options[0].value;
+
+	      nextProps.valueLink.requestChange(value, { setModified: false });
+	    }
 
 	    // Reads the value from the DOM for the select input fields
+	  }, {
+	    key: "_getValue",
 	    value: function _getValue() {
 	      var el = React.findDOMNode(this.refs.input);
 	      // The value is cast to a string when we get it from DOM.value. This is a

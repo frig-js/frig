@@ -99,7 +99,6 @@
 	          saved: true,
 	          placeholder: "Input Without a Label"
 	        }), f.input("email", {
-	          xs: 10,
 	          saved: true
 	        }), f.input("select_example", {
 	          options: [
