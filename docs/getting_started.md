@@ -6,6 +6,8 @@ You have many options here. Choose one:
 * Install with `bower install --save frig frigging-bootstrap`
 * Download [frig.js][frig.js], [frigging-bootstrap.js][frigging-bootstrap.js] and [frigging-bootstrap.css][frigging-bootstrap.css]
 
+**Note:** For non ES6 browser compatibility you will also need to install the [Babel PolyFill](https://babeljs.io/docs/usage/polyfill/).
+
 [frig.js]: frig.js
 [frigging-bootstrap.js]: frigging-bootstrap.js
 [frigging-bootstrap.css]: frigging-bootstrap.css
