@@ -31,6 +31,27 @@ export default class ValueLinkedSelect extends React.Component {
     valueLink: React.PropTypes.object.isRequired,
   }
 
+  componentWillMount() {
+    if ((this.props.options||[]).length !== 0) this._setInitialValue(this.props)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let hasOptions = (nextProps.options||[]).length !== 0
+    // Setting the intial value of the select when the options load
+    if (hasOptions && nextProps.valueLink.value == null) {
+      this._setInitialValue(nextProps)
+    }
+    // Nulling the select's value when the options are removed
+    if (!hasOptions && nextProps.valueLink.value != null) {
+      nextProps.valueLink.requestChange(undefined, {setModified: false})
+    }
+  }
+
+  _setInitialValue(nextProps) {
+    let {value} = nextProps.options[0]
+    nextProps.valueLink.requestChange(value, {setModified: false})
+  }
+
   // Reads the value from the DOM for the select input fields
   _getValue() {
     let el = React.findDOMNode(this.refs.input)

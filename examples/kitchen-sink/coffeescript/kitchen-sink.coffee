@@ -51,7 +51,7 @@ AccountForm = React.createClass
             label: false
             saved: true
             placeholder: "Input Without a Label"
-          f.input "email", xs: 10, saved: true
+          f.input "email", saved: true
           f.input "select_example",
             options: [
               # The 3 formats for options
