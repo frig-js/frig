@@ -1,10 +1,10 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("React"));
+		module.exports = factory(require("react"));
 	else if(typeof define === 'function' && define.amd)
-		define(["React"], factory);
+		define(["react"], factory);
 	else if(typeof exports === 'object')
-		exports["Frig"] = factory(require("React"));
+		exports["Frig"] = factory(require("react"));
 	else
 		root["Frig"] = factory(root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_2__) {
@@ -1479,66 +1479,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "validate",
 	    value: function validate() {
-	      return this._everyForm("validate");
+	      this._forms().forEach(function (form) {
+	        return form.validate();
+	      });
+	      return this.isValid();
 	    }
 	  }, {
 	    key: "isValid",
 	    value: function isValid() {
-	      return this._everyForm("isValid");
+	      return this._forms().every(function (form) {
+	        return form.isValid();
+	      });
 	    }
 	  }, {
 	    key: "isModified",
 	    value: function isModified() {
-	      return this._everyForm("isModified");
+	      return this._forms().some(function (form) {
+	        return form.isModified();
+	      });
 	    }
 	  }, {
 	    key: "resetModified",
 	    value: function resetModified() {
-	      this._everyForm("resetModified");
+	      this._forms().forEach(function (form) {
+	        return form.resetModified();
+	      });
 	    }
 	  }, {
 	    key: "reset",
 	    value: function reset() {
-	      this._everyForm("reset");
+	      this._forms().forEach(function (form) {
+	        return form.reset();
+	      });
 	    }
-
-	    // Returns true if calling the function returns true for every child form
 	  }, {
-	    key: "_everyForm",
-	    value: function _everyForm(fnName) {
-	      var forms = [];
-	      var _iteratorNormalCompletion = true;
-	      var _didIteratorError = false;
-	      var _iteratorError = undefined;
+	    key: "_forms",
+	    value: function _forms() {
+	      var _this = this;
 
-	      try {
-	        for (var _iterator = this.refs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	          var form = _step.value;
-	          forms.push(form);
-	        }
-	      } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	      } finally {
-	        try {
-	          if (!_iteratorNormalCompletion && _iterator["return"]) {
-	            _iterator["return"]();
-	          }
-	        } finally {
-	          if (_didIteratorError) {
-	            throw _iteratorError;
-	          }
-	        }
-	      }
-
-	      return forms.filter(function (c) {
-	        return !c[fnName]();
-	      }).length === 0;
+	      return Object.keys(this.refs || {}).map(function (k) {
+	        return _this.refs[k];
+	      });
 	    }
 	  }, {
 	    key: "_formProps",
 	    value: function _formProps(_ref) {
-	      var _this = this;
+	      var _this2 = this;
 
 	      var data = _ref.data;
 	      var key = _ref.key;
@@ -1547,7 +1533,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: key,
 	        ref: key,
 	        form: function form(f) {
-	          return _this.props.form(f, key);
+	          return _this2.props.form(f, key);
 	        },
 	        nestedForm: true,
 	        data: {
@@ -1588,7 +1574,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _dataValues() {
 	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
 
-	      var dataValues = nextProps.data.value;
+	      var dataValues = nextProps.data.value || [];
 	      return Array.isArray(dataValues) ? dataValues : [dataValues];
 	    }
 	  }, {
@@ -1600,12 +1586,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var i = 0;
 	      var datas = this._dataValues();
 	      return div({}, datas.map(function (data) {
-	        return _this2._renderForm(_this2._formProps({ data: data, key: i++ }));
+	        return _this3._renderForm(_this3._formProps({ data: data, key: i++ }));
 	      }));
 	    }
 	  }], [{
@@ -1895,7 +1881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      value: function _normalizeValue(nextProps) {
 	        var value = nextProps.valueLink.value;
 	        if (value !== this.props.offValue && value !== this.props.onValue) {
-	          nextProps.valueLink.requestChange(value != null, { setModified: false });
+	          this._change(value != null, { setModified: false });
 	        }
 	      }
 
@@ -1904,9 +1890,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	       * into an onValue or offValue before relaying it to the valueLink.
 	       */
 	    }, {
-	      key: "_onChange",
-	      value: function _onChange(val) {
-	        this.props.valueLink.requestChange(val ? this.props.onValue : this.props.offValue);
+	      key: "_change",
+	      value: function _change(val) {
+	        var _props$valueLink;
+
+	        var upstreamVal = val ? this.props.onValue : this.props.offValue;
+
+	        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	          args[_key - 1] = arguments[_key];
+	        }
+
+	        (_props$valueLink = this.props.valueLink).requestChange.apply(_props$valueLink, [upstreamVal].concat(args));
 	      }
 	    }, {
 	      key: "render",
@@ -1914,7 +1908,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var childProps = Object.assign({}, this.props, {
 	          valueLink: {
 	            value: this.props.valueLink.value === this.props.onValue,
-	            requestChange: this._onChange.bind(this)
+	            requestChange: this._change.bind(this)
 	          }
 	        });
 	        return React.createElement(componentClass, childProps);
@@ -1923,8 +1917,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      key: "propTypes",
 	      value: {
 	        valueLink: React.PropTypes.object.isRequired,
-	        onValue: React.PropTypes.bool.isRequired,
-	        offValue: React.PropTypes.bool.isRequired
+	        onValue: React.PropTypes.any.isRequired,
+	        offValue: React.PropTypes.any.isRequired
 	      },
 	      enumerable: true
 	    }, {

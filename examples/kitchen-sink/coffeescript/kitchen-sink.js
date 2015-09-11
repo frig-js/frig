@@ -183,9 +183,14 @@
 	        }), f.input("time_of_night", {
 	          type: "switch",
 	          xs: "6",
-	          label: "Time of Night",
 	          label: false,
 	          saved: true
+	        }), f.input("red_or_blue", {
+	          type: "switch",
+	          onText: "Red",
+	          offText: "Blue",
+	          onValue: "red",
+	          offValue: "blue"
 	        })), div({
 	          className: "row"
 	        }, f.input("uploadAvatar", {
