@@ -31,7 +31,10 @@ AccountForm = React.createClass
 
   formOpts: ->
     data: @linkState("account")
-    errors: ["Test Error", "Moo"]
+    errors:
+      base: ["Test Error", "Moo"]
+      email: ["This Error is a Test"]
+    # errors: ["Test Error", "Moo"]
     onSubmit: @onSubmit,
     # layout: "horizontal"
 

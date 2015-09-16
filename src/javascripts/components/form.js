@@ -2,16 +2,18 @@ let React = require("react")
 let frigInput = require("./input.js")
 let propsClosure = require("../higher_order_components/props_closure.js")
 let NestedFeildset = require("./nested_fieldset")
+let ErrorsNormalizer = require("../higher_order_components/errors_normalizer.js")
 
 /*
  * A JSX-compatible React DOM Component.
  * FrigForm should be used as the top level component for Frig forms in JSX.
  * In coffeescript FrigForm is called by FrigDSL.
  */
+@ErrorsNormalizer({as: Object})
 export default class FrigForm extends React.Component {
   static propTypes = {
     data: React.PropTypes.object.isRequired,
-    errors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    errors: React.PropTypes.object.isRequired,
     form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
@@ -239,7 +241,7 @@ export default class FrigForm extends React.Component {
   _errorsOverrides() {
     return {
       type: "errors",
-      errors: this.props.errors,
+      errors: this.props.errors.base,
     }
   }
 
@@ -263,6 +265,7 @@ export default class FrigForm extends React.Component {
         value: this._data()[name] || {},
         requestChange: this._onChildRequestChange.bind(this, [name]),
       },
+      internalErrors: this.props.errors[name],
     }
   }
 
@@ -327,6 +330,7 @@ export default class FrigForm extends React.Component {
       },
       onComponentMount: this._onChildComponentMount.bind(this, [name]),
       onComponentUnmount: this._onChildComponentUnmount.bind(this, [name]),
+      internalErrors: this.props.errors[name],
     }
   }
 

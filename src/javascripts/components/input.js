@@ -1,7 +1,9 @@
 let React                         = require("react")
 let frigValidations               = require("../validations.js")
 let {entries, humanize}           = require("../util.js")
+let ErrorsNormalizer = require("../higher_order_components/errors_normalizer.js")
 
+@ErrorsNormalizer({as: Array})
 export default class FrigInput extends React.Component {
 
   static propTypes = {
