@@ -57,9 +57,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	"use strict";
 
 	var Form = __webpack_require__(3);
-	var Input = __webpack_require__(4);
-	var ValueLinkedSelect = __webpack_require__(10);
-	var util = __webpack_require__(6);
+	var Input = __webpack_require__(5);
+	var ValueLinkedSelect = __webpack_require__(11);
+	var util = __webpack_require__(7);
 	var dsl = __webpack_require__(1);
 
 	module.exports = {
@@ -68,10 +68,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  dsl: dsl,
 	  util: util,
 	  ValueLinkedSelect: ValueLinkedSelect,
-	  typeMapping: __webpack_require__(9),
+	  typeMapping: __webpack_require__(10),
 	  HigherOrderComponents: {
-	    Boolean: __webpack_require__(11),
-	    Focusable: __webpack_require__(12)
+	    Boolean: __webpack_require__(12),
+	    Focusable: __webpack_require__(13)
 	  },
 	  // Setter and getter for the Frig default theme
 	  defaultTheme: function defaultTheme(theme) {
@@ -195,9 +195,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(2);
-	var frigInput = __webpack_require__(4);
-	var propsClosure = __webpack_require__(7);
-	var NestedFeildset = __webpack_require__(8);
+	var frigInput = __webpack_require__(5);
+	var propsClosure = __webpack_require__(9);
+	var NestedFeildset = __webpack_require__(4);
+	var ErrorsNormalizer = __webpack_require__(8);
 
 	/*
 	 * A JSX-compatible React DOM Component.
@@ -209,9 +210,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _inherits(FrigForm, _React$Component);
 
 	  function FrigForm() {
-	    _classCallCheck(this, FrigForm);
+	    _classCallCheck(this, _FrigForm);
 
-	    _get(Object.getPrototypeOf(FrigForm.prototype), "constructor", this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(_FrigForm.prototype), "constructor", this).apply(this, arguments);
 
 	    this._childComponentsByName = [];
 	  }
@@ -352,7 +353,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_typeMapping",
 	    value: function _typeMapping() {
-	      return Object.assign({}, __webpack_require__(9), this.props.theme.type_mapping);
+	      return Object.assign({}, __webpack_require__(10), this.props.theme.type_mapping);
 	    }
 
 	    /*
@@ -502,7 +503,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _errorsOverrides() {
 	      return {
 	        type: "errors",
-	        errors: this.props.errors
+	        errors: this.props.errors.base
 	      };
 	    }
 	  }, {
@@ -529,7 +530,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        data: {
 	          value: this._data()[name] || {},
 	          requestChange: this._onChildRequestChange.bind(this, [name])
-	        }
+	        },
+	        internalErrors: this.props.errors[name]
 	      };
 	    }
 
@@ -604,7 +606,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          requestChange: this._onChildRequestChange.bind(this, [name])
 	        },
 	        onComponentMount: this._onChildComponentMount.bind(this, [name]),
-	        onComponentUnmount: this._onChildComponentUnmount.bind(this, [name])
+	        onComponentUnmount: this._onChildComponentUnmount.bind(this, [name]),
+	        internalErrors: this.props.errors[name]
 	      };
 	    }
 	  }, {
@@ -629,7 +632,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: "propTypes",
 	    value: {
 	      data: React.PropTypes.object.isRequired,
-	      errors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+	      errors: React.PropTypes.object.isRequired,
 	      form: React.PropTypes.func.isRequired,
 	      theme: React.PropTypes.object.isRequired,
 	      typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
@@ -652,6 +655,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    enumerable: true
 	  }]);
 
+	  var _FrigForm = FrigForm;
+	  FrigForm = ErrorsNormalizer({ as: Object })(FrigForm) || FrigForm;
 	  return FrigForm;
 	})(React.Component);
 
@@ -660,6 +665,204 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(2);
+	var div = React.DOM.div;
+
+	var NestedFieldset = (function (_React$Component) {
+	  _inherits(NestedFieldset, _React$Component);
+
+	  function NestedFieldset() {
+	    _classCallCheck(this, NestedFieldset);
+
+	    _get(Object.getPrototypeOf(NestedFieldset.prototype), "constructor", this).apply(this, arguments);
+
+	    this.state = {
+	      invalidForms: []
+	    };
+	  }
+
+	  _createClass(NestedFieldset, [{
+	    key: "componentWillMount",
+	    value: function componentWillMount() {
+	      this.props.onComponentMount(this);
+	    }
+	  }, {
+	    key: "componentWillUnmount",
+	    value: function componentWillUnmount() {
+	      this.props.onComponentUnmount(this);
+	    }
+	  }, {
+	    key: "componentWillReceiveProps",
+	    value: function componentWillReceiveProps(nextProps) {
+	      // Truncating the invalid forms list to prevent ghosting of invalid
+	      // forms that are removed in the props.
+	      var invalidForms = this.state.invalidForms;
+	      var numberOfForms = this._dataValues(nextProps).length;
+	      invalidForms = invalidForms.slice(0, numberOfForms);
+	      this.setState({ invalidForms: invalidForms });
+	    }
+	  }, {
+	    key: "validate",
+	    value: function validate() {
+	      this._forms().forEach(function (form) {
+	        return form.validate();
+	      });
+	      return this.isValid();
+	    }
+	  }, {
+	    key: "isValid",
+	    value: function isValid() {
+	      return this._forms().every(function (form) {
+	        return form.isValid();
+	      });
+	    }
+	  }, {
+	    key: "isModified",
+	    value: function isModified() {
+	      return this._forms().some(function (form) {
+	        return form.isModified();
+	      });
+	    }
+	  }, {
+	    key: "resetModified",
+	    value: function resetModified() {
+	      this._forms().forEach(function (form) {
+	        return form.resetModified();
+	      });
+	    }
+	  }, {
+	    key: "reset",
+	    value: function reset() {
+	      this._forms().forEach(function (form) {
+	        return form.reset();
+	      });
+	    }
+	  }, {
+	    key: "_forms",
+	    value: function _forms() {
+	      var _this = this;
+
+	      return Object.keys(this.refs || {}).map(function (k) {
+	        return _this.refs[k];
+	      });
+	    }
+	  }, {
+	    key: "_errorsForKey",
+	    value: function _errorsForKey(errors, key) {
+	      return Array.isArray(errors) ? errors[key] : errors;
+	    }
+	  }, {
+	    key: "_formProps",
+	    value: function _formProps(_ref) {
+	      var _this2 = this;
+
+	      var data = _ref.data;
+	      var key = _ref.key;
+
+	      return Object.assign({}, this.props, {
+	        key: key,
+	        ref: key,
+	        form: function form(f) {
+	          return _this2.props.form(f, key);
+	        },
+	        nestedForm: true,
+	        errors: this._errorsForKey(this.props.errors, key),
+	        internalErrors: this._errorsForKey(this.props.internalErrors, key),
+	        data: {
+	          value: data,
+	          requestChange: this._onFormRequestChange.bind(this, key)
+	        }
+	      });
+	    }
+	  }, {
+	    key: "_onFormRequestChange",
+	    value: function _onFormRequestChange(key, formData, valid) {
+	      var data = this.props.data.value;
+	      // Combine the updated data from the form with the other forms or if this
+	      // is a single form fieldset overwriting the previous form data.
+	      if (Array.isArray(data)) {
+	        data = data.slice();
+	        data[key] = formData;
+	      } else {
+	        data = formData;
+	      }
+	      // Combine this valid flag with the other nested form valid flags and relay
+	      // a valid state to the upstream only if all nested forms are valid
+	      var invalidForms = this.state.invalidForms;
+	      if (valid) {
+	        invalidForms[key] = true;
+	      } else {
+	        delete invalidForms[key];
+	      }
+	      valid = invalidForms.filter(function (invalid) {
+	        return invalid === true;
+	      }).length === 0;
+	      this.setState({ invalidForms: invalidForms });
+	      // Relaying the request change to the upstream data
+	      this.props.data.requestChange(data, valid);
+	    }
+	  }, {
+	    key: "_dataValues",
+	    value: function _dataValues() {
+	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
+
+	      var dataValues = nextProps.data.value || [];
+	      return Array.isArray(dataValues) ? dataValues : [dataValues];
+	    }
+	  }, {
+	    key: "_renderForm",
+	    value: function _renderForm(formProps) {
+	      var component = __webpack_require__(3);
+	      return React.createElement(component, formProps);
+	    }
+	  }, {
+	    key: "render",
+	    value: function render() {
+	      var _this3 = this;
+
+	      var i = 0;
+	      var datas = this._dataValues();
+	      return div({}, datas.map(function (data) {
+	        return _this3._renderForm(_this3._formProps({ data: data, key: i++ }));
+	      }));
+	    }
+	  }], [{
+	    key: "propTypes",
+	    value: {
+	      form: React.PropTypes.func.isRequired,
+	      // Provided by the parent Frig Form's HOC props closure
+	      data: React.PropTypes.object.isRequired,
+	      theme: React.PropTypes.object.isRequired,
+	      typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
+	      errors: React.PropTypes.object
+	    },
+	    enumerable: true
+	  }]);
+
+	  return NestedFieldset;
+	})(React.Component);
+
+	exports["default"] = NestedFieldset;
+	module.exports = exports["default"];
+
+/***/ },
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -679,20 +882,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(2);
-	var frigValidations = __webpack_require__(5);
+	var frigValidations = __webpack_require__(6);
 
-	var _require = __webpack_require__(6);
+	var _require = __webpack_require__(7);
 
 	var entries = _require.entries;
 	var humanize = _require.humanize;
+
+	var ErrorsNormalizer = __webpack_require__(8);
 
 	var FrigInput = (function (_React$Component) {
 	  _inherits(FrigInput, _React$Component);
 
 	  function FrigInput() {
-	    _classCallCheck(this, FrigInput);
+	    _classCallCheck(this, _FrigInput);
 
-	    _get(Object.getPrototypeOf(FrigInput.prototype), "constructor", this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(_FrigInput.prototype), "constructor", this).apply(this, arguments);
 
 	    this.state = {
 	      modified: false,
@@ -993,6 +1198,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    enumerable: true
 	  }]);
 
+	  var _FrigInput = FrigInput;
+	  FrigInput = ErrorsNormalizer({ as: Array })(FrigInput) || FrigInput;
 	  return FrigInput;
 	})(React.Component);
 
@@ -1000,7 +1207,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1032,7 +1239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1334,7 +1541,117 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 7 */
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+	var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(2);
+
+	/*
+	 * A higher order component that passes a focused attribute to it's child
+	 * component. The focused is true when the component should be focused
+	 * (ie. when it is clicked on or tabbed into) and false when it is not (ie.
+	 * initially, when it is clicked off of and when another input is selected).
+	 *
+	 * This is useful for implementing popups in Frig Themes.
+	 */
+	module.exports = function () {
+	  var opts = arguments.length <= 0 || arguments[0] === undefined ? { as: Object } : arguments[0];
+
+	  return function (componentClass) {
+	    var childName = componentClass.prototype.displayName;
+
+	    return (function (_React$Component) {
+	      _inherits(_class, _React$Component);
+
+	      function _class() {
+	        _classCallCheck(this, _class);
+
+	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).apply(this, arguments);
+
+	        this.displayName = "Frig.HigherOrderComponents.ErrorNormalizer(" + childName + ")";
+	      }
+
+	      _createClass(_class, [{
+	        key: "_toErrorObject",
+	        value: function _toErrorObject(errors) {
+	          var isArray = Array.isArray(errors);
+	          if (errors == null || isArray && errors.length == 0) return {};
+	          // If errors is an array then convert it into an object. "base" is used
+	          // to store all top-level errors that are not specific to an input.
+	          if (isArray) errors = { base: errors };
+	          return errors;
+	        }
+	      }, {
+	        key: "_errors",
+	        value: function _errors() {
+	          var errors = {};
+	          var _arr = ["errors", "internalErrors"];
+	          for (var _i = 0; _i < _arr.length; _i++) {
+	            var k = _arr[_i];
+	            var errorsSubset = this._toErrorObject(this.props[k]);
+	            for (var k2 in errorsSubset) {
+	              errors[k2] = (errors[k2] || []).concat(errorsSubset[k2]);
+	            }
+	          }
+	          return errors;
+	        }
+	      }, {
+	        key: "_normalizedErrors",
+	        value: function _normalizedErrors() {
+	          var errors = this._errors();
+	          var normalizedErrorClass = opts.as;
+	          // Convert the errors object into the normalized error class
+	          if (normalizedErrorClass == Array) {
+	            var errorsArray = [];
+	            for (var k in errors) {
+	              errorsArray = errorsArray.concat(errors[k]);
+	            }return errorsArray;
+	          } else if (normalizedErrorClass == Object) {
+	            return errors;
+	          } else {
+	            throw "ErrorsNormalizer \"as\" attribute must be either Array or Object";
+	          }
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          var childProps = Object.assign({}, this.props, {
+	            errors: this._normalizedErrors()
+	          });
+	          delete childProps.internalErrors;
+
+	          return React.createElement(componentClass, childProps);
+	        }
+	      }], [{
+	        key: "propTypes",
+	        value: {
+	          errors: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array]),
+	          internalErrors: React.PropTypes.oneOfType([React.PropTypes.object, React.PropTypes.array])
+	        },
+	        enumerable: true
+	      }, {
+	        key: "defaultProps",
+	        value: componentClass.defaultProps,
+	        enumerable: true
+	      }]);
+
+	      return _class;
+	    })(React.Component);
+	  };
+	};
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1423,197 +1740,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-	var _get = function get(_x2, _x3, _x4) { var _again = true; _function: while (_again) { var object = _x2, property = _x3, receiver = _x4; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x2 = parent; _x3 = property; _x4 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(2);
-	var div = React.DOM.div;
-
-	var NestedFieldset = (function (_React$Component) {
-	  _inherits(NestedFieldset, _React$Component);
-
-	  function NestedFieldset() {
-	    _classCallCheck(this, NestedFieldset);
-
-	    _get(Object.getPrototypeOf(NestedFieldset.prototype), "constructor", this).apply(this, arguments);
-
-	    this.state = {
-	      invalidForms: []
-	    };
-	  }
-
-	  _createClass(NestedFieldset, [{
-	    key: "componentWillMount",
-	    value: function componentWillMount() {
-	      this.props.onComponentMount(this);
-	    }
-	  }, {
-	    key: "componentWillUnmount",
-	    value: function componentWillUnmount() {
-	      this.props.onComponentUnmount(this);
-	    }
-	  }, {
-	    key: "componentWillReceiveProps",
-	    value: function componentWillReceiveProps(nextProps) {
-	      // Truncating the invalid forms list to prevent ghosting of invalid
-	      // forms that are removed in the props.
-	      var invalidForms = this.state.invalidForms;
-	      var numberOfForms = this._dataValues(nextProps).length;
-	      invalidForms = invalidForms.slice(0, numberOfForms);
-	      this.setState({ invalidForms: invalidForms });
-	    }
-	  }, {
-	    key: "validate",
-	    value: function validate() {
-	      this._forms().forEach(function (form) {
-	        return form.validate();
-	      });
-	      return this.isValid();
-	    }
-	  }, {
-	    key: "isValid",
-	    value: function isValid() {
-	      return this._forms().every(function (form) {
-	        return form.isValid();
-	      });
-	    }
-	  }, {
-	    key: "isModified",
-	    value: function isModified() {
-	      return this._forms().some(function (form) {
-	        return form.isModified();
-	      });
-	    }
-	  }, {
-	    key: "resetModified",
-	    value: function resetModified() {
-	      this._forms().forEach(function (form) {
-	        return form.resetModified();
-	      });
-	    }
-	  }, {
-	    key: "reset",
-	    value: function reset() {
-	      this._forms().forEach(function (form) {
-	        return form.reset();
-	      });
-	    }
-	  }, {
-	    key: "_forms",
-	    value: function _forms() {
-	      var _this = this;
-
-	      return Object.keys(this.refs || {}).map(function (k) {
-	        return _this.refs[k];
-	      });
-	    }
-	  }, {
-	    key: "_formProps",
-	    value: function _formProps(_ref) {
-	      var _this2 = this;
-
-	      var data = _ref.data;
-	      var key = _ref.key;
-
-	      return Object.assign({}, this.props, {
-	        key: key,
-	        ref: key,
-	        form: function form(f) {
-	          return _this2.props.form(f, key);
-	        },
-	        nestedForm: true,
-	        data: {
-	          value: data,
-	          requestChange: this._onFormRequestChange.bind(this, key)
-	        }
-	      });
-	    }
-	  }, {
-	    key: "_onFormRequestChange",
-	    value: function _onFormRequestChange(key, formData, valid) {
-	      var data = this.props.data.value;
-	      // Combine the updated data from the form with the other forms or if this
-	      // is a single form fieldset overwriting the previous form data.
-	      if (Array.isArray(data)) {
-	        data = data.slice();
-	        data[key] = formData;
-	      } else {
-	        data = formData;
-	      }
-	      // Combine this valid flag with the other nested form valid flags and relay
-	      // a valid state to the upstream only if all nested forms are valid
-	      var invalidForms = this.state.invalidForms;
-	      if (valid) {
-	        invalidForms[key] = true;
-	      } else {
-	        delete invalidForms[key];
-	      }
-	      valid = invalidForms.filter(function (invalid) {
-	        return invalid === true;
-	      }).length === 0;
-	      this.setState({ invalidForms: invalidForms });
-	      // Relaying the request change to the upstream data
-	      this.props.data.requestChange(data, valid);
-	    }
-	  }, {
-	    key: "_dataValues",
-	    value: function _dataValues() {
-	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
-
-	      var dataValues = nextProps.data.value || [];
-	      return Array.isArray(dataValues) ? dataValues : [dataValues];
-	    }
-	  }, {
-	    key: "_renderForm",
-	    value: function _renderForm(formProps) {
-	      var component = __webpack_require__(3);
-	      return React.createElement(component, formProps);
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      var _this3 = this;
-
-	      var i = 0;
-	      var datas = this._dataValues();
-	      return div({}, datas.map(function (data) {
-	        return _this3._renderForm(_this3._formProps({ data: data, key: i++ }));
-	      }));
-	    }
-	  }], [{
-	    key: "propTypes",
-	    value: {
-	      form: React.PropTypes.func.isRequired,
-	      // Provided by the parent Frig Form's HOC props closure
-	      data: React.PropTypes.object.isRequired,
-	      theme: React.PropTypes.object.isRequired,
-	      typeMapping: React.PropTypes.objectOf(React.PropTypes.string)
-	    },
-	    enumerable: true
-	  }]);
-
-	  return NestedFieldset;
-	})(React.Component);
-
-	exports["default"] = NestedFieldset;
-	module.exports = exports["default"];
-
-/***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1651,7 +1778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// timeZone:     {component: "timeZone"},
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1854,7 +1981,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports["default"];
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -1960,7 +2087,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

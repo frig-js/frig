@@ -78,7 +78,10 @@
 	  formOpts: function() {
 	    return {
 	      data: this.linkState("account"),
-	      errors: ["Test Error", "Moo"],
+	      errors: {
+	        base: ["Test Error", "Moo"],
+	        email: ["This Error is a Test"]
+	      },
 	      onSubmit: this.onSubmit
 	    };
 	  },
