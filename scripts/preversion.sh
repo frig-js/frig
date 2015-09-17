@@ -3,6 +3,10 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"/..
 
 rm -rf ./dist/*
 
+VERSION=`npm version|grep -e "frig: '[0-9\.]*"|grep -E [0-9\.]+|grep -oE "[0-9\.]+"`
+bower version $VERSION
+git add bower.json
+
 echo ""
 echo "FRIG: COMPILING EXAMPLES"
 echo "======================================================="
