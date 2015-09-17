@@ -3,9 +3,6 @@ cd "$( dirname "${BASH_SOURCE[0]}" )"/..
 
 rm -rf ./dist/*
 
-VERSION=`npm version|grep -e "frig: '[0-9\.]*"|grep -E [0-9\.]+|grep -oE "[0-9\.]+"`
-bower version $VERSION
-
 echo ""
 echo "FRIG: COMPILING EXAMPLES"
 echo "======================================================="
@@ -20,3 +17,9 @@ echo ""
 echo "FRIG: COMPILING MINIFIED RELEASE"
 echo "======================================================="
 FRIG_ENV="production" FRIG_MIN="minify" FRIG_MODE="core" webpack --progress --bail
+
+echo ""
+echo "FRIG: UPDATING BOWER VERSION"
+echo "======================================================="
+VERSION=`npm version|grep -e "frig: '[0-9\.]*"|grep -E [0-9\.]+|grep -oE "[0-9\.]+"`
+bower version $VERSION
