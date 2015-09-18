@@ -11,6 +11,8 @@
   "dependencies": {},
   "devDependencies": {
     "coffee-script": "1.9.3",
+    "jsdom": "*",
+    "skin-deep": "*",
     "webpack": "*",
     "webpack-dev-server": "*",
     "css-loader": "*",

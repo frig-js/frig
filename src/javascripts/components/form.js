@@ -144,11 +144,11 @@ export default class FrigForm extends React.Component {
     return this.props.form(this._componentClasses())
   }
 
-  _onChildComponentMount(name, component) {
+  childComponentWillMount(name, component) {
     this._childComponentsByName[name] = component
   }
 
-  _onChildComponentUnmount(name) {
+  childComponentWillUnmount(name) {
     delete this._childComponentsByName[name]
   }
 
@@ -259,8 +259,8 @@ export default class FrigForm extends React.Component {
       align: this.props.align,
       theme: this.props.theme,
       typeMapping: this.props.typeMapping,
-      onComponentMount: this._onChildComponentMount.bind(this, [name]),
-      onComponentUnmount: this._onChildComponentUnmount.bind(this, [name]),
+      onComponentMount: this.childComponentWillMount.bind(this, [name]),
+      onComponentUnmount: this.childComponentWillUnmount.bind(this, [name]),
       data: {
         value: this._data()[name] || {},
         requestChange: this._onChildRequestChange.bind(this, [name]),
@@ -328,8 +328,8 @@ export default class FrigForm extends React.Component {
         value: this._data()[name],
         requestChange: this._onChildRequestChange.bind(this, [name]),
       },
-      onComponentMount: this._onChildComponentMount.bind(this, [name]),
-      onComponentUnmount: this._onChildComponentUnmount.bind(this, [name]),
+      onComponentMount: this.childComponentWillMount.bind(this, [name]),
+      onComponentUnmount: this.childComponentWillUnmount.bind(this, [name]),
       internalErrors: this.props.errors[name],
     }
   }
