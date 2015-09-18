@@ -1854,7 +1854,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_setInitialValue",
 	    value: function _setInitialValue(nextProps) {
-	      var value = nextProps.valueLink.value || nextProps.options[0].value;
+	      var value = nextProps.options[0].value;
 
 	      nextProps.valueLink.requestChange(value, { setModified: false });
 	    }
