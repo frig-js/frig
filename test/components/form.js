@@ -8,7 +8,7 @@ let Form = React.createFactory(require(
 ))
 let {renderIntoDocument, mockComponent} = React.addons.TestUtils
 
-describe("form component", function(){
+describe("Form", function(){
   beforeEach(function () {
     this.form = renderIntoDocument(Form({
       data: {},
@@ -17,7 +17,7 @@ describe("form component", function(){
     }))
   })
 
-  describe("isModified", function() {
+  describe("#isModified", function() {
     it("should be false initially", function() {
       assert.equal(this.form.isModified(), false)
     })
@@ -30,6 +30,18 @@ describe("form component", function(){
     it("should be true if any input isModified returns true", function() {
       this.form.childComponentWillMount("test", {isModified: () => true})
       assert.equal(this.form.isModified(), true)
+    })
+  })
+
+  describe("#resetModified", function() {
+    it("should call resetModified on each child component", function() {
+      let hasReset = false
+      this.form.childComponentWillMount("test", {
+        isModified: () => true,
+        resetModified: () => hasReset = true,
+      })
+      this.form.resetModified()
+      assert.equal(hasReset, true)
     })
   })
 
