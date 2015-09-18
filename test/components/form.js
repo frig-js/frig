@@ -17,6 +17,19 @@ describe("Form", function(){
     }))
   })
 
+  describe("#validate", function() {
+    it("should be false if any input's validate returns false", function() {
+      this.form.childComponentWillMount("a", {validate: () => false})
+      this.form.childComponentWillMount("b", {validate: () => true})
+      assert.equal(this.form.validate(), false)
+    })
+
+    it("should be true if all input's validate returns true", function() {
+      this.form.childComponentWillMount("a", {validate: () => true})
+      assert.equal(this.form.validate(), true)
+    })
+  })
+
   describe("#isValid", function() {
     it("should be false if any input's isValid returns false", function() {
       this.form.childComponentWillMount("a", {isValid: () => false})

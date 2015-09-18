@@ -41,7 +41,7 @@ export default class FrigForm extends React.Component {
    */
 
   validate() {
-    return this._childComponents().filter((c) => c.validate()).length !== 0
+    return this._childComponents().filter((c) => !c.validate()).length === 0
   }
 
   isValid() {
