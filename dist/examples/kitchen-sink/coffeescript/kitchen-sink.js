@@ -67,6 +67,7 @@
 	            address: "55 Actual Place Rd."
 	          }, {}
 	        ],
+	        select_example: "thing-value",
 	        stuff_or_things: ["stuff-value"],
 	        single_select_typeahead: "stuff-value"
 	      }

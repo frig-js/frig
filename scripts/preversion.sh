@@ -17,3 +17,11 @@ echo ""
 echo "FRIG: COMPILING MINIFIED RELEASE"
 echo "======================================================="
 FRIG_ENV="production" FRIG_MIN="minify" FRIG_MODE="core" webpack --progress --bail
+
+echo ""
+echo "FRIG: UPDATING BOWER VERSION"
+echo "======================================================="
+VERSION=`npm version|grep -e "frig: '[0-9\.]*"|grep -E [0-9\.]+|grep -oE "[0-9\.]+"`
+sed -i.bak -e "s/\"version\": \"[^\"]*\"/\"version\": \"$VERSION\"/g" bower.json
+rm bower.json.bak
+echo "DONE"
