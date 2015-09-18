@@ -45,7 +45,7 @@ export default class FrigForm extends React.Component {
   }
 
   isValid() {
-    return this._childComponents().filter((c) => c.isValid()).length !== 0
+    return this._childComponents().filter((c) => !c.isValid()).length === 0
   }
 
   isModified() {
