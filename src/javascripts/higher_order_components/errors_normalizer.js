@@ -1,13 +1,5 @@
 let React = require("react")
 let higherOrderComponent = require("./higher_order_component.js")
-/*
- * A higher order component that passes a focused attribute to it's child
- * component. The focused is true when the component should be focused
- * (ie. when it is clicked on or tabbed into) and false when it is not (ie.
- * initially, when it is clicked off of and when another input is selected).
- *
- * This is useful for implementing popups in Frig Themes.
- */
 
 @higherOrderComponent()
 export default class extends React.Component {
