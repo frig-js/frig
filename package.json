@@ -5,7 +5,7 @@
   "main": "dist/frig.js",
   "scripts": {
     "preversion": "./scripts/preversion.sh",
-    "version": "git add -A dist",
+    "version": "./scripts/version.sh",
     "postversion": "git push && git push --tags"
   },
   "dependencies": {},
