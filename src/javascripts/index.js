@@ -19,7 +19,7 @@ module.exports = {
   defaultTheme(theme) {
     if (theme == null) return form.defaultProps.theme
     if (theme.component == null) throw "Invalid theme. Expected an object"
-    Form.defaultProps.theme = theme
-    Input.defaultProps.theme = theme
+    Form.originalClass.defaultProps.theme = theme
+    Input.originalClass.defaultProps.theme = theme
   },
 }

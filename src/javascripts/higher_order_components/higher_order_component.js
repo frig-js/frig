@@ -19,12 +19,18 @@ module.exports = function() {
         return (
           @delegatesPublicFunctions(componentClass)
           class extends hocClass {
+            static originalClass = (
+              componentClass.originalClass || componentClass
+            )
+
             displayName = (
               `${hocClass.prototype.displayName}(${childName})`
             )
+
             componentClass() {
               return componentClass
             }
+
             opts() {
               return opts
             }

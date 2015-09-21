@@ -241,7 +241,7 @@ export default class FrigForm extends React.Component {
   _errorsOverrides() {
     return {
       type: "errors",
-      errors: this.props.errors.base,
+      errors: this.props.errors.base || [],
     }
   }
 
