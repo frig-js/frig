@@ -67,6 +67,7 @@
 	            address: "55 Actual Place Rd."
 	          }, {}
 	        ],
+	        select_example: "thing-value",
 	        stuff_or_things: ["stuff-value"],
 	        single_select_typeahead: "stuff-value"
 	      }
@@ -78,7 +79,10 @@
 	  formOpts: function() {
 	    return {
 	      data: this.linkState("account"),
-	      errors: ["Test Error", "Moo"],
+	      errors: {
+	        base: ["Test Error", "Moo"],
+	        email: ["This Error is a Test"]
+	      },
 	      onSubmit: this.onSubmit
 	    };
 	  },
@@ -99,7 +103,6 @@
 	          saved: true,
 	          placeholder: "Input Without a Label"
 	        }), f.input("email", {
-	          xs: 10,
 	          saved: true
 	        }), f.input("select_example", {
 	          options: [
