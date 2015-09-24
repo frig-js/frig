@@ -18,8 +18,8 @@ If you do accidentally run webpack you can get rid of all the files it generates
 
 ## Releasing a new version of Frig
 
-`npm version` is the official way to compile a release. See https://docs.npmjs.com/cli/version
+`npm version` is the official way to compile a release. Npm will not publish a new version to npm and bower and push an updated copy of the docs. See https://docs.npmjs.com/cli/version
 
-If you need to update the docs you will need to run `./scripts/publish_docs.sh`
+If you just need to update the docs without releasing a new version you can run `./scripts/publish_docs.sh`
 
 DO NOT compile a release if you want your pull request to be accepted. If you do compile a release you will need to remove it and re-submit your pull request. This is to prevent the Git repo from becoming massive and/or crazy-slow to download.

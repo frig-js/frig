@@ -6,7 +6,7 @@
   "scripts": {
     "preversion": "./scripts/preversion.sh",
     "version": "./scripts/version.sh",
-    "postversion": "git push && git push --tags"
+    "postversion": "./scripts/publish_docs.sh && git push && git push --tags"
   },
   "dependencies": {},
   "devDependencies": {

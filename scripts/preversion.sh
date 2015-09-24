@@ -17,4 +17,3 @@ echo ""
 echo "FRIG: COMPILING MINIFIED RELEASE"
 echo "======================================================="
 FRIG_ENV="production" FRIG_MIN="minify" FRIG_MODE="core" webpack --progress --bail
-
