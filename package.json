@@ -9,6 +9,9 @@
     "postversion": "./scripts/publish_docs.sh && git push && git push --tags"
   },
   "dependencies": {},
+  "peerDependencies": {
+    "react": ">=0.13.3"
+  },
   "devDependencies": {
     "coffee-script": "1.9.3",
     "jsdom": "*",
@@ -22,7 +25,6 @@
     "babel-loader": "*",
     "babel-core": "5.8.20",
     "coffee-loader": "*",
-    "jade-loader": "*",
     "url-loader": "*",
     "jsx-loader": "*",
     "file-loader": "*",
@@ -37,7 +39,7 @@
     "frigging-bootstrap": "*"
   },
   "engines": {
-    "node": "~0.12.x",
-    "npm": "2.7.x"
+    "node": ">=0.12.0",
+    "npm": ">=2.7.0"
   }
 }
