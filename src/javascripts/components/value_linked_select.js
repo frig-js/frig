@@ -48,7 +48,7 @@ export default class ValueLinkedSelect extends React.Component {
   }
 
   _setInitialValue(nextProps) {
-    let value = valueLink.value || nextProps.options[0].value
+    let value = nextProps.valueLink.value || nextProps.options[0].value
     nextProps.valueLink.requestChange(value, {setModified: false})
   }
 
