@@ -57,6 +57,7 @@ AccountForm = React.createClass
             placeholder: "Input Without a Label"
           f.input "email", saved: true
           f.input "select_example",
+            saved: true
             options: [
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
@@ -74,6 +75,7 @@ AccountForm = React.createClass
           f.input "stuff_or_things",
             type: "typeahead",
             multiple: true,
+            saved: true,
             options: [
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
@@ -86,6 +88,7 @@ AccountForm = React.createClass
 
           f.input "single_select_typeahead",
             type: "typeahead",
+            saved: true,
             options: [
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
@@ -99,6 +102,7 @@ AccountForm = React.createClass
           f.input "customSelectionRendering",
             type: "typeahead",
             multiple: true,
+            saved: true,
             displaySelections: false,
             options: [
               # The 3 formats for options
@@ -122,7 +126,9 @@ AccountForm = React.createClass
         div className: "row",
           div className: "col-xs-12",
             h2 {}, "Passwords"
-          f.input "password", xs: 6
+          f.input "password",
+            xs: 6,
+            saved: true,
           f.input "passwordConfirmation", xs: 6
 
         div className: "row",
