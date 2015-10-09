@@ -32,7 +32,10 @@ export default class ValueLinkedSelect extends React.Component {
   }
 
   componentWillMount() {
-    if ((this.props.options||[]).length !== 0) this._setInitialValue(this.props)
+    var hasOptions = (this.props.options || []).length !== 0
+    if (hasOptions && this.props.valueLink.value == null) {
+      this._setInitialValue(this.props)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
