@@ -1862,7 +1862,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  _createClass(ValueLinkedSelect, [{
 	    key: "componentWillMount",
 	    value: function componentWillMount() {
-	      if ((this.props.options || []).length !== 0) this._setInitialValue(this.props);
+	      var hasOptions = (this.props.options || []).length !== 0;
+	      if (hasOptions && this.props.valueLink.value == null) {
+	        this._setInitialValue(this.props);
+	      }
 	    }
 	  }, {
 	    key: "componentWillReceiveProps",
@@ -1880,7 +1883,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_setInitialValue",
 	    value: function _setInitialValue(nextProps) {
-	      var value = valueLink.value || nextProps.options[0].value;
+	      var value = nextProps.valueLink.value || nextProps.options[0].value;
 	      nextProps.valueLink.requestChange(value, { setModified: false });
 	    }
 

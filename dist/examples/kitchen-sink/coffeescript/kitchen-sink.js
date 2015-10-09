@@ -105,6 +105,7 @@
 	        }), f.input("email", {
 	          saved: true
 	        }), f.input("select_example", {
+	          saved: true,
 	          options: [
 	            {
 	              label: "Stuff",
@@ -118,6 +119,7 @@
 	        }, h2({}, "Typeaheads")), f.input("stuff_or_things", {
 	          type: "typeahead",
 	          multiple: true,
+	          saved: true,
 	          options: [
 	            {
 	              label: "Stuff",
@@ -126,6 +128,7 @@
 	          ]
 	        }), f.input("single_select_typeahead", {
 	          type: "typeahead",
+	          saved: true,
 	          options: [
 	            {
 	              label: "Stuff",
@@ -135,6 +138,7 @@
 	        }), f.input("customSelectionRendering", {
 	          type: "typeahead",
 	          multiple: true,
+	          saved: true,
 	          displaySelections: false,
 	          options: [
 	            {
@@ -153,7 +157,8 @@
 	        }, div({
 	          className: "col-xs-12"
 	        }, h2({}, "Passwords")), f.input("password", {
-	          xs: 6
+	          xs: 6,
+	          saved: true
 	        }), f.input("passwordConfirmation", {
 	          xs: 6
 	        })), div({
