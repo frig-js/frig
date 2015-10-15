@@ -20,7 +20,7 @@
     "webpack-dev-server": "*",
     "css-loader": "*",
     "style-loader": "*",
-    "stylus-loader": "*",
+    "stylus-loader": "1.4.0",
     "extract-text-webpack-plugin": "*",
     "babel-loader": "*",
     "babel-core": "5.8.20",
