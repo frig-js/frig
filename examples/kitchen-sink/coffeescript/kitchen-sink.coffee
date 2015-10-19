@@ -35,6 +35,7 @@ AccountForm = React.createClass
     errors:
       base: ["Test Error", "Moo"]
       email: ["This Error is a Test"]
+      addresses: [{address: "This is a Nested Field Error Test"}]
     saves:
       select_example: true
       time_of_day: true
