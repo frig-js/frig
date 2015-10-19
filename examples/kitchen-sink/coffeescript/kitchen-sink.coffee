@@ -56,11 +56,9 @@ AccountForm = React.createClass
           f.input "InputWithoutALabel",
             xs: 12
             label: false
-            saved: true
             placeholder: "Input Without a Label"
-          f.input "email", saved: true
+          f.input "email"
           f.input "select_example",
-            saved: true
             options: [
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
@@ -78,7 +76,6 @@ AccountForm = React.createClass
           f.input "stuff_or_things",
             type: "typeahead",
             multiple: true,
-            saved: true,
             options: [
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
@@ -91,7 +88,7 @@ AccountForm = React.createClass
 
           f.input "single_select_typeahead",
             type: "typeahead",
-            saved: true,
+            saves: true,
             options: [
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
@@ -105,7 +102,6 @@ AccountForm = React.createClass
           f.input "customSelectionRendering",
             type: "typeahead",
             multiple: true,
-            saved: true,
             displaySelections: false,
             options: [
               # The 3 formats for options
@@ -131,7 +127,6 @@ AccountForm = React.createClass
             h2 {}, "Passwords"
           f.input "password",
             xs: 6,
-            saved: true,
           f.input "passwordConfirmation", xs: 6
 
         div className: "row",
@@ -140,7 +135,6 @@ AccountForm = React.createClass
             type: "text"
             rows: 5
             xs: 12
-            saved: true
 
           f.input "description-two",
             className: "testing-class-name"
@@ -148,7 +142,6 @@ AccountForm = React.createClass
             rows: 5
             label: false
             placeholder: "Description without a label"
-            saved: true
             xs: 12
 
         div className: "row",
@@ -156,7 +149,6 @@ AccountForm = React.createClass
             type: "switch",
             xs: "6",
             label: "Time of Day",
-            saved: true
             handleWidth: 100
             onText: "Enabled"
             offText: "Disabled"
@@ -165,7 +157,6 @@ AccountForm = React.createClass
             type: "switch",
             xs: "6",
             label: false
-            saved: true
           f.input "red_or_blue",
             type: "switch"
             onText: "Red"
@@ -178,37 +169,31 @@ AccountForm = React.createClass
             type: "file",
             xs: "6"
             label: "Uploading Avatar"
-            saved: true
           ),
           f.input "uploadVirus",
             type: "file",
             xs: "6"
             label: false
-            saved: true
         div className: "row",
           f.input "startTime",
             type: "time"
             xs: "12"
             placeholder: "12:00pm"
             label: "Start Time"
-            saved: true
           f.input "endTime",
             type: "time"
             xs: "12"
             placeholder: "End Time"
             label: false
-            saved: true
         div className: "row",
           f.input "colorOne",
             type: "color"
             xs: "12"
             label: "Color One"
-            saved: true
           f.input "colorTwo",
             type: "color"
             xs: "12",
             label: false
-            saved: true
         div className: "row",
           div className: "col-xs-12",
             h3 {}, "Nested Fields (Eg. Has Many)"
@@ -225,7 +210,7 @@ AccountForm = React.createClass
             h3 {}, "Additional Sketchy Info"
 
         div className: "row",
-          f.input "shareSketchyInfo", saved: true
+          f.input "shareSketchyInfo"
           if @state.account.shareSketchyInfo
             [
               f.input "socialSecurityNumber"
