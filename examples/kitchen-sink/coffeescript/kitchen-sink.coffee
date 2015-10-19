@@ -35,6 +35,9 @@ AccountForm = React.createClass
     errors:
       base: ["Test Error", "Moo"]
       email: ["This Error is a Test"]
+    saves:
+      select_example: true
+      time_of_day: true
     # errors: ["Test Error", "Moo"]
     onSubmit: @onSubmit,
     # layout: "horizontal"
