@@ -9,6 +9,7 @@ export default class NestedFieldset extends React.Component {
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
     errors: React.PropTypes.object,
+    saves: React.PropTypes.object,
   }
 
   state = {
@@ -68,6 +69,7 @@ export default class NestedFieldset extends React.Component {
       form: (f) => this.props.form(f, key),
       nestedForm: true,
       errors: this._errorsForKey(this.props.errors, key),
+      saves: this._errorsForKey(this.props.saves, key),
       internalErrors: this._errorsForKey(this.props.internalErrors, key),
       data: {
         value: data,

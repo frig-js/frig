@@ -38,6 +38,7 @@ AccountForm = React.createClass
     saves:
       select_example: true
       time_of_day: true
+      addresses: [{address: true}, {}]
     # errors: ["Test Error", "Moo"]
     onSubmit: @onSubmit,
     # layout: "horizontal"
