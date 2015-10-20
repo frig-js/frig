@@ -14,7 +14,7 @@ export default class FrigForm extends React.Component {
   static propTypes = {
     data: React.PropTypes.object.isRequired,
     errors: React.PropTypes.object.isRequired,
-    saves: React.PropTypes.object.isRequired,
+    saved: React.PropTypes.object.isRequired,
     form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
@@ -26,7 +26,7 @@ export default class FrigForm extends React.Component {
 
   static defaultProps = {
     errors: [],
-    saves: {},
+    saved: {},
     theme: undefined,
     typeMapping: {},
     layout: "vertical",
@@ -268,7 +268,7 @@ export default class FrigForm extends React.Component {
         requestChange: this._onChildRequestChange.bind(this, [name]),
       },
       internalErrors: this.props.errors[name],
-      saves: this.props.saves[name],
+      saved: this.props.saved[name],
     }
   }
 
@@ -334,7 +334,7 @@ export default class FrigForm extends React.Component {
       onComponentMount: this.childComponentWillMount.bind(this, [name]),
       onComponentUnmount: this.childComponentWillUnmount.bind(this, [name]),
       internalErrors: this.props.errors[name],
-      saves: this.props.saves[name],
+      saved: this.props.saved[name],
     }
   }
 

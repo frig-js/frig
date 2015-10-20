@@ -36,7 +36,7 @@ AccountForm = React.createClass
       base: ["Test Error", "Moo"]
       email: ["This Error is a Test"]
       addresses: [{address: "This is a Nested Field Error Test"}]
-    saves:
+    saved:
       select_example: true
       time_of_day: true
       addresses: [{address: true}, {}]
@@ -90,7 +90,7 @@ AccountForm = React.createClass
 
           f.input "single_select_typeahead",
             type: "typeahead",
-            saves: true,
+            saved: true,
             options: [
               # The 3 formats for options
               # 1. An object with a label and a value (perfered)
