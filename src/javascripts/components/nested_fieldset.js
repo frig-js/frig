@@ -9,6 +9,7 @@ export default class NestedFieldset extends React.Component {
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
     errors: React.PropTypes.object,
+    saved: React.PropTypes.object,
   }
 
   state = {
@@ -57,8 +58,8 @@ export default class NestedFieldset extends React.Component {
     return Object.keys(this.refs||{}).map((k) => this.refs[k])
   }
 
-  _errorsForKey(errors, key) {
-    return Array.isArray(errors) ? errors[key] : errors
+  _listForKey(list, key) {
+    return Array.isArray(list) ? list[key] : list
   }
 
   _formProps({data, key}) {
@@ -67,8 +68,9 @@ export default class NestedFieldset extends React.Component {
       ref: key,
       form: (f) => this.props.form(f, key),
       nestedForm: true,
-      errors: this._errorsForKey(this.props.errors, key),
-      internalErrors: this._errorsForKey(this.props.internalErrors, key),
+      errors: this._listForKey(this.props.errors, key),
+      saved: this._listForKey(this.props.saved, key),
+      internalErrors: this._listForKey(this.props.internalErrors, key),
       data: {
         value: data,
         requestChange: this._onFormRequestChange.bind(this, key),
