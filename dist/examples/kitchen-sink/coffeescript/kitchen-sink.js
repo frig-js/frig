@@ -81,7 +81,21 @@
 	      data: this.linkState("account"),
 	      errors: {
 	        base: ["Test Error", "Moo"],
-	        email: ["This Error is a Test"]
+	        email: ["This Error is a Test"],
+	        addresses: [
+	          {
+	            address: "This is a Nested Field Error Test"
+	          }
+	        ]
+	      },
+	      saved: {
+	        select_example: true,
+	        time_of_day: true,
+	        addresses: [
+	          {
+	            address: true
+	          }, {}
+	        ]
 	      },
 	      onSubmit: this.onSubmit
 	    };
@@ -100,12 +114,8 @@
 	        }, f.input("InputWithoutALabel", {
 	          xs: 12,
 	          label: false,
-	          saved: true,
 	          placeholder: "Input Without a Label"
-	        }), f.input("email", {
-	          saved: true
-	        }), f.input("select_example", {
-	          saved: true,
+	        }), f.input("email"), f.input("select_example", {
 	          options: [
 	            {
 	              label: "Stuff",
@@ -119,7 +129,6 @@
 	        }, h2({}, "Typeaheads")), f.input("stuff_or_things", {
 	          type: "typeahead",
 	          multiple: true,
-	          saved: true,
 	          options: [
 	            {
 	              label: "Stuff",
@@ -138,7 +147,6 @@
 	        }), f.input("customSelectionRendering", {
 	          type: "typeahead",
 	          multiple: true,
-	          saved: true,
 	          displaySelections: false,
 	          options: [
 	            {
@@ -157,8 +165,7 @@
 	        }, div({
 	          className: "col-xs-12"
 	        }, h2({}, "Passwords")), f.input("password", {
-	          xs: 6,
-	          saved: true
+	          xs: 6
 	        }), f.input("passwordConfirmation", {
 	          xs: 6
 	        })), div({
@@ -167,15 +174,13 @@
 	          className: "testing-class-name",
 	          type: "text",
 	          rows: 5,
-	          xs: 12,
-	          saved: true
+	          xs: 12
 	        }), f.input("description-two", {
 	          className: "testing-class-name",
 	          type: "text",
 	          rows: 5,
 	          label: false,
 	          placeholder: "Description without a label",
-	          saved: true,
 	          xs: 12
 	        })), div({
 	          className: "row"
@@ -183,7 +188,6 @@
 	          type: "switch",
 	          xs: "6",
 	          label: "Time of Day",
-	          saved: true,
 	          handleWidth: 100,
 	          onText: "Enabled",
 	          offText: "Disabled",
@@ -191,8 +195,7 @@
 	        }), f.input("time_of_night", {
 	          type: "switch",
 	          xs: "6",
-	          label: false,
-	          saved: true
+	          label: false
 	        }), f.input("red_or_blue", {
 	          type: "switch",
 	          onText: "Red",
@@ -204,39 +207,33 @@
 	        }, f.input("uploadAvatar", {
 	          type: "file",
 	          xs: "6",
-	          label: "Uploading Avatar",
-	          saved: true
+	          label: "Uploading Avatar"
 	        }), f.input("uploadVirus", {
 	          type: "file",
 	          xs: "6",
-	          label: false,
-	          saved: true
+	          label: false
 	        })), div({
 	          className: "row"
 	        }, f.input("startTime", {
 	          type: "time",
 	          xs: "12",
 	          placeholder: "12:00pm",
-	          label: "Start Time",
-	          saved: true
+	          label: "Start Time"
 	        }), f.input("endTime", {
 	          type: "time",
 	          xs: "12",
 	          placeholder: "End Time",
-	          label: false,
-	          saved: true
+	          label: false
 	        })), div({
 	          className: "row"
 	        }, f.input("colorOne", {
 	          type: "color",
 	          xs: "12",
-	          label: "Color One",
-	          saved: true
+	          label: "Color One"
 	        }), f.input("colorTwo", {
 	          type: "color",
 	          xs: "12",
-	          label: false,
-	          saved: true
+	          label: false
 	        })), div({
 	          className: "row"
 	        }, div({
@@ -251,9 +248,7 @@
 	          className: "col-xs-12"
 	        }, h3({}, "Additional Sketchy Info"))), div({
 	          className: "row"
-	        }, f.input("shareSketchyInfo", {
-	          saved: true
-	        }), _this.state.account.shareSketchyInfo ? [
+	        }, f.input("shareSketchyInfo"), _this.state.account.shareSketchyInfo ? [
 	          f.input("socialSecurityNumber"), f.input("fullName"), f.input("eyeColor", {
 	            options: ["blue", "green", "red", "left"]
 	          })
