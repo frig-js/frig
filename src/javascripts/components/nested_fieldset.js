@@ -45,6 +45,10 @@ export default class NestedFieldset extends React.Component {
     return this._forms().some((form) => form.isModified())
   }
 
+  modifiedFields() {
+    return this._forms().filter((form) => form.isModified())
+  }
+
   resetModified() {
     this._forms().forEach((form) => form.resetModified())
   }
