@@ -256,7 +256,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var savedInline = savedText({ saved: saved, className: className });
 
 	    if (label === false && saved) return savedInline;
-	    if (label && saved && layout == "horizontal") return savedInline;
+	    if (label && saved && layout === "horizontal") return savedInline;
 	  },
 
 	  inputContainerCx: function inputContainerCx(props) {
@@ -270,7 +270,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    for (var k in labelWidth) {
 	      inputWidth[k] = 12 - labelWidth[k] || 12;
 	    }var horizontalClasses = sizeClassNames(inputWidth, { offsets: false });
-	    return cx((_cx2 = {}, _defineProperty(_cx2, horizontalClasses, props.layout == "horizontal" && !props.block), _defineProperty(_cx2, "col-xs-12", props.layout == "horizontal" && props.block), _cx2));
+	    return cx((_cx2 = {}, _defineProperty(_cx2, horizontalClasses, props.layout === "horizontal" && !props.block), _defineProperty(_cx2, "col-xs-12", props.layout === "horizontal" && props.block), _cx2));
 	  },
 
 	  sizeClassNames: function sizeClassNames() {
@@ -365,14 +365,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  Licensed under the MIT License (MIT), see
 	  http://jedwatson.github.io/classnames
 	*/
+	/* global define */
 
 	'use strict';
 
 	(function () {
 		'use strict';
 
-		function classNames() {
+		var hasOwn = ({}).hasOwnProperty;
 
+		function classNames() {
 			var classes = '';
 
 			for (var i = 0; i < arguments.length; i++) {
@@ -381,13 +383,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 				var argType = typeof arg;
 
-				if ('string' === argType || 'number' === argType) {
+				if (argType === 'string' || argType === 'number') {
 					classes += ' ' + arg;
 				} else if (Array.isArray(arg)) {
 					classes += ' ' + classNames.apply(null, arg);
-				} else if ('object' === argType) {
+				} else if (argType === 'object') {
 					for (var key in arg) {
-						if (arg.hasOwnProperty(key) && arg[key]) {
+						if (hasOwn.call(arg, key) && arg[key]) {
 							classes += ' ' + key;
 						}
 					}
@@ -400,7 +402,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		if (typeof module !== 'undefined' && module.exports) {
 			module.exports = classNames;
 		} else if (true) {
-			// AMD. Register as an anonymous module.
+			// register as 'classnames', consistent with npm package name
 			!(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
 				return classNames;
 			}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
@@ -476,7 +478,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
-	var span = _React$DOM.span;
 
 	var cx = __webpack_require__(9);
 
@@ -1309,18 +1310,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(_default, [{
-	    key: "_updatePosition",
-	    value: function _updatePosition(clientX, clientY) {
-	      var rect = React.findDOMNode(this).getBoundingClientRect();
-	      var x = (clientX - rect.left) / rect.width;
-	      var y = (rect.bottom - clientY) / rect.height;
-	      var saturation = this.getScaledValue(x);
-	      var value = this.getScaledValue(y);
-	      var colr = Colr.fromHsv(this.props.hsv.h, saturation, value);
-
-	      this.props.colrLink.requestChange(colr);
-	    }
-	  }, {
 	    key: "render",
 	    value: function render() {
 	      var x = this.props.hsv.s;
@@ -1331,12 +1320,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return div({
 	        className: cx({
 	          "frigb-map": true,
-	          "frigb-active": this.props.activeLink.value,
+	          "frigb-active": this.props.active,
 	          "frigb-dark": luminosity <= 128,
 	          "frigb-light": luminosity > 128
 	        }),
-	        onMouseDown: this.startUpdates.bind(this),
-	        onTouchStart: this.startUpdates.bind(this)
+	        onMouseDown: this.props.startDragging,
+	        onTouchStart: this.props.startDragging
 	      }, div({
 	        className: "frigb-background",
 	        style: {
@@ -1345,15 +1334,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }), div({
 	        className: "frigb-pointer",
 	        style: {
-	          left: this.getPercentageValue(x),
-	          bottom: this.getPercentageValue(y)
+	          left: this.props.getPercentageValue(x),
+	          bottom: this.props.getPercentageValue(y)
 	        }
 	      }));
 	    }
+	  }], [{
+	    key: "displayName",
+	    value: "ColorMap",
+	    enumerable: true
 	  }]);
 
 	  var _default2 = _default;
-	  _default = draggable(_default) || _default;
+	  _default = draggable({
+	    updateClientCoords: function updateClientCoords(_ref) {
+	      var clientX = _ref.clientX;
+	      var clientY = _ref.clientY;
+
+	      var rect = React.findDOMNode(this).getBoundingClientRect();
+	      var x = (clientX - rect.left) / rect.width;
+	      var y = (rect.bottom - clientY) / rect.height;
+	      var saturation = this.getScaledValue(x);
+	      var value = this.getScaledValue(y);
+	      var colr = Colr.fromHsv(this.props.hsv.h, saturation, value);
+
+	      this.props.colrLink.requestChange(colr);
+	    }
+	  })(_default) || _default;
 	  return _default;
 	})(React.Component);
 
@@ -1364,123 +1371,147 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
-	Object.defineProperty(exports, '__esModule', {
+	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(7);
 
-	exports['default'] = function (componentClass) {
+	exports["default"] = function (_ref) {
+	  var updateClientCoords = _ref.updateClientCoords;
 
-	  return (function (_React$Component) {
-	    _inherits(_class, _React$Component);
+	  return function (componentClass) {
 
-	    function _class() {
-	      _classCallCheck(this, _class);
+	    return (function (_React$Component) {
+	      _inherits(_class, _React$Component);
 
-	      _get(Object.getPrototypeOf(_class.prototype), 'constructor', this).apply(this, arguments);
+	      function _class() {
+	        var _this = this;
 
-	      this.state = { active: false };
-	    }
+	        _classCallCheck(this, _class);
 
-	    _createClass(_class, [{
-	      key: '_changeActive',
-	      value: function _changeActive(newActive) {
-	        this.setState({ active: newActive });
-	      }
-	    }, {
-	      key: 'render',
-	      value: function render() {
-	        Object.assign(componentClass.prototype, {
-	          componentDidMount: function componentDidMount() {
-	            document.addEventListener('mousemove', this.handleUpdate.bind(this));
-	            document.addEventListener('touchmove', this.handleUpdate.bind(this));
-	            document.addEventListener('mouseup', this.stopUpdates.bind(this));
-	            document.addEventListener('touchend', this.stopUpdates.bind(this));
-	          },
+	        _get(Object.getPrototypeOf(_class.prototype), "constructor", this).apply(this, arguments);
 
-	          componentWillUnmount: function componentWillUnmount() {
-	            document.removeEventListener('mousemove', this.handleUpdate.bind(this));
-	            document.removeEventListener('touchmove', this.handleUpdate.bind(this));
-	            document.removeEventListener('mouseup', this.stopUpdates.bind(this));
-	            document.removeEventListener('touchend', this.stopUpdates.bind(this));
-	          },
+	        this.state = {
+	          dragging: false
+	        };
 
-	          getPosition: function getPosition(e) {
-	            if (e.touches) e = e.touches[0];
-	            return { x: e.clientX, y: e.clientY };
-	          },
+	        this.getPercentageValue = function (value) {
+	          return value / _this.props.max * 100 + "%";
+	        };
 
-	          startUpdates: function startUpdates(e) {
-	            var coords = this.getPosition(e);
-	            this.props.activeLink.requestChange(true);
-	            this._updatePosition(coords.x, coords.y);
-	          },
+	        this.getScaledValue = function (value) {
+	          var min = 0;
+	          var max = 1;
+	          var clamp = value < min ? min : value > max ? max : value;
+	          return clamp * _this.props.max;
+	        };
 
-	          handleUpdate: function handleUpdate(e) {
-	            if (this.props.activeLink.value) {
-	              e.preventDefault();
-	              var coords = this.getPosition(e);
-	              this._updatePosition(coords.x, coords.y);
-	            }
-	          },
+	        this.startDragging = function (e) {
+	          _this.setState({
+	            dragging: true
+	          });
+	          _this._updateClientCoords(e);
+	        };
 
-	          stopUpdates: function stopUpdates() {
-	            if (this.props.activeLink.value) {
-	              this.props.activeLink.requestChange(false);
-	            }
-	          },
-
-	          getPercentageValue: function getPercentageValue(value) {
-	            return value / this.props.max * 100 + "%";
-	          },
-
-	          getScaledValue: function getScaledValue(value) {
-	            var min = 0;
-	            var max = 1;
-	            var clamp = value < min ? min : value > max ? max : value;
-	            return clamp * this.props.max;
+	        this._onMouseMove = function (e) {
+	          if (_this.state.dragging) {
+	            _this._updateClientCoords(e);
 	          }
-	        });
+	        };
 
-	        var childProps = Object.assign({}, this.props, {
-	          activeLink: {
-	            value: this.state.active,
-	            requestChange: this._changeActive.bind(this)
+	        this._onMouseUp = function (e) {
+	          if (_this.state.dragging) {
+	            _this.setState({
+	              dragging: false
+	            });
+	            _this._updateClientCoords(e);
 	          }
-	        });
-
-	        return React.createElement(componentClass, childProps);
+	        };
 	      }
-	    }], [{
-	      key: 'propTypes',
-	      value: {
-	        max: React.PropTypes.number
-	      },
-	      enumerable: true
-	    }, {
-	      key: 'defaultProps',
-	      value: {
-	        max: 1
-	      },
-	      enumerable: true
-	    }]);
 
-	    return _class;
-	  })(React.Component);
+	      _createClass(_class, [{
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	          document.addEventListener('mousemove', this._onMouseMove);
+	          document.addEventListener('touchmove', this._onMouseMove);
+	          document.addEventListener('mouseup', this._onMouseUp);
+	          document.addEventListener('touchend', this._onMouseUp);
+	        }
+	      }, {
+	        key: "componentWillUnmount",
+	        value: function componentWillUnmount() {
+	          document.removeEventListener('mousemove', this._onMouseMove);
+	          document.removeEventListener('touchmove', this._onMouseMove);
+	          document.removeEventListener('mouseup', this._onMouseUp);
+	          document.removeEventListener('touchend', this._onMouseUp);
+	        }
+	      }, {
+	        key: "_updateClientCoords",
+	        value: function _updateClientCoords(e) {
+	          e.preventDefault();
+
+	          var _ref2 = e.touches == null ? e : e.touches[0];
+
+	          var clientX = _ref2.clientX;
+	          var clientY = _ref2.clientY;
+
+	          updateClientCoords.bind(this)({ clientX: clientX, clientY: clientY });
+	        }
+	      }, {
+	        key: "_childProps",
+	        value: function _childProps() {
+	          var startDragging = this.startDragging;
+	          var getPercentageValue = this.getPercentageValue;
+	          var getScaledValue = this.getScaledValue;
+	          var active = this.active;
+
+	          return Object.assign({}, this.props, {
+	            active: active,
+	            startDragging: startDragging,
+	            getPercentageValue: getPercentageValue,
+	            getScaledValue: getScaledValue
+	          });
+	        }
+	      }, {
+	        key: "render",
+	        value: function render() {
+	          return React.createElement(componentClass, this._childProps());
+	        }
+	      }], [{
+	        key: "displayName",
+	        value: "Draggable",
+	        enumerable: true
+	      }, {
+	        key: "propTypes",
+	        value: {
+	          max: React.PropTypes.number
+	        },
+	        enumerable: true
+	      }, {
+	        key: "defaultProps",
+	        value: {
+	          max: 1
+	        },
+	        enumerable: true
+	      }]);
+
+	      return _class;
+	    })(React.Component);
+	  };
 	};
 
-	module.exports = exports['default'];
+	module.exports = exports["default"];
 
 /***/ },
 /* 17 */
@@ -1515,38 +1546,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(_default, [{
-	    key: '_updatePosition',
-	    value: function _updatePosition(clientX, clientY) {
-	      var rect = React.findDOMNode(this).getBoundingClientRect();
-	      var hue = this.getScaledValue((rect.bottom - clientY) / rect.height);
-	      var colr = Colr.fromHsv(hue, this.props.hsv.s, this.props.hsv.v);
-
-	      this.props.colrLink.requestChange(colr);
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return div({
 	        className: "frigb-slider frigb-vertical",
-	        onMouseDown: this.startUpdates.bind(this),
-	        onTouchStart: this.startUpdates.bind(this)
+	        onMouseDown: this.props.startDragging,
+	        onTouchStart: this.props.startDragging
 	      }, div({
 	        className: "frigb-track"
 	      }), div({
 	        className: "frigb-pointer",
 	        style: {
-	          "bottom": this.getPercentageValue(this.props.hsv.h)
+	          "bottom": this.props.getPercentageValue(this.props.hsv.h)
 	        }
 	      }));
 	    }
 	  }], [{
+	    key: 'displayName',
+	    value: "HueSlider",
+	    enumerable: true
+	  }, {
 	    key: 'defaultProps',
 	    value: Object.assign(__webpack_require__(11)),
 	    enumerable: true
 	  }]);
 
 	  var _default2 = _default;
-	  _default = draggable(_default) || _default;
+	  _default = draggable({
+	    updateClientCoords: function updateClientCoords(_ref) {
+	      var clientX = _ref.clientX;
+	      var clientY = _ref.clientY;
+
+	      var rect = React.findDOMNode(this).getBoundingClientRect();
+	      var hue = this.getScaledValue((rect.bottom - clientY) / rect.height);
+	      var colr = Colr.fromHsv(hue, this.props.hsv.s, this.props.hsv.v);
+
+	      this.props.colrLink.requestChange(colr);
+	    }
+	  })(_default) || _default;
 	  return _default;
 	})(React.Component);
 
@@ -1638,7 +1675,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
 	var img = _React$DOM.img;
-	var span = _React$DOM.span;
 
 	var cx = __webpack_require__(9);
 
@@ -1827,8 +1863,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
-	var span = _React$DOM.span;
-	var p = _React$DOM.p;
 
 	var _require3 = __webpack_require__(8);
 
@@ -1851,7 +1885,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: "_inputHtml",
 	    value: function _inputHtml() {
 	      return Object.assign({}, this.props.inputHtml, {
-	        className: ((this.props.inputHtml.className || "") + " form-control").trim(),
+	        className: cx(this.props.className, "form-control"),
 	        valueLink: this.props.valueLink
 	      });
 	    }
@@ -2139,7 +2173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _switchCx() {
 	      var _cx;
 
-	      return cx("bootstrap-switch", "bootstrap-switch-wrapper", "bootstrap-switch-on", "bootstrap-switch-id-switch-state", "bootstrap-switch-animate", (_cx = {}, _defineProperty(_cx, "bootstrap-switch-" + this.props.bsSize, this.props.bsSize != null), _defineProperty(_cx, "bootstrap-switch-disabled", this.props.disabled), _defineProperty(_cx, "pull-right", this.props.align == "right"), _cx));
+	      return cx("bootstrap-switch", "bootstrap-switch-wrapper", "bootstrap-switch-on", "bootstrap-switch-id-switch-state", "bootstrap-switch-animate", (_cx = {}, _defineProperty(_cx, "bootstrap-switch-" + this.props.bsSize, this.props.bsSize != null), _defineProperty(_cx, "bootstrap-switch-disabled", this.props.disabled), _defineProperty(_cx, "pull-right", this.props.align === "right"), _cx));
 	    }
 	  }, {
 	    key: "_switchStyle",
@@ -2178,8 +2212,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      var handleWidth = this.props.handleWidth;
-
 	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), div({ className: inputContainerCx(this.props) }, savedNotification({ parentProps: this.props }), div({ className: this._switchCx(), style: this._switchStyle() }, this._input()), errorList(this.props.errors))));
 	    }
 	  }], [{
@@ -2237,7 +2269,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var textarea = _React$DOM.textarea;
-	var span = _React$DOM.span;
 
 	var cx = __webpack_require__(9);
 
@@ -2257,7 +2288,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: function _inputHtml() {
 	      return Object.assign({}, this.props.inputHtml, {
 	        className: cx(this.props.className, "form-control"),
-	        valueLink: this.props.valueLink,
+	        valueLink: {
+	          value: this.props.valueLink.value || ""
+	        },
 	        rows: this.props.rows
 	      });
 	    }
@@ -2316,7 +2349,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
-	var span = _React$DOM.span;
 
 	var _default = (function (_React$Component) {
 	  _inherits(_default, _React$Component);
@@ -2337,9 +2369,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_input",
 	    value: function _input() {
+	      var _this = this;
+
 	      return input(Object.assign({}, this.props.inputHtml, {
 	        valueLink: this.props.valueLink,
-	        className: this._inputCx()
+	        className: this._inputCx(),
+	        onFocus: function onFocus() {
+	          if (_this.props.valueLink.value == null) {
+	            return _this.props.valueLink.requestChange("12:00pm");
+	          }
+	        }
 	      }));
 	    }
 	  }, {
@@ -2628,10 +2667,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	__webpack_require__(29);
 	var React = __webpack_require__(7);
 	var cx = __webpack_require__(9);
-	var fuzzy = __webpack_require__(30);
+	var fuzzy = __webpack_require__(29);
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var a = _React$DOM.a;
@@ -2797,6 +2835,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_selections",
 	    value: function _selections() {
+	      var _this = this;
+
 	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
 
 	      var values = nextProps.valueLink.value;
@@ -2805,9 +2845,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var options = this._options(nextProps);
 	      return values.map(function (value) {
 	        var hash = JSON.stringify(value);
-	        return options.find(function (o) {
+	        var option = options.find(function (o) {
 	          return o.hash == hash;
 	        });
+	        if (option == null) throw "Typeahead selection (" + value + ") for " + _this.props.name + " not included " + "in the typeahead options";
+	        return option;
 	      });
 	    }
 	  }, {
@@ -2835,7 +2877,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_selectionsList",
 	    value: function _selectionsList() {
-	      var _this = this;
+	      var _this2 = this;
 
 	      if (!this.props.multiple || !this.props.displaySelections) return "";
 	      var className = "label label-primary frigb-ta-selection";
@@ -2844,7 +2886,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return this._selections().map(function (o) {
 	        return div({ className: className, key: "selection-" + index++ }, o.label, " ", i({
 	          className: "fa fa-times",
-	          onClick: _this._deselect.bind(_this, o),
+	          onClick: _this2._deselect.bind(_this2, o),
 	          title: "Remove from list"
 	        }));
 	      });
@@ -2867,34 +2909,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_suggestionsList",
 	    value: function _suggestionsList() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var suggestions = this._suggestions();
 	      var wrapperCx = cx("dropdown", {
 	        open: suggestions.length > 0 && this.state.focused
 	      });
 	      return div({ className: wrapperCx }, ul({ className: "dropdown-menu frigb-ta-suggestions col-xs-12" }, suggestions.map(function (o) {
-	        return li({ key: "option-" + o.hash }, a({ href: "#", onClick: _this2._select.bind(_this2, o) }, o.label));
+	        return li({ key: "option-" + o.hash }, a({ href: "#", onClick: _this3._select.bind(_this3, o) }, o.label));
 	      })));
 	    }
 	  }, {
 	    key: "_inputWrapper",
 	    value: function _inputWrapper(inputHtml) {
-	      var _this3 = this;
+	      var _this4 = this;
 
 	      var className = inputHtml.className;
 	      inputHtml = Object.assign({}, inputHtml, {
 	        className: "frigb-ta-input",
 	        ref: function ref(component) {
-	          return _this3._inputComponent = component;
+	          return _this4._inputComponent = component;
 	        },
 	        onFocus: function onFocus() {
-	          return _this3.setState({ focused: true });
+	          return _this4.setState({ focused: true });
 	        }
 	      });
 	      inputHtml.onKeyDown = this._onKeyDown.bind(this);
 	      return div({ className: "frigb-ta", ref: function ref(c) {
-	          return _this3._wrapperComponent = c;
+	          return _this4._wrapperComponent = c;
 	        } }, div({ className: className, onClick: this._focusInput.bind(this) }, this._selectionsList(), input(inputHtml)), savedNotification({ parentProps: this.props }), this._suggestionsList(), errorList(this.state.errors));
 	    }
 	  }, {
@@ -2905,7 +2947,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      var _this4 = this;
+	      var _this5 = this;
 
 	      var inputPropOverrides = {
 	        component: BootstrapInput,
@@ -2913,7 +2955,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        valueLink: {
 	          value: this._inputValue(),
 	          requestChange: function requestChange(inputValue) {
-	            return _this4.setState({ inputValue: inputValue });
+	            return _this5.setState({ inputValue: inputValue });
 	          }
 	        },
 	        validate: false,
@@ -2941,341 +2983,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 29 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	(function () {
-	  'use strict';
-
-	  if (self.fetch) {
-	    return;
-	  }
-
-	  function normalizeName(name) {
-	    if (typeof name !== 'string') {
-	      name = name.toString();
-	    }
-	    if (/[^a-z0-9\-#$%&'*+.\^_`|~]/i.test(name)) {
-	      throw new TypeError('Invalid character in header field name');
-	    }
-	    return name.toLowerCase();
-	  }
-
-	  function normalizeValue(value) {
-	    if (typeof value !== 'string') {
-	      value = value.toString();
-	    }
-	    return value;
-	  }
-
-	  function Headers(headers) {
-	    this.map = {};
-
-	    if (headers instanceof Headers) {
-	      headers.forEach(function (value, name) {
-	        this.append(name, value);
-	      }, this);
-	    } else if (headers) {
-	      Object.getOwnPropertyNames(headers).forEach(function (name) {
-	        this.append(name, headers[name]);
-	      }, this);
-	    }
-	  }
-
-	  Headers.prototype.append = function (name, value) {
-	    name = normalizeName(name);
-	    value = normalizeValue(value);
-	    var list = this.map[name];
-	    if (!list) {
-	      list = [];
-	      this.map[name] = list;
-	    }
-	    list.push(value);
-	  };
-
-	  Headers.prototype['delete'] = function (name) {
-	    delete this.map[normalizeName(name)];
-	  };
-
-	  Headers.prototype.get = function (name) {
-	    var values = this.map[normalizeName(name)];
-	    return values ? values[0] : null;
-	  };
-
-	  Headers.prototype.getAll = function (name) {
-	    return this.map[normalizeName(name)] || [];
-	  };
-
-	  Headers.prototype.has = function (name) {
-	    return this.map.hasOwnProperty(normalizeName(name));
-	  };
-
-	  Headers.prototype.set = function (name, value) {
-	    this.map[normalizeName(name)] = [normalizeValue(value)];
-	  };
-
-	  Headers.prototype.forEach = function (callback, thisArg) {
-	    Object.getOwnPropertyNames(this.map).forEach(function (name) {
-	      this.map[name].forEach(function (value) {
-	        callback.call(thisArg, value, name, this);
-	      }, this);
-	    }, this);
-	  };
-
-	  function consumed(body) {
-	    if (body.bodyUsed) {
-	      return Promise.reject(new TypeError('Already read'));
-	    }
-	    body.bodyUsed = true;
-	  }
-
-	  function fileReaderReady(reader) {
-	    return new Promise(function (resolve, reject) {
-	      reader.onload = function () {
-	        resolve(reader.result);
-	      };
-	      reader.onerror = function () {
-	        reject(reader.error);
-	      };
-	    });
-	  }
-
-	  function readBlobAsArrayBuffer(blob) {
-	    var reader = new FileReader();
-	    reader.readAsArrayBuffer(blob);
-	    return fileReaderReady(reader);
-	  }
-
-	  function readBlobAsText(blob) {
-	    var reader = new FileReader();
-	    reader.readAsText(blob);
-	    return fileReaderReady(reader);
-	  }
-
-	  var support = {
-	    blob: 'FileReader' in self && 'Blob' in self && (function () {
-	      try {
-	        new Blob();
-	        return true;
-	      } catch (e) {
-	        return false;
-	      }
-	    })(),
-	    formData: 'FormData' in self
-	  };
-
-	  function Body() {
-	    this.bodyUsed = false;
-
-	    this._initBody = function (body) {
-	      this._bodyInit = body;
-	      if (typeof body === 'string') {
-	        this._bodyText = body;
-	      } else if (support.blob && Blob.prototype.isPrototypeOf(body)) {
-	        this._bodyBlob = body;
-	      } else if (support.formData && FormData.prototype.isPrototypeOf(body)) {
-	        this._bodyFormData = body;
-	      } else if (!body) {
-	        this._bodyText = '';
-	      } else {
-	        throw new Error('unsupported BodyInit type');
-	      }
-	    };
-
-	    if (support.blob) {
-	      this.blob = function () {
-	        var rejected = consumed(this);
-	        if (rejected) {
-	          return rejected;
-	        }
-
-	        if (this._bodyBlob) {
-	          return Promise.resolve(this._bodyBlob);
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as blob');
-	        } else {
-	          return Promise.resolve(new Blob([this._bodyText]));
-	        }
-	      };
-
-	      this.arrayBuffer = function () {
-	        return this.blob().then(readBlobAsArrayBuffer);
-	      };
-
-	      this.text = function () {
-	        var rejected = consumed(this);
-	        if (rejected) {
-	          return rejected;
-	        }
-
-	        if (this._bodyBlob) {
-	          return readBlobAsText(this._bodyBlob);
-	        } else if (this._bodyFormData) {
-	          throw new Error('could not read FormData body as text');
-	        } else {
-	          return Promise.resolve(this._bodyText);
-	        }
-	      };
-	    } else {
-	      this.text = function () {
-	        var rejected = consumed(this);
-	        return rejected ? rejected : Promise.resolve(this._bodyText);
-	      };
-	    }
-
-	    if (support.formData) {
-	      this.formData = function () {
-	        return this.text().then(decode);
-	      };
-	    }
-
-	    this.json = function () {
-	      return this.text().then(JSON.parse);
-	    };
-
-	    return this;
-	  }
-
-	  // HTTP methods whose capitalization should be normalized
-	  var methods = ['DELETE', 'GET', 'HEAD', 'OPTIONS', 'POST', 'PUT'];
-
-	  function normalizeMethod(method) {
-	    var upcased = method.toUpperCase();
-	    return methods.indexOf(upcased) > -1 ? upcased : method;
-	  }
-
-	  function Request(url, options) {
-	    options = options || {};
-	    this.url = url;
-
-	    this.credentials = options.credentials || 'omit';
-	    this.headers = new Headers(options.headers);
-	    this.method = normalizeMethod(options.method || 'GET');
-	    this.mode = options.mode || null;
-	    this.referrer = null;
-
-	    if ((this.method === 'GET' || this.method === 'HEAD') && options.body) {
-	      throw new TypeError('Body not allowed for GET or HEAD requests');
-	    }
-	    this._initBody(options.body);
-	  }
-
-	  function decode(body) {
-	    var form = new FormData();
-	    body.trim().split('&').forEach(function (bytes) {
-	      if (bytes) {
-	        var split = bytes.split('=');
-	        var name = split.shift().replace(/\+/g, ' ');
-	        var value = split.join('=').replace(/\+/g, ' ');
-	        form.append(decodeURIComponent(name), decodeURIComponent(value));
-	      }
-	    });
-	    return form;
-	  }
-
-	  function headers(xhr) {
-	    var head = new Headers();
-	    var pairs = xhr.getAllResponseHeaders().trim().split('\n');
-	    pairs.forEach(function (header) {
-	      var split = header.trim().split(':');
-	      var key = split.shift().trim();
-	      var value = split.join(':').trim();
-	      head.append(key, value);
-	    });
-	    return head;
-	  }
-
-	  Body.call(Request.prototype);
-
-	  function Response(bodyInit, options) {
-	    if (!options) {
-	      options = {};
-	    }
-
-	    this._initBody(bodyInit);
-	    this.type = 'default';
-	    this.url = null;
-	    this.status = options.status;
-	    this.ok = this.status >= 200 && this.status < 300;
-	    this.statusText = options.statusText;
-	    this.headers = options.headers instanceof Headers ? options.headers : new Headers(options.headers);
-	    this.url = options.url || '';
-	  }
-
-	  Body.call(Response.prototype);
-
-	  self.Headers = Headers;
-	  self.Request = Request;
-	  self.Response = Response;
-
-	  self.fetch = function (input, init) {
-	    // TODO: Request constructor should accept input, init
-	    var request;
-	    if (Request.prototype.isPrototypeOf(input) && !init) {
-	      request = input;
-	    } else {
-	      request = new Request(input, init);
-	    }
-
-	    return new Promise(function (resolve, reject) {
-	      var xhr = new XMLHttpRequest();
-
-	      function responseURL() {
-	        if ('responseURL' in xhr) {
-	          return xhr.responseURL;
-	        }
-
-	        // Avoid security warnings on getResponseHeader when not allowed by CORS
-	        if (/^X-Request-URL:/m.test(xhr.getAllResponseHeaders())) {
-	          return xhr.getResponseHeader('X-Request-URL');
-	        }
-
-	        return;
-	      }
-
-	      xhr.onload = function () {
-	        var status = xhr.status === 1223 ? 204 : xhr.status;
-	        if (status < 100 || status > 599) {
-	          reject(new TypeError('Network request failed'));
-	          return;
-	        }
-	        var options = {
-	          status: status,
-	          statusText: xhr.statusText,
-	          headers: headers(xhr),
-	          url: responseURL()
-	        };
-	        var body = 'response' in xhr ? xhr.response : xhr.responseText;
-	        resolve(new Response(body, options));
-	      };
-
-	      xhr.onerror = function () {
-	        reject(new TypeError('Network request failed'));
-	      };
-
-	      xhr.open(request.method, request.url, true);
-
-	      if (request.credentials === 'include') {
-	        xhr.withCredentials = true;
-	      }
-
-	      if ('responseType' in xhr && support.blob) {
-	        xhr.responseType = 'blob';
-	      }
-
-	      request.headers.forEach(function (value, name) {
-	        xhr.setRequestHeader(name, value);
-	      });
-
-	      xhr.send(typeof request._bodyInit === 'undefined' ? null : request._bodyInit);
-	    });
-	  };
-	  self.fetch.polyfill = true;
-	})();
-
-/***/ },
-/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -3339,7 +3046,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    pattern = opts.caseSensitive && pattern || pattern.toLowerCase();
 
 	    // For each character in the string, either add it to the result
-	    // or wrap in template if its the next string in the pattern
+	    // or wrap in template if it's the next string in the pattern
 	    for (var idx = 0; idx < len; idx++) {
 	      ch = string[idx];
 	      if (compareString[idx] === pattern[patternIdx]) {
@@ -3381,8 +3088,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  //        // string to put after matching character
 	  //      , post:    '</b>'
 	  //
-	  //        // Optional function. Input is an element from the passed in
-	  //        // `arr`, output should be the string to test `pattern` against.
+	  //        // Optional function. Input is an entry in the given arr`,
+	  //        // output should be the string to test `pattern` against.
 	  //        // In this example, if `arr = [{crying: 'koala'}]` we would return
 	  //        // 'koala'.
 	  //      , extract: function(arg) { return arg.crying; }

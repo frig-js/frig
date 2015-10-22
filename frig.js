@@ -154,6 +154,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }).length !== 0;
 	    }
 	  }, {
+	    key: "modifiedFields",
+	    value: function modifiedFields() {
+	      return this._childComponents().filter(function (c) {
+	        return c.isModified();
+	      }).map(function (c) {
+	        return c.modifiedFields == null ? c.isModified() : c.modifiedFields();
+	      });
+	    }
+	  }, {
 	    key: "resetModified",
 	    value: function resetModified() {
 	      var _iteratorNormalCompletion = true;
@@ -439,7 +448,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          value: this._data()[name] || {},
 	          requestChange: this._onChildRequestChange.bind(this, [name])
 	        },
-	        internalErrors: this.props.errors[name]
+	        internalErrors: this.props.errors[name],
+	        saved: this.props.saved[name]
 	      };
 	    }
 
@@ -515,7 +525,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        },
 	        onComponentMount: this.childComponentWillMount.bind(this, [name]),
 	        onComponentUnmount: this.childComponentWillUnmount.bind(this, [name]),
-	        internalErrors: this.props.errors[name]
+	        internalErrors: this.props.errors[name],
+	        saved: this.props.saved[name]
 	      };
 	    }
 	  }, {
@@ -541,6 +552,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    value: {
 	      data: React.PropTypes.object.isRequired,
 	      errors: React.PropTypes.object.isRequired,
+	      saved: React.PropTypes.object.isRequired,
 	      form: React.PropTypes.func.isRequired,
 	      theme: React.PropTypes.object.isRequired,
 	      typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
@@ -554,6 +566,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: "defaultProps",
 	    value: {
 	      errors: [],
+	      saved: {},
 	      theme: undefined,
 	      typeMapping: {},
 	      layout: "vertical",
@@ -1644,6 +1657,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  }, {
+	    key: "modifiedFields",
+	    value: function modifiedFields() {
+	      return this._forms().filter(function (form) {
+	        return form.isModified();
+	      });
+	    }
+	  }, {
 	    key: "resetModified",
 	    value: function resetModified() {
 	      this._forms().forEach(function (form) {
@@ -1667,9 +1687,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  }, {
-	    key: "_errorsForKey",
-	    value: function _errorsForKey(errors, key) {
-	      return Array.isArray(errors) ? errors[key] : errors;
+	    key: "_listForKey",
+	    value: function _listForKey(list, key) {
+	      return Array.isArray(list) ? list[key] : list;
 	    }
 	  }, {
 	    key: "_formProps",
@@ -1686,8 +1706,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return _this2.props.form(f, key);
 	        },
 	        nestedForm: true,
-	        errors: this._errorsForKey(this.props.errors, key),
-	        internalErrors: this._errorsForKey(this.props.internalErrors, key),
+	        errors: this._listForKey(this.props.errors, key),
+	        saved: this._listForKey(this.props.saved, key),
+	        internalErrors: this._listForKey(this.props.internalErrors, key),
 	        data: {
 	          value: data,
 	          requestChange: this._onFormRequestChange.bind(this, key)
@@ -1754,7 +1775,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      data: React.PropTypes.object.isRequired,
 	      theme: React.PropTypes.object.isRequired,
 	      typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
-	      errors: React.PropTypes.object
+	      errors: React.PropTypes.object,
+	      saved: React.PropTypes.object
 	    },
 	    enumerable: true
 	  }]);
