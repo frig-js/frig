@@ -53,7 +53,16 @@ export default class FrigForm extends React.Component {
   }
 
   modifiedFields() {
-    return this._childComponents().filter((c) => c.isModified())
+    let modifiedFields = this._childComponents().filter((c) => c.isModified())
+
+    return modifiedFields.map((modifiedField) => {
+      if (modifiedField.props.data === undefined) {
+        return modifiedField
+      } else {
+        // return any fields that are modified in nested fields
+        return modifiedField.modifiedFields()
+      }
+    })
   }
 
   resetModified() {
@@ -133,7 +142,7 @@ export default class FrigForm extends React.Component {
     let {requestChange} = data
     let dataLink = {
       value: (requestChange ? data.value : data) || {},
-      requestChange: requestChange || ((data) => this._updateDataLink({data}))
+      requestChange: requestChange || ((data) => this._updateDataLink({data})),
     }
     this.setState({dataLink})
   }
