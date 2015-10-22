@@ -54,6 +54,12 @@ export default class FrigForm extends React.Component {
     return this._childComponents().filter((c) => c.isModified()).length !== 0
   }
 
+  modifiedFields() {
+    return this._childComponents()
+      .filter((c) => c.isModified())
+      .map((c) => (c.modifiedFields == null) ? c.isModified() : c.modifiedFields())
+  }
+
   resetModified() {
     for (let c of this._childComponents()) c.resetModified()
   }
