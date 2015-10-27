@@ -88,41 +88,41 @@ describe("Form", function(){
   describe("#modifiedValues", function() {
     describe("when no fields are modified", function() {
       it("should returns empty object", function() {
-        assert.deepEqual(this.form.modifiedValues(), [])
+        assert.deepEqual(this.form.modifiedValues(), {})
       })
     })
 
     describe("when only non-nested fields are modified fields", function() {
       beforeEach(function () {
         this.form.childComponentWillMount("a", {
-          isModified: () => true,
           props: {
             name: "a",
-            value: "test",
           },
+          isModified: () => true,
+          modifiedValue: () => "test",
         })
         this.form.childComponentWillMount("b", {isModified: () => false})
       })
 
-      it("returns an object", function() {
-        assert.deepEqual(this.form.modifiedValues(), [
-          { name: "a", value: "test" },
-        ])
+      it("should return an object", function() {
+        assert.deepEqual(this.form.modifiedValues(), {
+          a: "test",
+        })
       })
 
-      it("returns two objects", function() {
+      it("should return two objects", function() {
         this.form.childComponentWillMount("c", {
-          isModified: () => true,
           props: {
             name: "c",
-            value: "anything",
           },
+          isModified: () => true,
+          modifiedValue: () => ({d: 4, e: 3}),
         })
 
-        assert.deepEqual(this.form.modifiedValues(), [
-          { name: "a", value: "test" },
-          { name: "c", value: "anything" },
-        ])
+        assert.deepEqual(this.form.modifiedValues(), {
+          a: "test",
+          c: {d: 4, e: 3},
+        })
       })
     })
   })

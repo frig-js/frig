@@ -63,6 +63,11 @@ export default class FrigForm extends React.Component {
         d[componentName] = c.modifiedValue()
         return d
       })
+      .reduce((preValue, value) => {
+        let key = Object.keys(value)[0]
+        preValue[key] = value[key]
+        return preValue
+      }, {})
   }
 
   resetModified() {
