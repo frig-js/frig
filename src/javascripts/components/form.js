@@ -60,7 +60,7 @@ export default class FrigForm extends React.Component {
       .map((c) => {
         let componentName = c.props.name
         let d = {}
-        d[componentName] = c.modifiedValue()
+        d[componentName] = (c.modifiedValues == null) ? c.modifiedValue() : c.modifiedValues()
         return d
       })
       .reduce((preValue, value) => {
