@@ -136,12 +136,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
-	var savedText = _require.savedText;
+	var saveList = _require.saveList;
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var label = _React$DOM.label;
 	var input = _React$DOM.input;
-	var span = _React$DOM.span;
 
 	var cx = __webpack_require__(9);
 	var booleanHOC = __webpack_require__(10).HigherOrderComponents.Boolean;
@@ -169,7 +168,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return div({ className: "form-group" }, div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props.labelHtml, input(this._inputHtml()), this.props.label ? " " + this.props.label : ""), savedText({ saved: this.props.saved, className: "frigb-checkbox" }), errorList(this.props.errors))));
+	      return div({ className: "form-group" }, div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props.labelHtml, input(this._inputHtml()), this.props.label ? " " + this.props.label : ""), saveList(this.props.saved), errorList(this.props.errors))));
 	    }
 	  }], [{
 	    key: "defaultProps",
@@ -234,29 +233,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    var labelHtml = Object.assign({}, props, overrides);
 	    labelHtml.className = cx(labelHtml.className, _defineProperty({}, horizontalClasses, props.layout === "horizontal"));
-	    return div({}, _label(labelHtml, props.label), savedText({ saved: props.saved && props.layout === "vertical" }));
+
+	    return div({}, _label(labelHtml, props.label));
 	  },
 
-	  savedText: function savedText(_ref) {
+	  saveList: function saveList(isSave) {
+	    return module.exports.save({
+	      saved: isSave
+	    });
+	  },
+
+	  save: function save(_ref) {
 	    var saved = _ref.saved;
 	    var className = _ref.className;
 
 	    className = className || "frigb-saved pull-right";
 	    if (!saved) return "";
 	    return span({ className: className, key: "saved" }, "saved");
-	  },
-
-	  savedNotification: function savedNotification(_ref2) {
-	    var layout = _ref2.layout;
-	    var label = _ref2.label;
-	    var saved = _ref2.saved;
-	    var className = _ref2.className;
-
-	    className = className || "frigb-saved-inline";
-	    var savedInline = savedText({ saved: saved, className: className });
-
-	    if (label === false && saved) return savedInline;
-	    if (label && saved && layout === "horizontal") return savedInline;
 	  },
 
 	  inputContainerCx: function inputContainerCx(props) {
@@ -352,9 +345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	};
 
-	var _module$exports = module.exports;
-	var savedText = _module$exports.savedText;
-	var sizeClassNames = _module$exports.sizeClassNames;
+	var sizeClassNames = module.exports.sizeClassNames;
 
 /***/ },
 /* 9 */
@@ -467,14 +458,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _require = __webpack_require__(8);
 
+	var saveList = _require.saveList;
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
 	var label = _require.label;
-
-	var _require2 = __webpack_require__(8);
-
-	var savedNotification = _require2.savedNotification;
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
@@ -572,14 +560,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        valueLink: this.props.valueLink,
 	        ref: "frigColorInput",
 	        className: cx(this.props.inputHtml.className, "frigb-color-input", "form-control")
-	      })), div({
+	      })), saveList(this.props.saved), div({
 	        className: "frigb-color-block",
 	        style: { backgroundColor: this.state.colr.toHex() },
 	        onClick: this._onColorBlockClick.bind(this)
-	      }), this._colorPopup(), savedNotification({
-	        parentProps: this.props,
-	        className: "frigb-saved-inline frigb-colorpicker-inline"
-	      }), errorList(this.props.errors)));
+	      }), this._colorPopup(), errorList(this.props.errors)));
 	    }
 	  }], [{
 	    key: "displayName",
@@ -1666,11 +1651,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _require = __webpack_require__(8);
 
+	var saveList = _require.saveList;
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
 	var label = _require.label;
-	var savedNotification = _require.savedNotification;
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
@@ -1756,7 +1741,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), div({ className: "controls" }, div({ className: "image-upload" }, this._image(), this._inputGroup(), savedNotification({ parentProps: this.props }))), errorList(this.props.errors)));
+	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), div({ className: "controls" }, div({ className: "image-upload" }, this._image(), this._inputGroup(), saveList(this.props.saved))), errorList(this.props.errors)));
 	    }
 	  }], [{
 	    key: "defaultProps",
@@ -1852,21 +1837,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _require = __webpack_require__(8);
 
+	var saveList = _require.saveList;
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
 	var label = _require.label;
-
-	var _require2 = __webpack_require__(8);
-
-	var savedNotification = _require2.savedNotification;
+	var inputContainerCx = _require.inputContainerCx;
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
-
-	var _require3 = __webpack_require__(8);
-
-	var inputContainerCx = _require3.inputContainerCx;
 
 	var cx = __webpack_require__(9);
 
@@ -1909,16 +1888,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "_inputGroup",
 	    value: function _inputGroup() {
+	      var inputLabel = label(this.props);
+	      var saved = saveList(this.props.saved);
+
 	      if (this.props.prefix || this.props.suffix) {
-	        return div({ className: "input-group" }, this._inputPrefix(), this._input(), savedNotification({ parentProps: this.props }), this._inputSuffix());
+	        return (inputLabel, div({ className: "input-group" }, this._inputPrefix(), this._input(), saved, this._inputSuffix()));
 	      } else {
-	        return div({}, this._input(), savedNotification({ parentProps: this.props }));
+	        return div({}, inputLabel, this._input(), saved);
 	      }
 	    }
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), div({ className: inputContainerCx(this.props) }, this._inputGroup(), errorList(this.props.errors))));
+	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, div({ className: inputContainerCx(this.props) }, this._inputGroup(), errorList(this.props.errors))));
 	    }
 	  }], [{
 	    key: "defaultProps",
@@ -1960,14 +1942,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _require = __webpack_require__(8);
 
+	var saveList = _require.saveList;
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
 	var label = _require.label;
-
-	var _require2 = __webpack_require__(8);
-
-	var savedNotification = _require2.savedNotification;
 	var div = React.DOM.div;
 
 	var select = React.createFactory(__webpack_require__(10).ValueLinkedSelect);
@@ -1996,7 +1975,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props, { className: "" }), div({ className: "controls" }, select(this._inputHtml()), savedNotification({ parentProps: this.props }), errorList(this.props.errors))));
+	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props, { className: "" }), div({ className: "controls" }, select(this._inputHtml()), errorList(this.props.errors)), saveList(this.props.saved)));
 	    }
 	  }], [{
 	    key: "defaultProps",
@@ -2130,18 +2109,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _require = __webpack_require__(8);
 
+	var saveList = _require.saveList;
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
 	var label = _require.label;
-
-	var _require2 = __webpack_require__(8);
-
-	var savedNotification = _require2.savedNotification;
-
-	var _require3 = __webpack_require__(8);
-
-	var inputContainerCx = _require3.inputContainerCx;
+	var inputContainerCx = _require.inputContainerCx;
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var span = _React$DOM.span;
@@ -2212,7 +2185,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), div({ className: inputContainerCx(this.props) }, savedNotification({ parentProps: this.props }), div({ className: this._switchCx(), style: this._switchStyle() }, this._input()), errorList(this.props.errors))));
+	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), saveList(this.props.saved), div({ className: inputContainerCx(this.props) }, div({ className: this._switchCx(), style: this._switchStyle() }, this._input()), errorList(this.props.errors))));
 	    }
 	  }], [{
 	    key: "defaultProps",
@@ -2258,14 +2231,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _require = __webpack_require__(8);
 
+	var saveList = _require.saveList;
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
 	var label = _require.label;
-
-	var _require2 = __webpack_require__(8);
-
-	var savedNotification = _require2.savedNotification;
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var textarea = _React$DOM.textarea;
@@ -2289,7 +2259,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return Object.assign({}, this.props.inputHtml, {
 	        className: cx(this.props.className, "form-control"),
 	        valueLink: {
-	          value: this.props.valueLink.value || ""
+	          value: this.props.valueLink.value || "",
+	          requestChange: this.props.valueLink.requestChange
 	        },
 	        rows: this.props.rows
 	      });
@@ -2297,7 +2268,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), div({ className: "controls" }, textarea(this._inputHtml())), savedNotification({ parentProps: this.props }), errorList(this.props.errors)));
+	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, label(this.props), div({ className: "controls" }, textarea(this._inputHtml())), saveList(this.props.saved), errorList(this.props.errors)));
 	    }
 	  }], [{
 	    key: "defaultProps",
@@ -2338,14 +2309,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _require = __webpack_require__(8);
 
+	var saveList = _require.saveList;
 	var errorList = _require.errorList;
 	var sizeClassNames = _require.sizeClassNames;
 	var formGroupCx = _require.formGroupCx;
 	var label = _require.label;
-
-	var _require2 = __webpack_require__(8);
-
-	var savedNotification = _require2.savedNotification;
 	var _React$DOM = React.DOM;
 	var div = _React$DOM.div;
 	var input = _React$DOM.input;
@@ -2393,7 +2361,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: "render",
 	    value: function render() {
-	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, div({}, label(this.props)), this._input(), savedNotification({ parentProps: this.props }), errorList(this.props.errors)), this._timePopup());
+	      return div({ className: cx(sizeClassNames(this.props)) }, div({ className: formGroupCx(this.props) }, div({}, label(this.props)), this._input(), saveList(this.props.saved), errorList(this.props.errors)), this._timePopup());
 	    }
 	  }], [{
 	    key: "defaultProps",
@@ -2677,7 +2645,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var i = _React$DOM.i;
 	var ul = _React$DOM.ul;
 	var li = _React$DOM.li;
-	var span = _React$DOM.span;
 
 	var BootstrapInput = __webpack_require__(21);
 	var FrigInput = React.createFactory(__webpack_require__(10).Input);
@@ -2685,9 +2652,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _require = __webpack_require__(8);
 
 	var errorList = _require.errorList;
-	var savedNotification = _require.savedNotification;
-
-	var promisedTimeout = __webpack_require__(10).util.promisedTimeout;
+	var saveList = _require.saveList;
 
 	var _default = (function (_React$Component) {
 	  _inherits(_default, _React$Component);
@@ -2737,7 +2702,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (nextProps.valueLink.value === (prevProps.valueLink || {}).value) return;
 	      var selections = this._selections(nextProps);
-	      if (this.props.multiple || selections.length != 1) return;
+	      if (this.props.multiple || selections.length !== 1) return;
 	      var value = selections[0].label;
 	      if (value !== this.state.inputValue) this.setState({ inputValue: value });
 	    }
@@ -2799,14 +2764,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return o.hash !== option.hash;
 	      };
 	      var persistedOptions = this.state.persistedOptions.filter(filter);
+	      var requestChange = this.props.valueLink.requestChange;
 	      this.setState({ persistedOptions: persistedOptions });
 	      if (this.props.multiple) {
 	        var value = this.props.valueLink.value.filter(function (val) {
 	          return JSON.stringify(val) !== option.hash;
 	        });
-	        this.props.valueLink.requestChange(value);
+	        requestChange(value);
 	      } else {
-	        this.props.valueLink.requestChange(undefined);
+	        requestChange(undefined);
 	      }
 	    }
 	  }, {
@@ -2846,9 +2812,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return values.map(function (value) {
 	        var hash = JSON.stringify(value);
 	        var option = options.find(function (o) {
-	          return o.hash == hash;
+	          return o.hash === hash;
 	        });
-	        if (option == null) throw "Typeahead selection (" + value + ") for " + _this.props.name + " not included " + "in the typeahead options";
+
+	        if (option == null) {
+	          throw "Typeahead selection (" + value + ") for " + _this.props.name + " not included " + "in the typeahead options";
+	        }
+
 	        return option;
 	      });
 	    }
@@ -2937,7 +2907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      inputHtml.onKeyDown = this._onKeyDown.bind(this);
 	      return div({ className: "frigb-ta", ref: function ref(c) {
 	          return _this4._wrapperComponent = c;
-	        } }, div({ className: className, onClick: this._focusInput.bind(this) }, this._selectionsList(), input(inputHtml)), savedNotification({ parentProps: this.props }), this._suggestionsList(), errorList(this.state.errors));
+	        } }, div({ className: className, onClick: this._focusInput.bind(this) }, this._selectionsList(), input(inputHtml)), saveList(this.props.saved), this._suggestionsList(), errorList(this.state.errors));
 	    }
 	  }, {
 	    key: "_inputValue",
@@ -2958,6 +2928,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            return _this5.setState({ inputValue: inputValue });
 	          }
 	        },
+	        saved: false,
 	        validate: false,
 	        ref: "frigInput",
 	        onComponentMount: function onComponentMount() {},
