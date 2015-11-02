@@ -96,7 +96,7 @@ describe("Form", function(){
       beforeEach(function () {
         this.form.childComponentWillMount("a", {
           isModified: () => true,
-          modifiedValue: () => "test",
+          modifiedValues: () => "test",
         })
         this.form.childComponentWillMount("b", {isModified: () => false})
       })

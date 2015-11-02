@@ -63,7 +63,7 @@ export default class FrigInput extends React.Component {
     return this.state.modified
   }
 
-  modifiedValue() {
+  modifiedValues() {
     return this.isModified() ? this.props.valueLink.value : null
   }
 
