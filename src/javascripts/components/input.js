@@ -41,7 +41,7 @@ export default class FrigInput extends React.Component {
 
   state = {
     modified: false,
-    validationRequested: false
+    validationRequested: false,
   }
 
   /*
@@ -61,6 +61,10 @@ export default class FrigInput extends React.Component {
 
   isModified() {
     return this.state.modified
+  }
+
+  modifiedValues() {
+    return this.isModified() ? this.props.valueLink.value : null
   }
 
   resetModified() {

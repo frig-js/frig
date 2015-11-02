@@ -1,4 +1,5 @@
 "use strict"
+
 require("../setup.js")
 let React = require("react/addons")
 let assert = require("assert")
@@ -81,6 +82,42 @@ describe("Form", function(){
       })
       this.form.reset()
       assert.equal(hasReset, true)
+    })
+  })
+
+  describe("#modifiedValues", function() {
+    describe("when no fields are modified", function() {
+      it("should returns empty object", function() {
+        assert.deepEqual(this.form.modifiedValues(), {})
+      })
+    })
+
+    describe("when fields are modified", function() {
+      beforeEach(function () {
+        this.form.childComponentWillMount("a", {
+          isModified: () => true,
+          modifiedValues: () => "test",
+        })
+        this.form.childComponentWillMount("b", {isModified: () => false})
+      })
+
+      it("should return a modified value", function() {
+        assert.deepEqual(this.form.modifiedValues(), {
+          a: "test",
+        })
+      })
+
+      it("should return multiple modified values", function() {
+        this.form.childComponentWillMount("c", {
+          isModified: () => true,
+          modifiedValues: () => ({d: 4, e: 3}),
+        })
+
+        assert.deepEqual(this.form.modifiedValues(), {
+          a: "test",
+          c: {d: 4, e: 3},
+        })
+      })
     })
   })
 
