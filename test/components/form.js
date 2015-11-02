@@ -92,31 +92,25 @@ describe("Form", function(){
       })
     })
 
-    describe("when only non-nested fields are modified fields", function() {
+    describe("when fields are modified", function() {
       beforeEach(function () {
         this.form.childComponentWillMount("a", {
-          props: {
-            name: "a",
-          },
           isModified: () => true,
           modifiedValue: () => "test",
         })
         this.form.childComponentWillMount("b", {isModified: () => false})
       })
 
-      it("should return an object", function() {
+      it("should return a modified value", function() {
         assert.deepEqual(this.form.modifiedValues(), {
           a: "test",
         })
       })
 
-      it("should return two objects", function() {
+      it("should return multiple modified values", function() {
         this.form.childComponentWillMount("c", {
-          props: {
-            name: "c",
-          },
           isModified: () => true,
-          modifiedValue: () => ({d: 4, e: 3}),
+          modifiedValues: () => ({d: 4, e: 3}),
         })
 
         assert.deepEqual(this.form.modifiedValues(), {
