@@ -58,7 +58,8 @@ export default class FrigForm extends React.Component {
     let values = {}
     this._childComponents()
       .filter((c) => c.isModified())
-      .forEach((c) => values[c.props.name] = (c.modifiedValue || c.modifiedValues)())
+      .forEach((c) =>
+        values[c.props.name] = (c.modifiedValue || c.modifiedValues).bind(c)())
     return values
   }
 
