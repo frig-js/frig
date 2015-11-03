@@ -277,7 +277,7 @@ export default class FrigForm extends React.Component {
         requestChange: this._onChildRequestChange.bind(this, [name]),
       },
       internalErrors: this.props.errors[name],
-      saved: this.props.saved.hasOwnProperty(name),
+      saved: this.props.saved[name],
     }
   }
 
