@@ -277,7 +277,7 @@ export default class FrigForm extends React.Component {
         requestChange: this._onChildRequestChange.bind(this, [name]),
       },
       internalErrors: this.props.errors[name],
-      saved: this.props.saved[name],
+      saved: this.props.saved.hasOwnProperty(name),
     }
   }
 
@@ -343,7 +343,7 @@ export default class FrigForm extends React.Component {
       onComponentMount: this.childComponentWillMount.bind(this, [name]),
       onComponentUnmount: this.childComponentWillUnmount.bind(this, [name]),
       internalErrors: this.props.errors[name],
-      saved: this.props.saved[name],
+      saved: this.props.saved.hasOwnProperty(name),
     }
   }
 
