@@ -14,6 +14,8 @@ AccountForm = React.createClass
       email: "me@test.com"
       password: "test"
       shareSketchyInfo: false
+      time_of_night: false
+      time_of_day: true
       addresses: [{address: "55 Actual Place Rd."}, {}]
       select_example: "thing-value"
       stuff_or_things: ["stuff-value"]
@@ -39,6 +41,8 @@ AccountForm = React.createClass
     saved:
       select_example: true
       time_of_day: true
+      time_of_night: false
+      shareSketchyInfo: false
       addresses: [{address: true}, {}]
     # errors: ["Test Error", "Moo"]
     onSubmit: @onSubmit,
