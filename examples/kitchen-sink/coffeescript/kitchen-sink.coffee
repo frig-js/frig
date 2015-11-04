@@ -14,7 +14,11 @@ AccountForm = React.createClass
       email: "me@test.com"
       password: "test"
       shareSketchyInfo: false
-      addresses: [{address: "55 Actual Place Rd."}, {}]
+      time_of_night: false
+      time_of_day: true
+      addresses: [{address: "55 Actual Place Rd.", default_shipping_address: true}, {
+        default_shipping_address: false
+      }]
       select_example: "thing-value"
       stuff_or_things: ["stuff-value"]
       single_select_typeahead: "stuff-value"
@@ -39,7 +43,9 @@ AccountForm = React.createClass
     saved:
       select_example: true
       time_of_day: true
-      addresses: [{address: true}, {}]
+      time_of_night: false
+      shareSketchyInfo: false
+      addresses: [{address: "This is a true test", default_shipping_address: false}, {}]
     # errors: ["Test Error", "Moo"]
     onSubmit: @onSubmit,
     # layout: "horizontal"
@@ -206,6 +212,7 @@ AccountForm = React.createClass
               f.input "address"
               f.input "city"
               f.input "postal_code"
+              f.input "default_shipping_address"
 
         div className: "row",
           div className: "col-xs-12",

@@ -9,7 +9,7 @@ export default class NestedFieldset extends React.Component {
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
     errors: React.PropTypes.object,
-    saved: React.PropTypes.object,
+    saved: React.PropTypes.array,
   }
 
   state = {
