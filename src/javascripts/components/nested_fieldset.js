@@ -46,10 +46,10 @@ export default class NestedFieldset extends React.Component {
     return this._forms().some((form) => form.isModified())
   }
 
-  modifiedValues() {
+  modifications() {
     let values = this._forms()
       .filter((form) => form.isModified())
-      .map((c) => c.modifiedValues())
+      .map((form) => form.modifications())
     return Array.isArray(this.props.data.value || []) ? values : values[0]
   }
 

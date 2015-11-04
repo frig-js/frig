@@ -85,37 +85,33 @@ describe("Form", function(){
     })
   })
 
-  describe("#modifiedValues", function() {
+  describe("#modifications", function() {
     describe("when no fields are modified", function() {
       it("should returns empty object", function() {
-        assert.deepEqual(this.form.modifiedValues(), {})
+        assert.deepEqual(this.form.modifications(), {})
       })
     })
 
     describe("when fields are modified", function() {
-      beforeEach(function () {
+      it("should return only modified values", function() {
         this.form.childComponentWillMount("a", {
           isModified: () => true,
-          modifiedValues: () => "test",
         })
-        this.form.childComponentWillMount("b", {isModified: () => false})
-      })
-
-      it("should return a modified value", function() {
-        assert.deepEqual(this.form.modifiedValues(), {
-          a: "test",
+        this.form.childComponentWillMount("b", {
+          isModified: () => false
+        })
+        assert.deepEqual(this.form.modifications(), {
+          a: true,
         })
       })
 
-      it("should return multiple modified values", function() {
+      it("should return nested modified values", function() {
         this.form.childComponentWillMount("c", {
           isModified: () => true,
-          modifiedValues: () => ({d: 4, e: 3}),
+          modifications: () => ({d: true, e: true}),
         })
-
-        assert.deepEqual(this.form.modifiedValues(), {
-          a: "test",
-          c: {d: 4, e: 3},
+        assert.deepEqual(this.form.modifications(), {
+          c: {d: true, e: true},
         })
       })
     })
