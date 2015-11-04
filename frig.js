@@ -154,14 +154,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }).length !== 0;
 	    }
 	  }, {
-	    key: "modifiedValues",
-	    value: function modifiedValues() {
-	      var values = {};
+	    key: "modifications",
+	    value: function modifications() {
+	      var modifications = {};
 	      for (var k in this._childComponentsByName) {
-	        var component = this._childComponentsByName[k];
-	        if (component.isModified()) values[k] = component.modifiedValues();
+	        var c = this._childComponentsByName[k];
+	        if (!c.isModified()) continue;
+	        modifications[k] = c.modifications == null ? true : c.modifications();
 	      }
-	      return values;
+	      return modifications;
 	    }
 	  }, {
 	    key: "resetModified",
@@ -657,11 +658,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: "isModified",
 	    value: function isModified() {
 	      return this.state.modified;
-	    }
-	  }, {
-	    key: "modifiedValues",
-	    value: function modifiedValues() {
-	      return this.isModified() ? this.props.valueLink.value : null;
 	    }
 	  }, {
 	    key: "resetModified",
@@ -1663,12 +1659,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    }
 	  }, {
-	    key: "modifiedValues",
-	    value: function modifiedValues() {
+	    key: "modifications",
+	    value: function modifications() {
 	      var values = this._forms().filter(function (form) {
 	        return form.isModified();
-	      }).map(function (c) {
-	        return c.modifiedValues();
+	      }).map(function (form) {
+	        return form.modifications();
 	      });
 	      return Array.isArray(this.props.data.value || []) ? values : values[0];
 	    }

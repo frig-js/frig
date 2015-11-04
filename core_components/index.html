@@ -174,7 +174,7 @@
 <li><strong>validate()</strong> - validates the form's inputs and renders all errors.</li>
 <li><strong>isValid()</strong> - returns true if all of the form's inputs are in a valid state. Does not visibly render errors.</li>
 <li><strong>isModified()</strong> - returns true if any of the form's inputs have been modified by the user (in other words <code>props.data</code> changes do not count).</li>
-<li><strong>modifiedValues()</strong> - returns all component's name and value if any of the form's inputs have been modified by the user.</li>
+<li><strong>modifications()</strong> - returns an <code>object</code> of modifications by the user to the form's fields and nested fields. The modifications are keyed by the input and nested fieldset names. The value for each inputs is <code>true</code> and the value for each nested fieldset is a nested <code>object</code>.</li>
 <li><strong>resetModified()</strong> - resets the value of <code>isModified()</code> to false.</li>
 <li><strong>reset()</strong> - resets the value of <code>isModified()</code> to false and resets all validations (eg. hiding required feild error messages).</li>
 </ul>
