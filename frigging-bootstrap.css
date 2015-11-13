@@ -1,9 +1,22 @@
 .frigb-error {
-  animation: friggingBootstrapErrorHeight, 1.4s, linear, 0s, 1, normal, both;
+  animation: friggingBootstrapErrorHeight 2.5s linear 0s 1 normal both;
   margin: 0 0 15px 0;
 }
 .frigb-error .alert {
-  animation: friggingBootstrapErrorOpacity, 0.6s, linear, 0s, 1, normal, both;
+  animation: friggingBootstrapErrorOpacity 0.6s linear 0s 1 normal both;
+}
+.errorLabel-appear {
+  opacity: 0;
+  max-height: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  transition: max-height 0.7s ease, margin-top 0.5s ease, margin-bottom 0.5s ease, opacity 0.5s ease;
+}
+.errorLabel-appear.errorLabel-appear-active {
+  opacity: 1;
+  max-height: 30px;
+  margin-top: 5px;
+  margin-bottom: 10px;
 }
 @-moz-keyframes friggingBootstrapErrorHeight {
   0% {

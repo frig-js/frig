@@ -69,7 +69,9 @@
 	        ],
 	        select_example: "thing-value",
 	        stuff_or_things: ["stuff-value"],
-	        single_select_typeahead: "stuff-value"
+	        single_select_typeahead: "stuff-value",
+	        colorTwo: "#999",
+	        colorThree: "#000"
 	      }
 	    };
 	  },
@@ -91,6 +93,7 @@
 	      saved: {
 	        select_example: true,
 	        time_of_day: true,
+	        colorTwo: true,
 	        addresses: [
 	          {
 	            address: true
@@ -231,6 +234,10 @@
 	          xs: "12",
 	          label: "Color One"
 	        }), f.input("colorTwo", {
+	          type: "color",
+	          xs: "12",
+	          label: false
+	        }), f.input("colorThree", {
 	          type: "color",
 	          xs: "12",
 	          label: false

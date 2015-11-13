@@ -205,6 +205,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _label = _React$DOM.label;
 
 	var cx = __webpack_require__(9);
+	var transitionGroup = React.createFactory(React.addons.CSSTransitionGroup);
 
 	module.exports = {
 	  errorList: function errorList(errors) {
@@ -217,7 +218,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	  error: function error(msg) {
 	    var i = arguments.length <= 1 || arguments[1] === undefined ? 0 : arguments[1];
 
-	    return span({ className: "help-block", key: "error-" + i }, React.DOM.i({ className: "fa fa-exclamation-circle" }, " " + msg));
+	    var transtionAttrs = {
+	      transitionName: "errorLabel",
+	      transitionAppear: true,
+	      transitionEnterTimeout: 0,
+	      transitionLeaveTimeout: 0
+	    };
+	    return transitionGroup(transtionAttrs, span({ className: "help-block", key: "error-" + i }, React.DOM.i({
+	      className: "fa fa-exclamation-circle",
+	      key: "error-errorLabel-" + i
+	    }, " " + msg)));
 	  },
 
 	  label: function label(props) {
@@ -560,11 +570,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        valueLink: this.props.valueLink,
 	        ref: "frigColorInput",
 	        className: cx(this.props.inputHtml.className, "frigb-color-input", "form-control")
-	      })), saveList(this.props.saved), div({
+	      })), div({
 	        className: "frigb-color-block",
 	        style: { backgroundColor: this.state.colr.toHex() },
 	        onClick: this._onColorBlockClick.bind(this)
-	      }), this._colorPopup(), errorList(this.props.errors)));
+	      }), this._colorPopup(), saveList(this.props.saved), errorList(this.props.errors)));
 	    }
 	  }], [{
 	    key: "displayName",
