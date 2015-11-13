@@ -18,6 +18,8 @@ AccountForm = React.createClass
       select_example: "thing-value"
       stuff_or_things: ["stuff-value"]
       single_select_typeahead: "stuff-value"
+      colorTwo: "#999"
+      colorThree: "#000"
 
   # githubSearchUrl: (username) ->
   #   "https://api.github.com/search/users?q=#{username}&per_page=30"
@@ -39,6 +41,7 @@ AccountForm = React.createClass
     saved:
       select_example: true
       time_of_day: true
+      colorTwo: true
       addresses: [{address: true}, {}]
     # errors: ["Test Error", "Moo"]
     onSubmit: @onSubmit,
@@ -193,6 +196,10 @@ AccountForm = React.createClass
             xs: "12"
             label: "Color One"
           f.input "colorTwo",
+            type: "color"
+            xs: "12",
+            label: false
+          f.input "colorThree",
             type: "color"
             xs: "12",
             label: false
