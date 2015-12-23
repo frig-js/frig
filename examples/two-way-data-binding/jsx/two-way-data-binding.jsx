@@ -1,11 +1,12 @@
 require("frig").defaultTheme(require("frigging-bootstrap"))
 
 var React = require("react/addons")
+var LinkedStateMixin = require("react-addons-linked-state-mixin")
 var Frig = require("frig").Form
 
 var SignIn = React.createClass({
 
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [LinkedStateMixin],
 
   getInitialState: function() {
     return {}

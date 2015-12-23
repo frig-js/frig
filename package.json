@@ -37,6 +37,7 @@
     "fs-extra": "*",
     "lodash": "*",
     "react": ">=0.14.3",
+    "react-addons-linked-state-mixin": "*",
     "classnames": "*",
     "frigging-bootstrap": "*",
     "fuzzy": "*",
