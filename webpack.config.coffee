@@ -53,6 +53,14 @@ externals =
     commonjs2: "react"
     amd: "react"
   }
+  "react-dom": {
+    root: "ReactDOM"
+    this: "ReactDOM"
+    var: "ReactDOM"
+    commonjs: "react-dom"
+    commonjs2: "react-dom"
+    amd: "react-dom"
+  }
   # react/addons is required for the examples
   "react/addons": {
     root: "React"

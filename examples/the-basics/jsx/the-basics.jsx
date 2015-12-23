@@ -1,6 +1,7 @@
 require("frig").defaultTheme(require("frigging-bootstrap"))
 
 var React = require("react/addons")
+var ReactDOM = require("react-dom")
 var LinkedStateMixin = require("react-addons-linked-state-mixin")
 var Frig = require("frig").Form
 
@@ -31,5 +32,5 @@ var SignIn = React.createClass({
 
 window.addEventListener('load', function() {
   var el = document.getElementById('the-basics-example')
-  React.render(<SignIn/>, el)
+  ReactDOM.render(<SignIn/>, el)
 })

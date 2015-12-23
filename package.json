@@ -10,7 +10,8 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": ">=0.14.3"
+    "react": ">=0.14.3",
+    "react-dom": ">=0.14.3"
   },
   "devDependencies": {
     "coffee-script": "1.9.3",
@@ -37,6 +38,7 @@
     "fs-extra": "*",
     "lodash": "*",
     "react": ">=0.14.3",
+    "react-dom": ">=0.14.3",
     "react-addons-linked-state-mixin": "*",
     "classnames": "*",
     "frigging-bootstrap": "*",

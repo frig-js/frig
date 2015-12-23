@@ -3,6 +3,7 @@ Frig.defaultTheme require "frigging-bootstrap"
 Frig.typeMapping.boolean = {component: "switch"}
 
 React = require "react/addons"
+ReactDOM = require("react-dom")
 LinkedStateMixin = require("react-addons-linked-state-mixin")
 
 {frig} = require("frig").dsl
@@ -41,4 +42,4 @@ MinimalLogin = React.createClass
 
 window.addEventListener "load", ->
   el = document.getElementById "horizontal-login"
-  React.render React.createElement(MinimalLogin), el
+  ReactDOM.render React.createElement(MinimalLogin), el
