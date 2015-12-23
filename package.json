@@ -1,6 +1,6 @@
 {
   "name": "frig",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "private": false,
   "main": "dist/frig.js",
   "scripts": {
