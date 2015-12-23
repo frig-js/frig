@@ -1,4 +1,6 @@
 let React = require("react")
+let ReactDOM = require("react-dom")
+
 let {select, option} = React.DOM
 
 /*
@@ -57,7 +59,7 @@ export default class ValueLinkedSelect extends React.Component {
 
   // Reads the value from the DOM for the select input fields
   _getValue() {
-    let el = React.findDOMNode(this.refs.input)
+    let el = ReactDOM.findDOMNode(this.refs.input)
     // The value is cast to a string when we get it from DOM.value. This is a
     // mapping of those strings to their original values in the options list.
     let originalValues = {}

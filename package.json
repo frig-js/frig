@@ -10,9 +10,12 @@
   },
   "dependencies": {},
   "peerDependencies": {
-    "react": ">=0.13.3"
+    "react": ">=0.14.3",
+    "react-dom": ">=0.14.3"
   },
   "devDependencies": {
+    "frig": "*",
+    "react-addons-css-transition-group": "*",
     "coffee-script": "1.9.3",
     "jsdom": "*",
     "skin-deep": "*",
@@ -36,7 +39,9 @@
     "mkpath": "*",
     "fs-extra": "*",
     "lodash": "*",
-    "react": "0.13.3",
+    "react": ">=0.14.3",
+    "react-dom": ">=0.14.3",
+    "react-addons-linked-state-mixin": "*",
     "classnames": "*",
     "frigging-bootstrap": "*",
     "fuzzy": "*",

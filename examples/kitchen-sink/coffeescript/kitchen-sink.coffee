@@ -1,12 +1,15 @@
 require("frig").defaultTheme require("frigging-bootstrap")
 
 React = require "react/addons"
+ReactDOM = require("react-dom")
+LinkedStateMixin = require("react-addons-linked-state-mixin")
+
 {frig} = require("frig").dsl
 {div, h2, h3, h4, img, ul, li} = React.DOM
 
 AccountForm = React.createClass
   mixins: [
-    React.addons.LinkedStateMixin
+    LinkedStateMixin
   ]
 
   getInitialState: ->
@@ -233,4 +236,4 @@ AccountForm = React.createClass
 
 document.addEventListener "DOMContentLoaded", ->
   el = document.getElementById "kitchen-sink"
-  React.render React.createElement(AccountForm), el
+  ReactDOM.render React.createElement(AccountForm), el

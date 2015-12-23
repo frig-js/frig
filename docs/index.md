@@ -14,7 +14,7 @@ Every input and form element in **Frig** is a React Component so you can mix the
 ```jsx
 var SignIn = React.createClass({
 
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [LinkedStateMixin],
 
   getInitialState: function() {
     return {}

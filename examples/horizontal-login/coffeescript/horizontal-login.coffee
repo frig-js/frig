@@ -3,13 +3,16 @@ Frig.defaultTheme require "frigging-bootstrap"
 Frig.typeMapping.boolean = {component: "switch"}
 
 React = require "react/addons"
+ReactDOM = require("react-dom")
+LinkedStateMixin = require("react-addons-linked-state-mixin")
+
 {frig} = require("frig").dsl
 {div, h2} = React.DOM
 
 # An example of a plain old form without react link.
 MinimalLogin = React.createClass
 
-  mixins: [React.addons.LinkedStateMixin]
+  mixins: [LinkedStateMixin]
 
   form: (f) ->
     div className: "row",
@@ -39,4 +42,4 @@ MinimalLogin = React.createClass
 
 window.addEventListener "load", ->
   el = document.getElementById "horizontal-login"
-  React.render React.createElement(MinimalLogin), el
+  ReactDOM.render React.createElement(MinimalLogin), el

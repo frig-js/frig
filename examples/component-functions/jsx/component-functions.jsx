@@ -1,11 +1,13 @@
 require("frig").defaultTheme(require("frigging-bootstrap"))
 
 var React = require("react/addons")
+var ReactDOM = require("react-dom")
+var LinkedStateMixin = require("react-addons-linked-state-mixin")
 var Frig = require("frig").Form
 
 var SignIn = React.createClass({
 
-  mixins: [React.addons.LinkedStateMixin],
+  mixins: [LinkedStateMixin],
 
   componentWillMount: function() {
     this._interval = setInterval(this._updateCounter, 1000)
@@ -68,10 +70,10 @@ var SignIn = React.createClass({
       form={this.form}
       ref="form"
     />
-  }
+  },
 })
 
 window.addEventListener('load', function() {
   var el = document.getElementById('component-functions')
-  React.render(<SignIn/>, el)
+  ReactDOM.render(<SignIn/>, el)
 })

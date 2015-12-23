@@ -1,12 +1,12 @@
 require("frig").defaultTheme(require("frigging-bootstrap"))
 
 let React = require("react/addons")
+let ReactDOM = require("react-dom")
+let LinkedStateMixin = require("react-addons-linked-state-mixin")
 let Frig = require("frig").Form
 
 let AccountForm = React.createClass({
-  mixins: [
-    React.addons.LinkedStateMixin
-  ],
+  mixins: [ LinkedStateMixin ],
 
   getInitialState: function() {
     return {
@@ -57,5 +57,5 @@ let AccountForm = React.createClass({
 
 document.addEventListener("DOMContentLoaded", function() {
   var domElement = document.getElementById('example')
-  React.render(<AccountForm/>, domElement)
+  ReactDOM.render(<AccountForm/>, domElement)
 })
