@@ -14,7 +14,7 @@ module.exports = {
   file: {component: "file",     htmlInputType: "file"},
   // hidden:       {component: "input",    htmlInputType: "hidden"},
   // integer:      {component: "input",    htmlInputType: "number"},
-  float: {component: "input",    htmlInputType: "number"},
+  float: {component: "number"},
   // decimal:      {component: "input",    htmlInputType: "number"},
   // range:        {component: "input",    htmlInputType: "range"},
   switch: {component: "switch"},
