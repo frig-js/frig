@@ -34,7 +34,6 @@ In addition to the properties listed under each component on this page and on th
 <f.input name="example" component="color"/>
 ```
 
-
 ## File
 
 ```jsx
@@ -45,6 +44,19 @@ In addition to the properties listed under each component on this page and on th
 
 ```jsx
 <f.input name="example" component="input"/>
+```
+
+## Number
+
+```jsx
+<f.input name="example" component="number"
+  {/* Uses [numeral.js][http://numeraljs.com] format. Defaults to: "0,0[.][00]" */}
+  format={"0,0.00"}
+  {/* The minimum number allowed */}
+  min={3}
+  {/* The maxinum number allowed */}
+  max={5}
+/>
 ```
 
 ## Select
@@ -84,7 +96,6 @@ In addition to the properties listed under each component on this page and on th
 ```jsx
 <f.input name="example" component="timepicker"/>
 ```
-
 
 ## Typeahead
 
