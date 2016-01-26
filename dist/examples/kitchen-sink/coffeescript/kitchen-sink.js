@@ -64,6 +64,7 @@
 	    return {
 	      account: {
 	        email: "me@test.com",
+	        cost: "12.245",
 	        password: "test",
 	        shareSketchyInfo: false,
 	        addresses: [
@@ -122,6 +123,14 @@
 	          xs: 12,
 	          label: false,
 	          placeholder: "Input Without a Label"
+	        }), f.input("price", {
+	          type: "float",
+	          format: "0,0.00",
+	          xs: 12,
+	          min: 0,
+	          placeholder: "0.00"
+	        }), f.input("cost", {
+	          type: "float"
 	        }), f.input("email"), f.input("select_example", {
 	          options: [
 	            {
