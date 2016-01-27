@@ -90,6 +90,21 @@ AccountForm = React.createClass
           div className: "col-xs-12",
             h2 {}, "Typeaheads"
 
+          f.input "hidden_items",
+            type: "typeahead",
+            options: [
+              # The 3 formats for options
+              # 1. An object with a label and a value (perfered)
+              {label: "Display", value: "Display-value", display: false},
+              {label: "Stuff", value: "stuff-value"},
+              # 2. An array of the [value, label, display]
+              ["Display-array-value", "Display Array", false],
+              ["thing-value", "Things"],
+              # 3. A string. For scenarios where the label equals the value.
+              "Hidden format", false,
+              "why not both?",
+            ]
+
           f.input "stuff_or_things",
             type: "typeahead",
             multiple: true,
