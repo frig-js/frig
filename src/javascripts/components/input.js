@@ -9,7 +9,7 @@ export default class Input extends React.Component {
 
   static propTypes = {
     name: React.PropTypes.string.isRequired,
-    errors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    errors: React.PropTypes.arrayOf(React.PropTypes.string),
     layout: React.PropTypes.string,
     className: React.PropTypes.string,
     className: React.PropTypes.string,
@@ -95,8 +95,8 @@ export default class Input extends React.Component {
   }
 
   render() {
-    let component = this._themedComponent()
-    return <component {...this._themedInputProps()}/>
+    let ThemedComponent = this._themedComponent()
+    return <ThemedComponent {...this._themedInputProps()}/>
   }
 
   /*
@@ -106,7 +106,9 @@ export default class Input extends React.Component {
    */
 
   _errors(value = this._value()) {
-    let errors = this.props.errors.slice().concat(this.context.frigForm.errors)
+    let errors = (this.props.errors||[]).slice().concat(
+      this.context.frigForm.errors[this.props.name] || []
+    )
     let validate = (
       (this.isModified() || this.state.validationRequested) &&
       this.props.validate
@@ -223,7 +225,7 @@ export default class Input extends React.Component {
     if ((opts||{}).setModified !== false) this.setState({modified: true})
     let valid = this._errors(val) == null
     // Update the value link (used by Frig form components)
-    this.props.valueLink.requestChange(val, valid)
+    this.context.frigForm.requestChildComponentChange(this.props.name, val)
     // Run the external callbacks (external API, not used by Frig internally)
     this.props.onChange(val, valid)
     if (valid) this.props.onValidChange(val, valid)

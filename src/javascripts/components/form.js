@@ -37,8 +37,6 @@ export default class Form extends React.Component {
     frigForm: React.PropTypes.object,
   }
 
-  state = {}
-
   getChildContext() {
     let {layout, theme, align, errors, saved} = this.props
     return {
@@ -102,11 +100,11 @@ export default class Form extends React.Component {
    */
 
   render() {
-    let themedForm = this.props.theme.component("form")
+    let ThemedForm = this.props.theme.component("form")
     return (
-      <themedForm {...this._themedFormProps()}>
+      <ThemedForm {...this._themedFormProps()}>
         {this.props.children}
-      </themedForm>
+      </ThemedForm>
     )
   }
 
@@ -126,7 +124,7 @@ export default class Form extends React.Component {
   }
 
   _data() {
-    return this.state.data || this.props.data
+    return this.props.data
   }
 
   childComponentWillMount = (name, component) => {
@@ -147,9 +145,7 @@ export default class Form extends React.Component {
   _onChildRequestChange = (k, v) => {
     // Update the onChange listener with a copy of the existing data merged with
     // this new input value
-    let {onChange} = this.props
-    onChange = onChange || ((data) => this.setState({data}))
-    onChange(Object.assign({}, this._data(), {[k]: v}))
+    this.props.onChange(Object.assign({}, this._data(), {[k]: v}))
   }
 
   _onSubmit = (e) => {
