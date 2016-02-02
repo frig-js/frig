@@ -19,7 +19,7 @@ module.exports = {
   },
   // Setter and getter for the Frig default theme
   defaultTheme(theme) {
-    if (theme == null) return form.defaultProps.theme
+    if (theme == null) return Form.defaultProps.theme
     if (theme.component == null) throw "Invalid theme. Expected an object"
     Form.originalClass.defaultProps.theme = theme
     Input.originalClass.defaultProps.theme = theme

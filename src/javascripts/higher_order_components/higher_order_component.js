@@ -1,4 +1,4 @@
-import delegatesPublicFunctions from "./delegates_public_functions.js"
+// import delegatesPublicFunctions from "./delegates_public_functions.js"
 
 /*
  * Returns a higher order function version of the component.
@@ -11,13 +11,13 @@ module.exports = function() {
   return function(hocClass) {
     return function(opts) {
       return function(componentClass) {
-        let childName = componentClass.prototype.displayName
+        let childName = componentClass.prototype
         /*
          * Creating a subclass of the higher order component with getters for
          * the component class and opts.
          */
         return (
-          @delegatesPublicFunctions(componentClass)
+          // @delegatesPublicFunctions(componentClass)
           class extends hocClass {
             static originalClass = (
               componentClass.originalClass || componentClass

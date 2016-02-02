@@ -13,9 +13,12 @@ module.exports = function(componentClass) {
     ]
     let propertyNames = Object.getOwnPropertyNames(componentClass.prototype)
     for (let k of propertyNames) {
-      if (blackList.indexOf(k) != -1 || hoc[k] != null) continue
+      if (blackList.indexOf(k) !== -1 || hoc[k] != null) continue
       if (!k.startsWith("_")) {
-        hoc.prototype[k] = function () {return this.refs.child[k](...arguments)}
+        hoc.prototype[k] = function () {
+          console.log(this)
+          return this.refs.child[k](...arguments)
+        }
       }
     }
   }

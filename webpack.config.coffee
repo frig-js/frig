@@ -14,9 +14,8 @@ entry = {}
 example = (name, type) ->
   return if mode != "examples"
   exPath = if isProduction then "examples/" else ""
-  relativePath = [name, type, name].join("/")
-  ext = if type == "jsx" then "jsx" else "coffee"
-  entry["#{exPath}#{relativePath}"] = "./examples/#{relativePath}.#{ext}"
+  relativePath = [name, name].join("/")
+  entry["#{exPath}#{relativePath}"] = "./examples/#{relativePath}.jsx"
   # Copy the html outside of webpack
   return unless isProduction
   htmlSrc = "./examples/#{relativePath}.html"
@@ -24,12 +23,11 @@ example = (name, type) ->
   mkpath.sync path.dirname htmlDest
   fsExtra.copySync htmlSrc, htmlDest
 
-example "kitchen-sink", "jsx"
-example "kitchen-sink", "coffeescript"
-example "horizontal-login", "coffeescript"
-example "the-basics", "jsx"
-example "two-way-data-binding", "jsx"
-example "component-functions", "jsx"
+example "kitchen-sink"
+example "horizontal-login"
+example "the-basics"
+example "two-way-data-binding"
+example "component-functions"
 
 if isProduction and mode != "examples"
   entry = _.merge entry,
@@ -60,15 +58,6 @@ externals =
     commonjs: "react-dom"
     commonjs2: "react-dom"
     amd: "react-dom"
-  }
-  # react/addons is required for the examples
-  "react/addons": {
-    root: "React"
-    this: "React"
-    var: "React"
-    commonjs: "react"
-    commonjs2: "react"
-    amd: "react"
   }
 
 if isProduction and mode == "examples"

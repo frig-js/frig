@@ -9,7 +9,7 @@ import {Form, Input, Submit} from "frig"
 
 class TheBasicsExample extends React.Component {
   displayName = "TheBasicsExample"
-  state = {}
+  state = {account: {}}
 
   render() {
     return (

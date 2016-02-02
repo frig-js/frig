@@ -12,10 +12,9 @@ export default class Form extends React.Component {
 
   static propTypes = {
     data: React.PropTypes.object.isRequired,
-    requestChange: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
     errors: React.PropTypes.object.isRequired,
     saved: React.PropTypes.object.isRequired,
-    form: React.PropTypes.func.isRequired,
     theme: React.PropTypes.object.isRequired,
     typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
     layout: React.PropTypes.string.isRequired,
@@ -35,8 +34,10 @@ export default class Form extends React.Component {
   }
 
   static childContextTypes = {
-    frig: React.PropTypes.object,
+    frigForm: React.PropTypes.object,
   }
+
+  state = {}
 
   getChildContext() {
     let {layout, theme, align, errors, saved} = this.props
@@ -47,7 +48,7 @@ export default class Form extends React.Component {
         align,
         errors,
         saved,
-        data: this._data()
+        data: this._data(),
         requestChildComponentChange: this._onChildRequestChange,
         childComponentWillMount: this.childComponentWillMount,
         childComponentWillUnmount: this.childComponentWillUnmount,

@@ -18,7 +18,7 @@ export default class extends React.Component {
 
   _toErrorObject(errors) {
     let isArray = Array.isArray(errors)
-    if (errors == null || (isArray && errors.length == 0)) return {}
+    if (errors == null || (isArray && errors.length === 0)) return {}
     // If errors is an array then convert it into an object. "base" is
     // used to store all top-level errors that are not specific to an
     // input.
@@ -42,12 +42,12 @@ export default class extends React.Component {
     // let normalizedErrorClass = opts.as
     let normalizedErrorClass = this.opts().as
     // Convert the errors object into the normalized error class
-    if (normalizedErrorClass == Array) {
+    if (normalizedErrorClass === Array) {
       let errorsArray = []
       for (let k in errors) errorsArray = errorsArray.concat(errors[k])
       return errorsArray
     }
-    else if (normalizedErrorClass == Object) {
+    else if (normalizedErrorClass === Object) {
       return errors
     }
     else {

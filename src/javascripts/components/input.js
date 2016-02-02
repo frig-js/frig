@@ -24,7 +24,7 @@ export default class Input extends React.Component {
   }
 
   static contextTypes = {
-    frig: React.PropTypes.shape({
+    frigForm: React.PropTypes.shape({
       data: React.PropTypes.object.isRequired,
       theme: React.PropTypes.object.isRequired,
       errors: React.PropTypes.object.isRequired,
@@ -236,7 +236,7 @@ export default class Input extends React.Component {
   }
 
   _guessInputType() {
-    let jsType = typeof inputProps.valueLink.value
+    let jsType = typeof this._themedInputProps().valueLink.value
     if (this.props.type != null) {
       return this.props.type
     }
@@ -262,16 +262,17 @@ export default class Input extends React.Component {
 
   // Generate the type mapping for an input component
   _typeMapping() {
-    return Object.assign(
+    let typeMapping = Object.assign(
       {},
       require("../type_mapping.js"),
-      this.props.theme.type_mapping,
+      this.context.frigForm.theme.type_mapping,
     )
+    return typeMapping[this._guessInputType()]
   }
 
   _themedComponent() {
     let {name} = this.props
-    let type = this._guessInputType()
+    let type = this._typeMapping().component
     if (type == null) throw `${name}: No type mapping found`
     let component = this.context.frigForm.theme.component(type)
     if (component == null) throw `${name}: No ${type} component found in theme`
