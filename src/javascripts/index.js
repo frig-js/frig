@@ -1,13 +1,15 @@
-let Form = require("./components/form.js")
-let Input = require("./components/input.js")
-let ValueLinkedSelect = require("./components/value_linked_select.js")
-let util = require("./util.js")
-let dsl = require("./dsl.js")
+import Form from "./components/form.js"
+import Input from "./components/input.js"
+import Submit from "./components/submit.js"
+import NestedFieldset from "./components/value_linked_select.js"
+import ValueLinkedSelect from "./components/value_linked_select.js"
+import util from "./util.js"
 
 module.exports = {
   Form,
   Input,
-  dsl,
+  NestedFieldset,
+  Submit,
   util,
   ValueLinkedSelect,
   typeMapping: require("./type_mapping.js"),

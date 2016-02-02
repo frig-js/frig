@@ -7,36 +7,41 @@ let ErrorsNormalizer = require("../higher_order_components/errors_normalizer.js"
 export default class FrigInput extends React.Component {
 
   static propTypes = {
-    name:            React.PropTypes.string.isRequired,
-    component:       React.PropTypes.func.isRequired,
-    valueLink:       React.PropTypes.object.isRequired,
-    theme:           React.PropTypes.object.isRequired,
-    errors:          React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-    type:            React.PropTypes.string,
-    options:         React.PropTypes.array,
-    layout:          React.PropTypes.string,
-    className:       React.PropTypes.string,
-    disabled:        React.PropTypes.bool,
-    multiple:        React.PropTypes.bool,
-    saved:           React.PropTypes.bool,
-    validate:        React.PropTypes.bool.isRequired,
+    name: React.PropTypes.string.isRequired,
+    errors: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    layout: React.PropTypes.string,
+    className: React.PropTypes.string,
+    className: React.PropTypes.string,
+    disabled: React.PropTypes.bool,
+    multiple: React.PropTypes.bool,
+    type: React.PropTypes.string,
+    options: React.PropTypes.array,
+    validate: React.PropTypes.bool,
     // Callbacks (Public API)
-    onChange:        React.PropTypes.func.isRequired,
-    onValidChange:   React.PropTypes.func.isRequired,
-    // Callbacks (Private API - reserved for form use only)
-    onComponentMount: React.PropTypes.func.isRequired,
-    onComponentUnmount: React.PropTypes.func.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    onValidChange: React.PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    frig: React.PropTypes.shape({
+      value: React.PropTypes.object.isRequired,
+      theme: React.PropTypes.object.isRequired,
+      errors: React.PropTypes.object.isRequired,
+      layout: React.PropTypes.string.isRequired,
+      saved: React.PropTypes.object.isRequired,
+      // Callbacks (Private API - reserved for frig form use only)
+      requestChildComponentChange: React.PropTypes.func.isRequired,
+      childComponentWillMount: React.PropTypes.func.isRequired,
+      childComponentWillUnmount: React.PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   static defaultProps = {
-    theme: undefined,
     validate: true,
-    saved: false,
+    disabled: false,
     errors: [],
     onChange: () => {},
     onValidChange: () => {},
-    onComponentMount: () => {},
-    onComponentUnmount: () => {},
   }
 
   state = {
@@ -81,15 +86,16 @@ export default class FrigInput extends React.Component {
    */
 
   componentWillMount() {
-    this.props.onComponentMount(this)
+    this.context.frigForm.childComponentWillMount(this.props.name, this)
   }
 
   componentWillUnmount() {
-    this.props.onComponentUnmount(this)
+    this.context.frigForm.childComponentWillUnmount(this.props.name, this)
   }
 
   render() {
-    return React.createElement(this.props.component, this._themedInputProps())
+    let component = this._themedComponent()
+    return React.createElement(component, this._themedInputProps())
   }
 
   /*
@@ -99,7 +105,7 @@ export default class FrigInput extends React.Component {
    */
 
   _errors(value = this._value()) {
-    let errors = this.props.errors.slice()
+    let errors = this.props.errors.slice().concat(this.context.frigForm.errors)
     let validate = (
       (this.isModified() || this.state.validationRequested) &&
       this.props.validate
@@ -124,7 +130,7 @@ export default class FrigInput extends React.Component {
   }
 
   _value() {
-    return this.props.valueLink.value
+    return this.context.frigForm.value[this.props.name]
   }
 
   _themedInputProps(nextProps = this.props) {
@@ -226,6 +232,49 @@ export default class FrigInput extends React.Component {
     this.validate()
     let inputHtml = this.props.inputHtml
     if (inputHtml != null && inputHtml.onBlur != null) inputHtml.onBlur()
+  }
+
+  _guessInputType() {
+    let jsType = typeof inputProps.valueLink.value
+    if (this.props.type != null) {
+      return this.props.type
+    }
+    else if (this.props.multiple || Array.isArray(this.props.initialValue)) {
+      return "multiselect"
+    }
+    else if (this.props.options != null) {
+      return "select"
+    }
+    else if (jsType === "boolean") {
+      return "boolean"
+    }
+    else if (jsType === "number") {
+      return "float"
+    }
+    else if (this.props.name.match(/password$/i)) {
+      return "password"
+    }
+    else {
+      return "string"
+    }
+  }
+
+  // Generate the type mapping for an input component
+  _typeMapping() {
+    return Object.assign(
+      {},
+      require("../type_mapping.js"),
+      this.props.theme.type_mapping,
+    )
+  }
+
+  _themedComponent() {
+    let {name} = this.props
+    let type = this._guessInputType()
+    if (type == null) throw `${name}: No type mapping found`
+    let component = this.context.theme.component(type)
+    if (component == null) throw `${name}: No ${type} component found in theme`
+    return component
   }
 
 }

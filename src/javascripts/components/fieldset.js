@@ -1,7 +1,9 @@
 let React = require("react")
 let {div} = React.DOM
 
-export default class NestedFieldset extends React.Component {
+export default class Fieldset extends React.Component {
+  displayName = "Fieldset"
+
   static propTypes = {
     form: React.PropTypes.func.isRequired,
     // Provided by the parent Frig Form's HOC props closure

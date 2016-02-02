@@ -1,5 +1,18 @@
 {
   "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React"
+    }
+  },
   "env": {
     "browser": true,
     "amd": true,
@@ -16,6 +29,8 @@
     "no-underscore-dangle": 0,
     "no-loop-func": 0,
     "no-debugger": 0,
+    "react/jsx-indent": [2, 2],
+    "react/display-name": [2],
     "strict": 0
   }
 }
