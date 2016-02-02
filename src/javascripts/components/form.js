@@ -1,5 +1,5 @@
-let React = require("react")
-let ErrorsNormalizer = require("../higher_order_components/errors_normalizer.js")
+import React from "react"
+import ErrorsNormalizer from "../higher_order_components/errors_normalizer.js"
 
 /*
  * A JSX-compatible React DOM Component.
@@ -47,6 +47,7 @@ export default class Form extends React.Component {
         align,
         errors,
         saved,
+        data: this._data()
         requestChildComponentChange: this._onChildRequestChange,
         childComponentWillMount: this.childComponentWillMount,
         childComponentWillUnmount: this.childComponentWillUnmount,
@@ -100,17 +101,12 @@ export default class Form extends React.Component {
    */
 
   render() {
-    // Nested forms (forms inside nested fieldsets)
-    if (this.props.nestedForm) {
-      return React.DOM.div({}, this._friggingChildren())
-    }
-    // Top-level forms
-    else {
-      let themedForm = this.props.theme.component("form")
-      let props = this._themedFormProps()
-      let children = this._friggingChildren()
-      return React.createElement(themedForm, props, children)
-    }
+    let themedForm = this.props.theme.component("form")
+    return (
+      <themedForm {...this._themedFormProps()}>
+        {this.props.children}
+      </themedForm>
+    )
   }
 
   /*
@@ -130,12 +126,6 @@ export default class Form extends React.Component {
 
   _data() {
     return this.state.data || this.props.data
-  }
-
-  // Generates React DOM elements to pass to the themed form component as
-  // child components.
-  _friggingChildren() {
-    return this.props.form(this._componentClasses())
   }
 
   childComponentWillMount = (name, component) => {

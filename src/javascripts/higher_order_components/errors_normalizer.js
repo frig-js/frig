@@ -1,5 +1,5 @@
-let React = require("react")
-let higherOrderComponent = require("./higher_order_component.js")
+import React from "react"
+import higherOrderComponent from "./higher_order_component.js"
 
 @higherOrderComponent()
 export default class extends React.Component {

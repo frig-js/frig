@@ -1,4 +1,4 @@
-let delegatesPublicFunctions = require("./delegates_public_functions.js")
+import delegatesPublicFunctions from "./delegates_public_functions.js"
 
 /*
  * Returns a higher order function version of the component.

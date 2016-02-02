@@ -1,4 +1,4 @@
-let React = require("react")
+import React from "react"
 
 /*
  * A higher order function wrapper for components that only allow 2 possible

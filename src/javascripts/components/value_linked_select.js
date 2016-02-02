@@ -1,7 +1,5 @@
-let React = require("react")
-let ReactDOM = require("react-dom")
-
-let {select, option} = React.DOM
+import React from "react"
+import ReactDOM from "react-dom"
 
 /*
  * A minimal wrapper for the select component to provide the correct value
@@ -27,6 +25,7 @@ let {select, option} = React.DOM
  *
  */
 export default class ValueLinkedSelect extends React.Component {
+  displayName = "Frig.ValueLinkedSelect"
 
   static propTypes = {
     options: React.PropTypes.array.isRequired,
@@ -99,12 +98,14 @@ export default class ValueLinkedSelect extends React.Component {
       key: `option-${o.label}`,
       value: o.value,
     }
-    return option(attrs, o.label)
+    return <option {...attrs}>o.label</option>
   }
 
   render() {
-    return select(this._inputHtml(),
-      this.props.options.map(this._selectOption)
+    return (
+      <select {...this._inputHtml()}>
+        this.props.options.map(this._selectOption)
+      </select>
     )
   }
 

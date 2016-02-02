@@ -1,10 +1,11 @@
-let React                         = require("react")
-let frigValidations               = require("../validations.js")
-let {entries, humanize}           = require("../util.js")
-let ErrorsNormalizer = require("../higher_order_components/errors_normalizer.js")
+import React from "react"
+import frigValidations from "../validations.js"
+import {entries, humanize} from "../util.js"
+import ErrorsNormalizer from "../higher_order_components/errors_normalizer.js"
 
 @ErrorsNormalizer({as: Array})
-export default class FrigInput extends React.Component {
+export default class Input extends React.Component {
+  displayName = "Frig.Input"
 
   static propTypes = {
     name: React.PropTypes.string.isRequired,
@@ -24,7 +25,7 @@ export default class FrigInput extends React.Component {
 
   static contextTypes = {
     frig: React.PropTypes.shape({
-      value: React.PropTypes.object.isRequired,
+      data: React.PropTypes.object.isRequired,
       theme: React.PropTypes.object.isRequired,
       errors: React.PropTypes.object.isRequired,
       layout: React.PropTypes.string.isRequired,
@@ -95,7 +96,7 @@ export default class FrigInput extends React.Component {
 
   render() {
     let component = this._themedComponent()
-    return React.createElement(component, this._themedInputProps())
+    return <component {...this._themedInputProps()}/>
   }
 
   /*
@@ -130,7 +131,7 @@ export default class FrigInput extends React.Component {
   }
 
   _value() {
-    return this.context.frigForm.value[this.props.name]
+    return this.context.frigForm.data[this.props.name]
   }
 
   _themedInputProps(nextProps = this.props) {
@@ -272,7 +273,7 @@ export default class FrigInput extends React.Component {
     let {name} = this.props
     let type = this._guessInputType()
     if (type == null) throw `${name}: No type mapping found`
-    let component = this.context.theme.component(type)
+    let component = this.context.frigForm.theme.component(type)
     if (component == null) throw `${name}: No ${type} component found in theme`
     return component
   }

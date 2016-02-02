@@ -1,17 +1,21 @@
-let React = require("react")
-let {div} = React.DOM
+import FieldsetNestedForm from "./fieldset_nested_form.js"
+import React from "react"
 
 export default class Fieldset extends React.Component {
   displayName = "Fieldset"
 
-  static propTypes = {
-    form: React.PropTypes.func.isRequired,
-    // Provided by the parent Frig Form's HOC props closure
-    data: React.PropTypes.object.isRequired,
-    theme: React.PropTypes.object.isRequired,
-    typeMapping: React.PropTypes.objectOf(React.PropTypes.string),
-    errors: React.PropTypes.object,
-    saved: React.PropTypes.object,
+  static contextTypes = {
+    frig: React.PropTypes.shape({
+      data: React.PropTypes.object.isRequired,
+      theme: React.PropTypes.object.isRequired,
+      errors: React.PropTypes.object.isRequired,
+      layout: React.PropTypes.string.isRequired,
+      saved: React.PropTypes.object.isRequired,
+      // Callbacks (Private API - reserved for frig form use only)
+      requestChildComponentChange: React.PropTypes.func.isRequired,
+      childComponentWillMount: React.PropTypes.func.isRequired,
+      childComponentWillUnmount: React.PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   state = {
@@ -19,18 +23,18 @@ export default class Fieldset extends React.Component {
   }
 
   componentWillMount() {
-    this.props.onComponentMount(this)
+    this.props.childComponentWillMount(this.props.name, this)
   }
 
   componentWillUnmount() {
-    this.props.onComponentUnmount(this)
+    this.props.childComponentWillUnmount(this.props.name, this)
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps, nextContext) {
     // Truncating the invalid forms list to prevent ghosting of invalid
     // forms that are removed in the props.
     let invalidForms = this.state.invalidForms
-    let numberOfForms = this._dataValues(nextProps).length
+    let numberOfForms = this._dataValues(nextContext).length
     invalidForms = invalidForms.slice(0, numberOfForms)
     this.setState({invalidForms})
   }
@@ -67,33 +71,30 @@ export default class Fieldset extends React.Component {
     return Object.keys(this.refs||{}).map((k) => this.refs[k])
   }
 
-  _listForKey(list, key) {
-    return Array.isArray(list) ? list[key] : list
+  _listForKey(list, index) {
+    return Array.isArray(list) ? list[index] : list
   }
 
-  _formProps({data, key}) {
-    return Object.assign({}, this.props, {
-      key,
-      ref: key,
-      form: (f) => this.props.form(f, key),
-      nestedForm: true,
-      errors: this._listForKey(this.props.errors, key),
-      saved: this._listForKey(this.props.saved, key),
-      internalErrors: this._listForKey(this.props.internalErrors, key),
-      data: {
-        value: data,
-        requestChange: this._onFormRequestChange.bind(this, key),
-      },
+  _formProps({data, index}) {
+    return Object.assign({}, this.context.frigForm, {
+      index,
+      key: index,
+      ref: index,
+      errors: this._listForKey(this.props.errors, index),
+      saved: this._listForKey(this.props.saved, index),
+      internalErrors: this._listForKey(this.props.internalErrors, index),
+      data: data,
+      onChange: this._onFormRequestChange.bind(this, index),
     })
   }
 
-  _onFormRequestChange(key, formData, valid) {
+  _onFormRequestChange(index, formData, valid) {
     let data = this.props.data.value
     // Combine the updated data from the form with the other forms or if this
     // is a single form fieldset overwriting the previous form data.
     if (Array.isArray(data)) {
       data = data.slice()
-      data[key] = formData
+      data[index] = formData
     }
     else {
       data = formData
@@ -102,10 +103,10 @@ export default class Fieldset extends React.Component {
     // a valid state to the upstream only if all nested forms are valid
     let invalidForms = this.state.invalidForms
     if (valid) {
-      invalidForms[key] = true
+      invalidForms[index] = true
     }
     else {
-      delete invalidForms[key]
+      delete invalidForms[index]
     }
     valid = invalidForms.filter((invalid) => invalid === true).length === 0
     this.setState({invalidForms})
@@ -113,21 +114,18 @@ export default class Fieldset extends React.Component {
     this.props.data.requestChange(data, valid)
   }
 
-  _dataValues(nextProps = this.props) {
-    let dataValues = nextProps.data.value || []
+  _dataValues(nextContext = this.context) {
+    let dataValues = nextContext.frigForm.data.value || []
     return Array.isArray(dataValues) ? dataValues : [dataValues]
-  }
-
-  _renderForm(formProps) {
-    let component = require("./form.js")
-    return React.createElement(component, formProps)
   }
 
   render() {
     let i = 0
-    let datas = this._dataValues()
+    let nestedFormDatas = this._dataValues()
     return div({},
-      datas.map((data) => this._renderForm(this._formProps({data, key: i++})))
+      nestedFormDatas.map((data) => {
+        return <FieldsetNestedForm {...this._formProps({data, index: i++})}/>
+      })
     )
   }
 

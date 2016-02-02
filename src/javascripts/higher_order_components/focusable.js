@@ -1,5 +1,5 @@
-let React = require("react")
-let ReactDOM = require("react-dom")
+import React from "react"
+import ReactDOM from "react-dom"
 
 /*
  * A higher order component that passes a focused attribute to it's child
