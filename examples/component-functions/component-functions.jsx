@@ -11,16 +11,16 @@ import {Form, Input} from "frig"
 class ComponentFunctionsExample extends React.Component {
   displayName = "ComponentFunctionsExample"
 
+  state = {
+    account: {counter: 0, formUpdates: 0},
+  }
+
   componentWillMount() {
     this._interval = setInterval(this._updateCounter, 1000)
   }
 
   componentWillUnmount() {
     clearInterval(this._interval)
-  }
-
-  getInitialState() {
-    return {account: {counter: 0, formUpdates: 0}}
   }
 
   // Non-form updates
@@ -38,20 +38,11 @@ class ComponentFunctionsExample extends React.Component {
     }
   }
 
-  _onResetClick = () => {
-    this.refs.form.reset()
-  }
-
-  _onValidateClick = () => {
-    this.refs.form.validate()
-  }
-
   render() {
     return (
       <Form
         data={this.state.account}
-        onChange={(data) => this.setState({account: data})}
-        form={this.form}
+        onChange={(account) => this.setState({account})}
         ref="form"
       >
         <div className="row">
@@ -62,11 +53,17 @@ class ComponentFunctionsExample extends React.Component {
           <Input name="password"/>
           <Input name="rememberMe" type="switch"/>
           <div className="col-xs-12">
-            <div className="btn btn-danger" onClick={this._onResetClick}>
+            <div
+              className="btn btn-danger"
+              onClick={() => this.refs.form.reset()}
+            >
               form.reset()
             </div>
             {" "}
-            <div className="btn btn-success" onClick={this._onValidateClick}>
+            <div
+              className="btn btn-success"
+              onClick={this.refs.form.validate()}
+            >
               form.validate()
             </div>
           </div>

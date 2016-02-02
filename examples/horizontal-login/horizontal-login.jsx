@@ -8,7 +8,6 @@ import React from "react"
 import ReactDOM from "react-dom"
 import {Form, Input, FormErrorList} from "frig"
 
-// An example of a plain old form without 2 way data binding
 class HorizontalLoginExample extends React.Component {
   displayName = "HorizontalLoginExample"
 
@@ -19,7 +18,8 @@ class HorizontalLoginExample extends React.Component {
       <div className="row">
         <div className={this.columnClasses}>
           <Form
-            data={{}}
+            data={this.state}
+            onChange={(data) => this.setState(data)}
             layout="horizontal"
             align="right"
           >
