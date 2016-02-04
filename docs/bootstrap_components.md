@@ -50,7 +50,7 @@ In addition to the properties listed under each component on this page and on th
 
 ```jsx
 <f.input name="example" component="number"
-  {/* Uses [numeral.js][http://numeraljs.com] format. Defaults to: "0,0[.][00]" */}
+  {/* Uses [numeral.js][http://numeraljs.com] format. */}
   format={"0,0.00"}
   {/* The minimum number allowed */}
   min={3}
