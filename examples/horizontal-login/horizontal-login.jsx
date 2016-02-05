@@ -6,10 +6,12 @@ Frig.typeMapping.boolean = {component: "switch"}
 // Libraries needed for each component
 import React from "react"
 import ReactDOM from "react-dom"
-import {Form, Input, FormErrorList} from "frig"
+import {Form, Input, Submit, FormErrorList} from "frig"
 
 class HorizontalLoginExample extends React.Component {
   displayName = "HorizontalLoginExample"
+
+  state = {}
 
   columnClasses = "col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-xs-12"
 

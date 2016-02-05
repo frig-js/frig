@@ -1,14 +1,19 @@
 import Form from "./components/form.js"
 import Input from "./components/input.js"
 import Submit from "./components/submit.js"
-import NestedFieldset from "./components/value_linked_select.js"
+import FormErrorList from "./components/form_error_list.js"
+import Fieldset from "./components/fieldset.js"
+import FieldsetText from "./components/fieldset_text.js"
 import ValueLinkedSelect from "./components/value_linked_select.js"
 import util from "./util.js"
 
 module.exports = {
   Form,
   Input,
-  NestedFieldset,
+  FormErrorList,
+  Fieldset,
+  FieldsetText,
+  FormErrorList,
   Submit,
   util,
   ValueLinkedSelect,

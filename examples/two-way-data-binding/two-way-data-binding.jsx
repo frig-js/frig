@@ -9,7 +9,7 @@ import {Form, Input, Submit} from "frig"
 
 class TwoWayDataBindingExample extends React.Component {
   displayName = "TwoWayDataBindingExample"
-  state = {}
+  state = {account: {}}
 
   render() {
     return (
