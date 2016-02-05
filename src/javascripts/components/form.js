@@ -6,7 +6,17 @@ import ErrorsNormalizer from "../higher_order_components/errors_normalizer.js"
  * FrigForm should be used as the top level component for Frig forms in JSX.
  * In coffeescript FrigForm is called by FrigDSL.
  */
-@ErrorsNormalizer({as: Object})
+@ErrorsNormalizer({
+  as: Object,
+  publicFunctions: [
+    "validate",
+    "isValid",
+    "isModified",
+    "modifications",
+    "resetModified",
+    "reset",
+  ],
+})
 export default class Form extends React.Component {
   displayName = "Form"
 

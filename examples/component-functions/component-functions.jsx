@@ -24,7 +24,7 @@ class ComponentFunctionsExample extends React.Component {
   }
 
   // Non-form updates
-  _updateCounter() {
+  _updateCounter = () => {
     this.state.account.counter += 1
     this.setState({account: this.state.account})
   }
@@ -62,7 +62,7 @@ class ComponentFunctionsExample extends React.Component {
             {" "}
             <div
               className="btn btn-success"
-              onClick={this.refs.form.validate()}
+              onClick={() => this.refs.form.validate()}
             >
               form.validate()
             </div>

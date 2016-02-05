@@ -3,7 +3,16 @@ import frigValidations from "../validations.js"
 import {entries, humanize} from "../util.js"
 import ErrorsNormalizer from "../higher_order_components/errors_normalizer.js"
 
-@ErrorsNormalizer({as: Array})
+@ErrorsNormalizer({
+  as: Array,
+  publicFunctions: [
+    "validate",
+    "isValid",
+    "isModified",
+    "resetModified",
+    "reset",
+  ],
+})
 export default class Input extends React.Component {
   displayName = "Frig.Input"
 

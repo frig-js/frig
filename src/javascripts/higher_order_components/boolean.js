@@ -8,9 +8,7 @@ import React from "react"
  * This component will request a change to the valueLink for any invalid
  * valueLink value to convert it into the onValue or offValue.
  */
-module.exports = function(componentClass) {
-  let childName = componentClass.prototype.displayName
-
+module.exports = function(ComponentClass) {
   return class extends React.Component {
 
     static propTypes = {
@@ -24,7 +22,7 @@ module.exports = function(componentClass) {
       offValue: false,
     }
 
-    displayName = `Frig.HigherOrderComponents.Boolean(${childName})`
+    displayName = `Frig.HigherOrderComponents.Boolean`
 
     componentWillMount() {
       this._normalizeValue(this.props)
@@ -52,12 +50,13 @@ module.exports = function(componentClass) {
 
     render() {
       let childProps = Object.assign({}, this.props, {
+        ref: "child",
         valueLink: {
           value: this.props.valueLink.value === this.props.onValue,
           requestChange: this._change.bind(this),
         },
       })
-      return React.createElement(componentClass, childProps)
+      return <ComponentClass {...childProps}/>
     }
 
   }

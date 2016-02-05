@@ -9,8 +9,8 @@ import ReactDOM from "react-dom"
  *
  * This is useful for implementing popups in Frig Themes.
  */
-module.exports = function(componentClass) {
-  let childName = componentClass.prototype.displayName
+module.exports = function(ComponentClass) {
+  let childName = ComponentClass.prototype.displayName
 
   return class extends React.Component {
 
@@ -53,7 +53,7 @@ module.exports = function(componentClass) {
       let childProps = Object.assign({}, this.props, {
         focused: this.state.focused,
       })
-      return React.createElement(componentClass, childProps)
+      return <ComponentClass {...childProps}/>
     }
 
   }

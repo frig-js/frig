@@ -58,13 +58,13 @@ export default class extends React.Component {
   }
 
   render() {
+    let ComponentClass = this.ComponentClass()
     let childProps = Object.assign({}, this.props, {
       ref: "child",
       errors: this._normalizedErrors(),
     })
     delete childProps.internalErrors
-
-    return React.createElement(this.componentClass(), childProps)
+    return <ComponentClass {...childProps}/>
   }
 
 }
