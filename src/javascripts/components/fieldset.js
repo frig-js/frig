@@ -5,7 +5,7 @@ export default class Fieldset extends React.Component {
   displayName = "Fieldset"
 
   static contextTypes = {
-    frig: React.PropTypes.shape({
+    frigForm: React.PropTypes.shape({
       data: React.PropTypes.object.isRequired,
       theme: React.PropTypes.object.isRequired,
       errors: React.PropTypes.object.isRequired,
@@ -23,11 +23,11 @@ export default class Fieldset extends React.Component {
   }
 
   componentWillMount() {
-    this.props.childComponentWillMount(this.props.name, this)
+    this.context.frigForm.childComponentWillMount(this.props.name, this)
   }
 
   componentWillUnmount() {
-    this.props.childComponentWillUnmount(this.props.name, this)
+    this.context.frigForm.childComponentWillUnmount(this.props.name, this)
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -56,7 +56,8 @@ export default class Fieldset extends React.Component {
     let values = this._forms()
       .filter((form) => form.isModified())
       .map((form) => form.modifications())
-    return Array.isArray(this.props.data.value || []) ? values : values[0]
+    let isArray = Array.isArray(this.context.frigForm.data.value || [])
+    return isArray ? values : values[0]
   }
 
   resetModified() {
@@ -122,10 +123,14 @@ export default class Fieldset extends React.Component {
   render() {
     let i = 0
     let nestedFormDatas = this._dataValues()
-    return div({},
-      nestedFormDatas.map((data) => {
-        return <FieldsetNestedForm {...this._formProps({data, index: i++})}/>
-      })
+    return (
+      <div>
+        {
+          nestedFormDatas.map((data) =>
+            <FieldsetNestedForm {...this._formProps({data, index: i++})}/>
+          )
+        }
+      </div>
     )
   }
 

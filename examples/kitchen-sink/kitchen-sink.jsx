@@ -6,7 +6,7 @@ Frig.typeMapping.boolean = {component: "switch"}
 // Libraries needed for each component
 import React from "react"
 import ReactDOM from "react-dom"
-import {Form, Input, FormErrorList, Fieldset, FieldsetText} from "frig"
+import {Form, Input, Submit, FormErrorList, Fieldset, FieldsetText} from "frig"
 
 class KitchenSinkExample extends React.Component {
   displayName = "KitchenSinkExample"
@@ -103,7 +103,7 @@ class KitchenSinkExample extends React.Component {
               ]}
             />
           </div>
-
+{/*
           <div className="row">
             <div className="col-xs-12">
               <h2>Typeaheads</h2>
@@ -172,7 +172,7 @@ class KitchenSinkExample extends React.Component {
                   <div>No Selection</div> : null
               }
             </div>
-          </div>
+          </div>*/}
           <div className="row">
             <div className="col-xs-12">
               <h2>Passwords</h2>
@@ -311,10 +311,11 @@ class KitchenSinkExample extends React.Component {
             {
               this.state.account.shareSketchyInfo == null ? null :
               [
-                <Input name="socialSecurityNumber"/>,
-                <Input name="fullName"/>,
+                <Input name="socialSecurityNumber" key="ssn"/>,
+                <Input name="fullName" key="fullName"/>,
                 <Input
                   name="eyeColor"
+                  key ="eyeColor"
                   options={["blue", "green", "red", "left"]}
                 />,
               ]
