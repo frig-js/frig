@@ -1,15 +1,17 @@
-## Form
-*Available as `Frig.Form` in JSX and `Frig.dsl` in the Coffeescript DSL*
+## <Form/>
 
 ```jsx
-<Frig.Form data={this.linkState("myAccount")} form={this.myAccountForm}/>
+import {Form, Input} from "frig"
+<Form data={this.state.myAccount} onChange={(myAccount) => this.setState({myAccount})}>
+  <Input name="example">
+</Form>
 ```
 
 ### Props
 
-* **data (required)** - either a ReactLink or an object. This is used to populate the values of each field in the form. The data property is also used by inputs for type inference where a `type` property is not provided. If a ReactLink is provided the ReactLink will be updated with the user's inputs. In the Coffeescript DSL version the form is the last argument.
-* **form (required)** - a function. The form callback is expected to generate the content of the form as either a single React component or array of components. The form callback receives an object `f` containing the Frig components needed to build a form (In the Coffeescript DSL these components are replaced with equivalent functions).
-* **errors (optional)** - an array of strings. The list of errors supplied here can be rendered by the `f.errors` component.
+* **data (required)** - This is used to populate the values (including default values) of each field in the form. The data property is also used by inputs for type inference where a `type` property is not provided.
+* **onChange(data) (required)** - the onChange callback will be updated whenever there is user input. The onChange function receives the full updated data of the form as it's only argument. Normally this is used to update your store or setState and trigger a re-render passing the new data back in to the form.
+* **errors (optional)** - an array of strings. The list of errors supplied here can be rendered by the `<ErrorList/>` component.
 * **onSubmit (optional)** - a function. Called after the submit button is clicked and all validations have passed. The DOM event is passed to the callback.
 * **layout (optional)**  - a string. Either `"horizontal"` for a horizontally layed out form (with labels on the same row as their inputs) or `"vertical"` for a vertically layed out form (with labels above their inputs). Defaults to `"vertical"`.
 * **align (optional)** - a string. Either `"left"` to align all inputs along the left side of their containing divs or `"right"` to align all inputs on the right side of their containing divs. Defaults to `"left"`.
@@ -25,21 +27,24 @@ These functions can be called on the frig form object (eg. using React refs).
 * **resetModified()** - resets the value of `isModified()` to false.
 * **reset()** - resets the value of `isModified()` to false and resets all validations (eg. hiding required feild error messages).
 
-## f.input
+## <Input/>
 
 ```jsx
-<f.input name="example"/>
+import {Form, Input} from "frig"
+<Form data={this.state.myAccount} onChange={(myAccount) => this.setState({myAccount})}>
+  <Input name="example">
+</Form>
 ```
 
 Frig Inputs are your interface to any kind of form element that allow the user to edit their data.
 
-For example `<f.input name="username"/>` will render a HTML input element by default however `<f.input name="friends" type="typeahead" multiple=true options=["Jane", "Joe"]/>` will render a typeahead multi-select.
+For example `<Input name="username"/>` will render a HTML input element by default however `<Input name="friends" type="typeahead" multiple=true options=["Jane", "Joe"]/>` will render a typeahead multi-select.
 
 An input receives a name and loads its value from the form's data (ie. `value = form.props.data[input.props.name]`). To specificy a type of form element to render you can either set its `props.type` or `props.component` or leave both blank and have the input guess its type based on the form data and its name (see *Type Inference*).
 
 #### Props
 * **name (required)** - a string. The key of the input's value in the form's `props.data`
-* **type (optional)** - a string. The type of input. If a type is not provided it will be guessed based on the input's name and value (based on the form's data). the `f.input` is basically a wrapper for specific "themed inputs" (just normal react components defined by the Frig theme). See the *Available Input Types* section for a complete list of type values.
+* **type (optional)** - a string. The type of input. If a type is not provided it will be guessed based on the input's name and value (based on the form's data). the `<Input/>` is basically a wrapper for specific "themed inputs" (just normal react components defined by the Frig theme). See the *Available Input Types* section for a complete list of type values.
 * **component (optional)** - a React Component. Overrides the themed input specified by the type with a specific React Component to provide the user interface implementation of the input.
 * **errors (optional)** - an array of strings. These errors are appended to the errors generated by the input's validations.
 * **options (optional)** - Sets the options for a `select` or `typeahead` type input. An array of one of the following:
@@ -83,38 +88,66 @@ If a `type` isn't specified then the input's type will be guessed based on the f
 3. If the `name` ends in `"password"` then the type will default to a `password`
 4. Otherwise the type is based on the `typeof` of the `form.props[input.props.name]`
 
+## <Submit/>
 
-## f.nestedFields
+```jsx
+import {Form, Submit} from "frig"
+<Form data={this.state.myAccount} onChange={(myAccount) => this.setState({myAccount})}>
+  <Submit title="Login"/>
+</Form>
+```
 
-A Nested field takes a name (some key in the form's data) and produces one or more recursive (ie. nested) forms. Nested fields accomidate both "has one" (nested objects) and "has many" (nested arrays of objects) relationships in form data.
+#### Props
+* **title (optional)** - a string. The text of the submit button.
+
+## <ErrorList/>
+
+```jsx
+import {Form, ErrorList} from "frig"
+<Form data={this.state.myAccount} onChange={(myAccount) => this.setState({myAccount})}>
+  <ErrorList/>
+</Form>
+```
+
+The errorList component renders all the form-level errors in the form's `props.errors`.
+
+## <Fieldset/>
+
+```jsx
+import {Form, Fieldset, Input} from "frig"
+<Form data={this.state.myAccount} onChange={(myAccount) => this.setState({myAccount})}>
+  <Fieldset name="children">
+    <Input name="firstName"/>
+    <Input name="lastName"/>
+    <Input name="age"/>
+  </Fieldset>
+</Form>
+```
+
+A Fieldset takes a name (some key in the form's data) and produces one or more recursive (ie. nested) forms. Fieldsets accomidate both "has one" (nested objects) and "has many" (nested arrays of objects) relationships in form data.
 
 Calling validate/isValid/isModified on a parent form object will call it on all of it's nested fields and incorporate their values recursively.
 
 #### Props
-* **name (required)** - The key of the nested fields' data object (or array of data objects) in the form's `props.data`
-* **form (required)** - a function. The form callback is expected to generate the content of the nested fields as either a single React component or array of components. The form callback receives an object `f` containing the Frig components needed to build a form (In the Coffeescript DSL these components are replaced with equivalent functions). A second integer `index` argument is added to nested field form callbacks since nested fields can be used on arrays of data.
+* **name (required)** - The key of the fieldset's data object (or array of data objects) in the `<Form/>`'s `props.data`
 
-#### Coffeescript DSL
-* In the Coffeescript DSL version of `f.nestedFields` the function accepts two arguments. The first argument is the name and second is the form callback.
+## <FieldsetText/>
 
-#### Examples
-* JSX: `<f.nestedFields name="address" form=this.addressForm/>`
-* Coffeescript `f.nestedFields "address", this.addressForm`
+```jsx
+import {Form, Fieldset, FieldsetText, Input} from "frig"
+<Form data={this.state.myAccount} onChange={(myAccount) => this.setState({myAccount})}>
+  <Fieldset name="children">
+    <h2>
+      <FieldsetText text={(index) => `Child Number ${index}`}/>
+    </h2>
+    <Input name="firstName"/>
+    <Input name="lastName"/>
+    <Input name="age"/>
+  </Fieldset>
+</Form>
+```
 
-## f.submit
+FieldsetText gives access to the index number of a fieldset for creating text that is dynamic across each child in a has many type fieldset - ie. fieldsets that are iterated over arrays of data.
 
 #### Props
-* **title (optional)** - a string. The text of the submit button. This is the first argument of the coffeescript DSL version.
-
-#### Examples
-* JSX: `<f.submit title="Log In"/>`
-* Coffeescript `f.submit("Log In")`
-
-
-## f.errors
-
-The errors component renders all the form-level errors in the form's `props.errors`.
-
-#### Examples
-* JSX: `<f.errors/>`
-* Coffeescript `f.errors()`
+* **text (required)** - A function. First argument is the index number. Return a string to be injected into the DOM.
