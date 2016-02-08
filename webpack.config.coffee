@@ -42,32 +42,34 @@ output =
   path: if isProduction then "./dist" else "./examples"
   filename: "[name]#{if minify then ".min.js" else ".js"}"
 
-externals =
-  "react": {
-    root: "React"
-    this: "React"
-    var: "React"
-    commonjs: "react"
-    commonjs2: "react"
-    amd: "react"
-  }
-  "react-dom": {
-    root: "ReactDOM"
-    this: "ReactDOM"
-    var: "ReactDOM"
-    commonjs: "react-dom"
-    commonjs2: "react-dom"
-    amd: "react-dom"
-  }
+externals = {}
 
 if isProduction and mode == "examples"
   externals = _.merge externals,
     "frig": "Frig"
     "frigging-bootstrap": "FriggingBootstrap"
+    "react": {
+      root: "React"
+      this: "React"
+      var: "React"
+      commonjs: "react"
+      commonjs2: "react"
+      amd: "react"
+    }
+    "react-dom": {
+      root: "ReactDOM"
+      this: "ReactDOM"
+      var: "ReactDOM"
+      commonjs: "react-dom"
+      commonjs2: "react-dom"
+      amd: "react-dom"
+    }
 
 alias = if isProduction
   {}
 else
+  "react": path.resolve('./node_modules/react')
+  "react-dom": path.resolve('./node_modules/react-dom')
   "frig": path.join __dirname, "src/javascripts/"
   "frigging-bootstrap": path.join __dirname, "node_modules/frigging-bootstrap/src/javascripts/"
 

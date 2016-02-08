@@ -32,7 +32,7 @@ class KitchenSinkExample extends React.Component {
   formOpts() {
     return {
       data: this.state.account,
-      onChange: ({account}) => this.setState({account}),
+      onChange: (account) => this.setState({account}),
       errors: {
         base: ["Test Error", "Moo"],
         email: ["This Error is a Test"],
@@ -309,16 +309,17 @@ class KitchenSinkExample extends React.Component {
           <div className="row">
             <Input name="shareSketchyInfo"/>
             {
-              this.state.account.shareSketchyInfo == null ? null :
-              [
-                <Input name="socialSecurityNumber" key="ssn"/>,
-                <Input name="fullName" key="fullName"/>,
-                <Input
-                  name="eyeColor"
-                  key ="eyeColor"
-                  options={["blue", "green", "red", "left"]}
-                />,
-              ]
+              this.state.account.shareSketchyInfo === true ?
+                [
+                  <Input name="socialSecurityNumber" key="ssn"/>,
+                  <Input name="fullName" key="fullName"/>,
+                  <Input
+                    name="eyeColor"
+                    key ="eyeColor"
+                    options={["blue", "green", "red", "left"]}
+                  />,
+                ]
+              : null
             }
             <Submit title="Save"/>
           </div>
