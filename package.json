@@ -4,6 +4,7 @@
   "private": false,
   "main": "dist/frig.js",
   "scripts": {
+    "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "preversion": "./scripts/preversion.sh",
     "version": "./scripts/version.sh",
     "postversion": "./scripts/publish_docs.sh && git push && git push --tags"
