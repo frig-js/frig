@@ -18,8 +18,6 @@ class KitchenSinkExample extends React.Component {
       shareSketchyInfo: false,
       addresses: [{address: "55 Actual Place Rd."}, {}],
       select_example: "thing-value",
-      stuff_or_things: ["stuff-value"],
-      single_select_typeahead: "stuff-value",
       colorTwo: "#999",
       colorThree: "#000",
     },
@@ -60,7 +58,7 @@ class KitchenSinkExample extends React.Component {
         <div>
           <div className="row">
             <div className="col-xs-12">
-              <h2>"My Account"</h2>
+              <h2>The Frigging Kitchen Sink</h2>
             </div>
           </div>
 
@@ -103,76 +101,6 @@ class KitchenSinkExample extends React.Component {
               ]}
             />
           </div>
-{/*
-          <div className="row">
-            <div className="col-xs-12">
-              <h2>Typeaheads</h2>
-            </div>
-
-            <Input
-              name="stuff_or_things"
-              type="typeahead"
-              multiple
-              options={[
-                // The 3 formats for options
-                // 1. An object with a label and a value (perfered)
-                {label: "Stuff", value: "stuff-value"},
-                // 2. An array of the [value, label]
-                ["thing-value", "Things"],
-                // 3. A string. For scenarios where the label equals the value.
-                "why not both?",
-              ]}
-            />
-
-            <Input
-              name="single_select_typeahead"
-              type="typeahead"
-              saved
-              options={[
-                // The 3 formats for options
-                // 1. An object with a label and a value (perfered)
-                {label: "Stuff", value: "stuff-value"},
-                // 2. An array of the [value, label]
-                ["thing-value", "Things"],
-                // 3. A string. For scenarios where the label equals the value.
-                "why not both?",
-              ]}
-            />
-
-            <Input
-              name="customSelectionRendering"
-              type="typeahead"
-              multiple
-              displaySelections
-              options={[
-                // The 3 formats for options
-                // 1. An object with a label and a value (perfered)
-                {label: "Stuff", value: "stuff-value"},
-                // 2. An array of the [value, label]
-                ["thing-value", "Things"],
-                // 3. A string. For scenarios where the label equals the value.
-                "why not both?",
-              ]}
-            />
-            {
-              // Rendering the selection independently of the typeahead for
-              // customization purposes
-            }
-            <div className="col-xs-12">
-              <h4>"Custom Selections"</h4>
-              <ul>
-                {
-                  this.customSelections().map((selection) =>
-                    <li key={"o-#{selection}"}>I choose {selection}</li>
-                  )
-                }
-              </ul>
-              {
-                this.state.account.customSelectionRendering == null ?
-                  <div>No Selection</div> : null
-              }
-            </div>
-          </div>*/}
           <div className="row">
             <div className="col-xs-12">
               <h2>Passwords</h2>

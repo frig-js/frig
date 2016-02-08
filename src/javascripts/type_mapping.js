@@ -22,7 +22,6 @@ module.exports = {
   // date:         {component: "datetime"},
   time: {component: "timepicker"},
   select: {component: "select"},
-  typeahead: {component: "typeahead"},
   color: {component: "color"},
   // radioButtons: {component: "radioButtons"},
   // checkBoxes:   {component: "checkBoxes"},
