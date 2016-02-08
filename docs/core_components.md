@@ -26,6 +26,7 @@ These functions can be called on the frig form object (eg. using React refs).
 * **modifications()** - returns an `object` of modifications by the user to the form's fields and nested fields. The modifications are keyed by the input and nested fieldset names. The value for each inputs is `true` and the value for each nested fieldset is a nested `object`.
 * **resetModified()** - resets the value of `isModified()` to false.
 * **reset()** - resets the value of `isModified()` to false and resets all validations (eg. hiding required feild error messages).
+* **formData()** - returns the HTML5 FormData object. See https://developer.mozilla.org/en/docs/Web/API/FormData
 
 ## <Input/>
 

@@ -15,6 +15,7 @@ import ErrorsNormalizer from "../higher_order_components/errors_normalizer.js"
     "modifications",
     "resetModified",
     "reset",
+    "formData",
   ],
 })
 export default class Form extends React.Component {
@@ -103,6 +104,10 @@ export default class Form extends React.Component {
     for (let c of this._childComponents()) c.reset()
   }
 
+  formData() {
+    return this.refs.form.formData()
+  }
+
   /*
    * =========================================================================
    * React Lifecycle + Render
@@ -112,7 +117,9 @@ export default class Form extends React.Component {
   render() {
     let ThemedForm = this.props.theme.component("form")
     return (
-      <ThemedForm {...this._themedFormProps()}>
+      <ThemedForm {...this._themedFormProps()}
+        ref="form"
+      >
         {this.props.children}
       </ThemedForm>
     )
@@ -127,7 +134,6 @@ export default class Form extends React.Component {
   _themedFormProps() {
     let formProps = Object.assign({}, this.props)
     formProps.formHtml = Object.assign({}, formProps.formHtml || {}, {
-      ref: "form",
       onSubmit: this._onSubmit.bind(this),
     })
     return formProps

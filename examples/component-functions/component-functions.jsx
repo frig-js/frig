@@ -54,17 +54,26 @@ class ComponentFunctionsExample extends React.Component {
           <Input name="rememberMe" type="switch"/>
           <div className="col-xs-12">
             <div
-              className="btn btn-danger"
+              className="btn btn-default"
               onClick={() => this.refs.form.reset()}
             >
               form.reset()
             </div>
             {" "}
             <div
-              className="btn btn-success"
+              className="btn btn-default"
               onClick={() => this.refs.form.validate()}
             >
               form.validate()
+            </div>
+            {" "}
+            <div
+              className="btn btn-default"
+              /*eslint-disable no-console */
+              onClick={() => console.log(this.refs.form.formData())}
+              /*eslint-enable no-console */
+            >
+              console.log(form.formData())
             </div>
           </div>
         </div>
