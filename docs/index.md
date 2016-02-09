@@ -56,7 +56,7 @@ class TheBasicsExample extends React.Component {
 }
 ```
 
-<iframe src="examples/the-basics/index.html" style="
+<iframe src="/frigging-examples/dist/the-basics/" style="
   width: 100%;
   height: 300px;
   border: 1px solid #ccc;
