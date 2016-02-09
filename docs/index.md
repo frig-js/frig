@@ -3,11 +3,13 @@
 
 React Forms made easy. Developed at [TouchBistro](http://touchbistro.com/) in Toronto.
 
-**Frig** aims to help you build exactly the forms you want by providing you with a small toolkit of powerful React components.
+**Frig** is:
 
-The basic goal of **Frig** is to not touch the layout - leaving the specific positioning of the form elements as a choice for you to completely control as the designer.
-
-Every input and form element in **Frig** is a React Component so you can mix them with your other React Components seamlessly. **Frig** should feel very familiar in any React project.
+* **Simple** - Most form fields are 1 liners. Automatic type inference from your data keeps your form code short.
+* **Data-bindings** - Concise and simple data-bindings to any data store. Frig works with ReactRedux just as well as it does with React.setState.
+* **Layout agnostic** - Frig leaves the positioning of form elements and combination with non-form elements completely in your control as the designer of the form.
+* **Powerful** - Validations, nested fieldsets, image previews, time pickers and color pickers are all included out of the box!
+* **100% React** - Unlike [tcomb-forms](https://github.com/gcanti/tcomb-form) **Frig** is built 100% in React so it should feel very familiar in any React project.
 
 
 ## Installation
