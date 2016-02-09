@@ -1,6 +1,6 @@
 {
   "name": "frig",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "private": false,
   "main": "dist/frig.js",
   "scripts": {
@@ -31,7 +31,6 @@
     "url-loader": "*",
     "jsx-loader": "*",
     "file-loader": "*",
-    "style-loader": "*",
     "eslint-loader": "git+https://github.com/MoOx/eslint-loader.git#master",
     "eslint": "2.0.0-beta.3",
     "eslint-plugin-react": "3.16.1",
