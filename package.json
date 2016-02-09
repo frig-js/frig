@@ -46,7 +46,6 @@
     "react-dom": ">=0.14.3",
     "react-addons-css-transition-group": "*",
     "classnames": "*",
-    "frigging-bootstrap": "*",
     "fuzzy": "*",
     "colr": "*",
     "numeral": "*"

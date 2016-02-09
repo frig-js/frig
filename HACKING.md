@@ -1,19 +1,19 @@
 ## Dev Setup
 1. `git clone git@github.com:frig-js/frig.git`
 2. `git clone git@github.com:frig-js/frigging-bootstrap.git`
-3. npm install: `cd frigging-bootstrap; npm install; cd ../frig; npm install; cd ..`
-3. npm link FriggingBootstrap to Frig: `cd frigging-bootstrap; npm link; cd ../frig; npm link frigging-bootstrap`
-4. Install mkdocs from http://www.mkdocs.org/
+3. `git clone git@github.com:frig-js/frigging-examples.git`
+4. npm install + npm link: `cd frigging-bootstrap && npm install && npm link && cd ../frig && npm install && npm link && cd ../frigging-examples && npm install && npm link frig && npm link frigging-bootstrap`
+5. Install mkdocs from http://www.mkdocs.org/
 
 ## Running the examples (for debugging)
-3. Run `npm start`
-4. Run `mkdocs serve`
-5. Go to http://localhost:8080/webpack-dev-server/ to view examples
-6. Go to http://localhost:8000/ to view docs
+1. Run `mkdocs serve` from this repo
+2. Run `npm start` from the `frigging-examples` repo
+3. Go to http://localhost:8080/webpack-dev-server/ to view examples
+4. Go to http://localhost:8000/ to view docs
 
-## Npm Link (Debugging Frigging Bootstrap)
+## Npm Link
 
-It is useful to `npm link` frigging-bootstrap if you are working on it so that both frig and frigging-bootstrap can be developed using the frig examples.
+It is useful to `npm link` frig + frigging-bootstrap to frigging-examples if you are working on it so that both frig and frigging-bootstrap can be developed using the examples.
 
 ## Notes on Webpack
 

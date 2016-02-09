@@ -23,11 +23,7 @@ example = (name, type) ->
   mkpath.sync path.dirname htmlDest
   fsExtra.copySync htmlSrc, htmlDest
 
-example "kitchen-sink"
-example "horizontal-login"
 example "the-basics"
-example "two-way-data-binding"
-example "component-functions"
 
 if isProduction and mode != "examples"
   entry = _.merge entry,
