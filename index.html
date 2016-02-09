@@ -3,7 +3,10 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
   
   <title>Frig Docs</title>
   
@@ -21,6 +24,8 @@
   <script>
     // Current page data
     var mkdocs_page_name = "None";
+    var mkdocs_page_input_path = "index.md";
+    var mkdocs_page_url = "/";
   </script>
   
   <script src="./js/jquery-2.1.1.min.js"></script>
@@ -57,23 +62,16 @@
             
                 <li class="toctree-l3"><a href="#frig">Frig</a></li>
                 
-                    <li><a class="toctree-l4" href="#a-basic-example">A basic example</a></li>
+                    <li><a class="toctree-l4" href="#installation">Installation</a></li>
                 
-                    <li><a class="toctree-l4" href="#generates-this-sweet-bootstrap-form">Generates this sweet Bootstrap form</a></li>
+                    <li><a class="toctree-l4" href="#hello-frigging-world">Hello Frigging World</a></li>
                 
-                    <li><a class="toctree-l4" href="#two-way-data-binding">Two-Way Data Binding</a></li>
+                    <li><a class="toctree-l4" href="#react-controlled-components">React Controlled Components</a></li>
                 
                     <li><a class="toctree-l4" href="#license">License</a></li>
                 
             
             </ul>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
-        <a class="" href="getting_started/">Getting Started</a>
         
     </li>
 <li>
@@ -87,7 +85,14 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="bootstrap_components/">Bootstrap Components</a>
+        <a class="" href="input_types/">Input Types</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="bootstrap/">Bootstrap</a>
         
     </li>
 <li>
@@ -132,35 +137,49 @@
 <p>React Forms made easy. Developed at <a href="http://touchbistro.com/">TouchBistro</a> in Toronto.</p>
 <p><strong>Frig</strong> aims to help you build exactly the forms you want by providing you with a small toolkit of powerful React components.</p>
 <p>The basic goal of <strong>Frig</strong> is to not touch the layout - leaving the specific positioning of the form elements as a choice for you to completely control as the designer.</p>
-<p>Every input and form element in <strong>Frig</strong> is a React Component so you can mix them with your other React Components seemlessly. <strong>Frig</strong> should feel very familiar in any React project.</p>
-<h3 id="a-basic-example">A basic example</h3>
-<pre><code class="jsx">var SignIn = React.createClass({
+<p>Every input and form element in <strong>Frig</strong> is a React Component so you can mix them with your other React Components seamlessly. <strong>Frig</strong> should feel very familiar in any React project.</p>
+<h2 id="installation">Installation</h2>
+<ul>
+<li><strong>npm:</strong> <code>npm install --save frig frigging-bootstrap</code></li>
+<li><strong>bower:</strong> <code>bower install --save frig frigging-bootstrap</code></li>
+</ul>
+<p><strong>Note:</strong> For non ES6 browser compatibility you will also need to install the <a href="https://babeljs.io/docs/usage/polyfill/">Babel PolyFill</a>.</p>
+<h2 id="hello-frigging-world">Hello Frigging World</h2>
+<pre><code class="jsx">// One time theme selection
+// (put this in an initialization file and call it once)
+import Frig from &quot;frig&quot;
+import FriggingBootstrap from &quot;frigging-bootstrap&quot;
+Frig.defaultTheme(FriggingBootstrap)
 
-  mixins: [LinkedStateMixin],
+// ...
 
-  getInitialState: function() {
-    return {}
-  },
+// Libraries needed for each component
+import React from &quot;react&quot;
+import ReactDOM from &quot;react-dom&quot;
+import {Form, Input, Submit} from &quot;frig&quot;
 
-  form: function(f) {
-    return &lt;div className=&quot;row&quot;&gt;
-      &lt;f.input name=&quot;email&quot;/&gt;
-      &lt;f.input name=&quot;password&quot;/&gt;
-      &lt;f.input name=&quot;rememberMe&quot; type=&quot;switch&quot;/&gt;
-      &lt;f.submit title=&quot;Sign In&quot;/&gt;
-    &lt;/div&gt;
-  },
+class TheBasicsExample extends React.Component {
+  displayName = &quot;TheBasicsExample&quot;
+  state = {account: {}}
 
-  render: function() {
-    return &lt;Frig
-      data={this.linkState(&quot;account&quot;)}
-      form={this.form}
-    /&gt;
+  render() {
+    return (
+      &lt;Form
+        data={this.state.account}
+        onChange={(account) =&gt; this.setState({account})}
+      &gt;
+        &lt;div className=&quot;row&quot;&gt;
+          &lt;Input name=&quot;email&quot;/&gt;
+          &lt;Input name=&quot;password&quot;/&gt;
+          &lt;Input name=&quot;rememberMe&quot; type=&quot;switch&quot;/&gt;
+          &lt;Submit title=&quot;Sign In&quot;/&gt;
+        &lt;/div&gt;
+      &lt;/Form&gt;
+    )
   }
-})
+}
 </code></pre>
 
-<h3 id="generates-this-sweet-bootstrap-form">Generates this sweet Bootstrap form</h3>
 <iframe src="examples/the-basics/jsx/the-basics.html" style="
   width: 100%;
   height: 300px;
@@ -169,32 +188,8 @@
 "
 ></iframe>
 
-<h2 id="two-way-data-binding">Two-Way Data Binding</h2>
-<p><strong>Frig</strong> is built around <a href="https://facebook.github.io/react/docs/two-way-binding-helpers.html">ReactLink's</a> powerful two-way databinding making accessing your form data as simple as <code>this.state</code> and updating a form element's value as easy as <code>this.setState</code>.</p>
-<h3 id="if-we-modify-the-render-function-in-the-previous-example">If we modify the render function in the previous example</h3>
-<pre><code class="jsx">  // ...
-  render: function() {
-    return &lt;div&gt;
-      &lt;Frig
-        data={this.linkState(&quot;account&quot;)}
-        form={this.form}
-      /&gt;
-      &lt;h3&gt;State:&lt;/h3&gt;
-      &lt;pre&gt;{JSON.stringify(this.state.account)}&lt;/pre&gt;
-    &lt;/div&gt;
-  }
-  // ...
-</code></pre>
-
-<h3 id="we-can-see-the-state-is-automatically-updated-by-user-input">We can see the state is automatically updated by user input</h3>
-<iframe src="examples/two-way-data-binding/jsx/two-way-data-binding.html" style="
-  width: 100%;
-  height: 400px;
-  border: 1px solid #ccc;
-  padding-right: 1px;
-"
-></iframe>
-
+<h2 id="react-controlled-components">React Controlled Components</h2>
+<p><strong>Frig</strong> is built around React's Controlled Components - a powerful two-way data-binding pattern. For details on how you can make use of this pattern with Frig see: https://facebook.github.io/react/docs/forms.html#controlled-components</p>
 <h2 id="license">License</h2>
 <p>Frig is licensed under the <a href="https://raw.githubusercontent.com/TouchBistro/frig/master/LICENSE">MIT license</a>.</p>
               
@@ -204,7 +199,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="getting_started/" class="btn btn-neutral float-right" title="Getting Started"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="core_components/" class="btn btn-neutral float-right" title="Core Components">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
     </div>
@@ -230,11 +225,11 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
-          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/frig-js/frig/" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
       
-        <span style="margin-left: 15px"><a href="getting_started/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="core_components/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
@@ -243,6 +238,6 @@
 </html>
 
 <!--
-MkDocs version : 0.14.0
-Build Date UTC : 2016-01-26 18:24:32.890084
+MkDocs version : 0.15.2
+Build Date UTC : 2016-02-09 00:17:59.568406
 -->

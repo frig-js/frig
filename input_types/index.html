@@ -3,9 +3,12 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Bootstrap Components - Frig Docs</title>
+  
+  
+  <title>Input Types - Frig Docs</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -20,7 +23,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Bootstrap Components";
+    var mkdocs_page_name = "Input Types";
+    var mkdocs_page_input_path = "input_types.md";
+    var mkdocs_page_url = "/input_types/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -58,13 +63,6 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../getting_started/">Getting Started</a>
-        
-    </li>
-<li>
-          
-            <li>
-    <li class="toctree-l1 ">
         <a class="" href="../core_components/">Core Components</a>
         
     </li>
@@ -72,7 +70,7 @@
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">Bootstrap Components</a>
+        <a class="current" href="./">Input Types</a>
         
             <ul>
             
@@ -103,10 +101,14 @@
                 <li class="toctree-l3"><a href="#timepicker">Timepicker</a></li>
                 
             
-                <li class="toctree-l3"><a href="#typeahead">Typeahead</a></li>
-                
-            
             </ul>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../bootstrap/">Bootstrap</a>
         
     </li>
 <li>
@@ -133,7 +135,7 @@
     
       
     
-    <li>Bootstrap Components</li>
+    <li>Input Types</li>
     <li class="wy-breadcrumbs-aside">
       
         
@@ -147,63 +149,42 @@
           <div role="main">
             <div class="section">
               
-                <p>Each type of FriggingBootstrap input component has properties that are specific to that type of input.</p>
-<p>In addition to the properties listed under each component on this page and on the previous page every bootstrap input component can receive the following bootstrap-specific settings (the values here are the defaults):</p>
-<pre><code>&lt;f.input name=&quot;example&quot;
-  {/* Bootstrap Grid Sizes */}
-  xs=12
-  sm=undefined
-  md=undefined
-  lg=undefined
-  {/* Bootstrap Grid Offsets */}
-  xsOffset=undefined
-  smOffset=undefined
-  mdOffset=undefined
-  lgOffset=undefined
-  {/* Block changes inputs with layout: &quot;horizontal&quot; to use the full width of
-    * their container and disables the label. */}
-  block=false
-  {/* Label width for horizontal labels */}
-  labelWidth={{xs: 12, sm: 2}}
-/&gt;
-</code></pre>
-
-<h2 id="checkbox">Checkbox</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;checkbox&quot;/&gt;
+                <h2 id="checkbox">Checkbox</h2>
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;checkbox&quot;/&gt;
 </code></pre>
 
 <h2 id="color">Color</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;color&quot;/&gt;
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;color&quot;/&gt;
 </code></pre>
 
 <h2 id="file">File</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;file&quot;/&gt;
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;file&quot;/&gt;
 </code></pre>
 
 <h2 id="input">Input</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;input&quot;/&gt;
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;input&quot;/&gt;
 </code></pre>
 
 <h2 id="number">Number</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;number&quot;
-  {/* Uses [numeral.js][http://numeraljs.com] format. Defaults to: &quot;0,0[.][00]&quot; */}
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;number&quot;
+  {/* Optional: Uses [numeral.js][http://numeraljs.com] format. Defaults to: &quot;0,0[.][00]&quot; */}
   format={&quot;0,0.00&quot;}
-  {/* The minimum number allowed */}
+  {/* Optional: The minimum number allowed */}
   min={3}
-  {/* The maxinum number allowed */}
+  {/* Optional: The maxinum number allowed */}
   max={5}
 /&gt;
 </code></pre>
 
 <h2 id="select">Select</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;select&quot;
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;select&quot;
   options={[[&quot;CA&quot;, &quot;Canada&quot;], [&quot;notCA&quot;, &quot;Not Canada&quot;]]}
 /&gt;
 </code></pre>
 
 <p><strong>Note:</strong> Select components require a set of options. See Core Components for details.</p>
 <h2 id="switch">Switch</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;switch&quot;
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;switch&quot;
   onColor=&quot;primary&quot; {/* primary, success, info, warning, danger or default */}
   onText=&quot;ON&quot;
   offColor=&quot;default&quot; {/* primary, success, info, warning, danger or default */}
@@ -217,33 +198,20 @@
 </code></pre>
 
 <h2 id="text">Text</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;text&quot;/&gt;
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;text&quot;/&gt;
 </code></pre>
 
 <h2 id="timepicker">Timepicker</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;timepicker&quot;/&gt;
+<pre><code class="jsx">&lt;Input name=&quot;example&quot; component=&quot;timepicker&quot;/&gt;
 </code></pre>
-
-<h2 id="typeahead">Typeahead</h2>
-<pre><code class="jsx">&lt;f.input name=&quot;example&quot; component=&quot;typeahead&quot;
-  options={[[&quot;CA&quot;, &quot;Canada&quot;], [&quot;notCA&quot;, &quot;Not Canada&quot;]]}
-  {/* The minimum number of characters to display typeahead suggestions */}
-  minLength={3}
-  {/* The maxinum number of typeahead suggestions to display */}
-  maxSuggestions={5}
-  {/* Set displaySelections to false if you want to do a custom rendering of
-    * the users choices. */}
-  displaySelections={true}
-/&gt;
-</code></pre>
-
-<p><strong>Note:</strong> Typeahead components require a set of options to pull suggestions from. See Core Components for details.</p>
               
             </div>
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../bootstrap/" class="btn btn-neutral float-right" title="Bootstrap">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../core_components/" class="btn btn-neutral" title="Core Components"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -271,11 +239,13 @@
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
-          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+          <a href="https://github.com/frig-js/frig/" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
         <span><a href="../core_components/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
+      
+        <span style="margin-left: 15px"><a href="../bootstrap/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
