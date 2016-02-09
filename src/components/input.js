@@ -161,19 +161,19 @@ export default class Input extends React.Component {
       modified: this.isModified(),
       // DOM attributes for the label element
       labelHtml: Object.assign({}, themedProps.labelHtml || {}, {
-        htmlFor:       themedProps.name,
+        htmlFor: themedProps.name,
       }),
       // DOM attributes + React ref + callbacks for the input element
       inputHtml: Object.assign({}, themedProps.inputHtml || {}, {
-        onBlur:        this._onBlur.bind(this),
-        autoFocus:     themedProps.autoFocus,
-        className:     themedProps.className,
-        disabled:      themedProps.disabled,
-        multiple:      themedProps.multiple,
-        name:          themedProps.name,
-        placeholder:   themedProps.placeholder,
-        // type:          themedProps.typeMapping[themedProps.type].htmlInputType,
-        ref:           "input",
+        onBlur: this._onBlur.bind(this),
+        autoFocus: themedProps.autoFocus,
+        className: themedProps.className,
+        disabled: themedProps.disabled,
+        multiple: themedProps.multiple,
+        name: themedProps.name,
+        placeholder: themedProps.placeholder,
+        type: this._typeMapping().htmlInputType,
+        ref: "input",
       }),
       valueLink: {
         value: this._value(),
@@ -247,7 +247,7 @@ export default class Input extends React.Component {
   }
 
   _guessInputType() {
-    let value = this._themedInputProps().valueLink.value
+    let value = this._value()
     let jsType = typeof value
     if (this.props.type != null) {
       return this.props.type
