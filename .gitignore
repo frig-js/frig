@@ -5,5 +5,5 @@ bower_components
 /frig.js
 /frig.min.js
 
-
+npm-debug.log
 .DS_Store
