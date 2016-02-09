@@ -16,7 +16,6 @@
   },
   "devDependencies": {
     "frig": "*",
-    "react-addons-css-transition-group": "*",
     "coffee-script": "1.9.3",
     "jsdom": "*",
     "skin-deep": "*",
@@ -30,7 +29,6 @@
     "babel": "*",
     "babel-loader": "5.3.3",
     "babel-core": "5.8.33",
-    "coffee-loader": "*",
     "url-loader": "*",
     "jsx-loader": "*",
     "file-loader": "*",
@@ -41,14 +39,8 @@
     "babel-eslint": "*",
     "mkpath": "*",
     "fs-extra": "*",
-    "lodash": "*",
     "react": ">=0.14.3",
     "react-dom": ">=0.14.3",
-    "react-addons-css-transition-group": "*",
-    "classnames": "*",
-    "fuzzy": "*",
-    "colr": "*",
-    "numeral": "*"
   },
   "engines": {
     "node": ">=0.12.0",
