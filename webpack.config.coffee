@@ -18,8 +18,8 @@ example = (name, type) ->
   entry["#{exPath}#{relativePath}"] = "./examples/#{relativePath}.jsx"
   # Copy the html outside of webpack
   return unless isProduction
-  htmlSrc = "./examples/#{relativePath}.html"
-  htmlDest = "./dist/examples/#{relativePath}.html"
+  htmlSrc = "./examples/#{name}/index.html"
+  htmlDest = "./dist/examples/#{name}/index.html"
   mkpath.sync path.dirname htmlDest
   fsExtra.copySync htmlSrc, htmlDest
 
