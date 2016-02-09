@@ -247,11 +247,12 @@ export default class Input extends React.Component {
   }
 
   _guessInputType() {
-    let jsType = typeof this._themedInputProps().valueLink.value
+    let value = this._themedInputProps().valueLink.value
+    let jsType = typeof value
     if (this.props.type != null) {
       return this.props.type
     }
-    else if (this.props.multiple || Array.isArray(this.props.initialValue)) {
+    else if (this.props.multiple || Array.isArray(value)) {
       return "multiselect"
     }
     else if (this.props.options != null) {
