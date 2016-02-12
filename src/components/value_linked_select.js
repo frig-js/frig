@@ -98,13 +98,13 @@ export default class ValueLinkedSelect extends React.Component {
       key: `option-${o.label}`,
       value: o.value,
     }
-    return <option {...attrs}>o.label</option>
+    return <option {...attrs}>{o.label}</option>
   }
 
   render() {
     return (
       <select {...this._inputHtml()}>
-        this.props.options.map(this._selectOption)
+        {this.props.options.map(this._selectOption)}
       </select>
     )
   }
