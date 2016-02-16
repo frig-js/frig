@@ -114,7 +114,7 @@ export default class Input extends React.Component {
    * =========================================================================
    */
 
-  _errors(value = this._value()) {
+  _errors(nextValue = this._value()) {
     let errors = (this.props.errors||[]).slice().concat(
       this.context.frigForm.errors[this.props.name] || []
     )
@@ -123,16 +123,16 @@ export default class Input extends React.Component {
       this.props.validate
     )
     if (validate) {
+      // Create themed props for the next nextValue passed to this function
+      let nextProps = Object.assign({}, this.props)
+      nextProps.valueLink = { value: nextValue }
+
       // Running each validation
       for (let [k, validationOpts] of entries(this._validations())) {
         if (validationOpts === false || validationOpts == null) continue
-        let opts = {
-          data:   this.props.data,
-          name:   this.props.name,
-          value:  value,
-          opts:   validationOpts,
-        }
-        errors = errors.concat(frigValidations[k](opts) || [])
+        errors = errors.concat(
+          frigValidations[k](nextProps, validationOpts) || []
+        )
       }
     }
     // If there are no errors then errors should be falsie
