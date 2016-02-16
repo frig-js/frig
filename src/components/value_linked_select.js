@@ -78,6 +78,7 @@ export default class ValueLinkedSelect extends React.Component {
     }
     else
     {
+      if (el.value === "") return null
       return originalValues[el.value] || el.value
     }
   }
@@ -103,7 +104,7 @@ export default class ValueLinkedSelect extends React.Component {
   _selectOption(o) {
     let attrs = {
       key: `option-${o.label}`,
-      value: o.value,
+      value: o.value || "",
     }
     return <option {...attrs}>{o.label}</option>
   }
