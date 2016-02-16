@@ -51,7 +51,12 @@ export default class ValueLinkedSelect extends React.Component {
     }
   }
 
+  // If there are no null options then default a null value
+  // to the first option
   _setInitialValue(nextProps) {
+    if (nextProps.options.filter(({value}) => value == null).length > 0) {
+      return
+    }
     let value = nextProps.valueLink.value || nextProps.options[0].value
     nextProps.valueLink.requestChange(value, {setModified: false})
   }
@@ -63,7 +68,9 @@ export default class ValueLinkedSelect extends React.Component {
     // mapping of those strings to their original values in the options list.
     let originalValues = {}
     for (let option of this.props.options) {
-      originalValues[option.value.toString()] = option.value
+      let valueHash = option.value
+      if (valueHash != null) valueHash = option.value.toString()
+      originalValues[valueHash] = option.value
     }
     if (el.type === "select-multiple")
     {

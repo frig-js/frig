@@ -196,10 +196,13 @@ export default class Input extends React.Component {
    */
   _normalizeOption (option) {
     if (option == null) return undefined
+
     // if option is an object with a label and a key return it unchanged
-    if (option.label != null && option.value != null) return option
+    if (option.label != null) return option
+
     // converting option in the format of [key] to key
     if (typeof option == "object" && option.length === 1) option = option[0]
+
     // if option is in the format [key, value]
     if (typeof option == "object" && option.length === 2) {
       return {
