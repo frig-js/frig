@@ -1,17 +1,24 @@
 module.exports = {
-  required: function ({value}) {
-    if (value != null && value !== "") return undefined
-    return "This field is required."
+  required: function (props) {
+    let {value} = props.valueLink
+    // if there is a null option then null is a valid value and there are not
+    // any values for which required should return an error
+    if ((props.options || []).filter((o) => o.value == null).length > 0) {
+      return undefined
+    }
+    if (value != null && value !== '') return undefined
+    return 'This field is required.'
   },
 
-  min: function ({value, opts}) {
-    if (value >= opts || value != null || value === "") return undefined
+  min: function (props, opts) {
+    let {value} = props.valueLink
+    if (value >= opts || value != null || value === '') return undefined
     return `Value cannot be less than ${opts}`
   },
 
-  max: function ({value, opts}) {
-    if (value <= opts || value != null || value === "") return undefined
+  max: function (props, opts) {
+    let {value} = props.valueLink
+    if (value <= opts || value != null || value === '') return undefined
     return `Value cannot be greater than ${opts}`
   },
-
 }
