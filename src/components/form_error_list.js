@@ -9,7 +9,7 @@ export default class FormErrorList extends React.Component {
     }).isRequired,
   }
   render() {
-    let themedErrorList = this.context.frigForm.theme.component("errors")
-    return <themedErrorList {...this.props}/>
+    let ThemedErrorList = this.context.frigForm.theme.component("errors")
+    return <ThemedErrorList {...this.props}/>
   }
 }

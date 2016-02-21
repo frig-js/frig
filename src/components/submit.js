@@ -10,7 +10,7 @@ export default class Submit extends React.Component {
   }
 
   render() {
-    let themedSubmit = this.context.frigForm.theme.component("submit")
-    return <themedSubmit {...this.props}/>
+    let ThemedSubmit = this.context.frigForm.theme.component("submit")
+    return <ThemedSubmit {...this.props}/>
   }
 }
