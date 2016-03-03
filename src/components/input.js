@@ -20,6 +20,7 @@ export default class Input extends React.Component {
     name: React.PropTypes.string.isRequired,
     errors: React.PropTypes.arrayOf(React.PropTypes.string),
     layout: React.PropTypes.string,
+    align: React.PropTypes.string,
     className: React.PropTypes.string,
     className: React.PropTypes.string,
     disabled: React.PropTypes.bool,
@@ -38,6 +39,7 @@ export default class Input extends React.Component {
       theme: React.PropTypes.object.isRequired,
       errors: React.PropTypes.object.isRequired,
       layout: React.PropTypes.string.isRequired,
+      align: React.PropTypes.string.isRequired,
       saved: React.PropTypes.object.isRequired,
       // Callbacks (Private API - reserved for frig form use only)
       requestChildComponentChange: React.PropTypes.func.isRequired,
@@ -149,9 +151,11 @@ export default class Input extends React.Component {
     let title = nextProps.title || humanize(nextProps.name)
     // Defaults
     let defaults = {
-      title:           title,
-      label:           title,
-      placeholder:     title,
+      title: title,
+      label: title,
+      placeholder: title,
+      layout: this.context.frigForm.layout,
+      align: this.context.frigForm.align,
     }
     // Mixing in the defaults
     let themedProps = Object.assign(defaults, nextProps)

@@ -36,7 +36,7 @@
     "file-loader": "*",
     "eslint-loader": "git+https://github.com/MoOx/eslint-loader.git#master",
     "eslint": "2.0.0-beta.3",
-    "eslint-plugin-react": "3.16.1",
+    "eslint-plugin-react": "4.1.0",
     "babel-eslint": "*",
     "mkpath": "*",
     "fs-extra": "*",
