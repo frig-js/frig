@@ -5,6 +5,7 @@
   "main": "dist/frig.js",
   "files": [
     "src/"
+    "dist/"
   ],
   "scripts": {
     "start": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
