@@ -1,3 +1,4 @@
+import React from "react"
 import Form from "./components/form.js"
 import Input from "./components/input.js"
 import Submit from "./components/submit.js"
