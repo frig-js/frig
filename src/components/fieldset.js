@@ -56,7 +56,9 @@ export default class Fieldset extends React.Component {
     let values = this._forms()
       .filter((form) => form.isModified())
       .map((form) => form.modifications())
-    let isArray = Array.isArray(this.context.frigForm.data.value || [])
+    let isArray = Array.isArray(
+      this.context.frigForm.data[this.props.name] || []
+    )
     return isArray ? values : values[0]
   }
 
@@ -116,7 +118,7 @@ export default class Fieldset extends React.Component {
   }
 
   _dataValues(nextContext = this.context) {
-    let dataValues = nextContext.frigForm.data.value || []
+    let dataValues = nextContext.frigForm.data[this.props.name] || []
     return Array.isArray(dataValues) ? dataValues : [dataValues]
   }
 
@@ -127,7 +129,9 @@ export default class Fieldset extends React.Component {
       <div>
         {
           nestedFormDatas.map((data) =>
-            <FieldsetNestedForm {...this._formProps({data, index: i++})}/>
+            <FieldsetNestedForm {...this._formProps({data, index: i++})}>
+              {this.props.children}
+            </FieldsetNestedForm>
           )
         }
       </div>
