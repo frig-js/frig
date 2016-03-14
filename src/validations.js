@@ -12,13 +12,13 @@ module.exports = {
 
   min: function (props, opts) {
     let {value} = props.valueLink
-    if (value >= opts || value != null || value === '') return undefined
+    if (value >= opts || value == null || value === '') return undefined
     return `Value cannot be less than ${opts}`
   },
 
   max: function (props, opts) {
     let {value} = props.valueLink
-    if (value <= opts || value != null || value === '') return undefined
+    if (value <= opts || value == null || value === '') return undefined
     return `Value cannot be greater than ${opts}`
   },
 }
