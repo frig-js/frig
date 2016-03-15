@@ -7,6 +7,9 @@ fsExtra = require "fs-extra"
 
 minify = process.env.FRIG_MIN == "minify"
 
+plugins = []
+plugins.unshift new webpack.optimize.UglifyJsPlugin(minimize: true) if minify
+
 module.exports =
   entry:
     "frig": "./src/index.js"
@@ -45,6 +48,4 @@ module.exports =
         loader: "babel?stage=0"
       }
     ]
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin(minimize: true)
-  ]
+  plugins: plugins
