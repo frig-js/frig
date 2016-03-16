@@ -36,6 +36,7 @@ export default class Form extends AbstractForm {
   }
 
   static defaultProps = {
+    data: {},
     errors: [],
     saved: {},
     theme: undefined,
