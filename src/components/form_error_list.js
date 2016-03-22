@@ -5,11 +5,19 @@ export default class FormErrorList extends React.Component {
 
   static contextTypes = {
     frigForm: React.PropTypes.shape({
-      theme: React.PropTypes.object.isRequired,
+      errors: React.PropTypes.object.isRequired,
     }).isRequired,
   }
+
+  _errorsArray() {
+    const { errors } = this.context.frigForm
+    return errors.hasOwnProperty("base")
+      ? errors.base
+      : []
+  }
+
   render() {
-    let ThemedErrorList = this.context.frigForm.theme.component("errors")
-    return <ThemedErrorList {...this.props}/>
+    const ThemedErrorList = this.context.frigForm.theme.component("errors")
+    return <ThemedErrorList errors={this._errorsArray()} />
   }
 }
