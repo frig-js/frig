@@ -6,7 +6,7 @@ export default class FormErrorList extends React.Component {
   static defaultProps = {
     // This is the property of `errors` where Frig will look for form-level errors.
     // Set to "base" by default, for compatibility with Active Record.
-    baseField: "base",
+    name: "base",
   }
 
   static contextTypes = {
@@ -17,8 +17,8 @@ export default class FormErrorList extends React.Component {
 
   _errorsArray() {
     const { errors } = this.context.frigForm
-    const { baseField } = this.props
-    return errors.hasOwnProperty(baseField)
+    const { name } = this.props
+    return errors.hasOwnProperty(name)
       ? errors.base
       : []
   }

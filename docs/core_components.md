@@ -113,7 +113,7 @@ import {Form, FormErrorList} from "frig"
 The errorList component renders all the form-level errors in the form's `props.errors`.
 
 #### Props
-* **baseField (optional)** - a string. The field in `props.errors` to look up form-level errors. Defaults to "base" for compatibility with Active Record.
+* **name (optional)** - a string. The field in `props.errors` to look up form-level errors. Defaults to "base" for compatibility with Active Record.
 
 ## \<Fieldset/\>
 
