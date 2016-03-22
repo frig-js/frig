@@ -3,6 +3,12 @@ import React from "react"
 export default class FormErrorList extends React.Component {
   displayName = "Frig.FormErrorList"
 
+  static defaultProps = {
+    // This is the property of `errors` where Frig will look for form-level errors.
+    // Set to "base" by default, for compatibility with Active Record.
+    baseField: "base",
+  }
+
   static contextTypes = {
     frigForm: React.PropTypes.shape({
       errors: React.PropTypes.object.isRequired,
@@ -11,7 +17,8 @@ export default class FormErrorList extends React.Component {
 
   _errorsArray() {
     const { errors } = this.context.frigForm
-    return errors.hasOwnProperty("base")
+    const { baseField } = this.props
+    return errors.hasOwnProperty(baseField)
       ? errors.base
       : []
   }

@@ -11,7 +11,7 @@ import {Form, Input} from "frig"
 
 * **data (required)** - This is used to populate the values (including default values) of each field in the form. The data property is also used by inputs for type inference where a `type` property is not provided.
 * **onChange(data) (required)** - the onChange callback will be updated whenever there is user input. The onChange function receives the full updated data of the form as it's only argument. Normally this is used to update your store or setState and trigger a re-render passing the new data back in to the form.
-* **errors (optional)** - an array of strings. The list of errors supplied here can be rendered by the `<ErrorList/>` component.
+* **errors (optional)** - an array of strings. The list of errors supplied here can be rendered by the `<FormErrorList/>` component.
 * **onSubmit (optional)** - a function. Called after the submit button is clicked and all validations have passed. The DOM event is passed to the callback.
 * **layout (optional)**  - a string. Either `"horizontal"` for a horizontally layed out form (with labels on the same row as their inputs) or `"vertical"` for a vertically layed out form (with labels above their inputs). Defaults to `"vertical"`.
 * **align (optional)** - a string. Either `"left"` to align all inputs along the left side of their containing divs or `"right"` to align all inputs on the right side of their containing divs. Defaults to `"left"`.
@@ -101,16 +101,19 @@ import {Form, Submit} from "frig"
 #### Props
 * **title (optional)** - a string. The text of the submit button.
 
-## \<ErrorList/\>
+## <\FormErrorList/\>
 
 ```jsx
-import {Form, ErrorList} from "frig"
+import {Form, FormErrorList} from "frig"
 <Form data={this.state.myAccount} onChange={(myAccount) => this.setState({myAccount})}>
-  <ErrorList/>
+  <FormErrorList/>
 </Form>
 ```
 
 The errorList component renders all the form-level errors in the form's `props.errors`.
+
+#### Props
+* **baseField (optional)** - a string. The field in `props.errors` to look up form-level errors. Defaults to "base" for compatibility with Active Record.
 
 ## \<Fieldset/\>
 
