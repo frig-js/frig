@@ -1,4 +1,4 @@
-## <Form/>
+## \<Form/\>
 
 ```jsx
 import {Form, Input} from "frig"
@@ -28,7 +28,7 @@ These functions can be called on the frig form object (eg. using React refs).
 * **reset()** - resets the value of `isModified()` to false and resets all validations (eg. hiding required feild error messages).
 * **formData()** - returns the HTML5 FormData object. See https://developer.mozilla.org/en/docs/Web/API/FormData
 
-## <Input/>
+## \<Input/\>
 
 ```jsx
 import {Form, Input} from "frig"
@@ -89,7 +89,7 @@ If a `type` isn't specified then the input's type will be guessed based on the f
 3. If the `name` ends in `"password"` then the type will default to a `password`
 4. Otherwise the type is based on the `typeof` of the `form.props[input.props.name]`
 
-## <Submit/>
+## \<Submit/\>
 
 ```jsx
 import {Form, Submit} from "frig"
@@ -101,7 +101,7 @@ import {Form, Submit} from "frig"
 #### Props
 * **title (optional)** - a string. The text of the submit button.
 
-## <ErrorList/>
+## \<ErrorList/\>
 
 ```jsx
 import {Form, ErrorList} from "frig"
@@ -112,7 +112,7 @@ import {Form, ErrorList} from "frig"
 
 The errorList component renders all the form-level errors in the form's `props.errors`.
 
-## <Fieldset/>
+## \<Fieldset/\>
 
 ```jsx
 import {Form, Fieldset, Input} from "frig"
@@ -132,7 +132,7 @@ Calling validate/isValid/isModified on a parent form object will call it on all 
 #### Props
 * **name (required)** - The key of the fieldset's data object (or array of data objects) in the `<Form/>`'s `props.data`
 
-## <FieldsetText/>
+## \<FieldsetText/\>
 
 ```jsx
 import {Form, Fieldset, FieldsetText, Input} from "frig"
