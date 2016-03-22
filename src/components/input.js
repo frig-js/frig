@@ -46,6 +46,10 @@ export default class Input extends React.Component {
       childComponentWillMount: React.PropTypes.func.isRequired,
       childComponentWillUnmount: React.PropTypes.func.isRequired,
     }).isRequired,
+    frigFieldset: React.PropTypes.shape({
+      index: React.PropTypes.number.isRequired,
+      fieldsetName: React.PropTypes.string.isRequired,
+    }),
   }
 
   static defaultProps = {
@@ -120,6 +124,7 @@ export default class Input extends React.Component {
     let errors = (this.props.errors||[]).slice().concat(
       this.context.frigForm.errors[this.props.name] || []
     )
+
     let validate = (
       (this.isModified() || this.state.validationRequested) &&
       this.props.validate
@@ -141,6 +146,19 @@ export default class Input extends React.Component {
     if (errors.length === 0) errors = undefined
     // Return the errors
     return errors
+  }
+
+  _fieldset(list) {
+    const {fieldsetName, index} = this.context.frigFieldset
+
+    if (list[fieldsetName] && list[fieldsetName][index])
+      return list[fieldsetName][index]
+
+    return {}
+  }
+
+  _isInForm() {
+    return (this.context.frigFieldset === undefined)
   }
 
   _value() {
