@@ -18,25 +18,12 @@ export default class Fieldset extends React.Component {
     }).isRequired,
   }
 
-  state = {
-    invalidForms: [],
-  }
-
   componentWillMount() {
     this.context.frigForm.childComponentWillMount(this.props.name, this)
   }
 
   componentWillUnmount() {
     this.context.frigForm.childComponentWillUnmount(this.props.name, this)
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    // Truncating the invalid forms list to prevent ghosting of invalid
-    // forms that are removed in the props.
-    let invalidForms = this.state.invalidForms
-    let numberOfForms = this._dataValues(nextContext).length
-    invalidForms = invalidForms.slice(0, numberOfForms)
-    this.setState({invalidForms})
   }
 
   validate() {
@@ -56,7 +43,9 @@ export default class Fieldset extends React.Component {
     let values = this._forms()
       .filter((form) => form.isModified())
       .map((form) => form.modifications())
-    let isArray = Array.isArray(this.context.frigForm.data.value || [])
+    let isArray = Array.isArray(
+      this.context.frigForm.data[this.props.name] || []
+    )
     return isArray ? values : values[0]
   }
 
@@ -72,62 +61,64 @@ export default class Fieldset extends React.Component {
     return Object.keys(this.refs||{}).map((k) => this.refs[k])
   }
 
-  _listForKey(list, index) {
-    return Array.isArray(list) ? list[index] : list
+  _contextAtIndex(index, keys) {
+    return keys.reduce( (contextAtIndex, key) => {
+      const values = this.context.frigForm[key]
+      contextAtIndex[key] = Array.isArray(values) ? values[index] : values
+      return contextAtIndex
+    }, {})
   }
 
   _formProps({data, index}) {
-    return Object.assign({}, this.context.frigForm, {
+    const {errors, saved} = this._contextAtIndex(index, [
+      "errors",
+      "saved",
+    ])
+    const onChange = this._onChange.bind(
+      this,
+      index,
+    )
+    return {
+      ...this.context.frigForm,
       index,
       key: index,
       ref: index,
-      errors: this._listForKey(this.props.errors, index),
-      saved: this._listForKey(this.props.saved, index),
-      internalErrors: this._listForKey(this.props.internalErrors, index),
-      data: data,
-      onChange: this._onFormRequestChange.bind(this, index),
-    })
+      errors,
+      saved,
+      data,
+      onChange,
+    }
   }
 
-  _onFormRequestChange(index, formData, valid) {
-    let data = this.props.data.value
-    // Combine the updated data from the form with the other forms or if this
-    // is a single form fieldset overwriting the previous form data.
+  _onChange(index, nextFormData) {
+    const data = this.context.frigForm.data[this.props.name]
+    let nextData
     if (Array.isArray(data)) {
-      data = data.slice()
-      data[index] = formData
+      nextData = [...data]
+      nextData[index] = nextFormData
     }
     else {
-      data = formData
+      nextData = nextFormData
     }
-    // Combine this valid flag with the other nested form valid flags and relay
-    // a valid state to the upstream only if all nested forms are valid
-    let invalidForms = this.state.invalidForms
-    if (valid) {
-      invalidForms[index] = true
-    }
-    else {
-      delete invalidForms[index]
-    }
-    valid = invalidForms.filter((invalid) => invalid === true).length === 0
-    this.setState({invalidForms})
     // Relaying the request change to the upstream data
-    this.props.data.requestChange(data, valid)
+    this.context.frigForm.requestChildComponentChange(this.props.name, nextData)
   }
 
-  _dataValues(nextContext = this.context) {
-    let dataValues = nextContext.frigForm.data.value || []
+  _nestedFormDatas(nextContext = this.context) {
+    let dataValues = nextContext.frigForm.data[this.props.name] || []
     return Array.isArray(dataValues) ? dataValues : [dataValues]
   }
 
   render() {
     let i = 0
-    let nestedFormDatas = this._dataValues()
+    let nestedFormDatas = this._nestedFormDatas()
     return (
       <div>
         {
           nestedFormDatas.map((data) =>
-            <FieldsetNestedForm {...this._formProps({data, index: i++})}/>
+            <FieldsetNestedForm {...this._formProps({data, index: i++})}>
+              {this.props.children}
+            </FieldsetNestedForm>
           )
         }
       </div>

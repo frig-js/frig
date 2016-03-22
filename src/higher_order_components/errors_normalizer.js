@@ -10,10 +10,6 @@ export default class extends React.Component {
       React.PropTypes.object,
       React.PropTypes.array,
     ]),
-    internalErrors: React.PropTypes.oneOfType([
-      React.PropTypes.object,
-      React.PropTypes.array,
-    ]),
   }
 
   _toErrorObject(errors) {
@@ -28,11 +24,9 @@ export default class extends React.Component {
 
   _errors() {
     let errors = {}
-    for (let k of ["errors", "internalErrors"]) {
-      let errorsSubset = this._toErrorObject(this.props[k])
-      for (let k2 in errorsSubset) {
-        errors[k2] = (errors[k2] || []).concat(errorsSubset[k2])
-      }
+    let errorsSubset = this._toErrorObject(this.props.errors)
+    for (let k in errorsSubset) {
+      errors[k] = (errors[k] || []).concat(errorsSubset[k])
     }
     return errors
   }
@@ -63,7 +57,6 @@ export default class extends React.Component {
       ref: "child",
       errors: this._normalizedErrors(),
     })
-    delete childProps.internalErrors
     return <ComponentClass {...childProps}/>
   }
 
