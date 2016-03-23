@@ -33,7 +33,7 @@ module.exports = function(ComponentClass) {
 
     componentWillUnmount() {
       window.removeEventListener("click", this._onDocumentClick)
-      window.removeEventListener("focus", this._onFocus)
+      window.removeEventListener("focus", this._onFocus, true)
     }
 
     _onDocumentClick(e) {
