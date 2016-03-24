@@ -148,6 +148,14 @@ export default class Input extends React.Component {
     return errors
   }
 
+  _saved() {
+    const {name} = this.props
+    const saved = this.context.frigForm.saved
+    if (this._isInForm()) return saved[name] || false
+
+    return this._fieldset(saved)[name] || false
+  }
+
   _fieldset(list) {
     const {fieldsetName, index} = this.context.frigFieldset
 
@@ -202,6 +210,7 @@ export default class Input extends React.Component {
         requestChange: this._onChange.bind(this),
       },
       errors: this._errors(),
+      saved: this._saved(),
     }
     // TODO: Add type mapping
     return Object.assign(themedProps, overrides)
