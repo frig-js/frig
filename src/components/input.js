@@ -121,10 +121,17 @@ export default class Input extends React.Component {
    */
 
   _errors(nextValue = this._value()) {
-    let errors = (this.props.errors||[]).slice().concat(
-      this.context.frigForm.errors[this.props.name] || []
-    )
+    const {name} = this.props
+    const frigFormErrors = this.context.frigForm.errors
+    let inputErrors = []
 
+    if (this._isInForm()) {
+      inputErrors = frigFormErrors[name] || []
+    } else {
+      inputErrors = this._fieldset(frigFormErrors)[name] || []
+    }
+
+    let errors = (this.props.errors||[]).slice().concat(inputErrors)
     let validate = (
       (this.isModified() || this.state.validationRequested) &&
       this.props.validate
