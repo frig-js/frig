@@ -18,9 +18,7 @@ export default class FormErrorList extends React.Component {
   _errorsArray() {
     const { errors } = this.context.frigForm
     const { name } = this.props
-    return errors.hasOwnProperty(name)
-      ? errors.base
-      : []
+    return errors[name] || []
   }
 
   render() {
