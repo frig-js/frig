@@ -22,6 +22,15 @@ import AbstractForm from "./abstract_form.js"
 export default class Form extends AbstractForm {
   displayName = "Form"
 
+  componentWillMount() {
+    if (!this.props.data) {
+      throw new Error("Frig: Expression in <Form data={} /> must always be defined, got: " + this.props.data)
+    }
+    if (!this.props.onChange) {
+      throw new Error("Frig: Expression in <Form onChange={} /> must always be defined, got: " + this.props.onChange)
+    }
+  }
+
   static propTypes = {
     data: React.PropTypes.object.isRequired,
     onChange: React.PropTypes.func.isRequired,
