@@ -1,8 +1,6 @@
 import React from "react"
 
 export default class AbstractForm extends React.Component {
-
-
   static childContextTypes = {
     frigForm: React.PropTypes.object,
   }

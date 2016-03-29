@@ -46,6 +46,10 @@ export default class Input extends React.Component {
       childComponentWillMount: React.PropTypes.func.isRequired,
       childComponentWillUnmount: React.PropTypes.func.isRequired,
     }).isRequired,
+    frigFieldset: React.PropTypes.shape({
+      index: React.PropTypes.number.isRequired,
+      fieldsetName: React.PropTypes.string.isRequired,
+    }),
   }
 
   static defaultProps = {
@@ -117,9 +121,17 @@ export default class Input extends React.Component {
    */
 
   _errors(nextValue = this._value()) {
-    let errors = (this.props.errors||[]).slice().concat(
-      this.context.frigForm.errors[this.props.name] || []
-    )
+    const {name} = this.props
+    const frigFormErrors = this.context.frigForm.errors
+    let inputErrors = []
+
+    if (this._isInForm()) {
+      inputErrors = frigFormErrors[name] || []
+    } else {
+      inputErrors = this._fieldset(frigFormErrors)[name] || []
+    }
+
+    let errors = (this.props.errors||[]).slice().concat(inputErrors)
     let validate = (
       (this.isModified() || this.state.validationRequested) &&
       this.props.validate
@@ -141,6 +153,27 @@ export default class Input extends React.Component {
     if (errors.length === 0) errors = undefined
     // Return the errors
     return errors
+  }
+
+  _saved() {
+    const {name} = this.props
+    const saved = this.context.frigForm.saved
+    if (this._isInForm()) return saved[name] || false
+
+    return this._fieldset(saved)[name] || false
+  }
+
+  _fieldset(list) {
+    const {fieldsetName, index} = this.context.frigFieldset
+
+    if (list[fieldsetName] && list[fieldsetName][index])
+      return list[fieldsetName][index]
+
+    return {}
+  }
+
+  _isInForm() {
+    return (this.context.frigFieldset === undefined)
   }
 
   _value() {
@@ -184,6 +217,7 @@ export default class Input extends React.Component {
         requestChange: this._onChange.bind(this),
       },
       errors: this._errors(),
+      saved: this._saved(),
     }
     // TODO: Add type mapping
     return Object.assign(themedProps, overrides)

@@ -83,6 +83,7 @@ export default class Fieldset extends React.Component {
       index,
       key: index,
       ref: index,
+      name: this.props.name,
       errors,
       saved,
       data,

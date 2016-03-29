@@ -18,10 +18,10 @@ export default class FieldsetNestedForm extends AbstractForm {
       ...super.getChildContext(),
       frigFieldset: {
         index: this.props.index,
+        fieldsetName: this.props.name,
       },
     }
   }
-
 
   render() {
     return (
