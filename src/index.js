@@ -7,6 +7,7 @@ import FieldsetText from "./components/fieldset_text.js"
 import ValueLinkedSelect from "./components/value_linked_select.js"
 import util from "./util.js"
 import typeMapping from "./type_mapping.js"
+import * as factories from "./factories.js"
 
 const HigherOrderComponents = {
   Boolean: require("./higher_order_components/boolean.js"),
@@ -33,4 +34,5 @@ export default {
   HigherOrderComponents,
   util,
   typeMapping,
+  factories,
 }
