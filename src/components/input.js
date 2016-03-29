@@ -293,7 +293,7 @@ export default class Input extends React.Component {
     let {name} = this.props
     let type = this._typeMapping().component
     if (type == null) throw `${name}: No type mapping found`
-    let component = this.context.frigForm.theme.component(type)
+    let component = this.context.frigForm.theme[type]
     if (component == null) throw `${name}: No ${type} component found in theme`
     return component
   }

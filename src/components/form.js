@@ -48,7 +48,7 @@ export default class Form extends AbstractForm {
   static childContextTypes = AbstractForm.childContextTypes
 
   render() {
-    const ThemedForm = this.props.theme.component("form")
+    const ThemedForm = this.props.theme.Form
     return (
       <ThemedForm {...this._themedFormProps()}
         ref="form"
