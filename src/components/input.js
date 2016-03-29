@@ -184,6 +184,7 @@ export default class Input extends React.Component {
         requestChange: this._onChange.bind(this),
       },
       errors: this._errors(),
+      saved: this.context.frigForm.saved[this.props.name],
     }
     // TODO: Add type mapping
     return Object.assign(themedProps, overrides)

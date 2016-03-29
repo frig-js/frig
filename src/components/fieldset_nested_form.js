@@ -22,7 +22,6 @@ export default class FieldsetNestedForm extends AbstractForm {
     }
   }
 
-
   render() {
     return (
       <div>

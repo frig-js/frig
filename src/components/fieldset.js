@@ -63,8 +63,9 @@ export default class Fieldset extends React.Component {
 
   _contextAtIndex(index, keys) {
     return keys.reduce( (contextAtIndex, key) => {
-      const values = this.context.frigForm[key]
-      contextAtIndex[key] = Array.isArray(values) ? values[index] : values
+      const values = this.context.frigForm[key][this.props.name]
+      const value = Array.isArray(values) ? values[index] : values
+      contextAtIndex[key] = value || {}
       return contextAtIndex
     }, {})
   }
