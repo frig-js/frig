@@ -89,7 +89,7 @@ export default class Input extends React.Component {
       <UnboundInput
         {...this.props}
         ref="unboundInput"
-        errors={(nextProps.errors||[]).slice().concat(
+        errors={(this.props.errors||[]).slice().concat(
           this.context.frigForm.errors[this.props.name] || []
         )}
         saved={this.context.frigForm.saved[this.props.name]}
