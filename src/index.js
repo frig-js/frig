@@ -20,7 +20,7 @@ function defaultTheme(theme) {
   if (theme === null) return Form.defaultProps.theme
   if (typeof theme !== "object") throw "Invalid theme. Expected an object"
   Form.originalClass.defaultProps.theme = theme
-  Input.originalClass.defaultProps.theme = theme
+  UnboundInput.originalClass.defaultProps.theme = theme
 }
 
 export default {
