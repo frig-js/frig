@@ -18,7 +18,6 @@
     "react": ">=0.14.3"
   },
   "devDependencies": {
-    "frig": "*",
     "coffee-script": "1.9.3",
     "jsdom": "*",
     "skin-deep": "*",
