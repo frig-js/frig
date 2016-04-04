@@ -13,7 +13,9 @@
     "version": "./scripts/version.sh",
     "postversion": "./scripts/publish_docs.sh && git push && git push --tags"
   },
-  "dependencies": {},
+  "dependencies": {
+    "babel-plugin-transform-decorators-legacy": "^1.3.4"
+  },
   "peerDependencies": {
     "react": ">=0.14.3"
   },
