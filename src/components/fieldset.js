@@ -40,9 +40,7 @@ export default class Fieldset extends React.Component {
   }
 
   modifications() {
-    let values = this._forms()
-      .filter((form) => form.isModified())
-      .map((form) => form.modifications())
+    let values = this._forms().map((form) => form.modifications())
     let isArray = Array.isArray(
       this.context.frigForm.data[this.props.name] || []
     )
