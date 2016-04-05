@@ -1,5 +1,5 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 /*
  * A higher order component that passes a focused attribute to it's child
@@ -9,8 +9,8 @@ import ReactDOM from "react-dom"
  *
  * This is useful for implementing popups in Frig Themes.
  */
-module.exports = function(ComponentClass) {
-  let childName = ComponentClass.prototype.displayName
+module.exports = function Focusable(ComponentClass) {
+  const childName = ComponentClass.prototype.displayName
 
   return class extends React.Component {
 
@@ -27,33 +27,33 @@ module.exports = function(ComponentClass) {
     }
 
     componentDidMount() {
-      window.addEventListener("click", this._onDocumentClick)
-      window.addEventListener("focus", this._onFocus, true)
+      window.addEventListener('click', this._onDocumentClick)
+      window.addEventListener('focus', this._onFocus, true)
     }
 
     componentWillUnmount() {
-      window.removeEventListener("click", this._onDocumentClick)
-      window.removeEventListener("focus", this._onFocus, true)
+      window.removeEventListener('click', this._onDocumentClick)
+      window.removeEventListener('focus', this._onFocus, true)
     }
 
     _onDocumentClick(e) {
-      this.setState({focused: this._containsDOMElement(e.target)})
+      this.setState({ focused: this._containsDOMElement(e.target) })
     }
 
     _onFocus() {
-      this.setState({focused: this._containsDOMElement(document.activeElement)})
+      this.setState({ focused: this._containsDOMElement(document.activeElement) })
     }
 
     _containsDOMElement(otherElement) {
-      let el = ReactDOM.findDOMNode(this)
+      const el = ReactDOM.findDOMNode(this)
       return el === otherElement || el.contains(otherElement)
     }
 
     render() {
-      let childProps = Object.assign({}, this.props, {
+      const childProps = Object.assign({}, this.props, {
         focused: this.state.focused,
       })
-      return <ComponentClass {...childProps}/>
+      return <ComponentClass {...childProps} />
     }
 
   }
