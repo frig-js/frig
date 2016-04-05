@@ -1,15 +1,12 @@
-import React from "react"
-import UnboundInput from "./unbound_input.js"
+import React from 'react'
+import UnboundInput from './unbound_input.js'
 
 export default class Input extends React.Component {
-  displayName = "Frig.Input"
-
   static propTypes = {
     name: React.PropTypes.string.isRequired,
     errors: React.PropTypes.arrayOf(React.PropTypes.string),
     layout: React.PropTypes.string,
     align: React.PropTypes.string,
-    className: React.PropTypes.string,
     className: React.PropTypes.string,
     disabled: React.PropTypes.bool,
     multiple: React.PropTypes.bool,
@@ -44,6 +41,23 @@ export default class Input extends React.Component {
     onValidChange: () => {},
   }
 
+  displayName = 'Frig.Input'
+
+  /*
+   * =========================================================================
+   * React Lifecycle
+   * =========================================================================
+   */
+
+  componentWillMount() {
+    this.context.frigForm.childComponentWillMount(this.props.name, this)
+  }
+
+  componentWillUnmount() {
+    this.context.frigForm.childComponentWillUnmount(this.props.name, this)
+  }
+
+
   /*
    * =========================================================================
    * Public Functions
@@ -70,34 +84,6 @@ export default class Input extends React.Component {
     return this.refs.unboundInput.reset()
   }
 
-  /*
-   * =========================================================================
-   * React Lifecycle + Render
-   * =========================================================================
-   */
-
-  componentWillMount() {
-    this.context.frigForm.childComponentWillMount(this.props.name, this)
-  }
-
-  componentWillUnmount() {
-    this.context.frigForm.childComponentWillUnmount(this.props.name, this)
-  }
-
-  render() {
-    return (
-      <UnboundInput
-        {...this.props}
-        ref="unboundInput"
-        errors={(this.props.errors||[]).slice().concat(
-          this.context.frigForm.errors[this.props.name] || []
-        )}
-        saved={this.context.frigForm.saved[this.props.name]}
-        value={this.context.frigForm.data[this.props.name]}
-        onChange={this._onChange}
-      />
-    )
-  }
 
   /*
    * =========================================================================
@@ -111,6 +97,21 @@ export default class Input extends React.Component {
     // Run the external callbacks (external API, not used by Frig internally)
     this.props.onChange(val, valid)
     if (valid) this.props.onValidChange(val, valid)
+  }
+
+  render() {
+    return (
+      <UnboundInput
+        {...this.props}
+        ref="unboundInput"
+        errors={(this.props.errors || []).slice().concat(
+          this.context.frigForm.errors[this.props.name] || []
+        )}
+        saved={this.context.frigForm.saved[this.props.name]}
+        value={this.context.frigForm.data[this.props.name]}
+        onChange={this._onChange}
+      />
+    )
   }
 
 }
