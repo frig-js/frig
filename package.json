@@ -8,7 +8,7 @@
     "dist/"
   ],
   "scripts": {
-    "lint": "eslint . || true",
+    "lint": "eslint src/ || true",
     "lint-fail-fast": "eslint .",
     "preversion": "./scripts/preversion.sh",
     "version": "./scripts/version.sh",
