@@ -1,4 +1,4 @@
-module.exports = {
+const validations = {
   required(props) {
     const { value } = props.valueLink
     // if there is a null option then null is a valid value and there are not
@@ -22,3 +22,5 @@ module.exports = {
     return `Value cannot be greater than ${opts}`
   },
 }
+
+export default validations
