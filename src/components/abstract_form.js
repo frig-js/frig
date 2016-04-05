@@ -1,17 +1,27 @@
-import React from "react"
+import React from 'react'
 
 export default class AbstractForm extends React.Component {
   static childContextTypes = {
     frigForm: React.PropTypes.object,
   }
+  static propTypes = {
+    align: React.PropTypes.string.isRequired,
+    layout: React.PropTypes.string.isRequired,
+    theme: React.PropTypes.object.isRequired,
+    errors: React.PropTypes.object.isRequired,
+    saved: React.PropTypes.object.isRequired,
+    data: React.PropTypes.object.isRequired,
+    onChange: React.PropTypes.func.isRequired,
+    onSubmit: React.PropTypes.func,
+  }
 
   getChildContext() {
-    let {layout, theme, align, errors, saved} = this.props
+    const { align, layout, theme, errors, saved } = this.props
     return {
       frigForm: {
-        theme,
-        layout,
         align,
+        layout,
+        theme,
         errors,
         saved,
         data: this._data(),
@@ -44,21 +54,21 @@ export default class AbstractForm extends React.Component {
   }
 
   modifications() {
-    let modifications = {}
-    for (let k in this._childComponentsByName) {
-      let c = this._childComponentsByName[k]
-      if(!c.isModified()) continue
+    const modifications = {}
+    for (const k in this._childComponentsByName) { // eslint-disable-line guard-for-in
+      const c = this._childComponentsByName[k]
+      if (!c.isModified()) continue
       modifications[k] = c.modifications == null ? true : c.modifications()
     }
     return modifications
   }
 
   resetModified() {
-    for (let c of this._childComponents()) c.resetModified()
+    for (const c of this._childComponents()) c.resetModified()
   }
 
   reset() {
-    for (let c of this._childComponents()) c.reset()
+    for (const c of this._childComponents()) c.reset()
   }
 
   formData() {
@@ -72,7 +82,7 @@ export default class AbstractForm extends React.Component {
    */
 
   _themedFormProps() {
-    let formProps = Object.assign({}, this.props)
+    const formProps = Object.assign({}, this.props)
     formProps.formHtml = Object.assign({}, formProps.formHtml || {}, {
       onSubmit: this._onSubmit.bind(this),
     })
@@ -92,21 +102,19 @@ export default class AbstractForm extends React.Component {
   }
 
   _childComponents() {
-    let list = []
-    let componentsByName = this._childComponentsByName
-    for (let k in componentsByName) list.push(componentsByName[k])
-    return list
+    const componentsByName = this._childComponentsByName
+    return componentsByName.map((k) => componentsByName[k])
   }
 
   _onChildRequestChange = (k, v) => {
     // Update the onChange listener with a copy of the existing data merged with
     // this new input value
-    this.props.onChange(Object.assign({}, this._data(), {[k]: v}))
+    this.props.onChange(Object.assign({}, this._data(), { [k]: v }))
   }
 
   _onSubmit = (e) => {
     if (!this.validate()) return e.preventDefault()
-    this.props.onSubmit(e)
+    return this.props.onSubmit(e)
   }
 
 }
