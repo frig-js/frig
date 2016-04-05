@@ -12,22 +12,22 @@ if (minify) {
 
 module.exports = {
   entry: {
-    "frig": "./src/index.js",
+    frig: "./src/index.js",
   },
   devtool: void 0,
   externals: {
-    "react": {
+    react: {
       root: "React",
-      "this": "React",
-      "var": "React",
+      this: "React",
+      var: "React",
       commonjs: "react",
       commonjs2: "react",
       amd: "react",
     },
     "react-dom": {
       root: "ReactDOM",
-      "this": "ReactDOM",
-      "var": "ReactDOM",
+      this: "ReactDOM",
+      var: "ReactDOM",
       commonjs: "react-dom",
       commonjs2: "react-dom",
       amd: "react-dom",
@@ -35,7 +35,7 @@ module.exports = {
   },
   output: {
     path: "./dist",
-    filename: "[name]" + (minify ? ".min.js" : ".js"),
+    filename: `[name]${minify ? ".min.js" : ".js"}`,
     libraryTarget: "umd",
     library: "Frig",
   },
@@ -55,5 +55,5 @@ module.exports = {
       },
     ],
   },
-  plugins: plugins,
+  plugins,
 }
