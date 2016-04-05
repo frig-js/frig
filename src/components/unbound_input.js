@@ -1,28 +1,25 @@
-import React from "react"
+import React from 'react'
 
-import ErrorsNormalizer from "../higher_order_components/errors_normalizer.js"
-import frigValidations from "../validations.js"
-import {entries, humanize} from "../util.js"
+import ErrorsNormalizer from '../higher_order_components/errors_normalizer.js'
+import frigValidations from '../validations.js'
+import { entries, humanize } from '../util.js'
 
-@ErrorsNormalizer({
+@ErrorsNormalizer({ // eslint-disable-line new-cap
   as: Array,
   publicFunctions: [
-    "validate",
-    "isValid",
-    "isModified",
-    "resetModified",
-    "reset",
+    'validate',
+    'isValid',
+    'isModified',
+    'resetModified',
+    'reset',
   ],
 })
 export default class UnboundInput extends React.Component {
-  displayName = "Frig.UnboundInput"
-
   static propTypes = {
     name: React.PropTypes.string.isRequired,
     errors: React.PropTypes.arrayOf(React.PropTypes.string),
     layout: React.PropTypes.string,
     align: React.PropTypes.string,
-    className: React.PropTypes.string,
     className: React.PropTypes.string,
     disabled: React.PropTypes.bool,
     multiple: React.PropTypes.bool,
@@ -34,7 +31,9 @@ export default class UnboundInput extends React.Component {
     // Callbacks (Public API)
     onChange: React.PropTypes.func.isRequired,
     onValidChange: React.PropTypes.func.isRequired,
+    inputHtml: React.PropTypes.object,
   }
+
 
   static contextTypes = {
     frigForm: React.PropTypes.shape({
@@ -52,6 +51,8 @@ export default class UnboundInput extends React.Component {
     onValidChange: () => {},
   }
 
+  displayName = 'Frig.UnboundInput'
+
   state = {
     modified: false,
     validationRequested: false,
@@ -64,7 +65,7 @@ export default class UnboundInput extends React.Component {
    */
 
   validate() {
-    this.setState({validationRequested: true})
+    this.setState({ validationRequested: true })
     return this.isValid()
   }
 
@@ -77,7 +78,7 @@ export default class UnboundInput extends React.Component {
   }
 
   resetModified() {
-    this.setState({modified: false})
+    this.setState({ modified: false })
   }
 
   reset() {
@@ -89,34 +90,23 @@ export default class UnboundInput extends React.Component {
 
   /*
    * =========================================================================
-   * React Lifecycle + Render
-   * =========================================================================
-   */
-
-  render() {
-    let ThemedComponent = this._themedComponent()
-    return <ThemedComponent {...this._themedInputProps()}/>
-  }
-
-  /*
-   * =========================================================================
    * Private functions
    * =========================================================================
    */
 
   _errors(nextValue = this._value()) {
     let errors = this.props.errors
-    let validate = (
+    const validate = (
       (this.isModified() || this.state.validationRequested) &&
       this.props.validate
     )
     if (validate) {
       // Create themed props for the next nextValue passed to this function
-      let nextProps = Object.assign({}, this.props)
+      const nextProps = Object.assign({}, this.props)
       nextProps.valueLink = { value: nextValue }
 
       // Running each validation
-      for (let [k, validationOpts] of entries(this._validations())) {
+      for (const [k, validationOpts] of entries(this._validations())) {
         if (validationOpts === false || validationOpts == null) continue
         errors = errors.concat(
           frigValidations[k](nextProps, validationOpts) || []
@@ -134,21 +124,20 @@ export default class UnboundInput extends React.Component {
   }
 
   _themedInputProps(nextProps = this.props) {
-    let title = nextProps.title || humanize(nextProps.name)
-
+    const title = nextProps.title || humanize(nextProps.name)
     // Defaults
-    let defaults = {
-      title: title,
+    const defaults = {
+      title,
       label: title,
       placeholder: title,
       layout: this.context.frigForm.layout,
       align: this.context.frigForm.align,
     }
     // Mixing in the defaults
-    let themedProps = Object.assign(defaults, nextProps)
-    let themedInputHtml = themedProps.inputHtml || {}
+    const themedProps = Object.assign(defaults, nextProps)
+    const themedInputHtml = themedProps.inputHtml || {}
     // Overrides
-    let overrides = {
+    const overrides = {
       options: (nextProps.options || []).map(this._normalizeOption),
       modified: this.isModified(),
       // DOM attributes for the label element
@@ -165,7 +154,7 @@ export default class UnboundInput extends React.Component {
         name: themedProps.name,
         placeholder: themedProps.placeholder,
         type: themedInputHtml.type || this._typeMapping().htmlInputType,
-        ref: "input",
+        ref: 'input',
       }),
       valueLink: {
         value: this._value(),
@@ -186,101 +175,114 @@ export default class UnboundInput extends React.Component {
    * - an array of length 2 (first argument is the value, second is the label)
    * - an object with a value and label key (passthrough / no-change)
    */
-  _normalizeOption (option) {
+  _normalizeOption(option) {
     if (option == null) return undefined
 
     // if option is an object with a label and a key return it unchanged
     if (option.label != null) return option
 
     // converting option in the format of [key] to key
-    if (typeof option == "object" && option.length === 1) option = option[0]
+    if (typeof option === 'object' && option.length === 1) {
+      return {
+        value: option[0],
+        label: option[0],
+      }
+    }
 
     // if option is in the format [key, value]
-    if (typeof option == "object" && option.length === 2) {
+    if (typeof option === 'object' && option.length === 2) {
       return {
         value: option[0],
         label: option[1],
       }
     }
     // if option is in the format key
-    else {
-      return {
-        value: option,
-        label: option,
-      }
+    return {
+      value: option,
+      label: option,
     }
   }
 
   _validations(nextProps = this.props) {
     // Validations (these get mixed into the overrides)
-    let defaults = {
+    const defaults = {
       required: true,
     }
-    let validations = {}
-    for (let [k] of entries(frigValidations)) {
+    const validations = {}
+    for (const [k] of entries(frigValidations)) {
       validations[k] = nextProps[k] == null ? defaults[k] : nextProps[k]
     }
     return validations
   }
 
   _onChange(val, opts) {
-    if (this.props.type === "submit") return
+    if (this.props.type === 'submit') return
     // Set the state and run validations
-    if ((opts||{}).setModified !== false) this.setState({modified: true})
-    let valid = this._errors(val) == null
+    if ((opts || {}).setModified !== false) {
+      this.setState({ modified: true })
+    }
+    const valid = this._errors(val) == null
     this.props.onChange(val, valid)
     if (valid) this.props.onValidChange(val, valid)
   }
 
   _onBlur() {
     this.validate()
-    let inputHtml = this.props.inputHtml
+    const inputHtml = this.props.inputHtml
     if (inputHtml != null && inputHtml.onBlur != null) inputHtml.onBlur()
   }
 
   _guessInputType() {
-    let value = this._value()
-    let jsType = typeof value
+    const value = this._value()
+    const jsType = typeof value
     if (this.props.type != null) {
       return this.props.type
+    } else if (this.props.multiple || Array.isArray(value)) {
+      return 'multiselect'
+    } else if (this.props.options != null) {
+      return 'select'
+    } else if (jsType === 'boolean') {
+      return 'boolean'
+    } else if (jsType === 'number') {
+      return 'float'
+    } else if (this.props.name.match(/password$/i)) {
+      return 'password'
     }
-    else if (this.props.multiple || Array.isArray(value)) {
-      return "multiselect"
-    }
-    else if (this.props.options != null) {
-      return "select"
-    }
-    else if (jsType === "boolean") {
-      return "boolean"
-    }
-    else if (jsType === "number") {
-      return "float"
-    }
-    else if (this.props.name.match(/password$/i)) {
-      return "password"
-    }
-    else {
-      return "string"
-    }
+
+    return 'string'
   }
 
   // Generate the type mapping for an input component
   _typeMapping() {
-    let typeMapping = Object.assign(
+    const typeMapping = Object.assign(
       {},
-      require("../type_mapping.js"),
+      require('../type_mapping.js'),
       this.context.frigForm.theme.type_mapping,
     )
     return typeMapping[this._guessInputType()]
   }
 
   _themedComponent() {
-    let {name} = this.props
-    let type = this._typeMapping().component
-    if (type == null) throw `${name}: No type mapping found`
-    let component = this.context.frigForm.theme[type]
-    if (component == null) throw `${name}: No ${type} component found in theme`
+    const { name } = this.props
+    const type = this._typeMapping().component
+    const component = this.context.frigForm.theme[type]
+    if (type == null) {
+      throw new Error(`${name}: No type mapping found`)
+    }
+    if (component == null) {
+      throw new Error(`${name}: No ${type} component found in theme`)
+    }
     return component
   }
 
+  /*
+   * =========================================================================
+   * React Lifecycle + Render
+   * =========================================================================
+   */
+
+  render() {
+    let ThemedComponent = this._themedComponent()
+    return <ThemedComponent {...this._themedInputProps()} />
+  }
 }
