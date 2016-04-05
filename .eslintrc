@@ -1,49 +1,32 @@
 {
   "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "plugins": [
-    "react"
-  ],
-  "settings": {
-    "react": {
-      "pragma": "React"
-    }
-  },
-  "env": {
-    "browser": true,
-    "amd": true,
-    "node": true
-  },
+  "extends": "airbnb",
   "rules": {
     "semi": [2, "never"],
-    "comma-dangle": [2, "always-multiline"],
-    "eqeqeq": [2, "smart"],
-    "curly": [2, "multi-line"],
-    "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
-    "no-console": 2,
+    # "comma-dangle": [2, "always-multiline"],
+    # "eqeqeq": [2, "smart"],
+    # "curly": [2, "multi-line"],
+    # "no-unused-vars": [2, {"vars": "all", "args": "after-used"}],
+    # "no-console": 2,
     "quotes": [2, "double"],
-    "jsx-quotes": [2, "prefer-double"],
-    "key-spacing": 0,
-    "no-multi-spaces": 0,
-    "no-underscore-dangle": 0,
-    "no-loop-func": 0,
-    "no-implicit-globals": 2,
-    "no-debugger": 0,
-    "react/jsx-indent": [2, 2],
-    "react/jsx-indent-props": [2, 2],
-    "react/display-name": [2],
-    "react/prefer-es6-class": [2, "always"],
-    "react/react-in-jsx-scope": [2],
-    "react/jsx-closing-bracket-location": [2, "tag-aligned"],
-    "react/jsx-no-undef": [2],
-    "react/jsx-uses-vars": [2],
-    "react/jsx-uses-react": [2],
-    "react/jsx-equals-spacing": [2, "never"],
-    "react/wrap-multilines": [2, {declaration: true, assignment: true, return: true}],
-    "strict": 0
+    # "jsx-quotes": [2, "prefer-double"],
+    # "key-spacing": 0,
+    # "no-multi-spaces": 0,
+    # "no-underscore-dangle": 0,
+    # "no-loop-func": 0,
+    # "no-implicit-globals": 2,
+    # "no-debugger": 0,
+    # "react/jsx-indent": [2, 2],
+    # "react/jsx-indent-props": [2, 2],
+    # "react/display-name": [2],
+    # "react/prefer-es6-class": [2, "always"],
+    # "react/react-in-jsx-scope": [2],
+    # "react/jsx-closing-bracket-location": [2, "tag-aligned"],
+    # "react/jsx-no-undef": [2],
+    # "react/jsx-uses-vars": [2],
+    # "react/jsx-uses-react": [2],
+    # "react/jsx-equals-spacing": [2, "never"],
+    # "react/wrap-multilines": [2, {declaration: true, assignment: true, return: true}],
+    # "strict": 0
   }
 }
