@@ -1,4 +1,4 @@
-import React from "react"
+import React from 'react'
 
 /*
  * A higher order function wrapper for components that only allow 2 possible
@@ -8,7 +8,7 @@ import React from "react"
  * This component will request a change to the valueLink for any invalid
  * valueLink value to convert it into the onValue or offValue.
  */
-module.exports = function(ComponentClass) {
+module.exports = function BooleanHOC(ComponentClass) {
   return class extends React.Component {
 
     static propTypes = {
@@ -22,7 +22,7 @@ module.exports = function(ComponentClass) {
       offValue: false,
     }
 
-    displayName = `Frig.HigherOrderComponents.Boolean`
+    displayName = 'Frig.HigherOrderComponents.Boolean'
 
     componentWillMount() {
       this._normalizeValue(this.props)
@@ -33,9 +33,9 @@ module.exports = function(ComponentClass) {
     }
 
     _normalizeValue(nextProps) {
-      let value = nextProps.valueLink.value
+      const value = nextProps.valueLink.value
       if (value !== this.props.offValue && value !== this.props.onValue) {
-        this._change(value != null, {setModified: false})
+        this._change(value != null, { setModified: false })
       }
     }
 
@@ -44,19 +44,19 @@ module.exports = function(ComponentClass) {
      * into an onValue or offValue before relaying it to the valueLink.
      */
     _change(val, ...args) {
-      let upstreamVal = val ? this.props.onValue : this.props.offValue
+      const upstreamVal = val ? this.props.onValue : this.props.offValue
       this.props.valueLink.requestChange(upstreamVal, ...args)
     }
 
     render() {
-      let childProps = Object.assign({}, this.props, {
-        ref: "child",
+      const childProps = Object.assign({}, this.props, {
+        ref: 'child',
         valueLink: {
           value: this.props.valueLink.value === this.props.onValue,
           requestChange: this._change.bind(this),
         },
       })
-      return <ComponentClass {...childProps}/>
+      return <ComponentClass {...childProps} />
     }
 
   }
