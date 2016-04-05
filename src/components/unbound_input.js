@@ -136,6 +136,7 @@ export default class UnboundInput extends React.Component {
 
   _themedInputProps(nextProps = this.props) {
     let title = nextProps.title || humanize(nextProps.name)
+
     // Defaults
     let defaults = {
       title: title,
@@ -146,6 +147,7 @@ export default class UnboundInput extends React.Component {
     }
     // Mixing in the defaults
     let themedProps = Object.assign(defaults, nextProps)
+    let themedInputHtml = themedProps.inputHtml || {}
     // Overrides
     let overrides = {
       options: (nextProps.options || []).map(this._normalizeOption),
@@ -155,7 +157,7 @@ export default class UnboundInput extends React.Component {
         htmlFor: themedProps.name,
       }),
       // DOM attributes + React ref + callbacks for the input element
-      inputHtml: Object.assign({}, themedProps.inputHtml || {}, {
+      inputHtml: Object.assign({}, themedInputHtml, {
         onBlur: this._onBlur.bind(this),
         autoFocus: themedProps.autoFocus,
         className: themedProps.className,
@@ -163,7 +165,7 @@ export default class UnboundInput extends React.Component {
         multiple: themedProps.multiple,
         name: themedProps.name,
         placeholder: themedProps.placeholder,
-        type: this._typeMapping().htmlInputType,
+        type: themedInputHtml.type || this._typeMapping().htmlInputType,
         ref: "input",
       }),
       valueLink: {
