@@ -1,7 +1,7 @@
 /* global describe, it */
 
 import { expect } from 'chai'
-import validations from '../../src/validations'
+import validations from '../src/validations'
 
 describe('validations', () => {
   const props = {

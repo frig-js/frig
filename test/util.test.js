@@ -1,7 +1,7 @@
 /* global describe, it */
 
 import { expect } from 'chai'
-import { entries, humanize } from '../../src/util'
+import { entries, humanize } from '../src/util'
 
 describe('util', () => {
   describe('entries', () => {
