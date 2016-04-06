@@ -18,7 +18,7 @@
   },
   "peerDependencies": {
     "react": ">=0.14.3",
-    "react-dom": ">=0.14.3" 
+    "react-dom": ">=0.14.3"
   },
   "devDependencies": {
     "babel-core": "6.7.4",
@@ -29,7 +29,9 @@
     "babel-preset-react": "6.5.0",
     "babel-preset-stage-1": "6.5.0",
     "chai": "3.5.0",
+    "chai-enzyme": "^0.4.1",
     "dirty-chai": "^1.2.2",
+    "enzyme": "^2.2.0",
     "eslint": "2.7.0",
     "eslint-config-airbnb": "6.2.0",
     "eslint-plugin-react": "4.2.3",
@@ -40,6 +42,8 @@
     "mkpath": "1.0.0",
     "mocha": "2.4.5",
     "react": ">=0.14.3",
+    "react-dom": ">=0.14.3",
+    "react-addons-test-utils": "^0.14.8",
     "webpack": "1.12.14",
     "webpack-dev-server": "1.14.1"
   },
