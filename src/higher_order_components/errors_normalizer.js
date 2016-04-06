@@ -24,12 +24,7 @@ export default class ErrorNormalizer extends React.Component {
   }
 
   _errors() {
-    const errors = {}
-    const errorsSubset = this._toErrorObject(this.props.errors)
-    const errors = Object.keys(errorsSubset).map((k) =>
-      (errors[k] || []).concat(errorsSubset[k])
-    )
-    return errors
+    return this._toErrorObject(this.props.errors)
   }
 
   _normalizedErrors() {
