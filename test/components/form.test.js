@@ -9,7 +9,7 @@ describe('<Form />', () => {
   // Despite eslint's pleadings, this can't be a stateless function
   // because <Form /> will tack a `ref` on to it, which is illegal.
   class ThemedForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
-    render() { return <div /> }
+    render() { return <form>{this.props.children}</form> } // eslint-disable-line react/prop-types
   }
 
   const formProps = {
@@ -34,27 +34,38 @@ describe('<Form />', () => {
   })
 
   it('fails fast when props.onChange is not provided', () => {
-    const form = <Form data={formProps.data} />
-    const wrapperBound = mount.bind(null, form)
+    const badForm = <Form data={formProps.data} />
+    const wrapperBound = mount.bind(null, badForm)
     expect(wrapperBound).to.throw(Error, /onChange=/)
   })
 
   it('renders the theme.Form component', () => {
     const wrapper = mount(form)
-    console.log(wrapper.debug())
     expect(wrapper.find(ThemedForm)).to.have.length(1)
   })
 
-  // pending
-  it('renders its children at some point in the tree')
-
   describe('via AbstractForm', () => {
-    // This test would probably be tautological. Let's see.
-    it('getChildContext()', () => {
-      
+    describe('context', () => {
+      it('passes context down to its children', () => {
+        const UndecoratedForm = Form.originalClass
+        const wrapper = mount(<UndecoratedForm {...formProps} />)
+        const context = wrapper.instance().getChildContext()
+
+        expect(context.frigForm).to.exist()
+        expect(context.frigForm.errors).to.equal(formProps.errors)
+        expect(context.frigForm.layout).to.equal(formProps.layout)
+        expect(context.frigForm.theme).to.equal(formProps.theme)
+        expect(context.frigForm.align).to.equal(formProps.align)
+        expect(context.frigForm.saved).to.equal(formProps.saved)
+        expect(context.frigForm.data).to.equal(formProps.data)
+      })
+
+      it('passes requestChildComponentChange via context')
+      it('passes childComponentWillMount via context')
+      it('passes childComponentWillUnmount via context')
+      it('passes submit via context')
     })
 
-    // pending
     it('validate()')
     it('isModified()')
     it('modifications()')
