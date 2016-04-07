@@ -12,29 +12,66 @@ describe('<Form />', () => {
     render() { return <div /> }
   }
 
-  const theme = { Form: ThemedForm }
-  const data = {}
-  const onChange = () => {}
+  const formProps = {
+    theme: { Form: ThemedForm },
+    data: {},
+    onChange: () => {},
+    saved: {},
+    errors: {},
+    layout: 'horizontal',
+    align: 'right',
+  }
+  const form = (
+    <Form {...formProps} >
+      <div>child</div>
+    </Form>
+  )
 
   it('fails fast when props.data is not provided', () => {
-    const form = <Form onChange={onChange} />
-    const wrapperBound = mount.bind(null, form)
+    const badForm = <Form onChange={formProps.onChange} />
+    const wrapperBound = mount.bind(null, badForm)
     expect(wrapperBound).to.throw(Error, /data=/)
   })
 
   it('fails fast when props.onChange is not provided', () => {
-    const form = <Form data={data} />
+    const form = <Form data={formProps.data} />
     const wrapperBound = mount.bind(null, form)
     expect(wrapperBound).to.throw(Error, /onChange=/)
   })
 
   it('renders the theme.Form component', () => {
-    const form = (
-      <Form data={data} onChange={onChange} theme={theme}>
-        <div>child</div>
-      </Form>
-    )
     const wrapper = mount(form)
+    console.log(wrapper.debug())
     expect(wrapper.find(ThemedForm)).to.have.length(1)
+  })
+
+  // pending
+  it('renders its children at some point in the tree')
+
+  describe('via AbstractForm', () => {
+    // This test would probably be tautological. Let's see.
+    it('getChildContext()', () => {
+      
+    })
+
+    // pending
+    it('validate()')
+    it('isModified()')
+    it('modifications()')
+    it('resetModified()')
+    it('reset()')
+    it('formData()')
+    describe('private', () => {
+      // Private functions probably don't need to be tested,
+      // so long as they're getting called/covered via public tests.
+      // Putting them here as pending for exploratory testing/finding dead code.
+      it('_themedFormProps()')
+      it('_data()')
+      it('childComponentWillMount()')
+      it('childComponentWillUnmount()')
+      it('_childComponents()')
+      it('_onChildRequestChange()')
+      it('_onSubmit()')
+    })
   })
 })
