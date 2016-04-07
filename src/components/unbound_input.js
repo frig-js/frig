@@ -39,7 +39,6 @@ export default class UnboundInput extends React.Component {
   static contextTypes = {
     frigForm: React.PropTypes.shape({
       theme: React.PropTypes.object.isRequired,
-      errors: React.PropTypes.object.isRequired,
       layout: React.PropTypes.string.isRequired,
       align: React.PropTypes.string.isRequired,
     }).isRequired,
