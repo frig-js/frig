@@ -9,7 +9,7 @@ import delegatesPublicFunctions from './delegates_public_functions.js'
  */
 const HigherOrderComponent = () => hocClass => opts => ComponentClass =>
   @delegatesPublicFunctions(opts)
-  class extends hocClass {
+  class HigherOrderComponent extends hocClass {
     static originalClass = (
       ComponentClass.originalClass || ComponentClass
     )
