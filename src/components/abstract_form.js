@@ -16,7 +16,7 @@ export default class AbstractForm extends React.Component {
   }
 
   getChildContext() {
-    const { align, layout, theme, errors, saved } = this.props
+    const { align, layout, theme, errors, saved, data } = this.props
     return {
       frigForm: {
         align,
@@ -24,7 +24,7 @@ export default class AbstractForm extends React.Component {
         theme,
         errors,
         saved,
-        data: this._data(),
+        data,
         requestChildComponentChange: this._onChildRequestChange,
         childComponentWillMount: this.childComponentWillMount,
         childComponentWillUnmount: this.childComponentWillUnmount,
@@ -89,10 +89,6 @@ export default class AbstractForm extends React.Component {
     return formProps
   }
 
-  _data() {
-    return this.props.data
-  }
-
   childComponentWillMount = (name, component) => {
     this._childComponentsByName[name] = component
   }
@@ -109,7 +105,7 @@ export default class AbstractForm extends React.Component {
   _onChildRequestChange = (k, v) => {
     // Update the onChange listener with a copy of the existing data merged with
     // this new input value
-    this.props.onChange(Object.assign({}, this._data(), { [k]: v }))
+    this.props.onChange(Object.assign({}, this.props.data, { [k]: v }))
   }
 
   _onSubmit = (e) => {
