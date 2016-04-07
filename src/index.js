@@ -1,5 +1,6 @@
 import Form from "./components/form.js"
 import Input from "./components/input.js"
+import UnboundInput from "./components/unbound_input.js"
 import Submit from "./components/submit.js"
 import FormErrorList from "./components/form_error_list.js"
 import Fieldset from "./components/fieldset.js"
@@ -19,13 +20,14 @@ function defaultTheme(theme) {
   if (theme === null) return Form.defaultProps.theme
   if (typeof theme !== "object") throw "Invalid theme. Expected an object"
   Form.originalClass.defaultProps.theme = theme
-  Input.originalClass.defaultProps.theme = theme
+  UnboundInput.originalClass.defaultProps.theme = theme
 }
 
 export default {
   defaultTheme,
   Form,
   Input,
+  UnboundInput,
   Submit,
   FormErrorList,
   Fieldset,
