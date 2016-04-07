@@ -74,7 +74,7 @@ export default class ValueLinkedSelect extends React.Component {
     }
     if (el.type === "select-multiple")
     {
-      return [for (o of el.options) if (o.selected) originalValues[o.value]]
+      return el.options.filter((o) => o.selected).map((o) => originalValues[o.value])
     }
     else
     {
