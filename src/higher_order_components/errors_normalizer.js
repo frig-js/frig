@@ -25,7 +25,7 @@ export default class extends React.Component {
 
   _errors() {
     const errorsSubset = this._toErrorObject(this.props.errors)
-    const errors = errorsSubset.map((k) =>
+    const errors = Object.keys(errorsSubset).map((k) =>
       (errors[k] || []).concat(errorsSubset[k])
     )
     return errors

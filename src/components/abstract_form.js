@@ -103,7 +103,7 @@ export default class AbstractForm extends React.Component {
 
   _childComponents() {
     const componentsByName = this._childComponentsByName
-    return componentsByName.map((k) => componentsByName[k])
+    return Object.keys(componentsByName).map((k) => componentsByName[k])
   }
 
   _onChildRequestChange = (k, v) => {
