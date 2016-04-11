@@ -73,14 +73,35 @@ describe('<Form />', () => {
     it('reset()')
     it('formData()')
     describe('private', () => {
-      // Private functions probably don't need to be tested,
-      // so long as they're getting called/covered via public tests.
-      // Putting them here as pending for exploratory testing/finding dead code.
+      // Usually, we wouldn't test private functions so long as they get called
+      // via a test exercising the public API. However, these tests were written
+      // much later than the code itself. They exist to help new developers
+      // explore & understand the code base. They are very brittle (coupled
+      // to implementation). Major design changes will probably require removing
+      // these tests. They might still have some use in detecting regressions,
+      // but that's not their primary purpose.
       it('_themedFormProps()')
       it('_data()')
-      it('childComponentWillMount()')
-      it('childComponentWillUnmount()')
-      it('_childComponents()')
+      describe('childComponentWill[Mount|Unmount]', () => {
+        const UndecoratedForm = Form.originalClass
+        const wrapper = mount(<UndecoratedForm {...formProps} />)
+        const instance = wrapper.instance()
+
+        const object = {}
+        instance.childComponentWillMount('name', object)
+        const mountedComponent = instance._childComponents()[0]
+
+        it('mount adds components to _childComponents backing array', () => {
+          expect(mountedComponent).to.equal(object)
+        })
+
+        it('unmount removes components from _childComponents backing array', () => {
+          instance.childComponentWillUnmount('name')
+          const childComponents = instance._childComponents()
+          expect(childComponents).to.deep.equal([])
+        })
+      })
+
       it('_onChildRequestChange()')
       it('_onSubmit()')
     })
