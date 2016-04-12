@@ -1,9 +1,7 @@
-import FieldsetNestedForm from "./fieldset_nested_form.js"
-import React from "react"
+import FieldsetNestedForm from './fieldset_nested_form.js'
+import React from 'react'
 
 export default class Fieldset extends React.Component {
-  displayName = "Fieldset"
-
   static contextTypes = {
     frigForm: React.PropTypes.shape({
       data: React.PropTypes.object.isRequired,
@@ -17,6 +15,13 @@ export default class Fieldset extends React.Component {
       childComponentWillUnmount: React.PropTypes.func.isRequired,
     }).isRequired,
   }
+
+  static propTypes = {
+    name: React.PropTypes.string,
+    children: React.PropTypes.any.isRequired,
+  }
+
+  displayName = 'Fieldset'
 
   componentWillMount() {
     this.context.frigForm.childComponentWillMount(this.props.name, this)
@@ -40,8 +45,8 @@ export default class Fieldset extends React.Component {
   }
 
   modifications() {
-    let values = this._forms().map((form) => form.modifications())
-    let isArray = Array.isArray(
+    const values = this._forms().map((form) => form.modifications())
+    const isArray = Array.isArray(
       this.context.frigForm.data[this.props.name] || []
     )
     return isArray ? values : values[0]
@@ -56,22 +61,22 @@ export default class Fieldset extends React.Component {
   }
 
   _forms() {
-    return Object.keys(this.refs||{}).map((k) => this.refs[k])
+    return Object.keys(this.refs || {}).map((k) => this.refs[k])
   }
 
   _contextAtIndex(index, keys) {
-    return keys.reduce( (contextAtIndex, key) => {
+    return keys.reduce((contextAtIndex, key) => {
       const values = this.context.frigForm[key][this.props.name]
       const value = Array.isArray(values) ? values[index] : values
-      contextAtIndex[key] = value || {}
+      contextAtIndex[key] = value || {}   // eslint-disable-line no-param-reassign
       return contextAtIndex
     }, {})
   }
 
-  _formProps({data, index}) {
-    const {errors, saved} = this._contextAtIndex(index, [
-      "errors",
-      "saved",
+  _formProps({ data, index }) {
+    const { errors, saved } = this._contextAtIndex(index, [
+      'errors',
+      'saved',
     ])
     const onChange = this._onChange.bind(
       this,
@@ -95,8 +100,7 @@ export default class Fieldset extends React.Component {
     if (Array.isArray(data)) {
       nextData = [...data]
       nextData[index] = nextFormData
-    }
-    else {
+    } else {
       nextData = nextFormData
     }
     // Relaying the request change to the upstream data
@@ -104,18 +108,18 @@ export default class Fieldset extends React.Component {
   }
 
   _nestedFormDatas(nextContext = this.context) {
-    let dataValues = nextContext.frigForm.data[this.props.name] || []
+    const dataValues = nextContext.frigForm.data[this.props.name] || []
     return Array.isArray(dataValues) ? dataValues : [dataValues]
   }
 
   render() {
     let i = 0
-    let nestedFormDatas = this._nestedFormDatas()
+    const nestedFormDatas = this._nestedFormDatas()
     return (
       <div>
         {
           nestedFormDatas.map((data) =>
-            <FieldsetNestedForm {...this._formProps({data, index: i++})}>
+            <FieldsetNestedForm {...this._formProps({ data, index: i++ })}>
               {this.props.children}
             </FieldsetNestedForm>
           )

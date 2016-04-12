@@ -1,5 +1,5 @@
-import React from "react"
-import ReactDOM from "react-dom"
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 /*
  * A minimal wrapper for the select component to provide the correct value
@@ -15,8 +15,8 @@ import ReactDOM from "react-dom"
  *
  * ValueLinkedSelect({
  *   options: [
- *     {label: "Canada", value: "CA"}
- *     {label: "United States", value: "US"}
+ *     {label: 'Canada', value: 'CA'}
+ *     {label: 'United States', value: 'US'}
  *   ]
  * })
  *
@@ -25,62 +25,60 @@ import ReactDOM from "react-dom"
  *
  */
 export default class ValueLinkedSelect extends React.Component {
-  displayName = "Frig.ValueLinkedSelect"
-
   static propTypes = {
     options: React.PropTypes.array.isRequired,
     valueLink: React.PropTypes.object.isRequired,
+    multiple: React.PropTypes.bool,
   }
+  displayName = 'Frig.ValueLinkedSelect'
 
   componentWillMount() {
-    var hasOptions = (this.props.options || []).length !== 0
+    const hasOptions = (this.props.options || []).length !== 0
     if (hasOptions && this.props.valueLink.value == null) {
       this._setInitialValue(this.props)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    let hasOptions = (nextProps.options||[]).length !== 0
+    const hasOptions = (nextProps.options || []).length !== 0
     // Setting the intial value of the select when the options load
     if (hasOptions && nextProps.valueLink.value == null) {
       this._setInitialValue(nextProps)
     }
     // Nulling the select's value when the options are removed
     if (!hasOptions && nextProps.valueLink.value != null) {
-      nextProps.valueLink.requestChange(undefined, {setModified: false})
+      nextProps.valueLink.requestChange(undefined, { setModified: false })
     }
   }
 
   // If there are no null options then default a null value
   // to the first option
   _setInitialValue(nextProps) {
-    if (nextProps.options.filter(({value}) => value == null).length > 0) {
+    if (nextProps.options.filter(({ value }) => value == null).length > 0) {
       return
     }
-    let value = nextProps.valueLink.value || nextProps.options[0].value
-    nextProps.valueLink.requestChange(value, {setModified: false})
+    const value = nextProps.valueLink.value || nextProps.options[0].value
+    nextProps.valueLink.requestChange(value, { setModified: false })
   }
 
   // Reads the value from the DOM for the select input fields
   _getValue() {
-    let el = ReactDOM.findDOMNode(this.refs.input)
+    const el = ReactDOM.findDOMNode(this.refs.input)
     // The value is cast to a string when we get it from DOM.value. This is a
     // mapping of those strings to their original values in the options list.
-    let originalValues = {}
-    for (let option of this.props.options) {
+    const originalValues = {}
+    for (const option of this.props.options) {
       let valueHash = option.value
       if (valueHash != null) valueHash = option.value.toString()
       originalValues[valueHash] = option.value
     }
-    if (el.type === "select-multiple")
-    {
+    if (el.type === 'select-multiple') {
       return el.options.filter((o) => o.selected).map((o) => originalValues[o.value])
     }
-    else
-    {
-      if (el.value === "") return null
-      return originalValues[el.value] || el.value
+    if (el.value === '') {
+      return null
     }
+    return originalValues[el.value] || el.value
   }
 
   _onChange() {
@@ -90,21 +88,22 @@ export default class ValueLinkedSelect extends React.Component {
   _inputHtml() {
     let value = this.props.valueLink.value
     if (this.props.multiple) value = value.map((o) => o.value.toString())
-    let inputHtml = Object.assign({}, this.props, {
-      ref: "input",
+    const inputHtml = Object.assign({}, this.props, {
+      ref: 'input',
       valueLink: {
-        value: value,
+        value,
         requestChange: this._onChange.bind(this),
       },
     })
-    for (let k in ["valueLink", "options"]) delete inputHtml[k]
+    delete inputHtml.valueLink
+    delete inputHtml.options
     return inputHtml
   }
 
   _selectOption(o) {
-    let attrs = {
+    const attrs = {
       key: `option-${o.label}`,
-      value: o.value || "",
+      value: o.value || '',
     }
     return <option {...attrs}>{o.label}</option>
   }

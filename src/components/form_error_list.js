@@ -1,12 +1,10 @@
-import React from "react"
+import React from 'react'
 
 export default class FormErrorList extends React.Component {
-  displayName = "Frig.FormErrorList"
-
   static defaultProps = {
     // This is the property of `errors` where Frig will look for form-level errors.
-    // Set to "base" by default, for compatibility with Active Record.
-    name: "base",
+    // Set to 'base' by default, for compatibility with Active Record.
+    name: 'base',
   }
 
   static contextTypes = {
@@ -14,6 +12,12 @@ export default class FormErrorList extends React.Component {
       errors: React.PropTypes.object.isRequired,
     }).isRequired,
   }
+
+  static propTypes = {
+    name: React.PropTypes.string,
+  }
+
+  displayName = 'Frig.FormErrorList'
 
   _errorsArray() {
     const { errors } = this.context.frigForm

@@ -1,9 +1,9 @@
-import React from "react"
-import AbstractForm from "./abstract_form.js"
+import React from 'react'
+import AbstractForm from './abstract_form.js'
 
 // Nested forms (forms inside nested fieldsets)
 export default class FieldsetNestedForm extends AbstractForm {
-  displayName = "Frig.FieldsetNestedForm"
+  displayName = 'Frig.FieldsetNestedForm'
 
   static propTypes = AbstractForm.propTypes
   static defaultProps = AbstractForm.defaultProps

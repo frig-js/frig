@@ -1,33 +1,33 @@
-import React from "react"
-import ErrorsNormalizer from "../higher_order_components/errors_normalizer.js"
-import AbstractForm from "./abstract_form.js"
+import React from 'react'
+import ErrorsNormalizer from '../higher_order_components/errors_normalizer.js'
+import AbstractForm from './abstract_form.js'
 
 /*
  * A JSX-compatible React DOM Component.
  * Form should be used as the top level component above any other frig
  * components.
  */
-@ErrorsNormalizer({
+@ErrorsNormalizer({  // eslint-disable-line new-cap
   as: Object,
   publicFunctions: [
-    "validate",
-    "isValid",
-    "isModified",
-    "modifications",
-    "resetModified",
-    "reset",
-    "formData",
+    'validate',
+    'isValid',
+    'isModified',
+    'modifications',
+    'resetModified',
+    'reset',
+    'formData',
   ],
 })
 export default class Form extends AbstractForm {
-  displayName = "Form"
+  displayName = 'Form'
 
   componentWillMount() {
     if (!this.props.data) {
-      throw new Error("Frig: Expression in <Form data={} /> must always be defined, got: " + this.props.data)
+      throw new Error(`<Form data={} /> must always be defined, got: ${this.props.data}`)
     }
     if (!this.props.onChange) {
-      throw new Error("Frig: Expression in <Form onChange={} /> must always be defined, got: " + this.props.onChange)
+      throw new Error(`<Form onChange={} /> must always be defined, got: ${this.props.onChange}`)
     }
   }
 
@@ -49,8 +49,8 @@ export default class Form extends AbstractForm {
     saved: {},
     theme: undefined,
     typeMapping: {},
-    layout: "vertical",
-    align: "left",
+    layout: 'vertical',
+    align: 'left',
     onSubmit() {},
   }
 

@@ -1,19 +1,20 @@
-import React from "react"
+import React from 'react'
 
-export default class FieldsetText extends React.Component {
-  displayName = "Frig.FieldsetText"
-
-  static contextTypes = {
-    frigFieldset: React.PropTypes.object,
-  }
-
-  render() {
-    let spanProps = Object.assign({}, this.props)
-    delete spanProps.text
-    return (
-      <span {...spanProps}>
-        {this.props.text(this.context.frigFieldset.index)}
-      </span>
-    )
-  }
+const FieldsetText = (props, context) => {
+  const spanProps = Object.assign({}, this.props)
+  delete spanProps.text
+  return (
+    <span {...spanProps}>
+      {props.text(context.frigFieldset.index)}
+    </span>
+  )
 }
+FieldsetText.propTypes = {
+  text: React.PropTypes.func.isRequired,
+}
+FieldsetText.contextTypes = {
+  frigFieldset: React.PropTypes.object,
+}
+FieldsetText.displayName = 'Frig.FieldsetText'
+
+export default FieldsetText
