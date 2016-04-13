@@ -15,7 +15,8 @@
     "cover": "istanbul cover --root src/ --include-all-sources --report lcov --report json --report text --report html _mocha -- -r babel-register -r test/test_helper.js 'test/**/*.test.js'",
     "preversion": "./scripts/preversion.sh",
     "version": "./scripts/version.sh",
-    "postversion": "./scripts/publish_docs.sh && git push && git push --tags"
+    "postversion": "./scripts/publish_docs.sh && git push && git push --tags",
+    "coveralls": "cat ./coverage/report-lcov/lcov.info | ./node_modules/.bin/coveralls"
   },
   "peerDependencies": {
     "react": "^0.14.3",
@@ -32,6 +33,7 @@
     "babel-register": "^6.7.2",
     "chai": "3.5.0",
     "chai-enzyme": "^0.4.1",
+    "coveralls": "^2.11.9",
     "dirty-chai": "^1.2.2",
     "enzyme": "^2.2.0",
     "eslint": "2.7.0",
@@ -44,6 +46,7 @@
     "jsx-loader": "0.13.2",
     "mkpath": "1.0.0",
     "mocha": "2.4.5",
+    "mocha-lcov-reporter": "^1.2.0",
     "react": ">=0.14.3",
     "react-addons-test-utils": "^0.14.8",
     "react-dom": ">=0.14.3",
