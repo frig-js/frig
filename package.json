@@ -17,7 +17,7 @@
     "preversion": "./scripts/preversion.sh",
     "version": "./scripts/version.sh",
     "postversion": "./scripts/publish_docs.sh && git push && git push --tags",
-    "coveralls": "cat ./coverage/report-lcov/lcov.info | ./node_modules/.bin/coveralls"
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
   },
   "peerDependencies": {
     "react": "^0.14.3",
