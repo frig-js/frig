@@ -10,8 +10,8 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js './test/**/*.js'",
     "test:watch": "npm run test -- --watch --watch-extensions js",
-    "lint": "eslint src/ || true",
-    "lint-fail-fast": "eslint .",
+    "lint": "eslint src/ test/ || true",
+    "lint:failfast": "eslint src/ test/",
     "preversion": "./scripts/preversion.sh",
     "version": "./scripts/version.sh",
     "postversion": "./scripts/publish_docs.sh && git push && git push --tags"

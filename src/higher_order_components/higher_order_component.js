@@ -7,7 +7,7 @@ import delegatesPublicFunctions from './delegates_public_functions.js'
  * for accessing the child component and the options argument to the higher
  * order function.
  */
-const HigherOrderComponent = () => hocClass => opts => ComponentClass =>
+const hoc = () => hocClass => opts => ComponentClass =>
   @delegatesPublicFunctions(opts)
   class HigherOrderComponent extends hocClass {
     static originalClass = (
@@ -23,4 +23,4 @@ const HigherOrderComponent = () => hocClass => opts => ComponentClass =>
     }
   }
 
-export default HigherOrderComponent
+export default hoc
