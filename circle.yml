@@ -5,3 +5,5 @@ machine:
 test:
   pre:
     - npm run lint:failfast
+  post:
+    - npm run coveralls

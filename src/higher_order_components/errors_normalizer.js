@@ -18,7 +18,9 @@ export default class ErrorNormalizer extends React.Component {
     // If errors is an array then convert it into an object. 'base' is
     // used to store all top-level errors that are not specific to an
     // input.
-    if (isArray) return { base: errors }
+    if (isArray) {
+      return { base: errors }
+    }
 
     return errors
   }
