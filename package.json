@@ -8,11 +8,12 @@
     "dist/"
   ],
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js './test/**/*.js'",
+    "test": "npm run test:cover",
     "test:watch": "npm run test -- --watch --watch-extensions js",
+    "test:nocover": "mocha --compilers js:babel-core/register --require ./test/test_helper.js './test/**/*.js'",
+    "test:cover": "istanbul cover --root src/ --include-all-sources --report lcov --report json --report text --report html _mocha -- -r babel-register -r test/test_helper.js 'test/**/*.test.js'",
     "lint": "eslint src/ test/ || true",
     "lint:failfast": "eslint src/ test/",
-    "cover": "istanbul cover --root src/ --include-all-sources --report lcov --report json --report text --report html _mocha -- -r babel-register -r test/test_helper.js 'test/**/*.test.js'",
     "preversion": "./scripts/preversion.sh",
     "version": "./scripts/version.sh",
     "postversion": "./scripts/publish_docs.sh && git push && git push --tags",
