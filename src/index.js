@@ -26,7 +26,7 @@ function defaultTheme(theme) {
   return true
 }
 
-export default {
+export {
   defaultTheme,
   Form,
   Input,

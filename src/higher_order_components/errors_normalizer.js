@@ -2,7 +2,7 @@ import React from 'react'
 import higherOrderComponent from './higher_order_component.js'
 
 @higherOrderComponent()
-export default class extends React.Component {
+export default class ErrorNormalizer extends React.Component {
   static propTypes = {
     errors: React.PropTypes.oneOfType([
       React.PropTypes.object,
@@ -24,11 +24,7 @@ export default class extends React.Component {
   }
 
   _errors() {
-    const errorsSubset = this._toErrorObject(this.props.errors)
-    const errors = Object.keys(errorsSubset).map((k) =>
-      (errors[k] || []).concat(errorsSubset[k])
-    )
-    return errors
+    return this._toErrorObject(this.props.errors)
   }
 
   _normalizedErrors() {
