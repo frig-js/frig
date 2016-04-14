@@ -6,4 +6,4 @@ test:
   pre:
     - npm run lint:failfast
   post:
-    - '[ -z "${CIRCLE_PR_USERNAME}" ] && npm run coveralls || false'
+    - '[ -z "${CIRCLE_PR_USERNAME}" ] && npm run coveralls || true'
