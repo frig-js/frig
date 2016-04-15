@@ -1,7 +1,7 @@
 import React from 'react'
 
 const FieldsetText = (props, context) => {
-  const spanProps = Object.assign({}, this.props)
+  const spanProps = Object.assign({}, props)
   delete spanProps.text
   return (
     <span {...spanProps}>
