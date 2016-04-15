@@ -35,7 +35,7 @@ export default class ErrorNormalizer extends React.Component {
     const normalizedErrorClass = this.opts().as
     // Convert the errors object into the normalized error class
     if (normalizedErrorClass === Array) {
-      return errors.map((k) => errors[k])
+      return Object.keys(errors).map((k) => errors[k])
     }
     if (normalizedErrorClass === Object) {
       return errors
