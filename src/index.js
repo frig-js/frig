@@ -30,6 +30,7 @@ function defaultTheme(theme) {
 // All other exports are named and must be imported/destructured.
 export default {
   defaultTheme,
+  typeMapping,
 }
 
 export {
@@ -43,6 +44,5 @@ export {
   ValueLinkedSelect,
   HigherOrderComponents,
   util,
-  typeMapping,
   factories,
 }
