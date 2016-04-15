@@ -1,8 +1,7 @@
 /* global describe, it */
 
 import { expect } from 'chai'
-import { Form, UnboundInput } from '../src/index'
-import Frig from '../src/index'
+import Frig, { Form, UnboundInput } from '../src/index'
 
 describe('defaultTheme', () => {
   it('throws when given something that is not an object', () => {
