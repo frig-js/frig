@@ -26,8 +26,13 @@ function defaultTheme(theme) {
   return true
 }
 
-export {
+// This is so consumers can call `Frig.defaultTheme()`.
+// All other exports are named and must be imported/destructured.
+export default {
   defaultTheme,
+}
+
+export {
   Form,
   Input,
   UnboundInput,
