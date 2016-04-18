@@ -17,7 +17,7 @@ import { entries, humanize } from '../util.js'
 export default class UnboundInput extends React.Component {
   static propTypes = {
     name: React.PropTypes.string.isRequired,
-    errors: React.PropTypes.arrayOf(React.PropTypes.string),
+    errors: React.PropTypes.array,
     layout: React.PropTypes.string,
     align: React.PropTypes.string,
     className: React.PropTypes.string,

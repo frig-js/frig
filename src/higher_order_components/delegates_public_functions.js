@@ -1,9 +1,8 @@
-const DelegatesPublicFunctions = opts => hoc => {
+export default (opts) => (hoc) => {
   // delegate all the public functions of the child component to the child
   for (const k of opts.publicFunctions || []) {
-    const fn = () => this.refs.child[k](...arguments)
-    hoc.prototype[k] = fn  // eslint-disable-line no-param-reassign
+    hoc.prototype[k] = function () { // eslint-disable-line no-param-reassign, func-names
+      return this.refs.child[k](...arguments) // eslint-disable-line prefer-rest-params
+    }
   }
 }
-
-export default DelegatesPublicFunctions
