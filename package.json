@@ -52,7 +52,7 @@
     "react": ">=0.14.3",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": ">=0.14.3",
-    "webpack": "1.12.15",
+    "webpack": "1.13.0",
     "webpack-dev-server": "1.14.1"
   },
   "engines": {
