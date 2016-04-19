@@ -35,10 +35,6 @@ const defaultContext = {
   },
 }
 
-const defaultChildContextTypes = {
-  frigForm: React.PropTypes.object.isRequired,
-}
-
 const defaultProps = {
   name: 'some_input',
   type: 'string',
@@ -46,7 +42,7 @@ const defaultProps = {
 
 describe('<Input />', () => {
   it('renders an <UnboundInput> with the correct props', () => {
-    const opts = { context: defaultContext, defaultChildContextTypes }
+    const opts = { context: defaultContext }
     const wrapper = mount(<Input {...defaultProps} />, opts)
     const unboundInput = wrapper.find('UnboundInput')
     const unboundProps = unboundInput.props()
@@ -77,7 +73,7 @@ describe('<Input />', () => {
     context.frigForm.requestChildComponentChange = requestChildComponentChange
 
     // mount component
-    const opts = { context, defaultChildContextTypes }
+    const opts = { context }
     const wrapper = mount(<Input {...props} />, opts)
 
     // act
