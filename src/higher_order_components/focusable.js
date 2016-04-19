@@ -36,11 +36,21 @@ module.exports = function Focusable(ComponentClass) {
       window.removeEventListener('focus', this._onFocus, true)
     }
 
+    // Handles most cases of the user clicking in another field, or anywhere
+    // outside the focusable element.
     _onDocumentClick(e) {
+      console.log("_onDocumentClick fired")
+      console.log("  e.target=", e.target)
+      console.log("  this._containsDOMElement(e.target)=", this._containsDOMElement(e.target))
       this.setState({ focused: this._containsDOMElement(e.target) })
     }
 
+    // Also cover the case where the user tabs out of a focusable element with
+    // keyboard (since this wouldn't create a click event).
     _onFocus() {
+      console.log("_onFocus fired")
+      console.log("  document.activeElement=", document.activeElement)
+      console.log("  this._containsDOMElement(document.activeElement)=", this._containsDOMElement(document.activeElement))
       this.setState({ focused: this._containsDOMElement(document.activeElement) })
     }
 
