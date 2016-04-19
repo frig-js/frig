@@ -10,6 +10,9 @@ export default class FormErrorList extends React.Component {
   static contextTypes = {
     frigForm: React.PropTypes.shape({
       errors: React.PropTypes.object.isRequired,
+      theme: React.PropTypes.shape({
+        FormErrorList: React.PropTypes.any.isRequired,
+      }).isRequired,
     }).isRequired,
   }
 
