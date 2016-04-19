@@ -1,6 +1,3 @@
-// const e = (m) => { throw new Error(m) }
-// const ek = (m) => { e(Object.keys(m)) }
-// const ej = (m) => { e(JSON.stringify(m)) }
 /* global describe, it, beforeEach */
 
 import React from 'react'
@@ -98,11 +95,11 @@ describe('<Input />', () => {
       td.verify(onValidChange(), { times: 0 })
     })
 
+    // act... again :-1:
     input._onChange('some_new_value', true)
 
     it('when fired, does call onValidChange when valid (public API)', () => {
       td.verify(onValidChange('some_new_value', true))
     })
-
   })
 })
