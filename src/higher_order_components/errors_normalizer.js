@@ -9,7 +9,7 @@ export default class ErrorNormalizer extends React.Component {
       React.PropTypes.array,
     ]),
   }
-  displayName = 'Frig.HigherOrderComponents.ErrorNormalizer'
+  static displayName = 'Frig.HigherOrderComponents.ErrorNormalizer'
 
 
   _toErrorObject(errors) {
