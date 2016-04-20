@@ -11,6 +11,19 @@ const defaultContext = {
   frigForm: {
     theme: {
       Input: Stub,
+      NoComponent: Stub,
+      type_mapping: {
+        bogus: { component: 'NoComponent' },
+        multiselect: { component: 'NoComponent' },
+        select: { component: 'NoComponent' },
+        boolean: { component: 'NoComponent' },
+        number: { component: 'NoComponent' },
+        float: { component: 'NoComponent' },
+        password: { component: 'NoComponent' },
+        string: { component: 'NoComponent' },
+        submit: { component: 'NoComponent' },
+        bad_component: { component: 'BadComponent' },
+      },
     },
     layout: 'some_layout',
     align: 'some_align',
@@ -38,6 +51,13 @@ describe('<UnboundInput />', () => {
       instance = wrapper.instance()
     })
 
+    describe('render()', () => {
+      it('render() returns the themed component', () => {
+        const themedComponent = wrapper.find(Stub)
+        expect(themedComponent).to.have.length(1)
+      })
+    })
+
     it('isValid() returns true when errors is empty', () => {
       expect(instance.isValid()).to.be.true()
     })
@@ -59,10 +79,25 @@ describe('<UnboundInput />', () => {
       expect(wrapper.state('modified')).to.be.false()
       expect(wrapper.state('validationRequested')).to.be.false()
     })
+  })
 
-    it('render() returns the themed component', () => {
-      const themedComponent = wrapper.find(Stub)
-      expect(themedComponent).to.have.length(1)
+  describe('exceptions during render()', () => {
+    it('throws if no type mapping found', () => {
+      const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
+      const jsx = <UnboundInput.originalClass name="some_input" type="never_used_type" />
+      const wrapperBound = mount.bind(this, jsx, opts)
+
+      expect(wrapperBound).to.throw(Error, /No type mapping found/)
+      expect(wrapperBound).to.throw(Error, /some_input/)
+      expect(wrapperBound).to.throw(Error, /never_used_type/)
+    })
+
+    it('throws if no component found in theme', () => {
+      const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
+      const jsx = <UnboundInput.originalClass name="some_input" type="bad_component" />
+      const wrapperBound = mount.bind(this, jsx, opts)
+
+      expect(wrapperBound).to.throw(Error, /some_input: No BadComponent component/)
     })
   })
 
