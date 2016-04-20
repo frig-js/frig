@@ -245,7 +245,7 @@ export default class UnboundInput extends React.Component {
       return 'boolean'
     } else if (jsType === 'number') {
       return 'float'
-    } else if (this.props.name.match(/password$/i)) {
+    } else if (this.props.name.match(/password/i)) {
       return 'password'
     }
 
@@ -263,14 +263,15 @@ export default class UnboundInput extends React.Component {
   }
 
   _themedComponent() {
-    const { name } = this.props
-    const type = this._typeMapping().component
-    const component = this.context.frigForm.theme[type]
-    if (type == null) {
-      throw new Error(`${name}: No type mapping found`)
+    const { name, type } = this.props
+    const typeName = this._typeMapping()
+    if (typeName == null) {
+      throw new Error(`${name}: No type mapping found for type ${type}`)
     }
+
+    const component = this.context.frigForm.theme[typeName.component]
     if (component == null) {
-      throw new Error(`${name}: No ${type} component found in theme`)
+      throw new Error(`${name}: No ${typeName.component} component found in theme`)
     }
     return component
   }
