@@ -2,14 +2,14 @@ import React from 'react'
 import higherOrderComponent from './higher_order_component.js'
 
 @higherOrderComponent()
-export default class ErrorNormalizer extends React.Component {
+export default class ErrorsNormalizer extends React.Component {
   static propTypes = {
     errors: React.PropTypes.oneOfType([
       React.PropTypes.object,
       React.PropTypes.array,
     ]),
   }
-  static displayName = 'Frig.HigherOrderComponents.ErrorNormalizer'
+  static displayName = 'Frig.HigherOrderComponents.ErrorsNormalizer'
 
 
   _toErrorObject(errors) {
