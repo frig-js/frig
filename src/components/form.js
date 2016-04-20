@@ -1,5 +1,4 @@
 import React from 'react'
-import ErrorsNormalizer from '../higher_order_components/errors_normalizer.js'
 import AbstractForm from './abstract_form.js'
 
 /*
