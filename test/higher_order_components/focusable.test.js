@@ -40,8 +40,28 @@ describe('higher order components', () => {
   })
 
   it('when focusable element is clicked, props.focusable=true', () => {
-    const wrapper = render(<Layout />)
-    throw wrapper.find('input')
+    const wrapper = mount(<Layout />)
+    const example = wrapper.find(ExampleFocusable)
+    expect(example.prop('focused')).not.to.exist()
+
+    const reactElement = wrapper.get(0)
+    const domNode = ReactDOM.findDOMNode(reactElement)
+
+    // Finally figured out how to get the HTMLInputElement!
+    const input = domNode.querySelectorAll('input')[0]
+
+    // Nice try, but no cigar.
+    input.click()
+
+    // Here is some frail attempt to force React to re-render.
+    wrapper.setState({ 'bogus': 'rerender' })
+
+    // It doesn't matter.
+    // The _onDocumentClick event on focusable never fires.
+    // Thought now is to use window.dispatchEvent to handle this.
+
+    expect(example.prop('focused')).to.be.true()
+
   })
 
 })
