@@ -26,38 +26,68 @@ const defaultProps = {
   type: 'string',
 }
 
-
 describe('<UnboundInput />', () => {
-  const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
-  const UndecoratedUnboundInput = UnboundInput.originalClass
-  const wrapper = mount(<UndecoratedUnboundInput {...defaultProps} />, opts)
-  const instance = wrapper.instance()
+  describe('public methods except validate', () => {
+    let wrapper
+    let instance
 
-  it('isValid() returns true when errors is empty', () => {
-    expect(instance.isValid()).to.be.true()
+    beforeEach(() => {
+      const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
+      const UndecoratedUnboundInput = UnboundInput.originalClass
+      wrapper = mount(<UndecoratedUnboundInput {...defaultProps} />, opts)
+      instance = wrapper.instance()
+    })
+
+    it('isValid() returns true when errors is empty', () => {
+      expect(instance.isValid()).to.be.true()
+    })
+
+    it('isModified() returns state.modified', () => {
+      expect(instance.isModified()).to.be.false()
+      instance.setState({ modified: true })
+      expect(instance.isModified()).to.be.true()
+    })
+
+    it('resetModified() sets state.modified to false', () => {
+      wrapper.setState({ modified: true })
+      instance.resetModified()
+      expect(instance.isModified()).to.be.false()
+    })
+
+    it('reset() sets modified/validationRequested to false', () => {
+      instance.reset()
+      expect(wrapper.state('modified')).to.be.false()
+      expect(wrapper.state('validationRequested')).to.be.false()
+    })
+
+    it('render() returns the themed component', () => {
+      const themedComponent = wrapper.find(Stub)
+      expect(themedComponent).to.have.length(1)
+    })
   })
 
-  it('isModified() returns state.modified', () => {
-    expect(instance.isModified()).to.be.false()
-    instance.setState({ modified: true })
-    expect(instance.isModified()).to.be.true()
-  })
+  describe('validate()', () => {
+    const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
 
-  it('resetModified() sets state.modified to false', () => {
-    wrapper.setState({ modified: true })
-    instance.resetModified()
-    expect(instance.isModified()).to.be.false()
-  })
+    it('sets validationRequested', () => {
+      const wrapper = mount(<UnboundInput.originalClass {...defaultProps} />, opts)
+      const instance = wrapper.instance()
+      instance.validate()
+      expect(wrapper.state('validationRequested')).to.be.true()
+    })
 
-  it('reset() sets modified/validationRequested to false', () => {
-    wrapper.setState({ modified: true, validationRequested: true })
-    instance.reset()
-    expect(wrapper.state('modified')).to.be.false()
-    expect(wrapper.state('validationRequested')).to.be.false()
-  })
+    it('returns true when there is an error on the field', () => {
+      const props = Object.assign({}, defaultProps, {
+        errors: {
+          some_unbound_input: ['some error'],
+        },
+      })
 
-  it('validate()')
-  it('render()')
+      const wrapper = mount(<UnboundInput {...props} />, opts)
+      const instance = wrapper.instance()
+      expect(instance.validate()).to.be.false()
+    })
+  })
 
   describe('private functions', () => {
     it('_errors')
