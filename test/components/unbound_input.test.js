@@ -46,8 +46,7 @@ describe('<UnboundInput />', () => {
 
     beforeEach(() => {
       const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
-      const UndecoratedUnboundInput = UnboundInput.originalClass
-      wrapper = mount(<UndecoratedUnboundInput {...defaultProps} />, opts)
+      wrapper = mount(<UnboundInput {...defaultProps} />, opts)
       instance = wrapper.instance()
     })
 
@@ -91,7 +90,7 @@ describe('<UnboundInput />', () => {
   describe('exceptions during render()', () => {
     it('throws if no type mapping found', () => {
       const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
-      const jsx = <UnboundInput.originalClass name="some_input" type="never_used_type" />
+      const jsx = <UnboundInput name="some_input" type="never_used_type" />
       const wrapperBound = mount.bind(this, jsx, opts)
 
       expect(wrapperBound).to.throw(Error, /No type mapping found/)
@@ -101,7 +100,7 @@ describe('<UnboundInput />', () => {
 
     it('throws if no component found in theme', () => {
       const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
-      const jsx = <UnboundInput.originalClass name="some_input" type="bad_component" />
+      const jsx = <UnboundInput name="some_input" type="bad_component" />
       const wrapperBound = mount.bind(this, jsx, opts)
 
       expect(wrapperBound).to.throw(Error, /some_input: No BadComponent component/)
@@ -112,7 +111,7 @@ describe('<UnboundInput />', () => {
     const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
 
     it('sets validationRequested', () => {
-      const wrapper = mount(<UnboundInput.originalClass {...defaultProps} />, opts)
+      const wrapper = mount(<UnboundInput {...defaultProps} />, opts)
       const instance = wrapper.instance()
       instance.validate()
       expect(wrapper.state('validationRequested')).to.be.true()
@@ -120,9 +119,7 @@ describe('<UnboundInput />', () => {
 
     it('returns true when there is an error on the field', () => {
       const props = Object.assign({}, defaultProps, {
-        errors: {
-          some_unbound_input: ['some error'],
-        },
+        errors: ['some error'],
       })
 
       const wrapper = mount(<UnboundInput {...props} />, opts)
@@ -133,19 +130,18 @@ describe('<UnboundInput />', () => {
 
   describe('private functions', () => {
     const opts = { context: defaultContext, childContextTypes: defaultChildContextTypes }
-    const UndecoratedUnboundInput = UnboundInput.originalClass
 
     it('_value', () => {
       const value = 'something more'
       const props = Object.assign({}, defaultProps, { value })
-      const wrapper = mount(<UndecoratedUnboundInput {...props} />, opts)
+      const wrapper = mount(<UnboundInput {...props} />, opts)
       const instance = wrapper.instance()
       expect(instance._value()).to.equal(value)
     })
 
     describe('_normalizeOption', () => {
       const testNormalizeOption = (option, expected) => {
-        const wrapper = mount(<UndecoratedUnboundInput {...defaultProps} />, opts)
+        const wrapper = mount(<UnboundInput {...defaultProps} />, opts)
         const instance = wrapper.instance()
         const result = instance._normalizeOption(option)
         expect(result).to.deep.equal(expected)
@@ -187,7 +183,7 @@ describe('<UnboundInput />', () => {
     describe('detected errors', () => {
       describe('_errors', () => {
         it('return undefined when props.errors is empty', () => {
-          const wrapper = mount(<UndecoratedUnboundInput {...defaultProps} />, opts)
+          const wrapper = mount(<UnboundInput {...defaultProps} />, opts)
           const instance = wrapper.instance()
           expect(instance._errors('some')).to.be.undefined()
         })
@@ -209,7 +205,7 @@ describe('<UnboundInput />', () => {
             onChange,
             onValidChange,
           }
-          return mount(<UndecoratedUnboundInput {...finalProps} />, opts)
+          return mount(<UnboundInput {...finalProps} />, opts)
         }
 
         it('sets state.modified by default', () => {
@@ -275,7 +271,7 @@ describe('<UnboundInput />', () => {
           const onBlur = td.function()
           const inputHtml = { onBlur }
           const props = { ...defaultProps, inputHtml }
-          const wrapper = mount(<UndecoratedUnboundInput {...props} />, opts)
+          const wrapper = mount(<UnboundInput {...props} />, opts)
 
           const instance = wrapper.instance()
           instance._onBlur()
@@ -285,7 +281,7 @@ describe('<UnboundInput />', () => {
 
         it('doesnt call props.inputHtml.onBlur() if props.inputHtml is undefined', () => {
           const props = { ...defaultProps }
-          const wrapper = mount(<UndecoratedUnboundInput {...props} />, opts)
+          const wrapper = mount(<UnboundInput {...props} />, opts)
           const instance = wrapper.instance()
           instance._onBlur()
           // no assertion here: the test passes if it doesn't throw an exception
@@ -299,7 +295,7 @@ describe('<UnboundInput />', () => {
           // We don't want the type to always be `string`, let tests decide.
           delete defaultProps.type
           const nextProps = Object.assign({}, defaultProps, props)
-          const wrapper = mount(<UndecoratedUnboundInput {...nextProps} />, opts)
+          const wrapper = mount(<UnboundInput {...nextProps} />, opts)
           const result = wrapper.instance()._guessInputType()
           expect(result).to.equal(expected)
         }

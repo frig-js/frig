@@ -22,7 +22,7 @@ function defaultTheme(theme) {
     throw new Error('Invalid Frig theme. Expected an object')
   }
   Form.defaultProps.theme = theme
-  UnboundInput.originalClass.defaultProps.theme = theme
+  UnboundInput.defaultProps.theme = theme
   return true
 }
 
