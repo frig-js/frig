@@ -21,7 +21,7 @@ function defaultTheme(theme) {
   if (typeof theme !== 'object') {
     throw new Error('Invalid Frig theme. Expected an object')
   }
-  Form.originalClass.defaultProps.theme = theme
+  Form.defaultProps.theme = theme
   UnboundInput.originalClass.defaultProps.theme = theme
   return true
 }

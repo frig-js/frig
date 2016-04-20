@@ -13,7 +13,7 @@ describe('defaultTheme', () => {
     const theme = {}
     const result = Frig.defaultTheme(theme)
     expect(result).to.be.true()
-    expect(Form.originalClass.defaultProps.theme).to.equal(theme)
+    expect(Form.defaultProps.theme).to.equal(theme)
     expect(UnboundInput.originalClass.defaultProps.theme).to.equal(theme)
   })
 })
