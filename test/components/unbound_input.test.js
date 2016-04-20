@@ -55,6 +55,13 @@ describe('<UnboundInput />', () => {
       it('render() returns the themed component', () => {
         const themedComponent = wrapper.find(Stub)
         expect(themedComponent).to.have.length(1)
+
+        const themedProps = themedComponent.props()
+
+        expect(themedProps.layout).to.equal('some_layout')
+        expect(themedProps.align).to.equal('some_align')
+        expect(themedProps.inputHtml).to.exist()
+        expect(themedProps.valueLink).to.exist()
       })
     })
 
@@ -130,14 +137,52 @@ describe('<UnboundInput />', () => {
 
     it('_value', () => {
       const value = 'something more'
-      const prop = Object.assign({}, defaultProps, { value })
-      const wrapper = mount(<UndecoratedUnboundInput {...prop} />, opts)
+      const props = Object.assign({}, defaultProps, { value })
+      const wrapper = mount(<UndecoratedUnboundInput {...props} />, opts)
       const instance = wrapper.instance()
       expect(instance._value()).to.equal(value)
     })
 
-    it('_themedInputProps')
-    it('_normalizeOption')
+    describe('_normalizeOption', () => {
+      const testNormalizeOption = (option, expected) => {
+        const wrapper = mount(<UndecoratedUnboundInput {...defaultProps} />, opts)
+        const instance = wrapper.instance()
+        const result = instance._normalizeOption(option)
+        expect(result).to.deep.equal(expected)
+      }
+
+      it('return undefined when option is null', () => {
+        testNormalizeOption(null, undefined)
+      })
+
+      it('object in form {label,value} gets passed through', () => {
+        testNormalizeOption(
+          { value: 'l', label: 'v' },
+          { value: 'l', label: 'v' },
+        )
+      })
+
+      it('one element array gets converted to {value,label} (value=label)', () => {
+        testNormalizeOption(
+          ['xxx'],
+          { value: 'xxx', label: 'xxx' }
+        )
+      })
+
+      it('two element array gets converted to {value,label}', () => {
+        testNormalizeOption(
+          ['x', 'y'],
+          { value: 'x', label: 'y' }
+        )
+      })
+
+      it('string gets converted to {value,label} (value=label)', () => {
+        testNormalizeOption(
+          'string',
+          { value: 'string', label: 'string' }
+        )
+      })
+    })
 
     describe('detected errors', () => {
       describe('_errors', () => {
