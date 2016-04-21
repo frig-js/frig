@@ -48,5 +48,9 @@ describe('util', () => {
         'Daytime phone number'
       )
     })
+
+    it('returns undefined when called with arity 0', () => {
+      expect(humanize()).to.not.exist()
+    })
   })
 })

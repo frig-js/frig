@@ -17,7 +17,7 @@ const HigherOrderComponents = {
 
 // Setter and getter for the Frig default theme
 function defaultTheme(theme) {
-  if (theme === null) return Form.defaultProps.theme
+  if (theme == null) return Form.defaultProps.theme
   if (typeof theme !== 'object') {
     throw new Error('Invalid Frig theme. Expected an object')
   }

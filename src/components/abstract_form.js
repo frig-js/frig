@@ -72,7 +72,7 @@ export default class AbstractForm extends React.Component {
   }
 
   formData() {
-    return this.refs.form.formData()
+    return new FormData(this.refs.form)
   }
 
   /*

@@ -4,6 +4,7 @@ import React from 'react'
 import { expect } from 'chai'
 import Form from '../../src/components/form'
 import { mount } from 'enzyme'
+import td from 'testdouble'
 
 describe('<Form />', () => {
   // Despite eslint's pleadings, this can't be a stateless function
@@ -133,7 +134,7 @@ describe('<Form />', () => {
         })
       })
 
-      it('reset()', () => {
+      describe('reset()', () => {
         it('should call reset() on each component', () => {
           let hasReset = false
           instance.childComponentWillMount('a', {
@@ -168,7 +169,15 @@ describe('<Form />', () => {
         })
       })
 
-      it('formData()')
+      describe('formData()', () => {
+        // Since the mock form we set up for this test has no
+        // <Input> elements, this should return an empty array.
+        // TODO: Write an integration test that covers this.
+        it('should return an empty array', () => {
+          const formData = instance.formData()
+          expect(formData.getAll()).to.deep.equal([])
+        })
+      })
     })
 
     describe('private', () => {
@@ -200,8 +209,73 @@ describe('<Form />', () => {
         })
       })
 
-      it('_onChildRequestChange()')
-      it('_onSubmit()')
+      describe('_onChildRequestChange()', () => {
+        it('updates form.data as notified by children', () => {
+          // test doubles
+          const onChange = td.function.call()
+
+          // mount component
+          const finalProps = {
+            ...formProps,
+            data: {
+              some_input: 'some old value',
+              some_other_input: 'this value remains the same',
+            },
+          }
+          const wrapper = mount(<Form {...finalProps} onChange={onChange} />)
+          const instance = wrapper.instance()
+
+          // act
+          instance._onChildRequestChange('some_input', 'some new value')
+
+          // assert
+          const expectedData = {
+            some_input: 'some new value',
+            some_other_input: 'this value remains the same',
+          }
+          td.verify(onChange(expectedData))
+        })
+      })
+
+      describe('_onSubmit()', () => {
+        it('when invalid, should call e.preventDefault', () => {
+          // test doubles
+          const preventDefault = td.function.call()
+          const e = { preventDefault }
+
+          // mount component
+          const wrapper = mount(<Form {...formProps} />)
+          const instance = wrapper.instance()
+
+          // create a fake child component that always fails validation
+          instance.childComponentWillMount('a', { validate: () => false })
+
+          // act
+          instance._onSubmit(e)
+
+          // assert
+          td.verify(preventDefault())
+        })
+
+        it('when valid, should call props.onSubmit(e)', () => {
+          // test doubles
+          const onSubmit = td.function.call()
+          const e = { some_event: true }
+
+          // mount component
+          const wrapper = mount(<Form {...formProps} onSubmit={onSubmit} />)
+          const instance = wrapper.instance()
+
+          // create a fake child component that always passes validation
+          instance.childComponentWillMount('a', { validate: () => true })
+
+          // act
+          instance._onSubmit(e)
+
+          // assert that onSubmit was called with our `e`
+          td.verify(onSubmit(e))
+        })
+      })
     })
   })
 })
