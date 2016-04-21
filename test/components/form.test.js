@@ -4,6 +4,7 @@ import React from 'react'
 import { expect } from 'chai'
 import Form from '../../src/components/form'
 import { mount } from 'enzyme'
+import td from 'testdouble'
 
 describe('<Form />', () => {
   // Despite eslint's pleadings, this can't be a stateless function
@@ -208,8 +209,34 @@ describe('<Form />', () => {
         })
       })
 
-      it('_onChildRequestChange()')
       it('_onSubmit()')
+      describe('_onChildRequestChange()', () => {
+        it('updates form.data as notified by children', () => {
+          // test doubles
+          const onChange = td.function.call()
+
+          // mount component
+          const finalProps = {
+            ...formProps,
+            data: {
+              some_input: 'some old value',
+              some_other_input: 'this value remains the same',
+            },
+          }
+          const wrapper = mount(<Form {...finalProps} onChange={onChange} />)
+          const instance = wrapper.instance()
+
+          // act
+          instance._onChildRequestChange('some_input', 'some new value')
+
+          // assert
+          const expectedData = {
+            some_input: 'some new value',
+            some_other_input: 'this value remains the same',
+          }
+          td.verify(onChange(expectedData))
+        })
+      })
     })
   })
 })
