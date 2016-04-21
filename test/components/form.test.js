@@ -168,7 +168,15 @@ describe('<Form />', () => {
         })
       })
 
-      it('formData()')
+      describe('formData()', () => {
+        // Since the mock form we set up for this test has no
+        // <Input> elements, this should return an empty array.
+        // TODO: Write an integration test that covers this.
+        it('should return an empty array', () => {
+          const formData = instance.formData()
+          expect(formData.getAll()).to.deep.equal([])
+        })
+      })
     })
 
     describe('private', () => {
