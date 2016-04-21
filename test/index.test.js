@@ -9,11 +9,19 @@ describe('defaultTheme', () => {
     expect(fn).to.throw(Error, /Invalid Frig theme/)
   })
 
-  it('assigns the theme to [Form|UnboundInput].defaultProps.theme', () => {
+  describe('setter and getter', () => {
     const theme = {}
-    const result = Frig.defaultTheme(theme)
-    expect(result).to.be.true()
-    expect(Form.defaultProps.theme).to.equal(theme)
-    expect(UnboundInput.defaultProps.theme).to.equal(theme)
+
+    it('setter assigns the theme to [Form|UnboundInput].defaultProps.theme', () => {
+      const result = Frig.defaultTheme(theme)
+      expect(result).to.be.true()
+      expect(Form.defaultProps.theme).to.equal(theme)
+      expect(UnboundInput.defaultProps.theme).to.equal(theme)
+    })
+
+    it('getter returns the theme', () => {
+      const result = Frig.defaultTheme()
+      expect(result).to.deep.equal(theme)
+    })
   })
 })
