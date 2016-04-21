@@ -209,7 +209,6 @@ describe('<Form />', () => {
         })
       })
 
-      it('_onSubmit()')
       describe('_onChildRequestChange()', () => {
         it('updates form.data as notified by children', () => {
           // test doubles
@@ -235,6 +234,46 @@ describe('<Form />', () => {
             some_other_input: 'this value remains the same',
           }
           td.verify(onChange(expectedData))
+        })
+      })
+
+      describe('_onSubmit()', () => {
+        it('when invalid, should call e.preventDefault', () => {
+          // test doubles
+          const preventDefault = td.function.call()
+          const e = { preventDefault }
+
+          // mount component
+          const wrapper = mount(<Form {...formProps} />)
+          const instance = wrapper.instance()
+
+          // create a fake child component that always fails validation
+          instance.childComponentWillMount('a', { validate: () => false })
+
+          // act
+          instance._onSubmit(e)
+
+          // assert
+          td.verify(preventDefault())
+        })
+
+        it('when valid, should call props.onSubmit(e)', () => {
+          // test doubles
+          const onSubmit = td.function.call()
+          const e = { some_event: true }
+
+          // mount component
+          const wrapper = mount(<Form {...formProps} onSubmit={onSubmit} />)
+          const instance = wrapper.instance()
+
+          // create a fake child component that always passes validation
+          instance.childComponentWillMount('a', { validate: () => true })
+
+          // act
+          instance._onSubmit(e)
+
+          // assert that onSubmit was called with our `e`
+          td.verify(onSubmit(e))
         })
       })
     })
