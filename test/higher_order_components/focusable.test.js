@@ -50,16 +50,28 @@ describe('higher order components', () => {
     // Finally figured out how to get the HTMLInputElement!
     const input = domNode.querySelectorAll('input')[0]
 
-    // Nice try, but no cigar.
-    input.click()
+    window.addEventListener('click', () => { throw "hi" })
 
-    // Here is some frail attempt to force React to re-render.
-    wrapper.setState({ 'bogus': 'rerender' })
+    const event = new Event('click')
+    const succeeded = window.dispatchEvent(event)
 
-    // It doesn't matter.
-    // The _onDocumentClick event on focusable never fires.
-    // Thought now is to use window.dispatchEvent to handle this.
+    throw new Error(succeeded)
 
+    // const event = new Event('click')
+    // const cancelled = input.dispatchEvent(event)
+    //
+    // throw new Error(cancelled)
+
+    // // Nice try, but no cigar.
+    // input.click()
+    //
+    // // Here is some frail attempt to force React to re-render.
+    // wrapper.setState({ 'bogus': 'rerender' })
+    //
+    // // It doesn't matter.
+    // // The _onDocumentClick event on focusable never fires.
+    // // Thought now is to use window.dispatchEvent to handle this.
+    //
     expect(example.prop('focused')).to.be.true()
 
   })

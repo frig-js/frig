@@ -39,6 +39,7 @@ module.exports = function Focusable(ComponentClass) {
     // Handles most cases of the user clicking in another field, or anywhere
     // outside the focusable element.
     _onDocumentClick(e) {
+      throw new Error('SUCCESS: _onDocumentClick called!')
       console.log("_onDocumentClick fired")
       console.log("  e.target=", e.target)
       console.log("  this._containsDOMElement(e.target)=", this._containsDOMElement(e.target))
@@ -48,6 +49,7 @@ module.exports = function Focusable(ComponentClass) {
     // Also cover the case where the user tabs out of a focusable element with
     // keyboard (since this wouldn't create a click event).
     _onFocus() {
+      throw new Error('SUCCESS: _onFocus called!')
       console.log("_onFocus fired")
       console.log("  document.activeElement=", document.activeElement)
       console.log("  this._containsDOMElement(document.activeElement)=", this._containsDOMElement(document.activeElement))
