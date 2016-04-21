@@ -133,7 +133,7 @@ describe('<Form />', () => {
         })
       })
 
-      it('reset()', () => {
+      describe('reset()', () => {
         it('should call reset() on each component', () => {
           let hasReset = false
           instance.childComponentWillMount('a', {
