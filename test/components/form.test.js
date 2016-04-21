@@ -46,8 +46,7 @@ describe('<Form />', () => {
 
   describe('via AbstractForm', () => {
     describe('context', () => {
-      const UndecoratedForm = Form.originalClass
-      const wrapper = mount(<UndecoratedForm {...formProps} />)
+      const wrapper = mount(<Form {...formProps} />)
       const context = wrapper.instance().getChildContext()
 
       it('passes context (from props) down to its children', () => {
@@ -71,12 +70,11 @@ describe('<Form />', () => {
     })
 
     describe('public API', () => {
-      const UndecoratedForm = Form.originalClass
       let wrapper
       let instance
 
       beforeEach(() => {
-        wrapper = mount(<UndecoratedForm {...formProps} />)
+        wrapper = mount(<Form {...formProps} />)
         instance = wrapper.instance()
       })
 
@@ -184,8 +182,7 @@ describe('<Form />', () => {
       it('_themedFormProps()')
       it('_data()')
       describe('childComponentWill[Mount|Unmount]', () => {
-        const UndecoratedForm = Form.originalClass
-        const wrapper = mount(<UndecoratedForm {...formProps} />)
+        const wrapper = mount(<Form {...formProps} />)
         const instance = wrapper.instance()
 
         const object = {}

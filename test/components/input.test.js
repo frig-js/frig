@@ -51,9 +51,7 @@ describe('<Input />', () => {
     expect(unboundProps.value).to.equal('some_input data')
     expect(unboundProps.saved).to.be.true()
 
-    // XXX TODO: investigate why there is a 2-deep nested array here.
-    // Probably something to do with ErrorNormalizer.
-    expect(unboundProps.errors).to.deep.equal([['error1', 'error2', 'error3']])
+    expect(unboundProps.errors).to.deep.equal(['error1', 'error2', 'error3'])
   })
 
   describe('_onChange', () => {

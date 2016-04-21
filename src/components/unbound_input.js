@@ -1,19 +1,8 @@
 import React from 'react'
 
-import ErrorsNormalizer from '../higher_order_components/errors_normalizer.js'
 import frigValidations from '../validations.js'
 import { entries, humanize } from '../util.js'
 
-@ErrorsNormalizer({ // eslint-disable-line new-cap
-  as: Array,
-  publicFunctions: [
-    'validate',
-    'isValid',
-    'isModified',
-    'resetModified',
-    'reset',
-  ],
-})
 export default class UnboundInput extends React.Component {
   static propTypes = {
     name: React.PropTypes.string.isRequired,

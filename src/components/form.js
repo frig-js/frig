@@ -1,5 +1,4 @@
 import React from 'react'
-import ErrorsNormalizer from '../higher_order_components/errors_normalizer.js'
 import AbstractForm from './abstract_form.js'
 
 /*
@@ -7,18 +6,6 @@ import AbstractForm from './abstract_form.js'
  * Form should be used as the top level component above any other frig
  * components.
  */
-@ErrorsNormalizer({  // eslint-disable-line new-cap
-  as: Object,
-  publicFunctions: [
-    'validate',
-    'isValid',
-    'isModified',
-    'modifications',
-    'resetModified',
-    'reset',
-    'formData',
-  ],
-})
 export default class Form extends AbstractForm {
   displayName = 'Form'
 
@@ -45,7 +32,7 @@ export default class Form extends AbstractForm {
   }
 
   static defaultProps = {
-    errors: [],
+    errors: {},
     saved: {},
     theme: undefined,
     typeMapping: {},
