@@ -33,7 +33,7 @@ export default class AbstractForm extends React.Component {
     }
   }
 
-  _childComponentsByName = []
+  _childComponentsByName = {}
 
   /*
    * =========================================================================
@@ -55,6 +55,7 @@ export default class AbstractForm extends React.Component {
 
   modifications() {
     const modifications = {}
+
     for (const k in this._childComponentsByName) { // eslint-disable-line guard-for-in
       const c = this._childComponentsByName[k]
       if (!c.isModified()) continue
