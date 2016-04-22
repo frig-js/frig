@@ -1,6 +1,9 @@
 import React from 'react'
-
-export default class AbstractForm extends React.Component {
+// Note about eslint rule below:
+// AbstractForm does not have a render() method (Form and FieldsetNestedForm do).
+// ESLint complains about render "not having a return statement", when really
+// there is no render method at all.
+export default class AbstractForm extends React.Component { // eslint-disable-line react/require-render-return,max-len
   static childContextTypes = {
     frigForm: React.PropTypes.object,
   }
