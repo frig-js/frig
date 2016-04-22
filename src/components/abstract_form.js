@@ -55,12 +55,14 @@ export default class AbstractForm extends React.Component {
 
   modifications() {
     const modifications = {}
-
-    for (const k in this._childComponentsByName) { // eslint-disable-line guard-for-in
-      const c = this._childComponentsByName[k]
-      if (!c.isModified()) continue
-      modifications[k] = c.modifications == null ? true : c.modifications()
-    }
+    const names = Object.keys(this._childComponentsByName)
+    names.forEach((name) => {
+      const c = this._childComponentsByName[name]
+      if (c.isModified()) {
+        const isFieldset = (c.modifications != null)
+        modifications[name] = isFieldset ? c.modifications() : true
+      }
+    })
     return modifications
   }
 
