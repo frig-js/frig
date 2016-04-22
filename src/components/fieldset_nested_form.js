@@ -25,7 +25,7 @@ export default class FieldsetNestedForm extends AbstractForm {
   render() {
     return (
       <div>
-        { this.props.children }
+        {this.props.children}
       </div>
     )
   }
