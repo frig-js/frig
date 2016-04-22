@@ -2,7 +2,8 @@
   "parser": "babel-eslint",
   "extends": "airbnb",
   "rules": {
-    "semi": [2, "never"],
-    "eqeqeq": [2, "allow-null"],
+    "semi": ["error", "never"],
+    "eqeqeq": ["error", "allow-null"],
+    "no-underscore-dangle": ["off"]
   }
 }
