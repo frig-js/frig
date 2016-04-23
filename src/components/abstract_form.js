@@ -1,6 +1,9 @@
 import React from 'react'
-
-export default class AbstractForm extends React.Component {
+// Note about eslint rule below:
+// AbstractForm does not have a render() method (Form and FieldsetNestedForm do).
+// ESLint complains about render "not having a return statement", when really
+// there is no render method at all.
+export default class AbstractForm extends React.Component { // eslint-disable-line react/require-render-return,max-len
   static childContextTypes = {
     frigForm: React.PropTypes.object,
   }
@@ -33,7 +36,7 @@ export default class AbstractForm extends React.Component {
     }
   }
 
-  _childComponentsByName = []
+  _childComponentsByName = {}
 
   /*
    * =========================================================================
@@ -55,11 +58,14 @@ export default class AbstractForm extends React.Component {
 
   modifications() {
     const modifications = {}
-    for (const k in this._childComponentsByName) { // eslint-disable-line guard-for-in
-      const c = this._childComponentsByName[k]
-      if (!c.isModified()) continue
-      modifications[k] = c.modifications == null ? true : c.modifications()
-    }
+    const names = Object.keys(this._childComponentsByName)
+    names.forEach((name) => {
+      const c = this._childComponentsByName[name]
+      if (c.isModified()) {
+        const isFieldset = (c.modifications != null)
+        modifications[name] = isFieldset ? c.modifications() : true
+      }
+    })
     return modifications
   }
 

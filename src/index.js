@@ -9,10 +9,12 @@ import ValueLinkedSelect from './components/value_linked_select.js'
 import util from './util.js'
 import typeMapping from './type_mapping.js'
 import * as factories from './factories.js'
+import Boolean from './higher_order_components/boolean.js'
+import Focusable from './higher_order_components/focusable.js'
 
 const HigherOrderComponents = {
-  Boolean: require('./higher_order_components/boolean.js'),
-  Focusable: require('./higher_order_components/focusable.js'),
+  Boolean,
+  Focusable,
 }
 
 // Setter and getter for the Frig default theme

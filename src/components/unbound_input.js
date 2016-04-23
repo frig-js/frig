@@ -2,6 +2,7 @@ import React from 'react'
 
 import frigValidations from '../validations.js'
 import { entries, humanize } from '../util.js'
+import typeMappings from '../type_mapping.js'
 
 export default class UnboundInput extends React.Component {
   static propTypes = {
@@ -245,7 +246,7 @@ export default class UnboundInput extends React.Component {
   _typeMapping() {
     const typeMapping = Object.assign(
       {},
-      require('../type_mapping.js'),
+      typeMappings,
       this.context.frigForm.theme.type_mapping,
     )
     return typeMapping[this._guessInputType()]

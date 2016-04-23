@@ -46,7 +46,8 @@ export default class Form extends AbstractForm {
   render() {
     const ThemedForm = this.props.theme.Form
     return (
-      <ThemedForm {...this._themedFormProps()}
+      <ThemedForm
+        {...this._themedFormProps()}
         ref="form"
       >
         {this.props.children}
