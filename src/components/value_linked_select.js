@@ -101,8 +101,6 @@ export default class ValueLinkedSelect extends React.Component {
         requestChange: this._onChange.bind(this),
       },
     })
-    delete inputHtml.valueLink
-    delete inputHtml.options
     return inputHtml
   }
 
