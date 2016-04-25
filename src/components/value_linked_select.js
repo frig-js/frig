@@ -25,22 +25,28 @@ import ReactDOM from 'react-dom'
  *
  */
 export default class ValueLinkedSelect extends React.Component {
+  static displayName = 'Frig.ValueLinkedSelect'
+
   static propTypes = {
-    options: React.PropTypes.array.isRequired,
     valueLink: React.PropTypes.object.isRequired,
+    options: React.PropTypes.array,
     multiple: React.PropTypes.bool,
   }
-  displayName = 'Frig.ValueLinkedSelect'
+
+  static defaultProps = {
+    options: [],
+    multiple: false,
+  }
 
   componentWillMount() {
-    const hasOptions = (this.props.options || []).length !== 0
+    const hasOptions = this.props.options.length !== 0
     if (hasOptions && this.props.valueLink.value == null) {
       this._setInitialValue(this.props)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const hasOptions = (nextProps.options || []).length !== 0
+    const hasOptions = nextProps.options.length !== 0
     // Setting the intial value of the select when the options load
     if (hasOptions && nextProps.valueLink.value == null) {
       this._setInitialValue(nextProps)
