@@ -50,15 +50,35 @@ describe('higher order components', () => {
     // Finally figured out how to get the HTMLInputElement!
     const input = domNode.querySelectorAll('input')[0]
 
-    window.addEventListener('click', () => { throw "hi" })
+    window.addEventListener('abc', function (ev) {
+      console.log('window click', ev.target.constructor.name,
+                  ev.currentTarget.constructor.name);
+    });
 
-    const event = new Event('click')
-    const succeeded = window.dispatchEvent(event)
+    document.addEventListener('abc', function (ev) {
+      console.log('document click', ev.target.constructor.name,
+                  ev.currentTarget.constructor.name);
+    });
 
-    throw new Error(succeeded)
+    input.addEventListener('abc', function (ev) {
+      console.log('input click', ev.target.constructor.name,
+                  ev.currentTarget.constructor.name);
+    });
+
+    // console.log(window)
+
+    const event = new Event('abc', { bubbles: true, cancelable: false })
+    input.dispatchEvent(event)
+
+    // input.click()
+
+    // throw new Error("EOF")
 
     // const event = new Event('click')
-    // const cancelled = input.dispatchEvent(event)
+    // const succeeded = input.dispatchEvent(event)
+    // throw new Error("EOF")
+
+
     //
     // throw new Error(cancelled)
 
