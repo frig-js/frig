@@ -1,4 +1,4 @@
-import FieldsetNestedForm from './fieldset_nested_form.js'
+import RealFieldsetNestedForm from './fieldset_nested_form.js'
 import React from 'react'
 
 export default class Fieldset extends React.Component {
@@ -19,6 +19,11 @@ export default class Fieldset extends React.Component {
   static propTypes = {
     name: React.PropTypes.string.isRequired,
     children: React.PropTypes.any.isRequired,
+    FieldsetNestedForm: React.PropTypes.element.isRequired,
+  }
+
+  static defaultProps = {
+    FieldsetNestedForm: RealFieldsetNestedForm,
   }
 
   displayName = 'Fieldset'
@@ -114,6 +119,7 @@ export default class Fieldset extends React.Component {
 
   render() {
     let i = 0
+    const { FieldsetNestedForm } = this.props
     const nestedFormDatas = this._nestedFormDatas()
     return (
       <div>
