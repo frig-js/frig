@@ -65,22 +65,27 @@ export default class Input extends React.Component {
    */
 
   validate() {
+    /* istanbul ignore next */
     return this.refs.unboundInput.validate()
   }
 
   isValid() {
+    /* istanbul ignore next */
     return this.refs.unboundInput.isValid()
   }
 
   isModified() {
+    /* istanbul ignore next */
     return this.refs.unboundInput.isModified()
   }
 
   resetModified() {
+    /* istanbul ignore next */
     return this.refs.unboundInput.resetModified()
   }
 
   reset() {
+    /* istanbul ignore next */
     return this.refs.unboundInput.reset()
   }
 
