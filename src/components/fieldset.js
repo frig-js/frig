@@ -17,7 +17,7 @@ export default class Fieldset extends React.Component {
   }
 
   static propTypes = {
-    name: React.PropTypes.string,
+    name: React.PropTypes.string.isRequired,
     children: React.PropTypes.any.isRequired,
   }
 
