@@ -30,12 +30,10 @@ export default class ValueLinkedSelect extends React.Component {
   static propTypes = {
     valueLink: React.PropTypes.object.isRequired,
     options: React.PropTypes.array,
-    multiple: React.PropTypes.bool,
   }
 
   static defaultProps = {
     options: [],
-    multiple: false,
   }
 
   componentWillMount() {
@@ -78,12 +76,9 @@ export default class ValueLinkedSelect extends React.Component {
       if (valueHash != null) valueHash = option.value.toString()
       originalValues[valueHash] = option.value
     }
-    if (el.type === 'select-multiple') {
-      return el.options.filter((o) => o.selected).map((o) => originalValues[o.value])
-    }
-    if (el.value === '') {
-      return null
-    }
+
+    if (el.value === '') return null
+
     return originalValues[el.value] || el.value
   }
 
@@ -92,8 +87,7 @@ export default class ValueLinkedSelect extends React.Component {
   }
 
   _inputHtml() {
-    let value = this.props.valueLink.value
-    if (this.props.multiple) value = value.map((o) => o.value.toString())
+    const value = this.props.valueLink.value
     const inputHtml = Object.assign({}, this.props, {
       ref: 'input',
       valueLink: {
