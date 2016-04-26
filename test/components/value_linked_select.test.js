@@ -49,9 +49,48 @@ describe('<ValueLinkedSelect />', () => {
       const options = wrapper.find('option')
       expect(options).to.have.lengthOf(0)
     })
+
+    it('when props.options exists, renders select with options', () => {
+      const props = {
+        options: [
+          { value: 'CA', label: 'Canada' },
+          { value: 'US', label: 'United States' },
+        ],
+        valueLink: valueLink(null),
+      }
+      const wrapper = mount(<ValueLinkedSelect {...props} />)
+      const options = wrapper.find('option')
+      expect(options).to.have.lengthOf(2)
+    })
+
+    it('renders an input with valueLink that calls props.requestChange', () => {
+      const requestChange = td.function.call()
+      const props = {
+        options: [
+          { value: 'CA', label: 'Canada' },
+          { value: 'US', label: 'United States' },
+        ],
+        valueLink: valueLink('US', requestChange),
+      }
+      const wrapper = mount(<ValueLinkedSelect {...props} />)
+
+      const select = wrapper.find('select')
+      const selectValueLink = select.prop('valueLink')
+
+      // requestChange gets called on component mount, clear the slate
+      td.reset()
+
+      // we want to verify that ValueLinkedSelect's props.requestChange
+      // is the same function passed to <select>'s valuelink. Args don't
+      // matter. (They won't be exactly the same since the onChange handler
+      // goes through _getValue, rather than respecting the argument passed
+      // to requestChange)
+      selectValueLink.requestChange()
+      td.verify(requestChange(), { ignoreExtraArgs: true })
+    })
   })
 
-  describe('componentWillMount', () => {
+  describe('componentWillMount / componentDidReceiveProps', () => {
     describe('when valueLink.value=null (e.g. no selection)', () => {
       it('requestChange is called with value of 1st option', () => {
         const requestChange = td.function.call()
@@ -86,6 +125,25 @@ describe('<ValueLinkedSelect />', () => {
         mount(<ValueLinkedSelect { ...props } />)
 
         td.verify(requestChange(), { times: 0, ignoreExtraArgs: true })
+      })
+    })
+
+    describe('options went from 1 to 0', () => {
+      it('calls requestChange(undefined) on re-render', () => {
+        const requestChange = td.function.call()
+        const props = {
+          options: [
+            { value: 'CA', label: 'Canada' },
+          ],
+          valueLink: valueLink('CA', requestChange),
+        }
+
+        const wrapper = mount(<ValueLinkedSelect { ...props } />)
+
+        props.options = []
+        wrapper.setProps(props)
+
+        td.verify(requestChange(undefined), { ignoreExtraArgs: true })
       })
     })
   })
