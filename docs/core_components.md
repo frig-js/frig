@@ -39,7 +39,7 @@ import {Form, Input} from "frig"
 
 Frig Inputs are your interface to any kind of form element that allow the user to edit their data.
 
-For example `<Input name="username"/>` will render a HTML input element by default however `<Input name="friends" type="typeahead" multiple=true options=["Jane", "Joe"]/>` will render a typeahead multi-select.
+For example `<Input name="username"/>` will render a HTML input element by default however `<Input name="friends" options=["Jane", "Joe"]/>` will render a select.
 
 An input receives a name and loads its value from the form's data (ie. `value = form.props.data[input.props.name]`). To specificy a type of form element to render you can either set its `props.type` or `props.component` or leave both blank and have the input guess its type based on the form data and its name (see *Type Inference*).
 

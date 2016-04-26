@@ -303,12 +303,6 @@ describe('<UnboundInput />', () => {
         it('passes through unrecognized types', () => {
           testGuessInputType({ type: 'bogus' }, 'bogus')
         })
-        it('when props.multiple, detects as multiselect', () => {
-          testGuessInputType({ multiple: true }, 'multiselect')
-        })
-        it('when value is an array, detects multiselect', () => {
-          testGuessInputType({ value: [1, 2, 3] }, 'multiselect')
-        })
         it('detects select', () => {
           testGuessInputType({ options: [1, 2, 3] }, 'select')
         })

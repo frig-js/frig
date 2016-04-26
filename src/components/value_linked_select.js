@@ -25,22 +25,26 @@ import ReactDOM from 'react-dom'
  *
  */
 export default class ValueLinkedSelect extends React.Component {
+  static displayName = 'Frig.ValueLinkedSelect'
+
   static propTypes = {
-    options: React.PropTypes.array.isRequired,
     valueLink: React.PropTypes.object.isRequired,
-    multiple: React.PropTypes.bool,
+    options: React.PropTypes.array,
   }
-  displayName = 'Frig.ValueLinkedSelect'
+
+  static defaultProps = {
+    options: [],
+  }
 
   componentWillMount() {
-    const hasOptions = (this.props.options || []).length !== 0
+    const hasOptions = this.props.options.length !== 0
     if (hasOptions && this.props.valueLink.value == null) {
       this._setInitialValue(this.props)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const hasOptions = (nextProps.options || []).length !== 0
+    const hasOptions = nextProps.options.length !== 0
     // Setting the intial value of the select when the options load
     if (hasOptions && nextProps.valueLink.value == null) {
       this._setInitialValue(nextProps)
@@ -72,12 +76,9 @@ export default class ValueLinkedSelect extends React.Component {
       if (valueHash != null) valueHash = option.value.toString()
       originalValues[valueHash] = option.value
     }
-    if (el.type === 'select-multiple') {
-      return el.options.filter((o) => o.selected).map((o) => originalValues[o.value])
-    }
-    if (el.value === '') {
-      return null
-    }
+
+    if (el.value === '') return null
+
     return originalValues[el.value] || el.value
   }
 
@@ -86,8 +87,7 @@ export default class ValueLinkedSelect extends React.Component {
   }
 
   _inputHtml() {
-    let value = this.props.valueLink.value
-    if (this.props.multiple) value = value.map((o) => o.value.toString())
+    const value = this.props.valueLink.value
     const inputHtml = Object.assign({}, this.props, {
       ref: 'input',
       valueLink: {
@@ -95,8 +95,6 @@ export default class ValueLinkedSelect extends React.Component {
         requestChange: this._onChange.bind(this),
       },
     })
-    delete inputHtml.valueLink
-    delete inputHtml.options
     return inputHtml
   }
 
