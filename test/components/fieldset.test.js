@@ -37,6 +37,8 @@ const defaultProps = {
 // and calls some of its functions. This mock lets us change the behavior
 // of the child component so we can meaningfully test some of the public
 // methods which are just pass-thrus to the child.
+//
+// Pass in an object containing functions, e.g. { foo: () => {} }
 const mockNestedForm = (replaceFunctions) =>
   class FieldsetNestedForm extends React.Component {
     constructor() {
@@ -57,11 +59,10 @@ describe('<Fieldset />', () => {
       const opts = { context }
       const wrapper = mount(<Fieldset {...props} />, opts)
       const instance = wrapper.instance()
-
       assertionCallback(instance)
     }
 
-    describe('validate', () => {
+    describe('validate()', () => {
       it('calls FieldsetNestedForm.validate', () => {
         const validate = td.function()
         const isValid = td.function()
@@ -75,7 +76,7 @@ describe('<Fieldset />', () => {
       })
     })
 
-    describe('isValid', () => {
+    describe('isValid()', () => {
       it('return true when all nested form is true', () => {
         // set up isValid test double to always return true
         const isValid = td.function('isValid')
@@ -90,7 +91,7 @@ describe('<Fieldset />', () => {
       })
     })
 
-    describe('isModified', () => {
+    describe('isModified()', () => {
       it('return true when all nested form is true', () => {
         // set up isModified test double to return:
         //   true on the first invocation,
@@ -107,7 +108,7 @@ describe('<Fieldset />', () => {
       })
     })
 
-    describe('modifications', () => {
+    describe('modifications()', () => {
       it('returns an array of the children modifications', () => {
         // set up modifcations test double to return:
         //   field1 was modified on the first return,
@@ -168,25 +169,21 @@ describe('<Fieldset />', () => {
       })
     })
 
-    // describe('resetModified', () => {
-    //   it('return true when all nested form is true', () => {
-    //     // set up isModified test double to return:
-    //     //   true on the first invocation,
-    //     //   false on the second invocation
-    //     const resetModified = td.function()
+    describe('resetModified', () => {
+      it('return true when all nested form is true', () => {
+        const resetModified = td.function()
+        const nestedForm = mockNestedForm({ resetModified })
 
-    //     const props = Object.assign({}, defaultProps, {
-    //       FieldsetNestedForm: mockNestedForm({ resetModified }),
-    //     })
-    //     const opts = { context: defaultContext }
-    //     const wrapper = mount(<Fieldset {...props} />, opts)
-    //     const instance = wrapper.instance()
+        const assertion = (instance) => {
+          // not sure what's going on here, for some reason
+          // this.refs is an empty object. Why for this and not others?
 
-    //     instance.resetModified()
-
-    //     td.verify(resetModified(), { times: 2 })
-    //   })
-    // })
+          instance.resetModified()
+          td.verify(resetModified(), { times: 2 })
+        }
+        testPublicFunction(nestedForm, assertion)
+      })
+    })
 
     // describe('reset', () => {
     //   it('return true when all nested form is true', () => {
