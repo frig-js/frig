@@ -50,11 +50,19 @@ export default class Fieldset extends React.Component {
   }
 
   modifications() {
-    const values = this._forms().map((form) => form.modifications())
-    const isArray = Array.isArray(
-      this.context.frigForm.data[this.props.name] || []
-    )
-    return isArray ? values : values[0]
+    const mods = this._forms().map((form) => form.modifications())
+    const nestedFormData = this.context.frigForm.data[this.props.name]
+    if (nestedFormData == null) {
+      return []
+    }
+    const isArray = Array.isArray(nestedFormData)
+    if (!isArray) {
+      // for the edge case where frigForm.data.myFieldset is a single
+      // object instead of an array of objects
+      return mods[0]
+    }
+
+    return mods
   }
 
   resetModified() {
@@ -66,7 +74,7 @@ export default class Fieldset extends React.Component {
   }
 
   _forms() {
-    return Object.keys(this.refs || {}).map((k) => this.refs[k])
+    return Object.keys(this.refs).map((k) => this.refs[k])
   }
 
   _contextAtIndex(index, keys) {
