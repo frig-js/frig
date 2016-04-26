@@ -9,9 +9,53 @@ import td from 'testdouble'
 describe('<ValueLinkedSelect />', () => {
   const valueLink = (value) => ({ value, requestChange: () => {} })
 
-  describe('options', () => {
+  describe('_getValue', () => {
+    it('should return the value of the selected option', () => {
+      const props = {
+        options: [
+          { value: 'CA', label: 'Canada' },
+          { value: 'US', label: 'United States' },
+        ],
+        valueLink: valueLink('US'),
+      }
+
+      const wrapper = mount(<ValueLinkedSelect { ...props } />)
+      const instance = wrapper.instance()
+      expect(instance._getValue()).to.equal('US')
+    })
+
+    it('should handle numeric values as Number type', () => {
+      const props = {
+        options: [
+          { value: 1, label: 'Canada' },
+          { value: 2, label: 'United States' },
+        ],
+        valueLink: valueLink(2),
+      }
+
+      const wrapper = mount(<ValueLinkedSelect { ...props } />)
+      const instance = wrapper.instance()
+      expect(instance._getValue()).to.equal(2)
+    })
+
+    it('should return null when value is blank', () => {
+      const props = {
+        options: [
+          { value: '', label: '' },
+          { value: 'US', label: 'United States' },
+        ],
+        valueLink: valueLink(''),
+      }
+
+      const wrapper = mount(<ValueLinkedSelect { ...props } />)
+      const instance = wrapper.instance()
+      expect(instance._getValue()).to.be.null()
+    })
+  })
+
+  describe('props.options', () => {
     describe('missing options with ValueLink.value=null', () => {
-      it('returns empty select', () => {
+      it('returns select with no options', () => {
         const wrapper = mount(<ValueLinkedSelect valueLink={valueLink(null)} />)
         const options = wrapper.find('option')
         expect(options).to.have.lengthOf(0)
