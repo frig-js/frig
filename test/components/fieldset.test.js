@@ -19,18 +19,9 @@ const defaultContext = {
     theme: {
       Input: Stub,
     },
-    errors: {
-      some_fieldset: [{ field1: 'Some Other Error 1' }, {
-        field1: 'Some Other Error 1',
-        field2: 'Some Other Error 2',
-        field3: 'Some Other Error 3',
-      }],
-    },
+    errors: {},
     layout: 'some_layout',
-    saved: {
-      some_fieldset: [{ field1: true }, {}],
-      other_fieldset: [{ fieldOther2: false }],
-    },
+    saved: {},
     requestChildComponentChange: () => {},
     childComponentWillMount: () => {},
     childComponentWillUnmount: () => {},
@@ -42,37 +33,45 @@ const defaultProps = {
   children: Stub,
 }
 
+// This mock is necessary because <Fieldset> renders <FieldsetNestedForm>
+// and calls some of its functions. This mock lets us change the behavior
+// of the child component so we can meaningfully test some of the public
+// methods which are just pass-thrus to the child.
+const mockNestedForm = (replaceFunctions) =>
+  class FieldsetNestedForm extends React.Component {
+    constructor() {
+      super()
+      Object.keys(replaceFunctions).forEach((k) => {
+        this[k] = replaceFunctions[k]
+      })
+    }
+    render() { return <div /> }
+  }
+
 describe('<Fieldset />', () => {
   describe('Public Functions', () => {
-    let mockNestedForm
+    const testPublicFunction = (FieldsetNestedForm, assertionCallback, context = defaultContext) => {  // eslint-disable-line max-len
+      const props = Object.assign({}, defaultProps, {
+        FieldsetNestedForm,
+      })
+      const opts = { context }
+      const wrapper = mount(<Fieldset {...props} />, opts)
+      const instance = wrapper.instance()
 
-    beforeEach(() => {
-      mockNestedForm = (replaceFunctions) =>
-        class FieldsetNestedForm extends React.Component {
-          constructor() {
-            super()
-            Object.keys(replaceFunctions).forEach((k) => {
-              this[k] = replaceFunctions[k]
-            })
-          }
-          render() { return <div /> }
-        }
-    })
+      assertionCallback(instance)
+    }
 
     describe('validate', () => {
       it('calls FieldsetNestedForm.validate', () => {
         const validate = td.function()
         const isValid = td.function()
-        const props = Object.assign({}, defaultProps, {
-          FieldsetNestedForm: mockNestedForm({ validate, isValid }),
-        })
-        const opts = { context: defaultContext }
-        const wrapper = mount(<Fieldset {...props} />, opts)
-        const instance = wrapper.instance()
+        const nestedForm = mockNestedForm({ validate, isValid })
 
-        instance.validate()
-
-        td.verify(validate(), { times: 2 })
+        const assertion = (instance) => {
+          instance.validate()
+          td.verify(validate(), { times: 2 })
+        }
+        testPublicFunction(nestedForm, assertion)
       })
     })
 
@@ -81,16 +80,13 @@ describe('<Fieldset />', () => {
         // set up isValid test double to always return true
         const isValid = td.function('isValid')
         td.when(isValid()).thenReturn(true)
+        const nestedForm = mockNestedForm({ isValid })
 
-        const props = Object.assign({}, defaultProps, {
-          FieldsetNestedForm: mockNestedForm({ isValid }),
-        })
-        const opts = { context: defaultContext }
-        const wrapper = mount(<Fieldset {...props} />, opts)
-        const instance = wrapper.instance()
-
-        expect(instance.isValid()).to.be.true()
-        td.verify(isValid(), { times: 2 })
+        const assertion = (instance) => {
+          expect(instance.isValid()).to.be.true()
+          td.verify(isValid(), { times: 2 })
+        }
+        testPublicFunction(nestedForm, assertion)
       })
     })
 
@@ -101,16 +97,13 @@ describe('<Fieldset />', () => {
         //   false on the second invocation
         const isModified = td.function('isModified')
         td.when(isModified()).thenReturn(false, true)
+        const nestedForm = mockNestedForm({ isModified })
 
-        const props = Object.assign({}, defaultProps, {
-          FieldsetNestedForm: mockNestedForm({ isModified }),
-        })
-        const opts = { context: defaultContext }
-        const wrapper = mount(<Fieldset {...props} />, opts)
-        const instance = wrapper.instance()
-
-        expect(instance.isModified()).to.be.true()
-        td.verify(isModified(), { times: 2 })
+        const assertion = (instance) => {
+          expect(instance.isModified()).to.be.true()
+          td.verify(isModified(), { times: 2 })
+        }
+        testPublicFunction(nestedForm, assertion)
       })
     })
 
@@ -124,47 +117,38 @@ describe('<Fieldset />', () => {
           { field1: true, field2: false },
           { field1: false, field2: false },
         )
+        const nestedForm = mockNestedForm({ modifications })
 
-        const props = Object.assign({}, defaultProps, {
-          FieldsetNestedForm: mockNestedForm({ modifications }),
-        })
-        const opts = { context: defaultContext }
-        const wrapper = mount(<Fieldset {...props} />, opts)
-        const instance = wrapper.instance()
-
-        const expected = [
-          { field1: true, field2: false },
-          { field1: false, field2: false },
-        ]
-
-        expect(instance.modifications()).to.deep.equal(expected)
-        td.verify(modifications(), { times: 2 })
+        const assertion = (instance) => {
+          const expected = [
+            { field1: true, field2: false },
+            { field1: false, field2: false },
+          ]
+          expect(instance.modifications()).to.deep.equal(expected)
+          td.verify(modifications(), { times: 2 })
+        }
+        testPublicFunction(nestedForm, assertion)
       })
 
       it('if frigForm.data.myFieldset is 1 object, should return object not array', () => {
-        // rewrite context so that instead of data.some_fieldset being an
-        // array of objects, it is only one single object
+        // arrange fake context for test, to simulate situation where `myFieldset`
+        // is a single object instead of an array of objects
         const context = Object.assign({}, defaultContext)
         const data = { field1: 'abc', field2: 'def' }
         context.frigForm.data.some_fieldset = data
 
-        // test double
+        // test double for child modifications() call
         const modifications = td.function('modifications')
         td.when(modifications()).thenReturn(
           { field1: true, field2: false },
         )
+        const nestedForm = mockNestedForm({ modifications })
 
-        // mount and render
-        const props = Object.assign({}, defaultProps, {
-          FieldsetNestedForm: mockNestedForm({ modifications }),
-        })
-        const opts = { context: defaultContext }
-        const wrapper = mount(<Fieldset {...props} />, opts)
-        const instance = wrapper.instance()
-
-        // assert
-        const expected = { field1: true, field2: false }
-        expect(instance.modifications()).to.deep.equal(expected)
+        const assertion = (instance) => {
+          const expected = { field1: true, field2: false }
+          expect(instance.modifications()).to.deep.equal(expected)
+        }
+        testPublicFunction(nestedForm, assertion, context)
       })
 
       it('if frigForm.data.myFieldset is undefined, return empty array', () => {
@@ -173,17 +157,14 @@ describe('<Fieldset />', () => {
         const context = Object.assign({}, defaultContext)
         delete context.frigForm.data.some_fieldset
 
-        // mount and render
-        const props = Object.assign({}, defaultProps, {
-          FieldsetNestedForm: mockNestedForm(),
-        })
-        const opts = { context: defaultContext }
-        const wrapper = mount(<Fieldset {...props} />, opts)
-        const instance = wrapper.instance()
+        const modifications = td.function('modifications')
+        const nestedForm = mockNestedForm({ modifications })
 
-        // assert
-        const expected = []
-        expect(instance.modifications()).to.deep.equal(expected)
+        const assertion = (instance) => {
+          const expected = []
+          expect(instance.modifications()).to.deep.equal(expected)
+        }
+        testPublicFunction(nestedForm, assertion, context)
       })
     })
 
