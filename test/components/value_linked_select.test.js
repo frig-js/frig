@@ -7,108 +7,85 @@ import { mount } from 'enzyme'
 import td from 'testdouble'
 
 describe('<ValueLinkedSelect />', () => {
-  const valueLink = (value) => ({ value, requestChange: () => {} })
+  const noop = () => {}
+  const valueLink = (value, requestChange = noop) => ({ value, requestChange })
 
   describe('_getValue', () => {
-    it('should return the value of the selected option', () => {
-      const props = {
-        options: [
-          { value: 'CA', label: 'Canada' },
-          { value: 'US', label: 'United States' },
-        ],
-        valueLink: valueLink('US'),
-      }
-
+    const testGetValue = (options, valueLinkObj, expected) => {
+      const props = { options, valueLink: valueLinkObj }
       const wrapper = mount(<ValueLinkedSelect { ...props } />)
       const instance = wrapper.instance()
-      expect(instance._getValue()).to.equal('US')
+      expect(instance._getValue()).to.equal(expected)
+    }
+
+    it('should return the value of the selected option', () => {
+      const options = [
+        { value: 'CA', label: 'Canada' },
+        { value: 'US', label: 'United States' },
+      ]
+      testGetValue(options, valueLink('US'), 'US')
     })
 
     it('should handle numeric values as Number type', () => {
-      const props = {
-        options: [
-          { value: 1, label: 'Canada' },
-          { value: 2, label: 'United States' },
-        ],
-        valueLink: valueLink(2),
-      }
-
-      const wrapper = mount(<ValueLinkedSelect { ...props } />)
-      const instance = wrapper.instance()
-      expect(instance._getValue()).to.equal(2)
+      const options = [
+        { value: 1, label: 'Canada' },
+        { value: 2, label: 'United States' },
+      ]
+      testGetValue(options, valueLink(2), 2)
     })
 
     it('should return null when value is blank', () => {
-      const props = {
-        options: [
-          { value: '', label: '' },
-          { value: 'US', label: 'United States' },
-        ],
-        valueLink: valueLink(''),
-      }
-
-      const wrapper = mount(<ValueLinkedSelect { ...props } />)
-      const instance = wrapper.instance()
-      expect(instance._getValue()).to.be.null()
+      const options = [
+        { value: '', label: '' },
+        { value: 'US', label: 'United States' },
+      ]
+      testGetValue(options, valueLink(''), null)
     })
   })
 
-  describe('props.options', () => {
-    describe('missing options with ValueLink.value=null', () => {
-      it('returns select with no options', () => {
-        const wrapper = mount(<ValueLinkedSelect valueLink={valueLink(null)} />)
-        const options = wrapper.find('option')
-        expect(options).to.have.lengthOf(0)
-      })
+  describe('render', () => {
+    it('when props.options is empty, renders select with no options', () => {
+      const wrapper = mount(<ValueLinkedSelect valueLink={valueLink(null)} />)
+      const options = wrapper.find('option')
+      expect(options).to.have.lengthOf(0)
     })
+  })
 
-    describe('componentWillMount', () => {
-      describe('when valueLink.value=null (e.g. no selection)', () => {
-        it('requestChange called with 1st options value', () => {
-          const requestChange = td.function()
+  describe('componentWillMount', () => {
+    describe('when valueLink.value=null (e.g. no selection)', () => {
+      it('requestChange is called with value of 1st option', () => {
+        const requestChange = td.function.call()
+        const props = {
+          options: [
+            { value: 'CA', label: 'Canada' },
+            { value: 'US', label: 'United States' },
+          ],
+          valueLink: valueLink(null, requestChange),
+        }
 
-          const newValueLink = valueLink(null)
-          newValueLink.requestChange = requestChange
+        // requestChange should be called on component mount
+        const wrapper = mount(<ValueLinkedSelect { ...props } />)
+        td.verify(requestChange('CA', { setModified: false }), { times: 1 })
 
-          // set props
-          const props = {
-            options: [
-              { value: 'CA', label: 'Canada' },
-              { value: 'US', label: 'United States' },
-            ],
-            valueLink: newValueLink,
-          }
+        // simulate a re-render of the component with the same props
+        wrapper.setProps(props)
+        td.verify(requestChange('CA', { setModified: false }), { times: 2 })
+      })
 
-          const wrapper = mount(<ValueLinkedSelect { ...props } />)
+      it('and ANY options value is null, requestChange not called', () => {
+        const requestChange = td.function()
+        const props = {
+          options: [
+            { value: null, label: '-- Select --' },
+            { value: 'CA', label: 'Canada' },
+            { value: 'US', label: 'United States' },
+          ],
+          valueLink: valueLink(null, requestChange),
+        }
 
-          // const valueLinkedSelect = wrapper.instance()
-          td.verify(requestChange('CA', { setModified: false }), { times: 1 })
+        mount(<ValueLinkedSelect { ...props } />)
 
-          // simulate a re-render of the component with the same props
-          wrapper.setProps(props)
-          td.verify(requestChange('CA', { setModified: false }), { times: 2 })
-        })
-
-        it('and ANY options value is null, requestChange not called', () => {
-          const requestChange = td.function()
-
-          const newValueLink = valueLink(null)
-          newValueLink.requestChange = requestChange
-
-          // set props
-          const props = {
-            options: [
-              { value: null, label: '-- Select --' },
-              { value: 'CA', label: 'Canada' },
-              { value: 'US', label: 'United States' },
-            ],
-            valueLink: newValueLink,
-          }
-
-          mount(<ValueLinkedSelect { ...props } />)
-
-          td.verify(requestChange(), { times: 0, ignoreExtraArgs: true })
-        })
+        td.verify(requestChange(), { times: 0, ignoreExtraArgs: true })
       })
     })
   })
