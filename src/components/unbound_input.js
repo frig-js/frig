@@ -227,8 +227,6 @@ export default class UnboundInput extends React.Component {
     const jsType = typeof value
     if (this.props.type != null) {
       return this.props.type
-    } else if (this.props.multiple || Array.isArray(value)) {
-      return 'multiselect'
     } else if (this.props.options != null) {
       return 'select'
     } else if (jsType === 'boolean') {
