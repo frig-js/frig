@@ -199,4 +199,52 @@ describe('<Fieldset />', () => {
       })
     })
   })
+
+  describe('Private Functions', () => {
+    describe('_contextAtIndex', () => {
+      const testContextAtIndex = (context, expected, keys = ['errors']) => {
+        const instance = mountFieldset(context)
+        const assertion = instance._contextAtIndex(0, keys)
+        expect(assertion).to.deep.equal(expected)
+      }
+
+      it('return empty objects [error, saved] from defaultContext', () => {
+        const expected = {
+          errors: {},
+          saved: {},
+        }
+
+        testContextAtIndex(defaultContext, expected, ['errors', 'saved'])
+      })
+
+      it('returns empty object if no keys are found', () => {
+        const expected = {}
+
+        testContextAtIndex(defaultContext, expected, ['nothing'])
+      })
+
+      it('return an object with of errors', () => {
+        const context = cloner.deep.copy(defaultContext)
+        const errors = { some_fieldset: [{ field1: 'abc', field2: 'def' }] }
+        context.frigForm.errors = errors
+
+        const expected = {
+          errors: { field1: 'abc', field2: 'def' },
+        }
+        testContextAtIndex(context, expected)
+      })
+
+      it('if frigForm.errors is 1 object, should return object not array', () => {
+        const context = cloner.deep.copy(defaultContext)
+        const errors = { some_fieldset: { field1: 'abc', field2: 'def' } }
+        context.frigForm.errors = errors
+
+        const expected = {
+          errors: { field1: 'abc', field2: 'def' },
+        }
+
+        testContextAtIndex(context, expected)
+      })
+    })
+  })
 })
