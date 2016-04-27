@@ -87,7 +87,6 @@ describe('<Fieldset />', () => {
 
         const assertion = (instance) => {
           expect(instance.isValid()).to.be.true()
-          td.verify(isValid(), { times: 2 })
         }
         testPublicFunction(nestedForm, assertion)
       })
@@ -104,7 +103,6 @@ describe('<Fieldset />', () => {
 
         const assertion = (instance) => {
           expect(instance.isModified()).to.be.true()
-          td.verify(isModified(), { times: 2 })
         }
         testPublicFunction(nestedForm, assertion)
       })
@@ -128,7 +126,6 @@ describe('<Fieldset />', () => {
             { field1: false, field2: false },
           ]
           expect(instance.modifications()).to.deep.equal(expected)
-          td.verify(modifications(), { times: 2 })
         }
         testPublicFunction(nestedForm, assertion)
       })
