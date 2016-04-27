@@ -290,4 +290,32 @@ describe('<Fieldset />', () => {
       })
     })
   })
+
+  describe('React Lifecycle (Mount & Unmount)', () => {
+    it('Add & remove child component In context.frigForm', () => {
+      // test doubles
+      const childComponentWillMount = td.function()
+      const childComponentWillUnmount = td.function()
+
+      // set context
+      const context = cloner.deep.copy(defaultContext)
+      context.frigForm.childComponentWillMount = childComponentWillMount
+      context.frigForm.childComponentWillUnmount = childComponentWillUnmount
+
+      const opts = { context }
+
+      // mount
+      const wrapper = mount(<Fieldset {...defaultProps} />, opts)
+      const instance = wrapper.instance()
+
+      // verify that the child component has mounted
+      td.verify(childComponentWillMount('some_fieldset', instance))
+
+      // unmount
+      wrapper.unmount()
+
+      // verify that the child component has unmounted
+      td.verify(childComponentWillUnmount('some_fieldset', instance))
+    })
+  })
 })

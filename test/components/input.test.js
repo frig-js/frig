@@ -5,6 +5,7 @@ import { expect } from 'chai'
 import Input from '../../src/components/input'
 import { mount } from 'enzyme'
 import td from 'testdouble'
+import cloner from 'cloner'
 
 const Stub = () => <div />
 const defaultContext = {
@@ -104,6 +105,34 @@ describe('<Input />', () => {
       // act... again
       input._onChange('some_new_value', true)
       td.verify(onValidChange('some_new_value', true))
+    })
+  })
+
+  describe('React Lifecycle (Mount & Unmount)', () => {
+    it('Add & remove child component In context.frigForm', () => {
+      // test doubles
+      const childComponentWillMount = td.function()
+      const childComponentWillUnmount = td.function()
+
+      // set context
+      const context = cloner.deep.copy(defaultContext)
+      context.frigForm.childComponentWillMount = childComponentWillMount
+      context.frigForm.childComponentWillUnmount = childComponentWillUnmount
+
+      const opts = { context }
+
+      // mount
+      const wrapper = mount(<Input {...defaultProps} />, opts)
+      const instance = wrapper.instance()
+
+      // verify that the child component has mounted
+      td.verify(childComponentWillMount('some_input', instance))
+
+      // unmount
+      wrapper.unmount()
+
+      // verify that the child component has unmounted
+      td.verify(childComponentWillUnmount('some_input', instance))
     })
   })
 })
