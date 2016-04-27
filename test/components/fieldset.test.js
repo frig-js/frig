@@ -51,6 +51,12 @@ const mockNestedForm = (replaceFunctions) =>
     render() { return <div /> }
   }
 
+const mountFieldset = (context = defaultContext, props = defaultProps) => {
+  const opts = { context }
+  const wrapper = mount(<Fieldset {...props} />, opts)
+  return wrapper.instance()
+}
+
 describe('<Fieldset />', () => {
   afterEach(() => { td.reset() })
 
@@ -59,9 +65,7 @@ describe('<Fieldset />', () => {
       const props = Object.assign({}, defaultProps, {
         FieldsetNestedForm,
       })
-      const opts = { context }
-      const wrapper = mount(<Fieldset {...props} />, opts)
-      const instance = wrapper.instance()
+      const instance = mountFieldset(context, props)
       assertionCallback(instance)
     }
 
