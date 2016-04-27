@@ -169,15 +169,12 @@ describe('<Fieldset />', () => {
       })
     })
 
-    describe('resetModified', () => {
+    describe('resetModified()', () => {
       it('return true when all nested form is true', () => {
         const resetModified = td.function()
         const nestedForm = mockNestedForm({ resetModified })
 
         const assertion = (instance) => {
-          // not sure what's going on here, for some reason
-          // this.refs is an empty object. Why for this and not others?
-
           instance.resetModified()
           td.verify(resetModified(), { times: 2 })
         }
@@ -185,24 +182,17 @@ describe('<Fieldset />', () => {
       })
     })
 
-    // describe('reset', () => {
-    //   it('return true when all nested form is true', () => {
-    //     // set up isModified test double to return:
-    //     //   true on the first invocation,
-    //     //   false on the second invocation
-    //     const reset = td.function()
+    describe('reset()', () => {
+      it('return true when all nested form is true', () => {
+        const reset = td.function()
+        const nestedForm = mockNestedForm({ reset })
 
-    //     const props = Object.assign({}, defaultProps, {
-    //       FieldsetNestedForm: mockNestedForm({ reset }),
-    //     })
-    //     const opts = { context: defaultContext }
-    //     const wrapper = mount(<Fieldset {...props} />, opts)
-    //     const instance = wrapper.instance()
-
-    //     instance.reset()
-
-    //     td.verify(reset(), { times: 2 })
-    //   })
-    // })
+        const assertion = (instance) => {
+          instance.reset()
+          td.verify(reset(), { times: 2 })
+        }
+        testPublicFunction(nestedForm, assertion)
+      })
+    })
   })
 })
