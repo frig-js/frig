@@ -5,6 +5,7 @@ import { expect } from 'chai'
 import Fieldset from '../../src/components/fieldset'
 import { mount } from 'enzyme'
 import td from 'testdouble'
+import cloner from 'cloner'
 
 const Stub = () => <div />
 const defaultContext = {
@@ -133,7 +134,7 @@ describe('<Fieldset />', () => {
       it('if frigForm.data.myFieldset is 1 object, should return object not array', () => {
         // arrange fake context for test, to simulate situation where `myFieldset`
         // is a single object instead of an array of objects
-        const context = Object.assign({}, defaultContext)
+        const context = cloner.deep.copy(defaultContext)
         const data = { field1: 'abc', field2: 'def' }
         context.frigForm.data.some_fieldset = data
 
@@ -154,7 +155,7 @@ describe('<Fieldset />', () => {
       it('if frigForm.data.myFieldset is undefined, return empty array', () => {
         // rewrite context so that instead of data.some_fieldset
         // is undefined
-        const context = Object.assign({}, defaultContext)
+        const context = cloner.deep.copy(defaultContext)
         delete context.frigForm.data.some_fieldset
 
         const modifications = td.function('modifications')
