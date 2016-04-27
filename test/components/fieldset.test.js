@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach */
+/* global describe, it, beforeEach, afterEach */
 
 import React from 'react'
 import { expect } from 'chai'
@@ -51,6 +51,8 @@ const mockNestedForm = (replaceFunctions) =>
   }
 
 describe('<Fieldset />', () => {
+  afterEach(() => { td.reset() })
+
   describe('Public Functions', () => {
     const testPublicFunction = (FieldsetNestedForm, assertionCallback, context = defaultContext) => {  // eslint-disable-line max-len
       const props = Object.assign({}, defaultProps, {

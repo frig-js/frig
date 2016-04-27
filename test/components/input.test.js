@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach */
+/* global describe, it, beforeEach, afterEach */
 
 import React from 'react'
 import { expect } from 'chai'
@@ -41,6 +41,8 @@ const defaultProps = {
 }
 
 describe('<Input />', () => {
+  afterEach(() => { td.reset() })
+
   it('renders an <UnboundInput> with the correct props', () => {
     const opts = { context: defaultContext }
     const wrapper = mount(<Input {...defaultProps} />, opts)
@@ -55,28 +57,37 @@ describe('<Input />', () => {
   })
 
   describe('_onChange', () => {
-    // test doubles
-    const requestChildComponentChange = td.function.call(null)
-    const onChange = td.function.call(null)
-    const onValidChange = td.function.call(null)
+    let requestChildComponentChange
+    let onChange
+    let onValidChange
+    let input
 
-    // set props
-    const props = Object.assign({}, defaultProps, {
-      onChange,
-      onValidChange,
+    beforeEach(() => {
+      // test doubles
+      requestChildComponentChange = td.function()
+      onChange = td.function('onChange')
+      onValidChange = td.function()
+
+      // set props
+      const props = Object.assign({}, defaultProps, {
+        onChange,
+        onValidChange,
+      })
+
+      // set context
+      const context = Object.assign({}, defaultContext)
+      context.frigForm.requestChildComponentChange = requestChildComponentChange
+
+      // mount component
+      const opts = { context }
+      const wrapper = mount(<Input {...props} />, opts)
+
+      // act
+      input = wrapper.instance()
+      input._onChange('some_new_value', false)
+
+      // console.log(td.explain(requestChildComponentChange))
     })
-
-    // set context
-    const context = Object.assign({}, defaultContext)
-    context.frigForm.requestChildComponentChange = requestChildComponentChange
-
-    // mount component
-    const opts = { context }
-    const wrapper = mount(<Input {...props} />, opts)
-
-    // act
-    const input = wrapper.instance()
-    input._onChange('some_new_value', false)
 
     // assert
     it('when fired, calls requestChildComponentChange (private API)', () => {
@@ -89,10 +100,9 @@ describe('<Input />', () => {
       td.verify(onValidChange(), { times: 0 })
     })
 
-    // act... again :-1:
-    input._onChange('some_new_value', true)
-
     it('when fired, does call onValidChange when valid (public API)', () => {
+      // act... again
+      input._onChange('some_new_value', true)
       td.verify(onValidChange('some_new_value', true))
     })
   })
