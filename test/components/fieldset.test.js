@@ -246,5 +246,48 @@ describe('<Fieldset />', () => {
         testContextAtIndex(context, expected)
       })
     })
+
+    describe('_onChange', () => {
+      let requestChildComponentChange
+      let instance
+      let context
+      const data = { field1: 'abc', field2: 'def' }
+
+      beforeEach(() => {
+        // test doubles
+        requestChildComponentChange = td.function()
+
+        // set context
+        context = cloner.deep.copy(defaultContext)
+        context.frigForm.requestChildComponentChange = requestChildComponentChange
+
+        // mount component
+        instance = mountFieldset(context)
+      })
+
+      it('returns a new array of the children change', () => {
+        // expected
+        context.frigForm.data.some_fieldset[1] = data
+        const expected = context.frigForm.data.some_fieldset
+
+        // mount
+        instance._onChange(1, data)
+
+        // assertion
+        td.verify(requestChildComponentChange('some_fieldset', expected))
+      })
+
+      it('when data is an object, should return object not array', () => {
+        // expected
+        context.frigForm.data.some_fieldset = data
+        const expected = context.frigForm.data.some_fieldset
+
+        // mount
+        instance._onChange(0, data)
+
+        // assertion
+        td.verify(requestChildComponentChange('some_fieldset', expected))
+      })
+    })
   })
 })
