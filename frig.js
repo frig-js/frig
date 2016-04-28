@@ -1,2 +1,2073 @@
-!function(e,t){"object"==typeof exports&&"object"==typeof module?module.exports=t(require("react"),require("react-dom")):"function"==typeof define&&define.amd?define(["react","react-dom"],t):"object"==typeof exports?exports.Frig=t(require("react"),require("react-dom")):e.Frig=t(e.React,e.ReactDOM)}(this,function(e,t){return function(e){function t(n){if(r[n])return r[n].exports;var o=r[n]={exports:{},id:n,loaded:!1};return e[n].call(o.exports,o,o.exports,t),o.loaded=!0,o.exports}var r={};return t.m=e,t.c=r,t.p="",t(0)}([function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e){if(null==e)return u["default"].defaultProps.theme;if(null==e.component)throw"Invalid theme. Expected an object";u["default"].originalClass.defaultProps.theme=e,l["default"].originalClass.defaultProps.theme=e}Object.defineProperty(t,"__esModule",{value:!0});var i=r(1),u=n(i),a=r(6),l=n(a),s=r(10),f=n(s),c=r(11),p=n(c),d=r(12),y=n(d),v=r(14),h=n(v),m=r(15),b=n(m),g=r(8),O=n(g),_=r(9),P=n(_),j={Boolean:r(17),Focusable:r(18)};t["default"]={defaultTheme:o,Form:u["default"],Input:l["default"],Submit:f["default"],FormErrorList:p["default"],Fieldset:y["default"],FieldsetText:h["default"],ValueLinkedSelect:b["default"],HigherOrderComponents:j,util:O["default"],typeMapping:P["default"]},e.exports=t["default"]},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t,r){return t in e?Object.defineProperty(e,t,{value:r,enumerable:!0,configurable:!0,writable:!0}):e[t]=r,e}function i(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function u(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var a=Object.assign||function(e){for(var t=1;t<arguments.length;t++){var r=arguments[t];for(var n in r)Object.prototype.hasOwnProperty.call(r,n)&&(e[n]=r[n])}return e},l=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),s=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},f=r(2),c=n(f),p=r(3),d=n(p),y=function(e){function t(){var e=this;i(this,r),s(Object.getPrototypeOf(r.prototype),"constructor",this).apply(this,arguments),this.displayName="Form",this._childComponentsByName=[],this.childComponentWillMount=function(t,r){e._childComponentsByName[t]=r},this.childComponentWillUnmount=function(t){delete e._childComponentsByName[t]},this._onChildRequestChange=function(t,r){e.props.onChange(Object.assign({},e._data(),o({},t,r)))},this._onSubmit=function(t){return e.validate()?void e.props.onSubmit(t):t.preventDefault()}}u(t,e),l(t,[{key:"getChildContext",value:function(){var e=this.props,t=e.layout,r=e.theme,n=e.align,o=e.errors,i=e.saved;return{frigForm:{theme:r,layout:t,align:n,errors:o,saved:i,data:this._data(),requestChildComponentChange:this._onChildRequestChange,childComponentWillMount:this.childComponentWillMount,childComponentWillUnmount:this.childComponentWillUnmount,submit:this._onSubmit}}}},{key:"validate",value:function(){return 0===this._childComponents().filter(function(e){return!e.validate()}).length}},{key:"isValid",value:function(){return 0===this._childComponents().filter(function(e){return!e.isValid()}).length}},{key:"isModified",value:function(){return 0!==this._childComponents().filter(function(e){return e.isModified()}).length}},{key:"modifications",value:function n(){var n={};for(var e in this._childComponentsByName){var t=this._childComponentsByName[e];t.isModified()&&(n[e]=null==t.modifications?!0:t.modifications())}return n}},{key:"resetModified",value:function(){var e=!0,t=!1,r=void 0;try{for(var n,o=this._childComponents()[Symbol.iterator]();!(e=(n=o.next()).done);e=!0){var i=n.value;i.resetModified()}}catch(u){t=!0,r=u}finally{try{!e&&o["return"]&&o["return"]()}finally{if(t)throw r}}}},{key:"reset",value:function(){var e=!0,t=!1,r=void 0;try{for(var n,o=this._childComponents()[Symbol.iterator]();!(e=(n=o.next()).done);e=!0){var i=n.value;i.reset()}}catch(u){t=!0,r=u}finally{try{!e&&o["return"]&&o["return"]()}finally{if(t)throw r}}}},{key:"formData",value:function(){return this.refs.form.formData()}},{key:"render",value:function(){var e=this.props.theme.component("form");return c["default"].createElement(e,a({},this._themedFormProps(),{ref:"form"}),this.props.children)}},{key:"_themedFormProps",value:function(){var e=Object.assign({},this.props);return e.formHtml=Object.assign({},e.formHtml||{},{onSubmit:this._onSubmit.bind(this)}),e}},{key:"_data",value:function(){return this.props.data}},{key:"_childComponents",value:function(){var e=[],t=this._childComponentsByName;for(var r in t)e.push(t[r]);return e}}],[{key:"propTypes",value:{data:c["default"].PropTypes.object.isRequired,onChange:c["default"].PropTypes.func.isRequired,errors:c["default"].PropTypes.object.isRequired,saved:c["default"].PropTypes.object.isRequired,theme:c["default"].PropTypes.object.isRequired,typeMapping:c["default"].PropTypes.objectOf(c["default"].PropTypes.string),layout:c["default"].PropTypes.string.isRequired,align:c["default"].PropTypes.string.isRequired,onSubmit:c["default"].PropTypes.func},enumerable:!0},{key:"defaultProps",value:{errors:[],saved:{},theme:void 0,typeMapping:{},layout:"vertical",align:"left",onSubmit:function(){}},enumerable:!0},{key:"childContextTypes",value:{frigForm:c["default"].PropTypes.object},enumerable:!0}]);var r=t;return t=(0,d["default"])({as:Object,publicFunctions:["validate","isValid","isModified","modifications","resetModified","reset","formData"]})(t)||t}(c["default"].Component);t["default"]=y,e.exports=t["default"]},function(t,r){t.exports=e},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l),f=r(4),c=n(f),p=function(e){function t(){o(this,r),a(Object.getPrototypeOf(r.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.HigherOrderComponents.ErrorNormalizer"}i(t,e),u(t,[{key:"_toErrorObject",value:function(e){var t=Array.isArray(e);return null==e||t&&0===e.length?{}:(t&&(e={base:e}),e)}},{key:"_errors",value:function(){for(var e={},t=["errors","internalErrors"],r=0;r<t.length;r++){var n=t[r],o=this._toErrorObject(this.props[n]);for(var i in o)e[i]=(e[i]||[]).concat(o[i])}return e}},{key:"_normalizedErrors",value:function(){var e=this._errors(),t=this.opts().as;if(t===Array){var r=[];for(var n in e)r=r.concat(e[n]);return r}if(t===Object)return e;throw'ErrorsNormalizer "as" attribute must be either Array or Object'}},{key:"render",value:function(){var e=this.ComponentClass(),t=Object.assign({},this.props,{ref:"child",errors:this._normalizedErrors()});return delete t.internalErrors,s["default"].createElement(e,t)}}],[{key:"propTypes",value:{errors:s["default"].PropTypes.oneOfType([s["default"].PropTypes.object,s["default"].PropTypes.array]),internalErrors:s["default"].PropTypes.oneOfType([s["default"].PropTypes.object,s["default"].PropTypes.array])},enumerable:!0}]);var r=t;return t=(0,c["default"])()(t)||t}(s["default"].Component);t["default"]=p,e.exports=t["default"]},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(5),s=n(l);e.exports=function(){return function(e){return function(t){return function(r){return function(e){function n(){o(this,l),a(Object.getPrototypeOf(l.prototype),"constructor",this).apply(this,arguments)}i(n,e),u(n,[{key:"ComponentClass",value:function(){return r}},{key:"opts",value:function(){return t}}],[{key:"originalClass",value:r.originalClass||r,enumerable:!0}]);var l=n;return n=(0,s["default"])(t)(n)||n}(e)}}}}},function(e,t){"use strict";e.exports=function(e){return function(t){var r=!0,n=!1,o=void 0;try{for(var i,u=function(){var e=i.value;t.prototype[e]=function(){var t;return(t=this.refs.child)[e].apply(t,arguments)}},a=(e.publicFunctions||[])[Symbol.iterator]();!(r=(i=a.next()).done);r=!0)u()}catch(l){n=!0,o=l}finally{try{!r&&a["return"]&&a["return"]()}finally{if(n)throw o}}}}},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){var r=[],n=!0,o=!1,i=void 0;try{for(var u,a=e[Symbol.iterator]();!(n=(u=a.next()).done)&&(r.push(u.value),!t||r.length!==t);n=!0);}catch(l){o=!0,i=l}finally{try{!n&&a["return"]&&a["return"]()}finally{if(o)throw i}}return r}return function(t,r){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,r);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),a=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),l=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},s=r(2),f=n(s),c=r(7),p=n(c),d=r(8),y=r(3),v=n(y),h=function(e){function t(){o(this,n),l(Object.getPrototypeOf(n.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.Input",this.state={modified:!1,validationRequested:!1}}i(t,e),a(t,[{key:"validate",value:function(){return this.setState({validationRequested:!0}),this.isValid()}},{key:"isValid",value:function(){return null==this._errors()}},{key:"isModified",value:function(){return this.state.modified}},{key:"resetModified",value:function(){this.setState({modified:!1})}},{key:"reset",value:function(){this.setState({modified:!1,validationRequested:!1})}},{key:"componentWillMount",value:function(){this.context.frigForm.childComponentWillMount(this.props.name,this)}},{key:"componentWillUnmount",value:function(){this.context.frigForm.childComponentWillUnmount(this.props.name,this)}},{key:"render",value:function(){var e=this._themedComponent();return f["default"].createElement(e,this._themedInputProps())}},{key:"_errors",value:function(){var e=arguments.length<=0||void 0===arguments[0]?this._value():arguments[0],t=(this.props.errors||[]).slice().concat(this.context.frigForm.errors[this.props.name]||[]),r=(this.isModified()||this.state.validationRequested)&&this.props.validate;if(r){var n=Object.assign({},this.props);n.valueLink={value:e};var o=!0,i=!1,a=void 0;try{for(var l,s=(0,d.entries)(this._validations())[Symbol.iterator]();!(o=(l=s.next()).done);o=!0){var f=u(l.value,2),c=f[0],y=f[1];y!==!1&&null!=y&&(t=t.concat(p["default"][c](n,y)||[]))}}catch(v){i=!0,a=v}finally{try{!o&&s["return"]&&s["return"]()}finally{if(i)throw a}}}return 0===t.length&&(t=void 0),t}},{key:"_value",value:function(){return this.context.frigForm.data[this.props.name]}},{key:"_themedInputProps",value:function(){var e=arguments.length<=0||void 0===arguments[0]?this.props:arguments[0],t=e.title||(0,d.humanize)(e.name),r={title:t,label:t,placeholder:t,layout:this.context.frigForm.layout,align:this.context.frigForm.align},n=Object.assign(r,e),o={options:(e.options||[]).map(this._normalizeOption),modified:this.isModified(),labelHtml:Object.assign({},n.labelHtml||{},{htmlFor:n.name}),inputHtml:Object.assign({},n.inputHtml||{},{onBlur:this._onBlur.bind(this),autoFocus:n.autoFocus,className:n.className,disabled:n.disabled,multiple:n.multiple,name:n.name,placeholder:n.placeholder,type:this._typeMapping().htmlInputType,ref:"input"}),valueLink:{value:this._value(),requestChange:this._onChange.bind(this)},errors:this._errors()};return Object.assign(n,o)}},{key:"_normalizeOption",value:function(e){return null!=e?null!=e.label?e:("object"==typeof e&&1===e.length&&(e=e[0]),"object"==typeof e&&2===e.length?{value:e[0],label:e[1]}:{value:e,label:e}):void 0}},{key:"_validations",value:function(){var e=arguments.length<=0||void 0===arguments[0]?this.props:arguments[0],t={required:!0},r={},n=!0,o=!1,i=void 0;try{for(var a,l=(0,d.entries)(p["default"])[Symbol.iterator]();!(n=(a=l.next()).done);n=!0){var s=u(a.value,1),f=s[0];r[f]=null==e[f]?t[f]:e[f]}}catch(c){o=!0,i=c}finally{try{!n&&l["return"]&&l["return"]()}finally{if(o)throw i}}return r}},{key:"_onChange",value:function(e,t){if("submit"!==this.props.type){(t||{}).setModified!==!1&&this.setState({modified:!0});var r=null==this._errors(e);this.context.frigForm.requestChildComponentChange(this.props.name,e),this.props.onChange(e,r),r&&this.props.onValidChange(e,r)}}},{key:"_onBlur",value:function(){this.validate();var e=this.props.inputHtml;null!=e&&null!=e.onBlur&&e.onBlur()}},{key:"_guessInputType",value:function(){var e=this._value(),t=typeof e;return null!=this.props.type?this.props.type:this.props.multiple||Array.isArray(e)?"multiselect":null!=this.props.options?"select":"boolean"===t?"boolean":"number"===t?"float":this.props.name.match(/password$/i)?"password":"string"}},{key:"_typeMapping",value:function(){var e=Object.assign({},r(9),this.context.frigForm.theme.type_mapping);return e[this._guessInputType()]}},{key:"_themedComponent",value:function(){var e=this.props.name,t=this._typeMapping().component;if(null==t)throw e+": No type mapping found";var r=this.context.frigForm.theme.component(t);if(null==r)throw e+": No "+t+" component found in theme";return r}}],[{key:"propTypes",value:{name:f["default"].PropTypes.string.isRequired,errors:f["default"].PropTypes.arrayOf(f["default"].PropTypes.string),layout:f["default"].PropTypes.string,align:f["default"].PropTypes.string,className:f["default"].PropTypes.string,className:f["default"].PropTypes.string,disabled:f["default"].PropTypes.bool,multiple:f["default"].PropTypes.bool,type:f["default"].PropTypes.string,options:f["default"].PropTypes.array,validate:f["default"].PropTypes.bool,onChange:f["default"].PropTypes.func.isRequired,onValidChange:f["default"].PropTypes.func.isRequired},enumerable:!0},{key:"contextTypes",value:{frigForm:f["default"].PropTypes.shape({data:f["default"].PropTypes.object.isRequired,theme:f["default"].PropTypes.object.isRequired,errors:f["default"].PropTypes.object.isRequired,layout:f["default"].PropTypes.string.isRequired,align:f["default"].PropTypes.string.isRequired,saved:f["default"].PropTypes.object.isRequired,requestChildComponentChange:f["default"].PropTypes.func.isRequired,childComponentWillMount:f["default"].PropTypes.func.isRequired,childComponentWillUnmount:f["default"].PropTypes.func.isRequired}).isRequired},enumerable:!0},{key:"defaultProps",value:{validate:!0,disabled:!1,errors:[],onChange:function(){},onValidChange:function(){}},enumerable:!0}]);var n=t;return t=(0,v["default"])({as:Array,publicFunctions:["validate","isValid","isModified","resetModified","reset"]})(t)||t}(f["default"].Component);t["default"]=h,e.exports=t["default"]},function(e,t){"use strict";e.exports={required:function(e){var t=e.valueLink.value;if(!((e.options||[]).filter(function(e){return null==e.value}).length>0||null!=t&&""!==t))return"This field is required."},min:function(e,t){var r=e.valueLink.value;if(!(r>=t||null!=r||""===r))return"Value cannot be less than "+t},max:function(e,t){var r=e.valueLink.value;if(!(t>=r||null!=r||""===r))return"Value cannot be greater than "+t}}},function(e,t){"use strict";function r(e){if(Array.isArray(e)){for(var t=0,r=Array(e.length);t<e.length;t++)r[t]=e[t];return r}return Array.from(e)}var n=function(){function e(e,t){var r=[],n=!0,o=!1,i=void 0;try{for(var u,a=e[Symbol.iterator]();!(n=(u=a.next()).done)&&(r.push(u.value),!t||r.length!==t);n=!0);}catch(l){o=!0,i=l}finally{try{!n&&a["return"]&&a["return"]()}finally{if(o)throw i}}return r}return function(t,r){if(Array.isArray(t))return t;if(Symbol.iterator in Object(t))return e(t,r);throw new TypeError("Invalid attempt to destructure non-iterable instance")}}(),o=void 0,i=void 0,u=e.exports={entries:i=function(e){var t=[];for(var r in e)t.push([r,e[r]]);return t},isConfigObj:o=function(e){var t=typeof e;return"string"!==t&&"number"!==t&&"boolean"!==t&&"function"!==t&&"undefined"!==t&&null!=e&&null==e.length},humanize:function(e){if(null!=e){var t=/([A-Z]|[0-9]+|_[a-z])/g,r=e.replace(t," $1").replace(/_/g,"");return r[0].toUpperCase()+r.slice(1).toLowerCase()}},clone:function(e){var t={},r=!0,o=!1,u=void 0;try{for(var a,l=i(e)[Symbol.iterator]();!(r=(a=l.next()).done);r=!0){var s=n(a.value,2),f=s[0],c=s[1];t[f]=c}}catch(p){o=!0,u=p}finally{try{!r&&l["return"]&&l["return"]()}finally{if(o)throw u}}return t},merge:function(e){e=e||{};var t=!0,r=!1,o=void 0;try{for(var u=arguments.length,a=Array(u>1?u-1:0),l=1;u>l;l++)a[l-1]=arguments[l];for(var s,f=a[Symbol.iterator]();!(t=(s=f.next()).done);t=!0){var c=s.value,p=!0,d=!1,y=void 0;try{for(var v,h=i(c||{})[Symbol.iterator]();!(p=(v=h.next()).done);p=!0){var m=n(v.value,2),b=m[0],g=m[1];e[b]=g}}catch(O){d=!0,y=O}finally{try{!p&&h["return"]&&h["return"]()}finally{if(d)throw y}}}}catch(O){r=!0,o=O}finally{try{!t&&f["return"]&&f["return"]()}finally{if(r)throw o}}return e},promisedTimeout:function(e){return new Promise(function(t){return setTimeout(t,e)})},map:function(e,t){var r=[],n=!0,o=!1,i=void 0;try{for(var u,a=e[Symbol.iterator]();!(n=(u=a.next()).done);n=!0){var l=u.value;r.push(t(l))}}catch(s){o=!0,i=s}finally{try{!n&&a["return"]&&a["return"]()}finally{if(o)throw i}}return r},mapObj:function(e,t){var r={},o=!0,u=!1,a=void 0;try{for(var l,s=i(e)[Symbol.iterator]();!(o=(l=s.next()).done);o=!0){var f=n(l.value,2),c=f[0],p=f[1];r[c]=t(c,p)}}catch(d){u=!0,a=d}finally{try{!o&&s["return"]&&s["return"]()}finally{if(u)throw a}}return r},setDefaults:function(){for(var e=arguments.length,t=Array(e),a=0;e>a;a++)t[a]=arguments[a];var l=t.pop();"function"!=typeof l&&(t.push(l),l=function(e,t){return t});var s=t[t.length-1]||{},f=t.slice(0).reverse(),c=function(e){var r=void 0,n=!0,o=!1,i=void 0;try{for(var u,a=f[Symbol.iterator]();!(n=(u=a.next()).done);n=!0){var s=u.value;null==r&&(r=s[e])}}catch(c){o=!0,i=c}finally{try{!n&&a["return"]&&a["return"]()}finally{if(o)throw i}}return l(e,r,t)},p=!0,d=!1,y=void 0;try{for(var v,h=function(){var e=n(v.value,2),i=e[0],a=e[1];if(o(t[0][i])){var f=u.map(t,function(e){return e[i]||{}});a=u.setDefaults.apply(u,r(f).concat([l]))}else a=c(i);s[i]=a},m=i(u.merge.apply(u,[{}].concat(t)))[Symbol.iterator]();!(p=(v=m.next()).done);p=!0)h()}catch(b){d=!0,y=b}finally{try{!p&&m["return"]&&m["return"]()}finally{if(d)throw y}}return s},capitalize:function(e){return null!=e?""+e[0].toUpperCase()+e.slice(1):void 0}}},function(e,t){"use strict";e.exports={form:{component:"form"},errors:{component:"errors"},submit:{component:"submit",htmlInputType:"submit"},string:{component:"input",htmlInputType:"string"},password:{component:"input",htmlInputType:"password"},email:{component:"input",htmlInputType:"email"},url:{component:"input",htmlInputType:"url"},tel:{component:"input",htmlInputType:"tel"},"boolean":{component:"checkbox",htmlInputType:"checkbox"},text:{component:"text"},file:{component:"file",htmlInputType:"file"},"float":{component:"number"},"switch":{component:"switch"},time:{component:"timepicker"},select:{component:"select"},color:{component:"color"}}},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l),f=function(e){function t(){o(this,t),a(Object.getPrototypeOf(t.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.Submit"}return i(t,e),u(t,[{key:"render",value:function(){var e=this.context.frigForm.theme.component("submit");return s["default"].createElement(e,this.props)}}],[{key:"contextTypes",value:{frigForm:s["default"].PropTypes.shape({theme:s["default"].PropTypes.object.isRequired}).isRequired},enumerable:!0}]),t}(s["default"].Component);t["default"]=f,e.exports=t["default"]},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l),f=function(e){function t(){o(this,t),a(Object.getPrototypeOf(t.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.FormErrorList"}return i(t,e),u(t,[{key:"render",value:function(){var e=this.context.frigForm.theme.component("errors");return s["default"].createElement(e,this.props)}}],[{key:"contextTypes",value:{frigForm:s["default"].PropTypes.shape({theme:s["default"].PropTypes.object.isRequired}).isRequired},enumerable:!0}]),t}(s["default"].Component);t["default"]=f,e.exports=t["default"]},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(13),s=n(l),f=r(2),c=n(f),p=function(e){function t(){o(this,t),a(Object.getPrototypeOf(t.prototype),"constructor",this).apply(this,arguments),this.displayName="Fieldset",this.state={invalidForms:[]}}return i(t,e),u(t,[{key:"componentWillMount",value:function(){this.context.frigForm.childComponentWillMount(this.props.name,this)}},{key:"componentWillUnmount",value:function(){this.context.frigForm.childComponentWillUnmount(this.props.name,this)}},{key:"componentWillReceiveProps",value:function(e,t){var r=this.state.invalidForms,n=this._dataValues(t).length;r=r.slice(0,n),this.setState({invalidForms:r})}},{key:"validate",value:function(){return this._forms().forEach(function(e){return e.validate()}),this.isValid()}},{key:"isValid",value:function(){return this._forms().every(function(e){return e.isValid()})}},{key:"isModified",value:function(){return this._forms().some(function(e){return e.isModified()})}},{key:"modifications",value:function(){var e=this._forms().filter(function(e){return e.isModified()}).map(function(e){return e.modifications()}),t=Array.isArray(this.context.frigForm.data.value||[]);return t?e:e[0]}},{key:"resetModified",value:function(){this._forms().forEach(function(e){return e.resetModified()})}},{key:"reset",value:function(){this._forms().forEach(function(e){return e.reset()})}},{key:"_forms",value:function(){var e=this;return Object.keys(this.refs||{}).map(function(t){return e.refs[t]})}},{key:"_listForKey",value:function(e,t){return Array.isArray(e)?e[t]:e}},{key:"_formProps",value:function(e){var t=e.data,r=e.index;return Object.assign({},this.context.frigForm,{index:r,key:r,ref:r,errors:this._listForKey(this.props.errors,r),saved:this._listForKey(this.props.saved,r),internalErrors:this._listForKey(this.props.internalErrors,r),data:t,onChange:this._onFormRequestChange.bind(this,r)})}},{key:"_onFormRequestChange",value:function(e,t,r){var n=this.props.data.value;Array.isArray(n)?(n=n.slice(),n[e]=t):n=t;var o=this.state.invalidForms;r?o[e]=!0:delete o[e],r=0===o.filter(function(e){return e===!0}).length,this.setState({invalidForms:o}),this.props.data.requestChange(n,r)}},{key:"_dataValues",value:function(){var e=arguments.length<=0||void 0===arguments[0]?this.context:arguments[0],t=e.frigForm.data.value||[];return Array.isArray(t)?t:[t]}},{key:"render",value:function(){var e=this,t=0,r=this._dataValues();return c["default"].createElement("div",null,r.map(function(r){return c["default"].createElement(s["default"],e._formProps({data:r,index:t++}))}))}}],[{key:"contextTypes",value:{frigForm:c["default"].PropTypes.shape({data:c["default"].PropTypes.object.isRequired,theme:c["default"].PropTypes.object.isRequired,errors:c["default"].PropTypes.object.isRequired,layout:c["default"].PropTypes.string.isRequired,saved:c["default"].PropTypes.object.isRequired,requestChildComponentChange:c["default"].PropTypes.func.isRequired,childComponentWillMount:c["default"].PropTypes.func.isRequired,childComponentWillUnmount:c["default"].PropTypes.func.isRequired}).isRequired},enumerable:!0}]),t}(c["default"].Component);t["default"]=p,e.exports=t["default"]},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l),f=r(1),c=n(f),p=function(e){function t(){o(this,t),a(Object.getPrototypeOf(t.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.FieldsetNestedForm"}return i(t,e),u(t,[{key:"getChildContext",value:function(){return{frigFieldset:{index:this.props.index}}}},{key:"render",value:function(){return s["default"].createElement("div",null,this.props.children)}}],[{key:"childContextTypes",value:{frigFieldset:s["default"].PropTypes.object},enumerable:!0}]),t}(c["default"]);t["default"]=p,e.exports=t["default"]},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),
-n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l),f=function(e){function t(){o(this,t),a(Object.getPrototypeOf(t.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.FieldsetText"}return i(t,e),u(t,[{key:"render",value:function(){var e=Object.assign({},this.props);return delete e.text,s["default"].createElement("span",e,this.props.text(this.context.frigFieldset.index))}}]),t}(s["default"].Component);t["default"]=f,e.exports=t["default"]},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}Object.defineProperty(t,"__esModule",{value:!0});var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l),f=r(16),c=n(f),p=function(e){function t(){o(this,t),a(Object.getPrototypeOf(t.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.ValueLinkedSelect"}return i(t,e),u(t,[{key:"componentWillMount",value:function(){var e=0!==(this.props.options||[]).length;e&&null==this.props.valueLink.value&&this._setInitialValue(this.props)}},{key:"componentWillReceiveProps",value:function(e){var t=0!==(e.options||[]).length;t&&null==e.valueLink.value&&this._setInitialValue(e),t||null==e.valueLink.value||e.valueLink.requestChange(void 0,{setModified:!1})}},{key:"_setInitialValue",value:function(e){if(!(e.options.filter(function(e){var t=e.value;return null==t}).length>0)){var t=e.valueLink.value||e.options[0].value;e.valueLink.requestChange(t,{setModified:!1})}}},{key:"_getValue",value:function(){var e=c["default"].findDOMNode(this.refs.input),t={},r=!0,n=!1,o=void 0;try{for(var i,u=this.props.options[Symbol.iterator]();!(r=(i=u.next()).done);r=!0){var a=i.value,l=a.value;null!=l&&(l=a.value.toString()),t[l]=a.value}}catch(s){n=!0,o=s}finally{try{!r&&u["return"]&&u["return"]()}finally{if(n)throw o}}return"select-multiple"===e.type?function(){var r=[],n=!0,o=!1,i=void 0;try{for(var u,a=e.options[Symbol.iterator]();!(n=(u=a.next()).done);n=!0){var l=u.value;l.selected&&r.push(t[l.value])}}catch(s){o=!0,i=s}finally{try{!n&&a["return"]&&a["return"]()}finally{if(o)throw i}}return r}():""===e.value?null:t[e.value]||e.value}},{key:"_onChange",value:function(){this.props.valueLink.requestChange(this._getValue())}},{key:"_inputHtml",value:function(){var e=this.props.valueLink.value;this.props.multiple&&(e=e.map(function(e){return e.value.toString()}));var t=Object.assign({},this.props,{ref:"input",valueLink:{value:e,requestChange:this._onChange.bind(this)}});for(var r in["valueLink","options"])delete t[r];return t}},{key:"_selectOption",value:function(e){var t={key:"option-"+e.label,value:e.value||""};return s["default"].createElement("option",t,e.label)}},{key:"render",value:function(){return s["default"].createElement("select",this._inputHtml(),this.props.options.map(this._selectOption))}}],[{key:"propTypes",value:{options:s["default"].PropTypes.array.isRequired,valueLink:s["default"].PropTypes.object.isRequired},enumerable:!0}]),t}(s["default"].Component);t["default"]=p,e.exports=t["default"]},function(e,r){e.exports=t},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l);e.exports=function(e){return function(t){function r(){o(this,r),a(Object.getPrototypeOf(r.prototype),"constructor",this).apply(this,arguments),this.displayName="Frig.HigherOrderComponents.Boolean"}return i(r,t),u(r,[{key:"componentWillMount",value:function(){this._normalizeValue(this.props)}},{key:"componentWillReceiveProps",value:function(e){this._normalizeValue(e)}},{key:"_normalizeValue",value:function(e){var t=e.valueLink.value;t!==this.props.offValue&&t!==this.props.onValue&&this._change(null!=t,{setModified:!1})}},{key:"_change",value:function(e){for(var t,r=e?this.props.onValue:this.props.offValue,n=arguments.length,o=Array(n>1?n-1:0),i=1;n>i;i++)o[i-1]=arguments[i];(t=this.props.valueLink).requestChange.apply(t,[r].concat(o))}},{key:"render",value:function(){var t=Object.assign({},this.props,{ref:"child",valueLink:{value:this.props.valueLink.value===this.props.onValue,requestChange:this._change.bind(this)}});return s["default"].createElement(e,t)}}],[{key:"propTypes",value:{valueLink:s["default"].PropTypes.object.isRequired,onValue:s["default"].PropTypes.any.isRequired,offValue:s["default"].PropTypes.any.isRequired},enumerable:!0},{key:"defaultProps",value:{onValue:!0,offValue:!1},enumerable:!0}]),r}(s["default"].Component)}},function(e,t,r){"use strict";function n(e){return e&&e.__esModule?e:{"default":e}}function o(e,t){if(!(e instanceof t))throw new TypeError("Cannot call a class as a function")}function i(e,t){if("function"!=typeof t&&null!==t)throw new TypeError("Super expression must either be null or a function, not "+typeof t);e.prototype=Object.create(t&&t.prototype,{constructor:{value:e,enumerable:!1,writable:!0,configurable:!0}}),t&&(Object.setPrototypeOf?Object.setPrototypeOf(e,t):e.__proto__=t)}var u=function(){function e(e,t){for(var r=0;r<t.length;r++){var n=t[r];n.enumerable=n.enumerable||!1,n.configurable=!0,"value"in n&&(n.writable=!0),Object.defineProperty(e,n.key,n)}}return function(t,r,n){return r&&e(t.prototype,r),n&&e(t,n),t}}(),a=function(e,t,r){for(var n=!0;n;){var o=e,i=t,u=r;n=!1,null===o&&(o=Function.prototype);var a=Object.getOwnPropertyDescriptor(o,i);if(void 0!==a){if("value"in a)return a.value;var l=a.get;if(void 0===l)return;return l.call(u)}var s=Object.getPrototypeOf(o);if(null===s)return;e=s,t=i,r=u,n=!0,a=s=void 0}},l=r(2),s=n(l),f=r(16),c=n(f);e.exports=function(e){var t=e.prototype.displayName;return function(r){function n(){o(this,n),a(Object.getPrototypeOf(n.prototype),"constructor",this).call(this),this.state={focused:!1},this.displayName="Frig.HigherOrderComponents.Focusable("+t+")",this._onDocumentClick=this._onDocumentClick.bind(this),this._onFocus=this._onFocus.bind(this)}return i(n,r),u(n,[{key:"componentDidMount",value:function(){window.addEventListener("click",this._onDocumentClick),window.addEventListener("focus",this._onFocus,!0)}},{key:"componentWillUnmount",value:function(){window.removeEventListener("click",this._onDocumentClick),window.removeEventListener("focus",this._onFocus)}},{key:"_onDocumentClick",value:function(e){this.setState({focused:this._containsDOMElement(e.target)})}},{key:"_onFocus",value:function(){this.setState({focused:this._containsDOMElement(document.activeElement)})}},{key:"_containsDOMElement",value:function(e){var t=c["default"].findDOMNode(this);return t===e||t.contains(e)}},{key:"render",value:function(){var t=Object.assign({},this.props,{focused:this.state.focused});return s["default"].createElement(e,t)}}]),n}(s["default"].Component)}}])});
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory(require("react"), require("react-dom"));
+	else if(typeof define === 'function' && define.amd)
+		define(["react", "react-dom"], factory);
+	else if(typeof exports === 'object')
+		exports["Frig"] = factory(require("react"), require("react-dom"));
+	else
+		root["Frig"] = factory(root["React"], root["ReactDOM"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_15__) {
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
+
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			exports: {},
+/******/ 			id: moduleId,
+/******/ 			loaded: false
+/******/ 		};
+
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+
+
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.factories = exports.util = exports.HigherOrderComponents = exports.ValueLinkedSelect = exports.FieldsetText = exports.Fieldset = exports.FormErrorList = exports.Submit = exports.UnboundInput = exports.Input = exports.Form = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _form = __webpack_require__(1);
+
+	var _form2 = _interopRequireDefault(_form);
+
+	var _input = __webpack_require__(4);
+
+	var _input2 = _interopRequireDefault(_input);
+
+	var _unbound_input = __webpack_require__(5);
+
+	var _unbound_input2 = _interopRequireDefault(_unbound_input);
+
+	var _submit = __webpack_require__(9);
+
+	var _submit2 = _interopRequireDefault(_submit);
+
+	var _form_error_list = __webpack_require__(10);
+
+	var _form_error_list2 = _interopRequireDefault(_form_error_list);
+
+	var _fieldset = __webpack_require__(11);
+
+	var _fieldset2 = _interopRequireDefault(_fieldset);
+
+	var _fieldset_text = __webpack_require__(13);
+
+	var _fieldset_text2 = _interopRequireDefault(_fieldset_text);
+
+	var _value_linked_select = __webpack_require__(14);
+
+	var _value_linked_select2 = _interopRequireDefault(_value_linked_select);
+
+	var _util = __webpack_require__(7);
+
+	var _util2 = _interopRequireDefault(_util);
+
+	var _type_mapping = __webpack_require__(8);
+
+	var _type_mapping2 = _interopRequireDefault(_type_mapping);
+
+	var _factories = __webpack_require__(16);
+
+	var factories = _interopRequireWildcard(_factories);
+
+	var _boolean = __webpack_require__(17);
+
+	var _boolean2 = _interopRequireDefault(_boolean);
+
+	var _focusable = __webpack_require__(18);
+
+	var _focusable2 = _interopRequireDefault(_focusable);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HigherOrderComponents = {
+	  Boolean: _boolean2.default,
+	  Focusable: _focusable2.default
+	};
+
+	// Setter and getter for the Frig default theme
+	function defaultTheme(theme) {
+	  if (theme == null) return _form2.default.defaultProps.theme;
+	  if ((typeof theme === 'undefined' ? 'undefined' : _typeof(theme)) !== 'object') {
+	    throw new Error('Invalid Frig theme. Expected an object');
+	  }
+	  _form2.default.defaultProps.theme = theme;
+	  _unbound_input2.default.defaultProps.theme = theme;
+	  return true;
+	}
+
+	// This is so consumers can call `Frig.defaultTheme()`.
+	// All other exports are named and must be imported/destructured.
+	exports.default = {
+	  defaultTheme: defaultTheme,
+	  typeMapping: _type_mapping2.default
+	};
+	exports.Form = _form2.default;
+	exports.Input = _input2.default;
+	exports.UnboundInput = _unbound_input2.default;
+	exports.Submit = _submit2.default;
+	exports.FormErrorList = _form_error_list2.default;
+	exports.Fieldset = _fieldset2.default;
+	exports.FieldsetText = _fieldset_text2.default;
+	exports.ValueLinkedSelect = _value_linked_select2.default;
+	exports.HigherOrderComponents = HigherOrderComponents;
+	exports.util = _util2.default;
+	exports.factories = factories;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp2;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _abstract_form = __webpack_require__(3);
+
+	var _abstract_form2 = _interopRequireDefault(_abstract_form);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/*
+	 * A JSX-compatible React DOM Component.
+	 * Form should be used as the top level component above any other frig
+	 * components.
+	 */
+	var Form = (_temp2 = _class = function (_AbstractForm) {
+	  _inherits(Form, _AbstractForm);
+
+	  function Form() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, Form);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Form)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Form', _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(Form, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      if (!this.props.data) {
+	        throw new Error('<Form data={} /> must always be defined, got: ' + this.props.data);
+	      }
+	      if (!this.props.onChange) {
+	        throw new Error('<Form onChange={} /> must always be defined, got: ' + this.props.onChange);
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var ThemedForm = this.props.theme.Form;
+	      return _react2.default.createElement(
+	        ThemedForm,
+	        _extends({}, this._themedFormProps(), {
+	          ref: 'form'
+	        }),
+	        this.props.children
+	      );
+	    }
+	  }]);
+
+	  return Form;
+	}(_abstract_form2.default), _class.propTypes = {
+	  data: _react2.default.PropTypes.object.isRequired,
+	  onChange: _react2.default.PropTypes.func.isRequired,
+	  errors: _react2.default.PropTypes.object.isRequired,
+	  saved: _react2.default.PropTypes.object.isRequired,
+	  theme: _react2.default.PropTypes.object.isRequired,
+	  typeMapping: _react2.default.PropTypes.objectOf(_react2.default.PropTypes.string),
+	  layout: _react2.default.PropTypes.string.isRequired,
+	  align: _react2.default.PropTypes.string.isRequired,
+	  // Callbacks
+	  onSubmit: _react2.default.PropTypes.func
+	}, _class.defaultProps = {
+	  errors: {},
+	  saved: {},
+	  theme: undefined,
+	  typeMapping: {},
+	  layout: 'vertical',
+	  align: 'left',
+	  onSubmit: function onSubmit() {}
+	}, _class.childContextTypes = _abstract_form2.default.childContextTypes, _temp2);
+	exports.default = Form;
+
+/***/ },
+/* 2 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ },
+/* 3 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp2;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// Note about eslint rule below:
+	// AbstractForm does not have a render() method (Form and FieldsetNestedForm do).
+	// ESLint complains about render "not having a return statement", when really
+	// there is no render method at all.
+	var AbstractForm = (_temp2 = _class = function (_React$Component) {
+	  _inherits(AbstractForm, _React$Component);
+
+	  function AbstractForm() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, AbstractForm);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(AbstractForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this._childComponentsByName = {}, _this.childComponentWillMount = function (name, component) {
+	      _this._childComponentsByName[name] = component;
+	    }, _this.childComponentWillUnmount = function (name) {
+	      delete _this._childComponentsByName[name];
+	    }, _this._onChildRequestChange = function (k, v) {
+	      // Update the onChange listener with a copy of the existing data merged with
+	      // this new input value
+	      _this.props.onChange(Object.assign({}, _this.props.data, _defineProperty({}, k, v)));
+	    }, _this._onSubmit = function (e) {
+	      if (!_this.validate()) return e.preventDefault();
+	      return _this.props.onSubmit(e);
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  } // eslint-disable-line react/require-render-return,max-len
+
+
+	  _createClass(AbstractForm, [{
+	    key: 'getChildContext',
+	    value: function getChildContext() {
+	      var _props = this.props;
+	      var align = _props.align;
+	      var layout = _props.layout;
+	      var theme = _props.theme;
+	      var errors = _props.errors;
+	      var saved = _props.saved;
+	      var data = _props.data;
+
+	      return {
+	        frigForm: {
+	          align: align,
+	          layout: layout,
+	          theme: theme,
+	          errors: errors,
+	          saved: saved,
+	          data: data,
+	          requestChildComponentChange: this._onChildRequestChange,
+	          childComponentWillMount: this.childComponentWillMount,
+	          childComponentWillUnmount: this.childComponentWillUnmount,
+	          submit: this._onSubmit
+	        }
+	      };
+	    }
+	  }, {
+	    key: 'validate',
+
+
+	    /*
+	     * =========================================================================
+	     * Public Functions
+	     * =========================================================================
+	     */
+
+	    value: function validate() {
+	      return this._childComponents().filter(function (c) {
+	        return !c.validate();
+	      }).length === 0;
+	    }
+	  }, {
+	    key: 'isValid',
+	    value: function isValid() {
+	      return this._childComponents().filter(function (c) {
+	        return !c.isValid();
+	      }).length === 0;
+	    }
+	  }, {
+	    key: 'isModified',
+	    value: function isModified() {
+	      return this._childComponents().filter(function (c) {
+	        return c.isModified();
+	      }).length !== 0;
+	    }
+	  }, {
+	    key: 'modifications',
+	    value: function modifications() {
+	      var _this2 = this;
+
+	      var modifications = {};
+	      var names = Object.keys(this._childComponentsByName);
+	      names.forEach(function (name) {
+	        var c = _this2._childComponentsByName[name];
+	        if (c.isModified()) {
+	          var isFieldset = c.modifications != null;
+	          modifications[name] = isFieldset ? c.modifications() : true;
+	        }
+	      });
+	      return modifications;
+	    }
+	  }, {
+	    key: 'resetModified',
+	    value: function resetModified() {
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+
+	      try {
+	        for (var _iterator = this._childComponents()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var c = _step.value;
+	          c.resetModified();
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator.return) {
+	            _iterator.return();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      var _iteratorNormalCompletion2 = true;
+	      var _didIteratorError2 = false;
+	      var _iteratorError2 = undefined;
+
+	      try {
+	        for (var _iterator2 = this._childComponents()[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	          var c = _step2.value;
+	          c.reset();
+	        }
+	      } catch (err) {
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	            _iterator2.return();
+	          }
+	        } finally {
+	          if (_didIteratorError2) {
+	            throw _iteratorError2;
+	          }
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'formData',
+	    value: function formData() {
+	      return new FormData(this.refs.form);
+	    }
+
+	    /*
+	     * =========================================================================
+	     * Private functions
+	     * =========================================================================
+	     */
+
+	  }, {
+	    key: '_themedFormProps',
+	    value: function _themedFormProps() {
+	      var formProps = Object.assign({}, this.props);
+	      formProps.formHtml = Object.assign({}, formProps.formHtml || {}, {
+	        onSubmit: this._onSubmit.bind(this)
+	      });
+	      return formProps;
+	    }
+	  }, {
+	    key: '_childComponents',
+	    value: function _childComponents() {
+	      var componentsByName = this._childComponentsByName;
+	      return Object.keys(componentsByName).map(function (k) {
+	        return componentsByName[k];
+	      });
+	    }
+	  }]);
+
+	  return AbstractForm;
+	}(_react2.default.Component), _class.childContextTypes = {
+	  frigForm: _react2.default.PropTypes.object
+	}, _class.propTypes = {
+	  align: _react2.default.PropTypes.string.isRequired,
+	  layout: _react2.default.PropTypes.string.isRequired,
+	  theme: _react2.default.PropTypes.object.isRequired,
+	  errors: _react2.default.PropTypes.object.isRequired,
+	  saved: _react2.default.PropTypes.object.isRequired,
+	  data: _react2.default.PropTypes.object.isRequired,
+	  onChange: _react2.default.PropTypes.func.isRequired,
+	  onSubmit: _react2.default.PropTypes.func
+	}, _temp2);
+	exports.default = AbstractForm;
+
+/***/ },
+/* 4 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp2;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _unbound_input = __webpack_require__(5);
+
+	var _unbound_input2 = _interopRequireDefault(_unbound_input);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Input = (_temp2 = _class = function (_React$Component) {
+	  _inherits(Input, _React$Component);
+
+	  function Input() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, Input);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Input)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Frig.Input', _this._onChange = function (val, valid) {
+	      // Update the value link (used by Frig form components)
+	      _this.context.frigForm.requestChildComponentChange(_this.props.name, val);
+	      // Run the external callbacks (external API, not used by Frig internally)
+	      _this.props.onChange(val, valid);
+	      if (valid) _this.props.onValidChange(val, valid);
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(Input, [{
+	    key: 'componentWillMount',
+
+
+	    /*
+	     * =========================================================================
+	     * React Lifecycle
+	     * =========================================================================
+	     */
+
+	    value: function componentWillMount() {
+	      this.context.frigForm.childComponentWillMount(this.props.name, this);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.context.frigForm.childComponentWillUnmount(this.props.name, this);
+	    }
+
+	    /*
+	     * =========================================================================
+	     * Public Functions
+	     * =========================================================================
+	     */
+
+	  }, {
+	    key: 'validate',
+	    value: function validate() {
+	      /* istanbul ignore next */
+	      return this.refs.unboundInput.validate();
+	    }
+	  }, {
+	    key: 'isValid',
+	    value: function isValid() {
+	      /* istanbul ignore next */
+	      return this.refs.unboundInput.isValid();
+	    }
+	  }, {
+	    key: 'isModified',
+	    value: function isModified() {
+	      /* istanbul ignore next */
+	      return this.refs.unboundInput.isModified();
+	    }
+	  }, {
+	    key: 'resetModified',
+	    value: function resetModified() {
+	      /* istanbul ignore next */
+	      return this.refs.unboundInput.resetModified();
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      /* istanbul ignore next */
+	      return this.refs.unboundInput.reset();
+	    }
+
+	    /*
+	     * =========================================================================
+	     * Private functions
+	     * =========================================================================
+	     */
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_unbound_input2.default, _extends({}, this.props, {
+	        ref: 'unboundInput',
+	        errors: (this.props.errors || []).slice().concat(this.context.frigForm.errors[this.props.name] || []),
+	        saved: this.context.frigForm.saved[this.props.name],
+	        value: this.context.frigForm.data[this.props.name],
+	        onChange: this._onChange
+	      }));
+	    }
+	  }]);
+
+	  return Input;
+	}(_react2.default.Component), _class.propTypes = {
+	  name: _react2.default.PropTypes.string.isRequired,
+	  errors: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.string),
+	  layout: _react2.default.PropTypes.string,
+	  align: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  disabled: _react2.default.PropTypes.bool,
+	  multiple: _react2.default.PropTypes.bool,
+	  type: _react2.default.PropTypes.string,
+	  options: _react2.default.PropTypes.array,
+	  validate: _react2.default.PropTypes.bool,
+	  // Callbacks (Public API)
+	  onChange: _react2.default.PropTypes.func.isRequired,
+	  onValidChange: _react2.default.PropTypes.func.isRequired
+	}, _class.contextTypes = {
+	  frigForm: _react2.default.PropTypes.shape({
+	    data: _react2.default.PropTypes.object.isRequired,
+	    theme: _react2.default.PropTypes.object.isRequired,
+	    errors: _react2.default.PropTypes.object.isRequired,
+	    layout: _react2.default.PropTypes.string.isRequired,
+	    align: _react2.default.PropTypes.string.isRequired,
+	    saved: _react2.default.PropTypes.object.isRequired,
+	    // Callbacks (Private API - reserved for frig form use only)
+	    requestChildComponentChange: _react2.default.PropTypes.func.isRequired,
+	    childComponentWillMount: _react2.default.PropTypes.func.isRequired,
+	    childComponentWillUnmount: _react2.default.PropTypes.func.isRequired
+	  }).isRequired
+	}, _class.defaultProps = {
+	  validate: true,
+	  disabled: false,
+	  errors: [],
+	  onChange: function onChange() {},
+	  onValidChange: function onValidChange() {}
+	}, _temp2);
+	exports.default = Input;
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp2;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _validations2 = __webpack_require__(6);
+
+	var _validations3 = _interopRequireDefault(_validations2);
+
+	var _util = __webpack_require__(7);
+
+	var _type_mapping = __webpack_require__(8);
+
+	var _type_mapping2 = _interopRequireDefault(_type_mapping);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var UnboundInput = (_temp2 = _class = function (_React$Component) {
+	  _inherits(UnboundInput, _React$Component);
+
+	  function UnboundInput() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, UnboundInput);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(UnboundInput)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Frig.UnboundInput', _this.state = {
+	      modified: false,
+	      validationRequested: false
+	    }, _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(UnboundInput, [{
+	    key: 'validate',
+
+
+	    /*
+	     * =========================================================================
+	     * Public Functions
+	     * =========================================================================
+	     */
+
+	    value: function validate() {
+	      this.setState({ validationRequested: true });
+	      return this.isValid();
+	    }
+	  }, {
+	    key: 'isValid',
+	    value: function isValid() {
+	      return this._errors() == null;
+	    }
+	  }, {
+	    key: 'isModified',
+	    value: function isModified() {
+	      return this.state.modified;
+	    }
+	  }, {
+	    key: 'resetModified',
+	    value: function resetModified() {
+	      this.setState({ modified: false });
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      this.setState({
+	        modified: false,
+	        validationRequested: false
+	      });
+	    }
+
+	    /*
+	     * =========================================================================
+	     * Private functions
+	     * =========================================================================
+	     */
+
+	  }, {
+	    key: '_errors',
+	    value: function _errors() {
+	      var nextValue = arguments.length <= 0 || arguments[0] === undefined ? this._value() : arguments[0];
+
+	      var errors = this.props.errors;
+	      var validate = (this.isModified() || this.state.validationRequested) && this.props.validate;
+	      if (validate) {
+	        // Create themed props for the next nextValue passed to this function
+	        var nextProps = Object.assign({}, this.props);
+	        nextProps.valueLink = { value: nextValue };
+
+	        // Running each validation
+	        var _iteratorNormalCompletion = true;
+	        var _didIteratorError = false;
+	        var _iteratorError = undefined;
+
+	        try {
+	          for (var _iterator = (0, _util.entries)(this._validations())[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	            var _step$value = _slicedToArray(_step.value, 2);
+
+	            var k = _step$value[0];
+	            var validationOpts = _step$value[1];
+
+	            if (validationOpts === false || validationOpts == null) continue;
+	            errors = errors.concat(_validations3.default[k](nextProps, validationOpts) || []);
+	          }
+	        } catch (err) {
+	          _didIteratorError = true;
+	          _iteratorError = err;
+	        } finally {
+	          try {
+	            if (!_iteratorNormalCompletion && _iterator.return) {
+	              _iterator.return();
+	            }
+	          } finally {
+	            if (_didIteratorError) {
+	              throw _iteratorError;
+	            }
+	          }
+	        }
+	      }
+	      // If there are no errors then errors should be falsie
+	      if (errors.length === 0) errors = undefined;
+	      // Return the errors
+	      return errors;
+	    }
+	  }, {
+	    key: '_value',
+	    value: function _value() {
+	      return this.props.value;
+	    }
+	  }, {
+	    key: '_themedInputProps',
+	    value: function _themedInputProps() {
+	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
+
+	      var title = nextProps.title || (0, _util.humanize)(nextProps.name);
+	      // Defaults
+	      var defaults = {
+	        title: title,
+	        label: title,
+	        placeholder: title,
+	        layout: this.context.frigForm.layout,
+	        align: this.context.frigForm.align
+	      };
+	      // Mixing in the defaults
+	      var themedProps = Object.assign(defaults, nextProps);
+	      var themedInputHtml = themedProps.inputHtml || {};
+	      // Overrides
+	      var overrides = {
+	        options: (nextProps.options || []).map(this._normalizeOption),
+	        modified: this.isModified(),
+	        // DOM attributes for the label element
+	        labelHtml: Object.assign({}, themedProps.labelHtml || {}, {
+	          htmlFor: themedProps.name
+	        }),
+	        // DOM attributes + React ref + callbacks for the input element
+	        inputHtml: Object.assign({}, themedInputHtml, {
+	          onBlur: this._onBlur.bind(this),
+	          autoFocus: themedProps.autoFocus,
+	          className: themedProps.className,
+	          disabled: themedProps.disabled,
+	          multiple: themedProps.multiple,
+	          name: themedProps.name,
+	          placeholder: themedProps.placeholder,
+	          type: themedInputHtml.type || this._typeMapping().htmlInputType,
+	          ref: 'input'
+	        }),
+	        valueLink: {
+	          value: this._value(),
+	          requestChange: this._onChange.bind(this)
+	        },
+	        errors: this._errors()
+	      };
+	      // TODO: Add type mapping
+	      return Object.assign(themedProps, overrides);
+	    }
+
+	    /*
+	     * Normalizes a set of arguments into an object with a value and a label
+	     * to be used to generate an option DOM element for use in a select input.
+	     * Accepts:
+	     * - a string (taken as both the label and value)
+	     * - an array of length 1 (first argument is both the label and value)
+	     * - an array of length 2 (first argument is the value, second is the label)
+	     * - an object with a value and label key (passthrough / no-change)
+	     */
+
+	  }, {
+	    key: '_normalizeOption',
+	    value: function _normalizeOption(option) {
+	      if (option == null) return undefined;
+
+	      // if option is an object with a label and a key return it unchanged
+	      if (option.label != null) return option;
+
+	      // converting option in the format of [key] to key
+	      if ((typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' && option.length === 1) {
+	        return {
+	          value: option[0],
+	          label: option[0]
+	        };
+	      }
+
+	      // if option is in the format [key, value]
+	      if ((typeof option === 'undefined' ? 'undefined' : _typeof(option)) === 'object' && option.length === 2) {
+	        return {
+	          value: option[0],
+	          label: option[1]
+	        };
+	      }
+	      // if option is in the format key
+	      return {
+	        value: option,
+	        label: option
+	      };
+	    }
+	  }, {
+	    key: '_validations',
+	    value: function _validations() {
+	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
+
+	      // Validations (these get mixed into the overrides)
+	      var defaults = {
+	        required: true
+	      };
+	      var validations = {};
+	      var _iteratorNormalCompletion2 = true;
+	      var _didIteratorError2 = false;
+	      var _iteratorError2 = undefined;
+
+	      try {
+	        for (var _iterator2 = (0, _util.entries)(_validations3.default)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+	          var _step2$value = _slicedToArray(_step2.value, 1);
+
+	          var k = _step2$value[0];
+
+	          validations[k] = nextProps[k] == null ? defaults[k] : nextProps[k];
+	        }
+	      } catch (err) {
+	        _didIteratorError2 = true;
+	        _iteratorError2 = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion2 && _iterator2.return) {
+	            _iterator2.return();
+	          }
+	        } finally {
+	          if (_didIteratorError2) {
+	            throw _iteratorError2;
+	          }
+	        }
+	      }
+
+	      return validations;
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange(val, opts) {
+	      if (this.props.type === 'submit') return;
+	      // Set the state and run validations
+	      if ((opts || {}).setModified !== false) {
+	        this.setState({ modified: true });
+	      }
+	      var valid = this._errors(val) == null;
+	      this.props.onChange(val, valid);
+	      if (valid) this.props.onValidChange(val, valid);
+	    }
+	  }, {
+	    key: '_onBlur',
+	    value: function _onBlur() {
+	      this.validate();
+	      var inputHtml = this.props.inputHtml;
+	      if (inputHtml != null && inputHtml.onBlur != null) inputHtml.onBlur();
+	    }
+	  }, {
+	    key: '_guessInputType',
+	    value: function _guessInputType() {
+	      var value = this._value();
+	      var jsType = typeof value === 'undefined' ? 'undefined' : _typeof(value);
+	      if (this.props.type != null) {
+	        return this.props.type;
+	      } else if (this.props.options != null) {
+	        return 'select';
+	      } else if (jsType === 'boolean') {
+	        return 'boolean';
+	      } else if (jsType === 'number') {
+	        return 'float';
+	      } else if (this.props.name.match(/password/i)) {
+	        return 'password';
+	      }
+
+	      return 'string';
+	    }
+
+	    // Generate the type mapping for an input component
+
+	  }, {
+	    key: '_typeMapping',
+	    value: function _typeMapping() {
+	      var typeMapping = Object.assign({}, _type_mapping2.default, this.context.frigForm.theme.type_mapping);
+	      return typeMapping[this._guessInputType()];
+	    }
+	  }, {
+	    key: '_themedComponent',
+	    value: function _themedComponent() {
+	      var _props = this.props;
+	      var name = _props.name;
+	      var type = _props.type;
+
+	      var typeName = this._typeMapping();
+	      if (typeName == null) {
+	        throw new Error(name + ': No type mapping found for type ' + type);
+	      }
+
+	      var component = this.context.frigForm.theme[typeName.component];
+	      if (component == null) {
+	        throw new Error(name + ': No ' + typeName.component + ' component found in theme');
+	      }
+	      return component;
+	    }
+
+	    /*
+	     * =========================================================================
+	     * React Lifecycle + Render
+	     * =========================================================================
+	     */
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var ThemedComponent = this._themedComponent();
+	      return _react2.default.createElement(ThemedComponent, this._themedInputProps());
+	    }
+	  }]);
+
+	  return UnboundInput;
+	}(_react2.default.Component), _class.propTypes = {
+	  name: _react2.default.PropTypes.string.isRequired,
+	  errors: _react2.default.PropTypes.array,
+	  layout: _react2.default.PropTypes.string,
+	  align: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  disabled: _react2.default.PropTypes.bool,
+	  multiple: _react2.default.PropTypes.bool,
+	  type: _react2.default.PropTypes.string,
+	  options: _react2.default.PropTypes.array,
+	  validate: _react2.default.PropTypes.bool,
+	  value: _react2.default.PropTypes.any,
+	  saved: _react2.default.PropTypes.bool,
+	  // Callbacks (Public API)
+	  onChange: _react2.default.PropTypes.func.isRequired,
+	  onValidChange: _react2.default.PropTypes.func.isRequired,
+	  inputHtml: _react2.default.PropTypes.object
+	}, _class.contextTypes = {
+	  frigForm: _react2.default.PropTypes.shape({
+	    theme: _react2.default.PropTypes.object.isRequired,
+	    layout: _react2.default.PropTypes.string.isRequired,
+	    align: _react2.default.PropTypes.string.isRequired
+	  }).isRequired
+	}, _class.defaultProps = {
+	  validate: true,
+	  disabled: false,
+	  errors: [],
+	  onChange: function onChange() {},
+	  onValidChange: function onValidChange() {}
+	}, _temp2);
+	exports.default = UnboundInput;
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var validations = {
+	  required: function required(props) {
+	    var value = props.valueLink.value;
+	    // if there is a null option then null is a valid value and there are not
+	    // any values for which required should return an error
+
+	    if ((props.options || []).filter(function (o) {
+	      return o.value == null;
+	    }).length > 0) {
+	      return undefined;
+	    }
+	    if (value != null && value !== '') return undefined;
+	    return 'This field is required.';
+	  },
+	  min: function min(props, opts) {
+	    var value = props.valueLink.value;
+
+	    if (value >= opts || value == null || value === '') return undefined;
+	    return 'Value cannot be less than ' + opts;
+	  },
+	  max: function max(props, opts) {
+	    var value = props.valueLink.value;
+
+	    if (value <= opts || value == null || value === '') return undefined;
+	    return 'Value cannot be greater than ' + opts;
+	  }
+	};
+
+	exports.default = validations;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	/*
+	 * Similar to the ECMA Script 7 proposed Object values function.
+	 * Returns an array of [key, value] arrays.
+	 * See http://stackoverflow.com/a/16643074/386193
+	 */
+	var entries = function entries(object) {
+	  var keys = Object.keys(object);
+	  return keys.map(function (key) {
+	    return [key, object[key]];
+	  });
+	};
+
+	var humanize = function humanize(key) {
+	  if (key == null) return undefined;
+	  var startOfWord = /([A-Z]|[0-9]+|_[a-z])/g;
+	  var humanString = key.replace(startOfWord, ' $1').replace(/_/g, '');
+	  return humanString[0].toUpperCase() + humanString.slice(1).toLowerCase();
+	};
+
+	module.exports = {
+	  entries: entries,
+	  humanize: humanize
+	};
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = {
+	  string: { component: 'Input', htmlInputType: 'string' },
+	  password: { component: 'Input', htmlInputType: 'password' },
+	  email: { component: 'Input', htmlInputType: 'email' },
+	  url: { component: 'Input', htmlInputType: 'url' },
+	  tel: { component: 'Input', htmlInputType: 'tel' },
+	  // search: { component: 'Input', htmlInputType: 'search' },
+	  // uuid: { component: 'Input', htmlInputType: 'text' },
+	  boolean: { component: 'Checkbox', htmlInputType: 'checkbox' },
+	  text: { component: 'Text' },
+	  file: { component: 'File', htmlInputType: 'file' },
+	  // hidden: { component: 'Input', htmlInputType: 'hidden' },
+	  // integer: { component: 'Input', htmlInputType: 'number' },
+	  float: { component: 'Number' },
+	  // decimal: { component: 'Input', htmlInputType: 'number' },
+	  // range: { component: 'Input', htmlInputType: 'range' },
+	  switch: { component: 'Switch' },
+	  // datetime: { component: 'Datetime' },
+	  // date: { component: 'Datetime' },
+	  time: { component: 'Timepicker' },
+	  select: { component: 'Select' },
+	  color: { component: 'Color' }
+	};
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Submit = function Submit(props, context) {
+	  var ThemedSubmit = context.frigForm.theme.Submit;
+	  return _react2.default.createElement(ThemedSubmit, props);
+	};
+
+	Submit.contextTypes = {
+	  frigForm: _react2.default.PropTypes.shape({
+	    theme: _react2.default.PropTypes.object.isRequired
+	  }).isRequired
+	};
+	Submit.displayName = 'Frig.Submit';
+
+	exports.default = Submit;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp2;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var FormErrorList = (_temp2 = _class = function (_React$Component) {
+	  _inherits(FormErrorList, _React$Component);
+
+	  function FormErrorList() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, FormErrorList);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(FormErrorList)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Frig.FormErrorList', _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(FormErrorList, [{
+	    key: '_errorsArray',
+	    value: function _errorsArray() {
+	      var errors = this.context.frigForm.errors;
+	      var name = this.props.name;
+
+	      return errors[name] || [];
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var ThemedErrorList = this.context.frigForm.theme.FormErrorList;
+	      return _react2.default.createElement(ThemedErrorList, { errors: this._errorsArray() });
+	    }
+	  }]);
+
+	  return FormErrorList;
+	}(_react2.default.Component), _class.defaultProps = {
+	  // This is the property of `errors` where Frig will look for form-level errors.
+	  // Set to 'base' by default, for compatibility with Active Record.
+	  name: 'base'
+	}, _class.contextTypes = {
+	  frigForm: _react2.default.PropTypes.shape({
+	    errors: _react2.default.PropTypes.object.isRequired,
+	    theme: _react2.default.PropTypes.shape({
+	      FormErrorList: _react2.default.PropTypes.any.isRequired
+	    }).isRequired
+	  }).isRequired
+	}, _class.propTypes = {
+	  name: _react2.default.PropTypes.string
+	}, _temp2);
+	exports.default = FormErrorList;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp2;
+
+	var _fieldset_nested_form = __webpack_require__(12);
+
+	var _fieldset_nested_form2 = _interopRequireDefault(_fieldset_nested_form);
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Fieldset = (_temp2 = _class = function (_React$Component) {
+	  _inherits(Fieldset, _React$Component);
+
+	  function Fieldset() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, Fieldset);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Fieldset)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Fieldset', _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(Fieldset, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.context.frigForm.childComponentWillMount(this.props.name, this);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.context.frigForm.childComponentWillUnmount(this.props.name, this);
+	    }
+	  }, {
+	    key: 'validate',
+	    value: function validate() {
+	      this._forms().forEach(function (form) {
+	        return form.validate();
+	      });
+	      return this.isValid();
+	    }
+	  }, {
+	    key: 'isValid',
+	    value: function isValid() {
+	      return this._forms().every(function (form) {
+	        return form.isValid();
+	      });
+	    }
+	  }, {
+	    key: 'isModified',
+	    value: function isModified() {
+	      return this._forms().some(function (form) {
+	        return form.isModified();
+	      });
+	    }
+	  }, {
+	    key: 'modifications',
+	    value: function modifications() {
+	      var mods = this._forms().map(function (form) {
+	        return form.modifications();
+	      });
+	      var nestedFormData = this.context.frigForm.data[this.props.name] || [];
+	      var isArray = Array.isArray(nestedFormData);
+	      if (!isArray) {
+	        // for the edge case where frigForm.data.myFieldset is a single
+	        // object instead of an array of objects
+	        return mods[0];
+	      }
+
+	      return mods;
+	    }
+	  }, {
+	    key: 'resetModified',
+	    value: function resetModified() {
+	      this._forms().forEach(function (form) {
+	        return form.resetModified();
+	      });
+	    }
+	  }, {
+	    key: 'reset',
+	    value: function reset() {
+	      this._forms().forEach(function (form) {
+	        return form.reset();
+	      });
+	    }
+	  }, {
+	    key: '_forms',
+	    value: function _forms() {
+	      var _this2 = this;
+
+	      return Object.keys(this.refs).map(function (k) {
+	        return _this2.refs[k];
+	      });
+	    }
+	  }, {
+	    key: '_contextAtIndex',
+	    value: function _contextAtIndex(index, keys) {
+	      var _this3 = this;
+
+	      return keys.reduce(function (contextAtIndex, key) {
+	        if (_this3.context.frigForm[key] == null) return {};
+
+	        var values = _this3.context.frigForm[key][_this3.props.name];
+	        var value = Array.isArray(values) ? values[index] : values;
+	        contextAtIndex[key] = value || {}; // eslint-disable-line no-param-reassign
+	        return contextAtIndex;
+	      }, {});
+	    }
+	  }, {
+	    key: '_formProps',
+	    value: function _formProps(_ref) {
+	      var data = _ref.data;
+	      var index = _ref.index;
+
+	      var _contextAtIndex2 = this._contextAtIndex(index, ['errors', 'saved']);
+
+	      var errors = _contextAtIndex2.errors;
+	      var saved = _contextAtIndex2.saved;
+
+	      var onChange = this._onChange.bind(this, index);
+	      return _extends({}, this.context.frigForm, {
+	        index: index,
+	        key: index,
+	        ref: index,
+	        errors: errors,
+	        saved: saved,
+	        data: data,
+	        onChange: onChange
+	      });
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange(index, nextFormData) {
+	      var data = this.context.frigForm.data[this.props.name];
+	      var nextData = void 0;
+	      if (Array.isArray(data)) {
+	        nextData = [].concat(_toConsumableArray(data));
+	        nextData[index] = nextFormData;
+	      } else {
+	        nextData = nextFormData;
+	      }
+	      // Relaying the request change to the upstream data
+	      this.context.frigForm.requestChildComponentChange(this.props.name, nextData);
+	    }
+	  }, {
+	    key: '_nestedFormDatas',
+	    value: function _nestedFormDatas() {
+	      var nextContext = arguments.length <= 0 || arguments[0] === undefined ? this.context : arguments[0];
+
+	      var dataValues = nextContext.frigForm.data[this.props.name] || [];
+	      return Array.isArray(dataValues) ? dataValues : [dataValues];
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this4 = this;
+
+	      var i = 0;
+	      var FieldsetNestedForm = this.props.FieldsetNestedForm;
+
+	      var nestedFormDatas = this._nestedFormDatas();
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        nestedFormDatas.map(function (data) {
+	          return _react2.default.createElement(
+	            FieldsetNestedForm,
+	            _this4._formProps({ data: data, index: i++ }),
+	            _this4.props.children
+	          );
+	        })
+	      );
+	    }
+	  }]);
+
+	  return Fieldset;
+	}(_react2.default.Component), _class.contextTypes = {
+	  frigForm: _react2.default.PropTypes.shape({
+	    data: _react2.default.PropTypes.object.isRequired,
+	    theme: _react2.default.PropTypes.object.isRequired,
+	    errors: _react2.default.PropTypes.object.isRequired,
+	    layout: _react2.default.PropTypes.string.isRequired,
+	    saved: _react2.default.PropTypes.object.isRequired,
+	    // Callbacks (Private API - reserved for frig form use only)
+	    requestChildComponentChange: _react2.default.PropTypes.func.isRequired,
+	    childComponentWillMount: _react2.default.PropTypes.func.isRequired,
+	    childComponentWillUnmount: _react2.default.PropTypes.func.isRequired
+	  }).isRequired
+	}, _class.propTypes = {
+	  name: _react2.default.PropTypes.string.isRequired,
+	  children: _react2.default.PropTypes.any.isRequired,
+	  FieldsetNestedForm: _react2.default.PropTypes.func.isRequired
+	}, _class.defaultProps = {
+	  FieldsetNestedForm: _fieldset_nested_form2.default
+	}, _temp2);
+	exports.default = Fieldset;
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+	var _class, _temp2;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _abstract_form = __webpack_require__(3);
+
+	var _abstract_form2 = _interopRequireDefault(_abstract_form);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// Nested forms (forms inside nested fieldsets)
+	var FieldsetNestedForm = (_temp2 = _class = function (_AbstractForm) {
+	  _inherits(FieldsetNestedForm, _AbstractForm);
+
+	  function FieldsetNestedForm() {
+	    var _Object$getPrototypeO;
+
+	    var _temp, _this, _ret;
+
+	    _classCallCheck(this, FieldsetNestedForm);
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	      args[_key] = arguments[_key];
+	    }
+
+	    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(FieldsetNestedForm)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Frig.FieldsetNestedForm', _temp), _possibleConstructorReturn(_this, _ret);
+	  }
+
+	  _createClass(FieldsetNestedForm, [{
+	    key: 'getChildContext',
+	    value: function getChildContext() {
+	      return _extends({}, _get(Object.getPrototypeOf(FieldsetNestedForm.prototype), 'getChildContext', this).call(this), {
+	        frigFieldset: {
+	          index: this.props.index
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.props.children
+	      );
+	    }
+	  }]);
+
+	  return FieldsetNestedForm;
+	}(_abstract_form2.default), _class.propTypes = _abstract_form2.default.propTypes, _class.defaultProps = _abstract_form2.default.defaultProps, _class.childContextTypes = _extends({}, _abstract_form2.default.childContextTypes, {
+	  frigFieldset: _react2.default.PropTypes.object
+	}), _temp2);
+	exports.default = FieldsetNestedForm;
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var FieldsetText = function FieldsetText(props, context) {
+	  var spanProps = Object.assign({}, props);
+	  delete spanProps.text;
+	  return _react2.default.createElement(
+	    'span',
+	    spanProps,
+	    props.text(context.frigFieldset.index)
+	  );
+	};
+	FieldsetText.propTypes = {
+	  text: _react2.default.PropTypes.func.isRequired
+	};
+	FieldsetText.contextTypes = {
+	  frigFieldset: _react2.default.PropTypes.object
+	};
+	FieldsetText.displayName = 'Frig.FieldsetText';
+
+	exports.default = FieldsetText;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _class, _temp;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(15);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/*
+	 * A minimal wrapper for the select component to provide the correct value
+	 * for valueLinks.
+	 *
+	 * Basically it's a solution to this: http://stackoverflow.com/q/24470852/386193
+	 *
+	 * Note: This class, unlike React.DOM.select, does not expect options to be
+	 * passed as child components. Instead you should pass your options as an array
+	 * of objects containing a label and a value.
+	 *
+	 * Example:
+	 *
+	 * ValueLinkedSelect({
+	 *   options: [
+	 *     {label: 'Canada', value: 'CA'}
+	 *     {label: 'United States', value: 'US'}
+	 *   ]
+	 * })
+	 *
+	 * Asside from the options change and the fact that valueLink works else should
+	 * be the same as React.DOM.select.
+	 *
+	 */
+	var ValueLinkedSelect = (_temp = _class = function (_React$Component) {
+	  _inherits(ValueLinkedSelect, _React$Component);
+
+	  function ValueLinkedSelect() {
+	    _classCallCheck(this, ValueLinkedSelect);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ValueLinkedSelect).apply(this, arguments));
+	  }
+
+	  _createClass(ValueLinkedSelect, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var hasOptions = this.props.options.length !== 0;
+	      if (hasOptions && this.props.valueLink.value == null) {
+	        this._setInitialValue(this.props);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var hasOptions = nextProps.options.length !== 0;
+	      // Setting the intial value of the select when the options load
+	      if (hasOptions && nextProps.valueLink.value == null) {
+	        this._setInitialValue(nextProps);
+	      }
+	      // Nulling the select's value when the options are removed
+	      if (!hasOptions && nextProps.valueLink.value != null) {
+	        nextProps.valueLink.requestChange(undefined, { setModified: false });
+	      }
+	    }
+
+	    // If there are no null options then default a null value
+	    // to the first option
+
+	  }, {
+	    key: '_setInitialValue',
+	    value: function _setInitialValue(nextProps) {
+	      if (nextProps.options.filter(function (_ref) {
+	        var value = _ref.value;
+	        return value == null;
+	      }).length > 0) {
+	        return;
+	      }
+	      var value = nextProps.valueLink.value || nextProps.options[0].value;
+	      nextProps.valueLink.requestChange(value, { setModified: false });
+	    }
+
+	    // Reads the value from the DOM for the select input fields
+
+	  }, {
+	    key: '_getValue',
+	    value: function _getValue() {
+	      var el = _reactDom2.default.findDOMNode(this.refs.input);
+	      // The value is cast to a string when we get it from DOM.value. This is a
+	      // mapping of those strings to their original values in the options list.
+	      var originalValues = {};
+	      var _iteratorNormalCompletion = true;
+	      var _didIteratorError = false;
+	      var _iteratorError = undefined;
+
+	      try {
+	        for (var _iterator = this.props.options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+	          var option = _step.value;
+
+	          var valueHash = option.value;
+	          if (valueHash != null) valueHash = option.value.toString();
+	          originalValues[valueHash] = option.value;
+	        }
+	      } catch (err) {
+	        _didIteratorError = true;
+	        _iteratorError = err;
+	      } finally {
+	        try {
+	          if (!_iteratorNormalCompletion && _iterator.return) {
+	            _iterator.return();
+	          }
+	        } finally {
+	          if (_didIteratorError) {
+	            throw _iteratorError;
+	          }
+	        }
+	      }
+
+	      if (el.value === '') return null;
+
+	      return originalValues[el.value] || el.value;
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.props.valueLink.requestChange(this._getValue());
+	    }
+	  }, {
+	    key: '_inputHtml',
+	    value: function _inputHtml() {
+	      var value = this.props.valueLink.value;
+	      var inputHtml = Object.assign({}, this.props, {
+	        ref: 'input',
+	        valueLink: {
+	          value: value,
+	          requestChange: this._onChange.bind(this)
+	        }
+	      });
+	      return inputHtml;
+	    }
+	  }, {
+	    key: '_selectOption',
+	    value: function _selectOption(o) {
+	      var attrs = {
+	        key: 'option-' + o.label,
+	        value: o.value || ''
+	      };
+	      return _react2.default.createElement(
+	        'option',
+	        attrs,
+	        o.label
+	      );
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'select',
+	        this._inputHtml(),
+	        this.props.options.map(this._selectOption)
+	      );
+	    }
+	  }]);
+
+	  return ValueLinkedSelect;
+	}(_react2.default.Component), _class.displayName = 'Frig.ValueLinkedSelect', _class.propTypes = {
+	  valueLink: _react2.default.PropTypes.object.isRequired,
+	  options: _react2.default.PropTypes.array
+	}, _class.defaultProps = {
+	  options: []
+	}, _temp);
+	exports.default = ValueLinkedSelect;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_15__;
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.fieldsetText = exports.fieldset = exports.formErrorList = exports.submit = exports.unboundInput = exports.input = exports.form = undefined;
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _form = __webpack_require__(1);
+
+	var _form2 = _interopRequireDefault(_form);
+
+	var _input = __webpack_require__(4);
+
+	var _input2 = _interopRequireDefault(_input);
+
+	var _unbound_input = __webpack_require__(5);
+
+	var _unbound_input2 = _interopRequireDefault(_unbound_input);
+
+	var _submit = __webpack_require__(9);
+
+	var _submit2 = _interopRequireDefault(_submit);
+
+	var _form_error_list = __webpack_require__(10);
+
+	var _form_error_list2 = _interopRequireDefault(_form_error_list);
+
+	var _fieldset = __webpack_require__(11);
+
+	var _fieldset2 = _interopRequireDefault(_fieldset);
+
+	var _fieldset_text = __webpack_require__(13);
+
+	var _fieldset_text2 = _interopRequireDefault(_fieldset_text);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var form = exports.form = _react2.default.createFactory(_form2.default);
+	var input = exports.input = _react2.default.createFactory(_input2.default);
+	var unboundInput = exports.unboundInput = _react2.default.createFactory(_unbound_input2.default);
+	var submit = exports.submit = _react2.default.createFactory(_submit2.default);
+	var formErrorList = exports.formErrorList = _react2.default.createFactory(_form_error_list2.default);
+	var fieldset = exports.fieldset = _react2.default.createFactory(_fieldset2.default);
+	var fieldsetText = exports.fieldsetText = _react2.default.createFactory(_fieldset_text2.default);
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/*
+	 * A higher order function wrapper for components that only allow 2 possible
+	 * values in their valueLinks (an onValue and an offValue - true and false by
+	 * default).
+	 *
+	 * This component will request a change to the valueLink for any invalid
+	 * valueLink value to convert it into the onValue or offValue.
+	 */
+	module.exports = function BooleanHOC(ComponentClass) {
+	  var _class, _temp2;
+
+	  return _temp2 = _class = function (_React$Component) {
+	    _inherits(_class, _React$Component);
+
+	    function _class() {
+	      var _Object$getPrototypeO;
+
+	      var _temp, _this, _ret;
+
+	      _classCallCheck(this, _class);
+
+	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+
+	      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_class)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Frig.HigherOrderComponents.Boolean', _temp), _possibleConstructorReturn(_this, _ret);
+	    }
+
+	    _createClass(_class, [{
+	      key: 'componentWillMount',
+	      value: function componentWillMount() {
+	        this._normalizeValue(this.props);
+	      }
+	    }, {
+	      key: 'componentWillReceiveProps',
+	      value: function componentWillReceiveProps(nextProps) {
+	        this._normalizeValue(nextProps);
+	      }
+	    }, {
+	      key: '_normalizeValue',
+	      value: function _normalizeValue(nextProps) {
+	        var value = nextProps.valueLink.value;
+	        if (value !== this.props.offValue && value !== this.props.onValue) {
+	          this._change(value != null, { setModified: false });
+	        }
+	      }
+
+	      /*
+	       * Intercept the nested component's true/false value change and convert it
+	       * into an onValue or offValue before relaying it to the valueLink.
+	       */
+
+	    }, {
+	      key: '_change',
+	      value: function _change(val) {
+	        var _props$valueLink;
+
+	        var upstreamVal = val ? this.props.onValue : this.props.offValue;
+
+	        for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+	          args[_key2 - 1] = arguments[_key2];
+	        }
+
+	        (_props$valueLink = this.props.valueLink).requestChange.apply(_props$valueLink, [upstreamVal].concat(args));
+	      }
+	    }, {
+	      key: 'render',
+	      value: function render() {
+	        var childProps = Object.assign({}, this.props, {
+	          ref: 'child',
+	          valueLink: {
+	            value: this.props.valueLink.value === this.props.onValue,
+	            requestChange: this._change.bind(this)
+	          }
+	        });
+	        return _react2.default.createElement(ComponentClass, childProps);
+	      }
+	    }]);
+
+	    return _class;
+	  }(_react2.default.Component), _class.propTypes = {
+	    valueLink: _react2.default.PropTypes.object.isRequired,
+	    onValue: _react2.default.PropTypes.any.isRequired,
+	    offValue: _react2.default.PropTypes.any.isRequired
+	  }, _class.defaultProps = {
+	    onValue: true,
+	    offValue: false
+	  }, _temp2;
+	};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(15);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/*
+	 * A higher order component that passes a focused attribute to it's child
+	 * component. The focused is true when the component should be focused
+	 * (ie. when it is clicked on or tabbed into) and false when it is not (ie.
+	 * initially, when it is clicked off of and when another input is selected).
+	 *
+	 * This is useful for implementing popups in Frig Themes.
+	 */
+	module.exports = function Focusable(ComponentClass) {
+	  var childName = ComponentClass.prototype.displayName;
+
+	  return function (_React$Component) {
+	    _inherits(_class2, _React$Component);
+
+	    function _class2() {
+	      _classCallCheck(this, _class2);
+
+	      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(_class2).call(this));
+
+	      _this.state = {
+	        focused: false
+	      };
+	      _this.displayName = 'Frig.HigherOrderComponents.Focusable(' + childName + ')';
+
+	      _this._onDocumentClick = _this._onDocumentClick.bind(_this);
+	      _this._onFocus = _this._onFocus.bind(_this);
+	      return _this;
+	    }
+
+	    _createClass(_class2, [{
+	      key: 'componentDidMount',
+	      value: function componentDidMount() {
+	        window.addEventListener('click', this._onDocumentClick);
+	        window.addEventListener('focus', this._onFocus, true);
+	      }
+	    }, {
+	      key: 'componentWillUnmount',
+	      value: function componentWillUnmount() {
+	        window.removeEventListener('click', this._onDocumentClick);
+	        window.removeEventListener('focus', this._onFocus, true);
+	      }
+
+	      // Handles most cases of the user clicking in another field, or anywhere
+	      // outside the focusable element.
+
+	    }, {
+	      key: '_onDocumentClick',
+	      value: function _onDocumentClick(e) {
+	        this.setState({ focused: this._containsDOMElement(e.target) });
+	      }
+
+	      // Also cover the case where the user tabs out of a focusable element with
+	      // keyboard (since this wouldn't create a click event).
+
+	    }, {
+	      key: '_onFocus',
+	      value: function _onFocus() {
+	        this.setState({ focused: this._containsDOMElement(document.activeElement) });
+	      }
+	    }, {
+	      key: '_containsDOMElement',
+	      value: function _containsDOMElement(otherElement) {
+	        var el = _reactDom2.default.findDOMNode(this);
+	        return el === otherElement || el.contains(otherElement);
+	      }
+	    }, {
+	      key: 'render',
+	      value: function render() {
+	        var childProps = Object.assign({}, this.props, {
+	          focused: this.state.focused
+	        });
+	        return _react2.default.createElement(ComponentClass, childProps);
+	      }
+	    }]);
+
+	    return _class2;
+	  }(_react2.default.Component);
+	};
+
+/***/ }
+/******/ ])
+});
+;

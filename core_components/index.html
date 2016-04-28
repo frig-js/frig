@@ -67,28 +67,40 @@
         
             <ul>
             
-                <li class="toctree-l3"><a href="#props">Props</a></li>
+                <li class="toctree-l3"><a href="#form62">\&lt;Form/></a></li>
+                
+                    <li><a class="toctree-l4" href="#props">Props</a></li>
+                
+                    <li><a class="toctree-l4" href="#public-functions">Public Functions</a></li>
                 
             
-                <li class="toctree-l3"><a href="#public-functions">Public Functions</a></li>
+                <li class="toctree-l3"><a href="#input62">\&lt;Input/></a></li>
+                
+                    <li><a class="toctree-l4" href="#props_1">Props</a></li>
+                
+                    <li><a class="toctree-l4" href="#available-input-types-and-their-themed-input-components">Available Input Types and their Themed Input Components</a></li>
+                
+                    <li><a class="toctree-l4" href="#type-inference">Type Inference</a></li>
                 
             
-                <li class="toctree-l3"><a href="#props_1">Props</a></li>
+                <li class="toctree-l3"><a href="#submit62">\&lt;Submit/></a></li>
+                
+                    <li><a class="toctree-l4" href="#props_2">Props</a></li>
                 
             
-                <li class="toctree-l3"><a href="#available-input-types-and-their-themed-input-components">Available Input Types and their Themed Input Components</a></li>
+                <li class="toctree-l3"><a href="#formerrorlist62">&lt;\FormErrorList/></a></li>
+                
+                    <li><a class="toctree-l4" href="#props_3">Props</a></li>
                 
             
-                <li class="toctree-l3"><a href="#type-inference">Type Inference</a></li>
+                <li class="toctree-l3"><a href="#fieldset62">\&lt;Fieldset/></a></li>
+                
+                    <li><a class="toctree-l4" href="#props_4">Props</a></li>
                 
             
-                <li class="toctree-l3"><a href="#props_2">Props</a></li>
+                <li class="toctree-l3"><a href="#fieldsettext62">\&lt;FieldsetText/></a></li>
                 
-            
-                <li class="toctree-l3"><a href="#props_3">Props</a></li>
-                
-            
-                <li class="toctree-l3"><a href="#props_4">Props</a></li>
+                    <li><a class="toctree-l4" href="#props_5">Props</a></li>
                 
             
             </ul>
@@ -146,7 +158,7 @@
           <div role="main">
             <div class="section">
               
-                <h2 id="_1"><Form/></h2>
+                <h2 id="form62">\&lt;Form/></h2>
 <pre><code class="jsx">import {Form, Input} from &quot;frig&quot;
 &lt;Form data={this.state.myAccount} onChange={(myAccount) =&gt; this.setState({myAccount})}&gt;
   &lt;Input name=&quot;example&quot;&gt;
@@ -157,7 +169,7 @@
 <ul>
 <li><strong>data (required)</strong> - This is used to populate the values (including default values) of each field in the form. The data property is also used by inputs for type inference where a <code>type</code> property is not provided.</li>
 <li><strong>onChange(data) (required)</strong> - the onChange callback will be updated whenever there is user input. The onChange function receives the full updated data of the form as it's only argument. Normally this is used to update your store or setState and trigger a re-render passing the new data back in to the form.</li>
-<li><strong>errors (optional)</strong> - an array of strings. The list of errors supplied here can be rendered by the <code>&lt;ErrorList/&gt;</code> component.</li>
+<li><strong>errors (optional)</strong> - an array of strings. The list of errors supplied here can be rendered by the <code>&lt;FormErrorList/&gt;</code> component.</li>
 <li><strong>onSubmit (optional)</strong> - a function. Called after the submit button is clicked and all validations have passed. The DOM event is passed to the callback.</li>
 <li><strong>layout (optional)</strong>  - a string. Either <code>"horizontal"</code> for a horizontally layed out form (with labels on the same row as their inputs) or <code>"vertical"</code> for a vertically layed out form (with labels above their inputs). Defaults to <code>"vertical"</code>.</li>
 <li><strong>align (optional)</strong> - a string. Either <code>"left"</code> to align all inputs along the left side of their containing divs or <code>"right"</code> to align all inputs on the right side of their containing divs. Defaults to <code>"left"</code>.</li>
@@ -173,7 +185,7 @@
 <li><strong>reset()</strong> - resets the value of <code>isModified()</code> to false and resets all validations (eg. hiding required feild error messages).</li>
 <li><strong>formData()</strong> - returns the HTML5 FormData object. See https://developer.mozilla.org/en/docs/Web/API/FormData</li>
 </ul>
-<h2 id="_2"><Input/></h2>
+<h2 id="input62">\&lt;Input/></h2>
 <pre><code class="jsx">import {Form, Input} from &quot;frig&quot;
 &lt;Form data={this.state.myAccount} onChange={(myAccount) =&gt; this.setState({myAccount})}&gt;
   &lt;Input name=&quot;example&quot;&gt;
@@ -181,7 +193,7 @@
 </code></pre>
 
 <p>Frig Inputs are your interface to any kind of form element that allow the user to edit their data.</p>
-<p>For example <code>&lt;Input name="username"/&gt;</code> will render a HTML input element by default however <code>&lt;Input name="friends" type="typeahead" multiple=true options=["Jane", "Joe"]/&gt;</code> will render a typeahead multi-select.</p>
+<p>For example <code>&lt;Input name="username"/&gt;</code> will render a HTML input element by default however <code>&lt;Input name="friends" options=["Jane", "Joe"]/&gt;</code> will render a select.</p>
 <p>An input receives a name and loads its value from the form's data (ie. <code>value = form.props.data[input.props.name]</code>). To specificy a type of form element to render you can either set its <code>props.type</code> or <code>props.component</code> or leave both blank and have the input guess its type based on the form data and its name (see <em>Type Inference</em>).</p>
 <h4 id="props_1">Props</h4>
 <ul>
@@ -273,7 +285,7 @@
 <li>If the <code>name</code> ends in <code>"password"</code> then the type will default to a <code>password</code></li>
 <li>Otherwise the type is based on the <code>typeof</code> of the <code>form.props[input.props.name]</code></li>
 </ol>
-<h2 id="_3"><Submit/></h2>
+<h2 id="submit62">\&lt;Submit/></h2>
 <pre><code class="jsx">import {Form, Submit} from &quot;frig&quot;
 &lt;Form data={this.state.myAccount} onChange={(myAccount) =&gt; this.setState({myAccount})}&gt;
   &lt;Submit title=&quot;Login&quot;/&gt;
@@ -284,15 +296,19 @@
 <ul>
 <li><strong>title (optional)</strong> - a string. The text of the submit button.</li>
 </ul>
-<h2 id="_4"><ErrorList/></h2>
-<pre><code class="jsx">import {Form, ErrorList} from &quot;frig&quot;
+<h2 id="formerrorlist62">&lt;\FormErrorList/></h2>
+<pre><code class="jsx">import {Form, FormErrorList} from &quot;frig&quot;
 &lt;Form data={this.state.myAccount} onChange={(myAccount) =&gt; this.setState({myAccount})}&gt;
-  &lt;ErrorList/&gt;
+  &lt;FormErrorList/&gt;
 &lt;/Form&gt;
 </code></pre>
 
 <p>The errorList component renders all the form-level errors in the form's <code>props.errors</code>.</p>
-<h2 id="_5"><Fieldset/></h2>
+<h4 id="props_3">Props</h4>
+<ul>
+<li><strong>name (optional)</strong> - a string. The field in <code>props.errors</code> to look up form-level errors. Defaults to "base" for compatibility with Active Record.</li>
+</ul>
+<h2 id="fieldset62">\&lt;Fieldset/></h2>
 <pre><code class="jsx">import {Form, Fieldset, Input} from &quot;frig&quot;
 &lt;Form data={this.state.myAccount} onChange={(myAccount) =&gt; this.setState({myAccount})}&gt;
   &lt;Fieldset name=&quot;children&quot;&gt;
@@ -305,11 +321,11 @@
 
 <p>A Fieldset takes a name (some key in the form's data) and produces one or more recursive (ie. nested) forms. Fieldsets accomidate both "has one" (nested objects) and "has many" (nested arrays of objects) relationships in form data.</p>
 <p>Calling validate/isValid/isModified on a parent form object will call it on all of it's nested fields and incorporate their values recursively.</p>
-<h4 id="props_3">Props</h4>
+<h4 id="props_4">Props</h4>
 <ul>
 <li><strong>name (required)</strong> - The key of the fieldset's data object (or array of data objects) in the <code>&lt;Form/&gt;</code>'s <code>props.data</code></li>
 </ul>
-<h2 id="_6"><FieldsetText/></h2>
+<h2 id="fieldsettext62">\&lt;FieldsetText/></h2>
 <pre><code class="jsx">import {Form, Fieldset, FieldsetText, Input} from &quot;frig&quot;
 &lt;Form data={this.state.myAccount} onChange={(myAccount) =&gt; this.setState({myAccount})}&gt;
   &lt;Fieldset name=&quot;children&quot;&gt;
@@ -324,7 +340,7 @@
 </code></pre>
 
 <p>FieldsetText gives access to the index number of a fieldset for creating text that is dynamic across each child in a has many type fieldset - ie. fieldsets that are iterated over arrays of data.</p>
-<h4 id="props_4">Props</h4>
+<h4 id="props_5">Props</h4>
 <ul>
 <li><strong>text (required)</strong> - A function. First argument is the index number. Return a string to be injected into the DOM.</li>
 </ul>
