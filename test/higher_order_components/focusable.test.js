@@ -1,11 +1,16 @@
 /* global describe, it, beforeEach */
 
+import { jsdom } from 'jsdom'
+import { usingJsdom } from '../test_helper'
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { expect } from 'chai'
 // import Form from '../../src/components/form'
 import { mount, render } from 'enzyme'
 import focusable from '../../src/higher_order_components/focusable.js'
+
+
 
 describe('higher order components', () => {
   class Layout extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -24,11 +29,12 @@ describe('higher order components', () => {
       focused: React.PropTypes.boolean,
     }
     render() {
-      if (this.props.focused) {
-        return <div><input ref="input" className="theInput" /><p>Focused!</p></div>
-      }
-
-      return <div><input ref="input" className="theInput" /></div>
+      return (
+        <div className="theDiv">
+          <input ref="input" className="theInput" />
+          {this.props.focused && <p>Focused!</p>}
+        </div>
+      )
     }
   }
 
@@ -39,61 +45,19 @@ describe('higher order components', () => {
     expect(example.prop('focused')).to.not.exist()
   })
 
-  it('when focusable element is clicked, props.focusable=true', () => {
-    const wrapper = mount(<Layout />)
-    const example = wrapper.find(ExampleFocusable)
-    expect(example.prop('focused')).not.to.exist()
+  it('sets props.focused on child component when it is clicked', () => {
+    const dom = jsdom('<html><div id="app"></div></html>')
+    usingJsdom(dom, () => {
+      ReactDOM.render(<Layout />, dom.getElementById('app'))
 
-    const reactElement = wrapper.get(0)
-    const domNode = ReactDOM.findDOMNode(reactElement)
+      const app = dom.getElementById('app')
+      expect(app.textContent).to.equal('')
 
-    // Finally figured out how to get the HTMLInputElement!
-    const input = domNode.querySelectorAll('input')[0]
+      const input = dom.querySelectorAll('.theInput')[0]
+      input.click()
 
-    window.addEventListener('abc', function (ev) {
-      console.log('window click', ev.target.constructor.name,
-                  ev.currentTarget.constructor.name);
-    });
-
-    document.addEventListener('abc', function (ev) {
-      console.log('document click', ev.target.constructor.name,
-                  ev.currentTarget.constructor.name);
-    });
-
-    input.addEventListener('abc', function (ev) {
-      console.log('input click', ev.target.constructor.name,
-                  ev.currentTarget.constructor.name);
-    });
-
-    // console.log(window)
-
-    const event = new Event('abc', { bubbles: true, cancelable: false })
-    input.dispatchEvent(event)
-
-    // input.click()
-
-    // throw new Error("EOF")
-
-    // const event = new Event('click')
-    // const succeeded = input.dispatchEvent(event)
-    // throw new Error("EOF")
-
-
-    //
-    // throw new Error(cancelled)
-
-    // // Nice try, but no cigar.
-    // input.click()
-    //
-    // // Here is some frail attempt to force React to re-render.
-    // wrapper.setState({ 'bogus': 'rerender' })
-    //
-    // // It doesn't matter.
-    // // The _onDocumentClick event on focusable never fires.
-    // // Thought now is to use window.dispatchEvent to handle this.
-    //
-    expect(example.prop('focused')).to.be.true()
-
+      expect(app.textContent).to.equal('Focused!')
+    })
   })
 
 })
