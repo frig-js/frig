@@ -42,6 +42,7 @@ describe('@focusable decorator', () => {
 
     const app = dom.getElementById('app')
     const input = dom.querySelectorAll('.theInput')[0]
+    const span = dom.querySelectorAll('.before')[0]
 
     it('initially renders child component with props.focused=false', () => {
       expect(app.textContent).to.equal('')
@@ -50,6 +51,11 @@ describe('@focusable decorator', () => {
     it('sets props.focused=true on child component when it is clicked', () => {
       input.click()
       expect(app.textContent).to.equal('Focused!')
+    })
+
+    it('sets props.focused=false on child component when another element is clicked', () => {
+      span.click()
+      expect(app.textContent).to.equal('')
     })
   })
 })
