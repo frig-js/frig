@@ -24,6 +24,9 @@ const globalify = (doc, win) => {
 // Use `usingJsdom` to wrap any tests that need to use their own jsdom.
 // It will swap in the supplied jsdom, execute the callback, and then
 // restore the test_helper jsdom defined above.
+
+// Note: Only use this in a single test (`it` block)! Putting it in
+// a `describe` block will cause unwanted global pollution.
 export const usingJsdom = (doc, callback) => {
   const oldWin = global.window
   const oldDoc = global.document
