@@ -7,10 +7,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { expect } from 'chai'
 // import Form from '../../src/components/form'
-import { mount, render } from 'enzyme'
+import { mount } from 'enzyme'
 import focusable from '../../src/higher_order_components/focusable.js'
-
-
 
 describe('higher order components', () => {
   class Layout extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -24,7 +22,7 @@ describe('higher order components', () => {
   }
 
   @focusable
-  class ExampleFocusable extends React.Component {
+  class ExampleFocusable extends React.Component { // eslint-disable-line react/no-multi-comp
     static propTypes = {
       focused: React.PropTypes.boolean,
     }
@@ -59,5 +57,4 @@ describe('higher order components', () => {
       expect(app.textContent).to.equal('Focused!')
     })
   })
-
 })
