@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach */
+/* global describe, it, beforeEach, afterEach */
 
 import React from 'react'
 import { expect } from 'chai'
@@ -40,6 +40,8 @@ const defaultProps = {
 }
 
 describe('<UnboundInput />', () => {
+  afterEach(() => { td.reset() })
+
   describe('public methods except validate', () => {
     let wrapper
     let instance

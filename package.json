@@ -35,6 +35,7 @@
     "babel-register": "6.7.2",
     "chai": "3.5.0",
     "chai-enzyme": "0.4.1",
+    "cloner": "^0.4.0",
     "coveralls": "2.11.9",
     "dirty-chai": "1.2.2",
     "enzyme": "2.2.0",

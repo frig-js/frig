@@ -1,4 +1,4 @@
-/* global describe, it, beforeEach */
+/* global describe, it, beforeEach, afterEach */
 
 import React from 'react'
 import { expect } from 'chai'
@@ -7,6 +7,8 @@ import { mount } from 'enzyme'
 import td from 'testdouble'
 
 describe('<Form />', () => {
+  afterEach(() => { td.reset() })
+
   // Despite eslint's pleadings, this can't be a stateless function
   // because <Form /> will tack a `ref` on to it, which is illegal.
   class ThemedForm extends React.Component { // eslint-disable-line react/prefer-stateless-function
