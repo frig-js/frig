@@ -8,6 +8,7 @@ import ReactDOM from 'react-dom'
 import { expect } from 'chai'
 // import Form from '../../src/components/form'
 import { mount } from 'enzyme'
+import td from 'testdouble'
 import focusable from '../../src/higher_order_components/focusable.js'
 
 class Layout extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -82,5 +83,21 @@ describe('@focusable decorator', () => {
       expect(app.textContent).to.equal('',
         'sets props.focused=false on child component when another element is focused')
     })
+  })
+
+
+  it('removes event listeners when component unmounts', () => {
+    // There is no programatic way to get a list of event listeners.
+    // Only way to test this is to monkey-patch window.removeEventListener.
+    const oldRemoveEventListener = window.removeEventListener
+    window.removeEventListener = td.function()
+
+    // Mount and immediately unmount => calls componentWillUnmount
+    mount(<Layout />).unmount()
+
+    td.verify(window.removeEventListener('click'), { ignoreExtraArgs: true })
+    td.verify(window.removeEventListener('focus'), { ignoreExtraArgs: true })
+
+    window.removeEventListener = oldRemoveEventListener
   })
 })
