@@ -51,10 +51,7 @@ export default class Fieldset extends React.Component {
 
   modifications() {
     const mods = this._forms().map((form) => form.modifications())
-    const nestedFormData = this.context.frigForm.data[this.props.name]
-    if (nestedFormData == null) {
-      return []
-    }
+    const nestedFormData = this.context.frigForm.data[this.props.name] || []
     const isArray = Array.isArray(nestedFormData)
     if (!isArray) {
       // for the edge case where frigForm.data.myFieldset is a single
