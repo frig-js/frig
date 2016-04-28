@@ -76,7 +76,7 @@ describe('<Input />', () => {
       })
 
       // set context
-      const context = Object.assign({}, defaultContext)
+      const context = cloner.deep.copy(defaultContext)
       context.frigForm.requestChildComponentChange = requestChildComponentChange
 
       // mount component
