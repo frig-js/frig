@@ -51,7 +51,7 @@ const mockNestedForm = (replaceFunctions) =>
     render() { return <div /> }
   }
 
-const mountFieldset = (context = defaultContext, props = defaultProps) => {
+const getFieldsetInstance = (context = defaultContext, props = defaultProps) => {
   const opts = { context }
   const wrapper = mount(<Fieldset {...props} />, opts)
   return wrapper.instance()
@@ -65,7 +65,7 @@ describe('<Fieldset />', () => {
       const props = Object.assign({}, defaultProps, {
         FieldsetNestedForm,
       })
-      const instance = mountFieldset(context, props)
+      const instance = getFieldsetInstance(context, props)
       assertionCallback(instance)
     }
 
@@ -203,7 +203,7 @@ describe('<Fieldset />', () => {
   describe('Private Functions', () => {
     describe('_contextAtIndex', () => {
       const testContextAtIndex = (context, expected, keys = ['errors']) => {
-        const instance = mountFieldset(context)
+        const instance = getFieldsetInstance(context)
         const assertion = instance._contextAtIndex(0, keys)
         expect(assertion).to.deep.equal(expected)
       }
@@ -262,7 +262,7 @@ describe('<Fieldset />', () => {
         context.frigForm.requestChildComponentChange = requestChildComponentChange
 
         // mount component
-        instance = mountFieldset(context)
+        instance = getFieldsetInstance(context)
       })
 
       it('returns a new array of the children change', () => {
