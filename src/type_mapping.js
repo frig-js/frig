@@ -1,5 +1,5 @@
 module.exports = {
-  string: { component: 'Input', htmlInputType: 'string' },
+  string: { component: 'Input', htmlInputType: 'text' },
   password: { component: 'Input', htmlInputType: 'password' },
   email: { component: 'Input', htmlInputType: 'email' },
   url: { component: 'Input', htmlInputType: 'url' },
