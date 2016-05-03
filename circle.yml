@@ -7,4 +7,5 @@ test:
     - npm run lint:failfast
   post:
     - npm run preversion
-    - '[ -z "${CIRCLE_PR_USERNAME}" ] && npm run coveralls || true'
+    - '[ -z "${CIRCLE_PR_USERNAME}" ] && npm run coveralls || echo "Not running coveralls on public PR"'
+
