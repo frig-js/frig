@@ -24,6 +24,8 @@ describe('<Form />', () => {
     layout: 'horizontal',
     align: 'right',
   }
+  Object.freeze(formProps)
+
   const form = (
     <Form {...formProps} >
       <div>child</div>

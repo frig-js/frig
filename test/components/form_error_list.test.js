@@ -17,9 +17,13 @@ describe('<FormErrorList />', () => {
       errors,
     },
   }
+  Object.freeze(context)
+
   const childContextTypes = {
     frigForm: React.PropTypes.object.isRequired,
   }
+  Object.freeze(childContextTypes)
+
   const opts = { context, childContextTypes }
   const wrapper = mount(<FormErrorList />, opts)
   const stub = wrapper.find(Stub)

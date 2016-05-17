@@ -18,6 +18,7 @@ const defaultContext = {
     saved: {},
   },
 }
+Object.freeze(defaultContext)
 
 describe('<Submit />', () => {
   const opts = { context: defaultContext }

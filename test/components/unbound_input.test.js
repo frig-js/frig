@@ -29,15 +29,18 @@ const defaultContext = {
     align: 'some_align',
   },
 }
+Object.freeze(defaultContext)
 
 const defaultChildContextTypes = {
   frigForm: React.PropTypes.object.isRequired,
 }
+Object.freeze(defaultChildContextTypes)
 
 const defaultProps = {
   name: 'some_unbound_input',
   type: 'string',
 }
+Object.freeze(defaultProps)
 
 describe('<UnboundInput />', () => {
   afterEach(() => { td.reset() })
@@ -295,8 +298,9 @@ describe('<UnboundInput />', () => {
       describe('_guessInputType', () => {
         const testGuessInputType = (props, expected) => {
           // We don't want the type to always be `string`, let tests decide.
-          delete defaultProps.type
-          const nextProps = Object.assign({}, defaultProps, props)
+          const modifiedDefaultProps = Object.assign({}, defaultProps)
+          delete modifiedDefaultProps.type
+          const nextProps = Object.assign({}, modifiedDefaultProps, props)
           const wrapper = mount(<UnboundInput {...nextProps} />, opts)
           const result = wrapper.instance()._guessInputType()
           expect(result).to.equal(expected)
