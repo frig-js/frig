@@ -35,11 +35,13 @@ const defaultContext = {
     childComponentWillUnmount: () => {},
   },
 }
+Object.freeze(defaultContext)
 
 const defaultProps = {
   name: 'some_input',
   type: 'string',
 }
+Object.freeze(defaultProps)
 
 describe('<Input />', () => {
   afterEach(() => { td.reset() })
