@@ -28,11 +28,13 @@ const defaultContext = {
     childComponentWillUnmount: () => {},
   },
 }
+Object.freeze(defaultContext)
 
 const defaultProps = {
   name: 'some_fieldset',
   children: Stub,
 }
+Object.freeze(defaultProps)
 
 // This mock is necessary because <Fieldset> renders <FieldsetNestedForm>
 // and calls some of its functions. This mock lets us change the behavior
