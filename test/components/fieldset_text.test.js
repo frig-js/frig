@@ -10,6 +10,7 @@ const defaultContext = {
     index: 1,
   },
 }
+Object.freeze(defaultContext)
 
 const defaultProps = {
   text: (index) => `Testing ${index}`,
