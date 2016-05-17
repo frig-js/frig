@@ -2,10 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 /*
- * A minimal wrapper for the select component to provide the correct value
- * for valueLinks.
- *
- * Basically it's a solution to this: http://stackoverflow.com/q/24470852/386193
+ * A minimal wrapper for the select component.
  *
  * Note: This class, unlike React.DOM.select, does not expect options to be
  * passed as child components. Instead you should pass your options as an array
@@ -20,15 +17,15 @@ import ReactDOM from 'react-dom'
  *   ]
  * })
  *
- * Asside from the options change and the fact that valueLink works else should
- * be the same as React.DOM.select.
+ * Aside from the options change this should be the same as React.DOM.select.
  *
  */
 export default class ValueLinkedSelect extends React.Component {
   static displayName = 'Frig.ValueLinkedSelect'
 
   static propTypes = {
-    valueLink: React.PropTypes.object.isRequired,
+    value: React.PropTypes.any.isRequired,
+    onChange: React.PropTypes.func.isRequired,
     options: React.PropTypes.array,
   }
 
@@ -38,7 +35,7 @@ export default class ValueLinkedSelect extends React.Component {
 
   componentWillMount() {
     const hasOptions = this.props.options.length !== 0
-    if (hasOptions && this.props.valueLink.value == null) {
+    if (hasOptions && this.props.value == null) {
       this._setInitialValue(this.props)
     }
   }
@@ -46,12 +43,12 @@ export default class ValueLinkedSelect extends React.Component {
   componentWillReceiveProps(nextProps) {
     const hasOptions = nextProps.options.length !== 0
     // Setting the intial value of the select when the options load
-    if (hasOptions && nextProps.valueLink.value == null) {
+    if (hasOptions && nextProps.value == null) {
       this._setInitialValue(nextProps)
     }
     // Nulling the select's value when the options are removed
-    if (!hasOptions && nextProps.valueLink.value != null) {
-      nextProps.valueLink.requestChange(undefined, { setModified: false })
+    if (!hasOptions && nextProps.value != null) {
+      nextProps.onChange(undefined, { setModified: false })
     }
   }
 
@@ -61,8 +58,8 @@ export default class ValueLinkedSelect extends React.Component {
     if (nextProps.options.filter(({ value }) => value == null).length > 0) {
       return
     }
-    const value = nextProps.valueLink.value || nextProps.options[0].value
-    nextProps.valueLink.requestChange(value, { setModified: false })
+    const value = nextProps.value || nextProps.options[0].value
+    nextProps.onChange(value, { setModified: false })
   }
 
   // Reads the value from the DOM for the select input fields
@@ -83,17 +80,15 @@ export default class ValueLinkedSelect extends React.Component {
   }
 
   _onChange() {
-    this.props.valueLink.requestChange(this._getValue())
+    this.props.onChange(this._getValue())
   }
 
   _inputHtml() {
-    const value = this.props.valueLink.value
+    const value = this.props.value
     const inputHtml = Object.assign({}, this.props, {
       ref: 'input',
-      valueLink: {
-        value,
-        requestChange: this._onChange.bind(this),
-      },
+      value,
+      onChange: this._onChange.bind(this),
     })
     return inputHtml
   }

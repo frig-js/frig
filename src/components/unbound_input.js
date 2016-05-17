@@ -93,7 +93,7 @@ export default class UnboundInput extends React.Component {
     if (validate) {
       // Create themed props for the next nextValue passed to this function
       const nextProps = Object.assign({}, this.props)
-      nextProps.valueLink = { value: nextValue }
+      nextProps.value = nextValue
 
       // Running each validation
       for (const [k, validationOpts] of entries(this._validations())) {
@@ -146,13 +146,15 @@ export default class UnboundInput extends React.Component {
         type: themedInputHtml.type || this._typeMapping().htmlInputType,
         ref: 'input',
       }),
-      valueLink: {
-        value: this._value(),
-        requestChange: this._onChange.bind(this),
-      },
+      value: this._value(),
+      onChange: this._onChange.bind(this),
       errors: this._errors(),
     }
     // TODO: Add type mapping
+
+    // console.log('UnboundInput#_themedInputProps() rv:')
+    // console.log(Object.assign(themedProps, overrides))
+
     return Object.assign(themedProps, overrides)
   }
 

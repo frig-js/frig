@@ -8,11 +8,10 @@ import td from 'testdouble'
 
 describe('<ValueLinkedSelect />', () => {
   const noop = () => {}
-  const valueLink = (value, requestChange = noop) => ({ value, requestChange })
 
   describe('_getValue', () => {
-    const testGetValue = (options, valueLinkObj, expected) => {
-      const props = { options, valueLink: valueLinkObj }
+    const testGetValue = (options, value, onChange, expected) => {
+      const props = { options, value, onChange }
       const wrapper = mount(<ValueLinkedSelect { ...props } />)
       const instance = wrapper.instance()
       expect(instance._getValue()).to.equal(expected)
@@ -23,7 +22,7 @@ describe('<ValueLinkedSelect />', () => {
         { value: 'CA', label: 'Canada' },
         { value: 'US', label: 'United States' },
       ]
-      testGetValue(options, valueLink('US'), 'US')
+      testGetValue(options, 'US', noop, 'US')
     })
 
     it('should handle numeric values as Number type', () => {
@@ -31,7 +30,7 @@ describe('<ValueLinkedSelect />', () => {
         { value: 1, label: 'Canada' },
         { value: 2, label: 'United States' },
       ]
-      testGetValue(options, valueLink(2), 2)
+      testGetValue(options, 2, noop, 2)
     })
 
     it('should return null when value is blank', () => {
@@ -39,13 +38,13 @@ describe('<ValueLinkedSelect />', () => {
         { value: '', label: '' },
         { value: 'US', label: 'United States' },
       ]
-      testGetValue(options, valueLink(''), null)
+      testGetValue(options, '', noop, null)
     })
   })
 
   describe('render', () => {
     it('when props.options is empty, renders select with no options', () => {
-      const wrapper = mount(<ValueLinkedSelect valueLink={valueLink(null)} />)
+      const wrapper = mount(<ValueLinkedSelect value={null} onChange={noop} />)
       const options = wrapper.find('option')
       expect(options).to.have.lengthOf(0)
     })
@@ -56,26 +55,28 @@ describe('<ValueLinkedSelect />', () => {
           { value: 'CA', label: 'Canada' },
           { value: 'US', label: 'United States' },
         ],
-        valueLink: valueLink(null),
+        value: null,
+        onChange: noop,
       }
       const wrapper = mount(<ValueLinkedSelect {...props} />)
       const options = wrapper.find('option')
       expect(options).to.have.lengthOf(2)
     })
 
-    it('renders an input with valueLink that calls props.requestChange', () => {
-      const requestChange = td.function.call()
+    it('renders an input with onChange that calls ValueLinkedSelect.props.onChange', () => {
+      const onChange = td.function.call()
       const props = {
         options: [
           { value: 'CA', label: 'Canada' },
           { value: 'US', label: 'United States' },
         ],
-        valueLink: valueLink('US', requestChange),
+        value: 'US',
+        onChange,
       }
       const wrapper = mount(<ValueLinkedSelect {...props} />)
 
       const select = wrapper.find('select')
-      const selectValueLink = select.prop('valueLink')
+      const selectOnChange = select.prop('onChange')
 
       // requestChange gets called on component mount, clear the slate
       td.reset()
@@ -85,57 +86,60 @@ describe('<ValueLinkedSelect />', () => {
       // matter. (They won't be exactly the same since the onChange handler
       // goes through _getValue, rather than respecting the argument passed
       // to requestChange)
-      selectValueLink.requestChange()
-      td.verify(requestChange(), { ignoreExtraArgs: true })
+      selectOnChange()
+      td.verify(onChange(), { ignoreExtraArgs: true })
     })
   })
 
   describe('componentWillMount / componentDidReceiveProps', () => {
-    describe('when valueLink.value=null (e.g. no selection)', () => {
-      it('requestChange is called with value of 1st option', () => {
-        const requestChange = td.function.call()
+    describe('when value=null (e.g. no selection)', () => {
+      it('onChange is called with value of 1st option', () => {
+        const onChange = td.function.call()
         const props = {
           options: [
             { value: 'CA', label: 'Canada' },
             { value: 'US', label: 'United States' },
           ],
-          valueLink: valueLink(null, requestChange),
+          value: null,
+          onChange,
         }
 
         // requestChange should be called on component mount
         const wrapper = mount(<ValueLinkedSelect { ...props } />)
-        td.verify(requestChange('CA', { setModified: false }), { times: 1 })
+        td.verify(onChange('CA', { setModified: false }), { times: 1 })
 
         // simulate a re-render of the component with the same props
         wrapper.setProps(props)
-        td.verify(requestChange('CA', { setModified: false }), { times: 2 })
+        td.verify(onChange('CA', { setModified: false }), { times: 2 })
       })
 
       it('and ANY options value is null, requestChange not called', () => {
-        const requestChange = td.function()
+        const onChange = td.function()
         const props = {
           options: [
             { value: null, label: '-- Select --' },
             { value: 'CA', label: 'Canada' },
             { value: 'US', label: 'United States' },
           ],
-          valueLink: valueLink(null, requestChange),
+          value: null,
+          onChange,
         }
 
         mount(<ValueLinkedSelect { ...props } />)
 
-        td.verify(requestChange(), { times: 0, ignoreExtraArgs: true })
+        td.verify(onChange(), { times: 0, ignoreExtraArgs: true })
       })
     })
 
     describe('options went from 1 to 0', () => {
       it('calls requestChange(undefined) on re-render', () => {
-        const requestChange = td.function.call()
+        const onChange = td.function.call()
         const props = {
           options: [
             { value: 'CA', label: 'Canada' },
           ],
-          valueLink: valueLink('CA', requestChange),
+          value: 'CA',
+          onChange,
         }
 
         const wrapper = mount(<ValueLinkedSelect { ...props } />)
@@ -143,7 +147,7 @@ describe('<ValueLinkedSelect />', () => {
         props.options = []
         wrapper.setProps(props)
 
-        td.verify(requestChange(undefined), { ignoreExtraArgs: true })
+        td.verify(onChange(undefined), { ignoreExtraArgs: true })
       })
     })
   })

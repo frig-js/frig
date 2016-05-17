@@ -5,20 +5,18 @@ import validations from '../src/validations'
 
 describe('validations', () => {
   const props = {
-    valueLink: {
-      value: 'foo',
-    },
+    value: 'foo',
   }
 
   describe('max', () => {
     it('returns undefined if validation passes', () => {
-      props.valueLink.value = 5
+      props.value = 5
       const result = validations.max(props, 100)
       expect(result).to.be.undefined()
     })
 
     it('returns an error message if validation fails', () => {
-      props.valueLink.value = 500
+      props.value = 500
       const result = validations.max(props, 100)
       expect(result).to.equal('Value cannot be greater than 100')
     })
@@ -26,13 +24,13 @@ describe('validations', () => {
 
   describe('min', () => {
     it('returns undefined if validation passes', () => {
-      props.valueLink.value = 10
+      props.value = 10
       const result = validations.min(props, 0)
       expect(result).to.be.undefined()
     })
 
     it('returns an error message if validation fails', () => {
-      props.valueLink.value = -50
+      props.value = -50
       const result = validations.min(props, 0)
       expect(result).to.equal('Value cannot be less than 0')
     })
@@ -44,14 +42,14 @@ describe('validations', () => {
     it('returns an error message when field is empty/null/undefined', () => {
       const empties = ['', null, undefined]
       empties.forEach((empty) => {
-        props.valueLink.value = empty
+        props.value = empty
         const result = validations.required(props)
         expect(result).to.equal(requiredMessage)
       })
     })
 
     it('returns undefined if validation passes', () => {
-      props.valueLink.value = 'something'
+      props.value = 'something'
       const result = validations.required(props)
       expect(result).to.be.undefined()
     })
@@ -62,7 +60,7 @@ describe('validations', () => {
           { label: 'one', value: 'one' },
           { label: 'empty', value: null },
         ]
-        props.valueLink.value = null
+        props.value = null
         const result = validations.required(props)
         expect(result).to.be.undefined()
       })

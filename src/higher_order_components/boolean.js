@@ -2,17 +2,18 @@ import React from 'react'
 
 /*
  * A higher order function wrapper for components that only allow 2 possible
- * values in their valueLinks (an onValue and an offValue - true and false by
+ * values in their props.values (an onValue and an offValue - true and false by
  * default).
  *
- * This component will request a change to the valueLink for any invalid
- * valueLink value to convert it into the onValue or offValue.
+ * This component will call onChange for any invalid value to convert it
+ * into the onValue or offValue.
  */
 module.exports = function BooleanHOC(ComponentClass) {
   return class extends React.Component {
 
     static propTypes = {
-      valueLink: React.PropTypes.object.isRequired,
+      value: React.PropTypes.any.isRequired,
+      onChange: React.PropTypes.func.isRequired,
       onValue: React.PropTypes.any.isRequired,
       offValue: React.PropTypes.any.isRequired,
     }
@@ -33,7 +34,7 @@ module.exports = function BooleanHOC(ComponentClass) {
     }
 
     _normalizeValue(nextProps) {
-      const value = nextProps.valueLink.value
+      const value = nextProps.value
       if (value !== this.props.offValue && value !== this.props.onValue) {
         this._change(value != null, { setModified: false })
       }
@@ -41,20 +42,18 @@ module.exports = function BooleanHOC(ComponentClass) {
 
     /*
      * Intercept the nested component's true/false value change and convert it
-     * into an onValue or offValue before relaying it to the valueLink.
+     * into an onValue or offValue before relaying it to onChange.
      */
     _change(val, ...args) {
       const upstreamVal = val ? this.props.onValue : this.props.offValue
-      this.props.valueLink.requestChange(upstreamVal, ...args)
+      this.props.onChange(upstreamVal, ...args)
     }
 
     render() {
       const childProps = Object.assign({}, this.props, {
         ref: 'child',
-        valueLink: {
-          value: this.props.valueLink.value === this.props.onValue,
-          requestChange: this._change.bind(this),
-        },
+        value: this.props.value === this.props.onValue,
+        onChange: this._change.bind(this),
       })
       return <ComponentClass {...childProps} />
     }
