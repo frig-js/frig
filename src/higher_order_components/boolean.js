@@ -12,7 +12,7 @@ module.exports = function BooleanHOC(ComponentClass) {
   return class Boolean extends React.Component {
 
     static propTypes = {
-      value: React.PropTypes.any.isRequired,
+      value: React.PropTypes.any,
       onChange: React.PropTypes.func.isRequired,
       onValue: React.PropTypes.any.isRequired,
       offValue: React.PropTypes.any.isRequired,
