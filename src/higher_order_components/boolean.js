@@ -9,7 +9,7 @@ import React from 'react'
  * into the onValue or offValue.
  */
 module.exports = function BooleanHOC(ComponentClass) {
-  return class extends React.Component {
+  return class Boolean extends React.Component {
 
     static propTypes = {
       value: React.PropTypes.any.isRequired,
