@@ -219,8 +219,9 @@ export default class UnboundInput extends React.Component {
     // FIXME: At some point in the event bubble flow the event should
     // be converted to a value, and passed to a function named something
     // other than onChange.
-    if (val && val.target && val.target.value) { // SyntheticEvent
-      realValue = val.target.value
+    if (val && val.target) { // SyntheticEvent
+      if (!val.target.value) realValue = ''
+      else realValue = val.target.value
     }
 
     if (this.props.type === 'submit') return
