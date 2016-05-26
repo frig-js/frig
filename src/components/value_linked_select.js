@@ -24,7 +24,7 @@ export default class ValueLinkedSelect extends React.Component {
   static displayName = 'Frig.ValueLinkedSelect'
 
   static propTypes = {
-    value: React.PropTypes.any.isRequired,
+    value: React.PropTypes.any,
     onChange: React.PropTypes.func.isRequired,
     options: React.PropTypes.array,
   }
