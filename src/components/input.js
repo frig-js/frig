@@ -113,7 +113,7 @@ export default class Input extends React.Component {
           this.context.frigForm.errors[this.props.name] || []
         )}
         saved={this.context.frigForm.saved[this.props.name]}
-        value={this.context.frigForm.data[this.props.name]}
+        value={this.context.frigForm.data[this.props.name] || ''}
         onChange={this._onChange}
       />
     )
