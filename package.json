@@ -1,6 +1,11 @@
 {
   "name": "frig",
   "version": "0.11.0",
+  "repository": {
+    "type": "git",
+    "url": "frig-js/frig"
+  },
+  "license": "MIT",
   "private": false,
   "main": "dist/frig.js",
   "files": [
