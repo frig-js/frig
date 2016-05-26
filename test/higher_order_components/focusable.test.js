@@ -24,7 +24,7 @@ class Layout extends React.Component { // eslint-disable-line react/prefer-state
 @focusable
 class ExampleFocusable extends React.Component { // eslint-disable-line react/no-multi-comp
   static propTypes = {
-    focused: React.PropTypes.boolean,
+    focused: React.PropTypes.bool,
   }
   render() {
     return (
