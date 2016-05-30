@@ -137,4 +137,18 @@ describe('<Input />', () => {
       td.verify(childComponentWillUnmount('some_input', instance))
     })
   })
+
+  describe('bugs/regressions', () => {
+    it('correctly passes `false` as data to child component', () => {
+      const context = cloner.deep.copy(defaultContext)
+      context.frigForm.data.some_input = false
+
+      const opts = { context }
+      const wrapper = mount(<Input {...defaultProps} />, opts)
+      const unboundInput = wrapper.find('UnboundInput')
+      const unboundProps = unboundInput.props()
+
+      expect(unboundProps.value).to.equal(false)
+    })
+  })
 })
