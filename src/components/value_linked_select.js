@@ -35,7 +35,7 @@ export default class ValueLinkedSelect extends React.Component {
 
   componentWillMount() {
     const hasOptions = this.props.options.length !== 0
-    if (hasOptions && this.props.value == null) {
+    if (hasOptions && this.props.value === '') {
       this._setInitialValue(this.props)
     }
   }
@@ -43,19 +43,18 @@ export default class ValueLinkedSelect extends React.Component {
   componentWillReceiveProps(nextProps) {
     const hasOptions = nextProps.options.length !== 0
     // Setting the intial value of the select when the options load
-    if (hasOptions && nextProps.value == null) {
+    if (hasOptions && nextProps.value === '') {
       this._setInitialValue(nextProps)
     }
-    // Nulling the select's value when the options are removed
-    if (!hasOptions && nextProps.value != null) {
+    // Blanking the select's value when the options are removed
+    if (!hasOptions && nextProps.value !== '') {
       nextProps.onChange(undefined, { setModified: false })
     }
   }
 
-  // If there are no null options then default a null value
-  // to the first option
+  // Default a blank value to the first option (if there are no blank options)
   _setInitialValue(nextProps) {
-    if (nextProps.options.filter(({ value }) => value == null).length > 0) {
+    if (nextProps.options.filter(({ value }) => value === '').length > 0) {
       return
     }
     const value = nextProps.value || nextProps.options[0].value
@@ -69,12 +68,9 @@ export default class ValueLinkedSelect extends React.Component {
     // mapping of those strings to their original values in the options list.
     const originalValues = {}
     for (const option of this.props.options) {
-      let valueHash = option.value
-      if (valueHash != null) valueHash = option.value.toString()
+      const valueHash = option.value.toString()
       originalValues[valueHash] = option.value
     }
-
-    if (el.value === '') return null
 
     return originalValues[el.value] || el.value
   }
