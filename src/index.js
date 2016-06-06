@@ -5,7 +5,6 @@ import Submit from './components/submit.js'
 import FormErrorList from './components/form_error_list.js'
 import Fieldset from './components/fieldset.js'
 import FieldsetText from './components/fieldset_text.js'
-import ValueLinkedSelect from './components/value_linked_select.js'
 import util from './util.js'
 import typeMapping from './type_mapping.js'
 import * as factories from './factories.js'
@@ -43,7 +42,6 @@ export {
   FormErrorList,
   Fieldset,
   FieldsetText,
-  ValueLinkedSelect,
   HigherOrderComponents,
   util,
   factories,
