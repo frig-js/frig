@@ -33,18 +33,18 @@ describe('<ValueLinkedSelect />', () => {
       testGetValue(options, 2, noop, 2)
     })
 
-    it('should return null when value is blank', () => {
+    it('should return \'\' when value is blank', () => {
       const options = [
         { value: '', label: '' },
         { value: 'US', label: 'United States' },
       ]
-      testGetValue(options, '', noop, null)
+      testGetValue(options, '', noop, '')
     })
   })
 
   describe('render', () => {
     it('when props.options is empty, renders select with no options', () => {
-      const wrapper = mount(<ValueLinkedSelect value={null} onChange={noop} />)
+      const wrapper = mount(<ValueLinkedSelect value={''} onChange={noop} />)
       const options = wrapper.find('option')
       expect(options).to.have.lengthOf(0)
     })
@@ -55,7 +55,7 @@ describe('<ValueLinkedSelect />', () => {
           { value: 'CA', label: 'Canada' },
           { value: 'US', label: 'United States' },
         ],
-        value: null,
+        value: '',
         onChange: noop,
       }
       const wrapper = mount(<ValueLinkedSelect {...props} />)
@@ -92,7 +92,7 @@ describe('<ValueLinkedSelect />', () => {
   })
 
   describe('componentWillMount / componentDidReceiveProps', () => {
-    describe('when value=null (e.g. no selection)', () => {
+    describe('when value=\'\' (e.g. no selection)', () => {
       it('onChange is called with value of 1st option', () => {
         const onChange = td.function.call()
         const props = {
@@ -100,7 +100,7 @@ describe('<ValueLinkedSelect />', () => {
             { value: 'CA', label: 'Canada' },
             { value: 'US', label: 'United States' },
           ],
-          value: null,
+          value: '',
           onChange,
         }
 
@@ -113,15 +113,15 @@ describe('<ValueLinkedSelect />', () => {
         td.verify(onChange('CA', { setModified: false }), { times: 2 })
       })
 
-      it('and ANY options value is null, requestChange not called', () => {
+      it('and ANY options value is \'\', requestChange not called', () => {
         const onChange = td.function()
         const props = {
           options: [
-            { value: null, label: '-- Select --' },
+            { value: '', label: '-- Select --' },
             { value: 'CA', label: 'Canada' },
             { value: 'US', label: 'United States' },
           ],
-          value: null,
+          value: '',
           onChange,
         }
 
