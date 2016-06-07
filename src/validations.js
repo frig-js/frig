@@ -1,6 +1,6 @@
 const validations = {
   required(props) {
-    const { value } = props.valueLink
+    const value = props.value
     // if there is a null option then null is a valid value and there are not
     // any values for which required should return an error
     if ((props.options || []).filter((o) => o.value == null).length > 0) {
@@ -11,13 +11,13 @@ const validations = {
   },
 
   min(props, opts) {
-    const { value } = props.valueLink
+    const value = props.value
     if (value >= opts || value == null || value === '') return undefined
     return `Value cannot be less than ${opts}`
   },
 
   max(props, opts) {
-    const { value } = props.valueLink
+    const value = props.value
     if (value <= opts || value == null || value === '') return undefined
     return `Value cannot be greater than ${opts}`
   },

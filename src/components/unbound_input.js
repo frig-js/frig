@@ -22,6 +22,7 @@ export default class UnboundInput extends React.Component {
     onChange: React.PropTypes.func.isRequired,
     onValidChange: React.PropTypes.func.isRequired,
     inputHtml: React.PropTypes.object,
+    title: React.PropTypes.string,
   }
 
 
@@ -46,6 +47,10 @@ export default class UnboundInput extends React.Component {
   state = {
     modified: false,
     validationRequested: false,
+  }
+
+  componentWillMount() {
+    this._warnIfDuplicateOptionValue()
   }
 
   /*
@@ -93,7 +98,7 @@ export default class UnboundInput extends React.Component {
     if (validate) {
       // Create themed props for the next nextValue passed to this function
       const nextProps = Object.assign({}, this.props)
-      nextProps.valueLink = { value: nextValue }
+      nextProps.value = nextValue
 
       // Running each validation
       for (const [k, validationOpts] of entries(this._validations())) {
@@ -113,8 +118,8 @@ export default class UnboundInput extends React.Component {
     return this.props.value
   }
 
-  _themedInputProps(nextProps = this.props) {
-    const title = nextProps.title || humanize(nextProps.name)
+  _themedInputProps() {
+    const title = this.props.title || humanize(this.props.name)
     // Defaults
     const defaults = {
       title,
@@ -124,11 +129,11 @@ export default class UnboundInput extends React.Component {
       align: this.context.frigForm.align,
     }
     // Mixing in the defaults
-    const themedProps = Object.assign(defaults, nextProps)
+    const themedProps = Object.assign(defaults, this.props)
     const themedInputHtml = themedProps.inputHtml || {}
     // Overrides
     const overrides = {
-      options: (nextProps.options || []).map(this._normalizeOption),
+      options: this._normalizedOptions(),
       modified: this.isModified(),
       // DOM attributes for the label element
       labelHtml: Object.assign({}, themedProps.labelHtml || {}, {
@@ -146,14 +151,20 @@ export default class UnboundInput extends React.Component {
         type: themedInputHtml.type || this._typeMapping().htmlInputType,
         ref: 'input',
       }),
-      valueLink: {
-        value: this._value(),
-        requestChange: this._onChange.bind(this),
-      },
+      value: this._value(),
+      onChange: this._onChange.bind(this),
       errors: this._errors(),
     }
     // TODO: Add type mapping
+
+    // console.log('UnboundInput#_themedInputProps() rv:')
+    // console.log(Object.assign(themedProps, overrides))
+
     return Object.assign(themedProps, overrides)
+  }
+
+  _normalizedOptions() {
+    return (this.props.options || []).map(this._normalizeOption)
   }
 
   /*
@@ -193,6 +204,20 @@ export default class UnboundInput extends React.Component {
     }
   }
 
+  _warnIfDuplicateOptionValue() {
+    const options = this._normalizedOptions()
+
+    const values = options.map((o) => o.value)
+    const seenValues = {}
+
+    values.forEach((v) => {
+      if (seenValues[v]) {
+        console.warn(`Frig: detected duplicate value in ${this.props.name}'s <select>. Frig will only be able to select the first occurence of this value: ${v}`) // eslint-disable-line
+      }
+      seenValues[v] = true
+    })
+  }
+
   _validations(nextProps = this.props) {
     // Validations (these get mixed into the overrides)
     const defaults = {
@@ -206,14 +231,30 @@ export default class UnboundInput extends React.Component {
   }
 
   _onChange(val, opts) {
+    let realValue = val
+
+    // `val` could be a real value, or it could be a SyntheticEvent
+    // This is because some components call this onChange event directly.
+    // Previously, this was implemented with valueLink.requestChange,
+    // which does not use SyntheticEvents (just values directly), but
+    // that is deprecated as of React 15.
+    //
+    // FIXME: At some point in the event bubble flow the event should
+    // be converted to a value, and passed to a function named something
+    // other than onChange.
+    if (val && val.target) { // SyntheticEvent
+      if (!val.target.value) realValue = ''
+      else realValue = val.target.value
+    }
+
     if (this.props.type === 'submit') return
     // Set the state and run validations
     if ((opts || {}).setModified !== false) {
       this.setState({ modified: true })
     }
-    const valid = this._errors(val) == null
-    this.props.onChange(val, valid)
-    if (valid) this.props.onValidChange(val, valid)
+    const valid = this._errors(realValue) == null
+    this.props.onChange(realValue, valid)
+    if (valid) this.props.onValidChange(realValue, valid)
   }
 
   _onBlur() {

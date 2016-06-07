@@ -105,6 +105,8 @@ export default class Input extends React.Component {
   }
 
   render() {
+    const value = this.context.frigForm.data[this.props.name]
+
     return (
       <UnboundInput
         {...this.props}
@@ -113,7 +115,7 @@ export default class Input extends React.Component {
           this.context.frigForm.errors[this.props.name] || []
         )}
         saved={this.context.frigForm.saved[this.props.name]}
-        value={this.context.frigForm.data[this.props.name]}
+        value={value == null ? '' : value}
         onChange={this._onChange}
       />
     )

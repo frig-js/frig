@@ -9,10 +9,10 @@ import ReactDOM from 'react-dom'
  *
  * This is useful for implementing popups in Frig Themes.
  */
-module.exports = function Focusable(ComponentClass) {
+module.exports = function FocusableHOC(ComponentClass) {
   const childName = ComponentClass.prototype.displayName
 
-  return class extends React.Component {
+  return class Focusable extends React.Component {
 
     state = {
       focused: false,

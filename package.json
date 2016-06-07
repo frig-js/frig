@@ -1,6 +1,11 @@
 {
   "name": "frig",
   "version": "0.11.0",
+  "repository": {
+    "type": "git",
+    "url": "frig-js/frig"
+  },
+  "license": "MIT",
   "private": false,
   "main": "dist/frig.js",
   "files": [
@@ -51,9 +56,9 @@
     "mkpath": "1.0.0",
     "mocha": "2.5.3",
     "mocha-lcov-reporter": "1.2.0",
-    "react": "0.14.8",
-    "react-addons-test-utils": "0.14.8",
-    "react-dom": "0.14.8",
+    "react": "15.0.2",
+    "react-addons-test-utils": "15.0.2",
+    "react-dom": "15.0.2",
     "testdouble": "1.4.2",
     "webpack": "1.13.1",
     "webpack-dev-server": "1.14.1"

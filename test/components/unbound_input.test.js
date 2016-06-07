@@ -39,6 +39,8 @@ Object.freeze(defaultChildContextTypes)
 const defaultProps = {
   name: 'some_unbound_input',
   type: 'string',
+  onChange: () => {},
+  value: 'abc123',
 }
 Object.freeze(defaultProps)
 
@@ -61,11 +63,11 @@ describe('<UnboundInput />', () => {
         expect(themedComponent).to.have.length(1)
 
         const themedProps = themedComponent.props()
-
         expect(themedProps.layout).to.equal('some_layout')
         expect(themedProps.align).to.equal('some_align')
         expect(themedProps.inputHtml).to.exist()
-        expect(themedProps.valueLink).to.exist()
+        expect(themedProps.onChange).to.exist()
+        expect(themedProps.value).to.equal('abc123')
       })
     })
 
