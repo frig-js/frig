@@ -7,7 +7,7 @@
 		exports["Frig"] = factory(require("react"), require("react-dom"));
 	else
 		root["Frig"] = factory(root["React"], root["ReactDOM"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_15__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_17__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.factories = exports.util = exports.HigherOrderComponents = exports.ValueLinkedSelect = exports.FieldsetText = exports.Fieldset = exports.FormErrorList = exports.Submit = exports.UnboundInput = exports.Input = exports.Form = undefined;
+	exports.factories = exports.util = exports.HigherOrderComponents = exports.FieldsetText = exports.Fieldset = exports.FormErrorList = exports.Submit = exports.UnboundInput = exports.Input = exports.Form = undefined;
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
@@ -91,10 +91,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _fieldset_text2 = _interopRequireDefault(_fieldset_text);
 
-	var _value_linked_select = __webpack_require__(14);
-
-	var _value_linked_select2 = _interopRequireDefault(_value_linked_select);
-
 	var _util = __webpack_require__(7);
 
 	var _util2 = _interopRequireDefault(_util);
@@ -103,15 +99,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _type_mapping2 = _interopRequireDefault(_type_mapping);
 
-	var _factories = __webpack_require__(16);
+	var _factories = __webpack_require__(14);
 
 	var factories = _interopRequireWildcard(_factories);
 
-	var _boolean = __webpack_require__(17);
+	var _boolean = __webpack_require__(15);
 
 	var _boolean2 = _interopRequireDefault(_boolean);
 
-	var _focusable = __webpack_require__(18);
+	var _focusable = __webpack_require__(16);
 
 	var _focusable2 = _interopRequireDefault(_focusable);
 
@@ -148,7 +144,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.FormErrorList = _form_error_list2.default;
 	exports.Fieldset = _fieldset2.default;
 	exports.FieldsetText = _fieldset_text2.default;
-	exports.ValueLinkedSelect = _value_linked_select2.default;
 	exports.HigherOrderComponents = HigherOrderComponents;
 	exports.util = _util2.default;
 	exports.factories = factories;
@@ -615,11 +610,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var value = this.context.frigForm.data[this.props.name];
+
 	      return _react2.default.createElement(_unbound_input2.default, _extends({}, this.props, {
 	        ref: 'unboundInput',
 	        errors: (this.props.errors || []).slice().concat(this.context.frigForm.errors[this.props.name] || []),
 	        saved: this.context.frigForm.saved[this.props.name],
-	        value: this.context.frigForm.data[this.props.name],
+	        value: value == null ? '' : value,
 	        onChange: this._onChange
 	      }));
 	    }
@@ -724,8 +721,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 
 	  _createClass(UnboundInput, [{
-	    key: 'validate',
-
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this._warnIfDuplicateOptionValue();
+	    }
 
 	    /*
 	     * =========================================================================
@@ -733,6 +732,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * =========================================================================
 	     */
 
+	  }, {
+	    key: 'validate',
 	    value: function validate() {
 	      this.setState({ validationRequested: true });
 	      return this.isValid();
@@ -777,7 +778,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (validate) {
 	        // Create themed props for the next nextValue passed to this function
 	        var nextProps = Object.assign({}, this.props);
-	        nextProps.valueLink = { value: nextValue };
+	        nextProps.value = nextValue;
 
 	        // Running each validation
 	        var _iteratorNormalCompletion = true;
@@ -822,9 +823,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_themedInputProps',
 	    value: function _themedInputProps() {
-	      var nextProps = arguments.length <= 0 || arguments[0] === undefined ? this.props : arguments[0];
-
-	      var title = nextProps.title || (0, _util.humanize)(nextProps.name);
+	      var title = this.props.title || (0, _util.humanize)(this.props.name);
 	      // Defaults
 	      var defaults = {
 	        title: title,
@@ -834,11 +833,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        align: this.context.frigForm.align
 	      };
 	      // Mixing in the defaults
-	      var themedProps = Object.assign(defaults, nextProps);
+	      var themedProps = Object.assign(defaults, this.props);
 	      var themedInputHtml = themedProps.inputHtml || {};
 	      // Overrides
 	      var overrides = {
-	        options: (nextProps.options || []).map(this._normalizeOption),
+	        options: this._normalizedOptions(),
 	        modified: this.isModified(),
 	        // DOM attributes for the label element
 	        labelHtml: Object.assign({}, themedProps.labelHtml || {}, {
@@ -856,14 +855,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	          type: themedInputHtml.type || this._typeMapping().htmlInputType,
 	          ref: 'input'
 	        }),
-	        valueLink: {
-	          value: this._value(),
-	          requestChange: this._onChange.bind(this)
-	        },
+	        value: this._value(),
+	        onChange: this._onChange.bind(this),
 	        errors: this._errors()
 	      };
 	      // TODO: Add type mapping
+
+	      // console.log('UnboundInput#_themedInputProps() rv:')
+	      // console.log(Object.assign(themedProps, overrides))
+
 	      return Object.assign(themedProps, overrides);
+	    }
+	  }, {
+	    key: '_normalizedOptions',
+	    value: function _normalizedOptions() {
+	      return (this.props.options || []).map(this._normalizeOption);
 	    }
 
 	    /*
@@ -904,6 +910,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: option,
 	        label: option
 	      };
+	    }
+	  }, {
+	    key: '_warnIfDuplicateOptionValue',
+	    value: function _warnIfDuplicateOptionValue() {
+	      var _this2 = this;
+
+	      var options = this._normalizedOptions();
+
+	      var values = options.map(function (o) {
+	        return o.value;
+	      });
+	      var seenValues = {};
+
+	      values.forEach(function (v) {
+	        if (seenValues[v]) {
+	          console.warn('Frig: detected duplicate value in ' + _this2.props.name + '\'s <select>. Frig will only be able to select the first occurence of this value: ' + v); // eslint-disable-line
+	        }
+	        seenValues[v] = true;
+	      });
 	    }
 	  }, {
 	    key: '_validations',
@@ -947,14 +972,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_onChange',
 	    value: function _onChange(val, opts) {
+	      var realValue = val;
+
+	      // `val` could be a real value, or it could be a SyntheticEvent
+	      // This is because some components call this onChange event directly.
+	      // Previously, this was implemented with valueLink.requestChange,
+	      // which does not use SyntheticEvents (just values directly), but
+	      // that is deprecated as of React 15.
+	      //
+	      // FIXME: At some point in the event bubble flow the event should
+	      // be converted to a value, and passed to a function named something
+	      // other than onChange.
+	      if (val && val.target) {
+	        // SyntheticEvent
+	        if (!val.target.value) realValue = '';else realValue = val.target.value;
+	      }
+
 	      if (this.props.type === 'submit') return;
 	      // Set the state and run validations
 	      if ((opts || {}).setModified !== false) {
 	        this.setState({ modified: true });
 	      }
-	      var valid = this._errors(val) == null;
-	      this.props.onChange(val, valid);
-	      if (valid) this.props.onValidChange(val, valid);
+	      var valid = this._errors(realValue) == null;
+	      this.props.onChange(realValue, valid);
+	      if (valid) this.props.onValidChange(realValue, valid);
 	    }
 	  }, {
 	    key: '_onBlur',
@@ -1041,7 +1082,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // Callbacks (Public API)
 	  onChange: _react2.default.PropTypes.func.isRequired,
 	  onValidChange: _react2.default.PropTypes.func.isRequired,
-	  inputHtml: _react2.default.PropTypes.object
+	  inputHtml: _react2.default.PropTypes.object,
+	  title: _react2.default.PropTypes.string
 	}, _class.contextTypes = {
 	  frigForm: _react2.default.PropTypes.shape({
 	    theme: _react2.default.PropTypes.object.isRequired,
@@ -1068,10 +1110,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	});
 	var validations = {
 	  required: function required(props) {
-	    var value = props.valueLink.value;
+	    var value = props.value;
 	    // if there is a null option then null is a valid value and there are not
 	    // any values for which required should return an error
-
 	    if ((props.options || []).filter(function (o) {
 	      return o.value == null;
 	    }).length > 0) {
@@ -1081,14 +1122,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return 'This field is required.';
 	  },
 	  min: function min(props, opts) {
-	    var value = props.valueLink.value;
-
+	    var value = props.value;
 	    if (value >= opts || value == null || value === '') return undefined;
 	    return 'Value cannot be less than ' + opts;
 	  },
 	  max: function max(props, opts) {
-	    var value = props.valueLink.value;
-
+	    var value = props.value;
 	    if (value <= opts || value == null || value === '') return undefined;
 	    return 'Value cannot be greater than ' + opts;
 	  }
@@ -1133,7 +1172,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	module.exports = {
-	  string: { component: 'Input', htmlInputType: 'string' },
+	  string: { component: 'Input', htmlInputType: 'text' },
 	  password: { component: 'Input', htmlInputType: 'password' },
 	  email: { component: 'Input', htmlInputType: 'email' },
 	  url: { component: 'Input', htmlInputType: 'url' },
@@ -1612,204 +1651,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = undefined;
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _class, _temp;
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(15);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/*
-	 * A minimal wrapper for the select component to provide the correct value
-	 * for valueLinks.
-	 *
-	 * Basically it's a solution to this: http://stackoverflow.com/q/24470852/386193
-	 *
-	 * Note: This class, unlike React.DOM.select, does not expect options to be
-	 * passed as child components. Instead you should pass your options as an array
-	 * of objects containing a label and a value.
-	 *
-	 * Example:
-	 *
-	 * ValueLinkedSelect({
-	 *   options: [
-	 *     {label: 'Canada', value: 'CA'}
-	 *     {label: 'United States', value: 'US'}
-	 *   ]
-	 * })
-	 *
-	 * Asside from the options change and the fact that valueLink works else should
-	 * be the same as React.DOM.select.
-	 *
-	 */
-	var ValueLinkedSelect = (_temp = _class = function (_React$Component) {
-	  _inherits(ValueLinkedSelect, _React$Component);
-
-	  function ValueLinkedSelect() {
-	    _classCallCheck(this, ValueLinkedSelect);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ValueLinkedSelect).apply(this, arguments));
-	  }
-
-	  _createClass(ValueLinkedSelect, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      var hasOptions = this.props.options.length !== 0;
-	      if (hasOptions && this.props.valueLink.value == null) {
-	        this._setInitialValue(this.props);
-	      }
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      var hasOptions = nextProps.options.length !== 0;
-	      // Setting the intial value of the select when the options load
-	      if (hasOptions && nextProps.valueLink.value == null) {
-	        this._setInitialValue(nextProps);
-	      }
-	      // Nulling the select's value when the options are removed
-	      if (!hasOptions && nextProps.valueLink.value != null) {
-	        nextProps.valueLink.requestChange(undefined, { setModified: false });
-	      }
-	    }
-
-	    // If there are no null options then default a null value
-	    // to the first option
-
-	  }, {
-	    key: '_setInitialValue',
-	    value: function _setInitialValue(nextProps) {
-	      if (nextProps.options.filter(function (_ref) {
-	        var value = _ref.value;
-	        return value == null;
-	      }).length > 0) {
-	        return;
-	      }
-	      var value = nextProps.valueLink.value || nextProps.options[0].value;
-	      nextProps.valueLink.requestChange(value, { setModified: false });
-	    }
-
-	    // Reads the value from the DOM for the select input fields
-
-	  }, {
-	    key: '_getValue',
-	    value: function _getValue() {
-	      var el = _reactDom2.default.findDOMNode(this.refs.input);
-	      // The value is cast to a string when we get it from DOM.value. This is a
-	      // mapping of those strings to their original values in the options list.
-	      var originalValues = {};
-	      var _iteratorNormalCompletion = true;
-	      var _didIteratorError = false;
-	      var _iteratorError = undefined;
-
-	      try {
-	        for (var _iterator = this.props.options[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	          var option = _step.value;
-
-	          var valueHash = option.value;
-	          if (valueHash != null) valueHash = option.value.toString();
-	          originalValues[valueHash] = option.value;
-	        }
-	      } catch (err) {
-	        _didIteratorError = true;
-	        _iteratorError = err;
-	      } finally {
-	        try {
-	          if (!_iteratorNormalCompletion && _iterator.return) {
-	            _iterator.return();
-	          }
-	        } finally {
-	          if (_didIteratorError) {
-	            throw _iteratorError;
-	          }
-	        }
-	      }
-
-	      if (el.value === '') return null;
-
-	      return originalValues[el.value] || el.value;
-	    }
-	  }, {
-	    key: '_onChange',
-	    value: function _onChange() {
-	      this.props.valueLink.requestChange(this._getValue());
-	    }
-	  }, {
-	    key: '_inputHtml',
-	    value: function _inputHtml() {
-	      var value = this.props.valueLink.value;
-	      var inputHtml = Object.assign({}, this.props, {
-	        ref: 'input',
-	        valueLink: {
-	          value: value,
-	          requestChange: this._onChange.bind(this)
-	        }
-	      });
-	      return inputHtml;
-	    }
-	  }, {
-	    key: '_selectOption',
-	    value: function _selectOption(o) {
-	      var attrs = {
-	        key: 'option-' + o.label,
-	        value: o.value || ''
-	      };
-	      return _react2.default.createElement(
-	        'option',
-	        attrs,
-	        o.label
-	      );
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'select',
-	        this._inputHtml(),
-	        this.props.options.map(this._selectOption)
-	      );
-	    }
-	  }]);
-
-	  return ValueLinkedSelect;
-	}(_react2.default.Component), _class.displayName = 'Frig.ValueLinkedSelect', _class.propTypes = {
-	  valueLink: _react2.default.PropTypes.object.isRequired,
-	  options: _react2.default.PropTypes.array
-	}, _class.defaultProps = {
-	  options: []
-	}, _temp);
-	exports.default = ValueLinkedSelect;
-
-/***/ },
-/* 15 */
-/***/ function(module, exports) {
-
-	module.exports = __WEBPACK_EXTERNAL_MODULE_15__;
-
-/***/ },
-/* 16 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 	exports.fieldsetText = exports.fieldset = exports.formErrorList = exports.submit = exports.unboundInput = exports.input = exports.form = undefined;
 
 	var _react = __webpack_require__(2);
@@ -1855,7 +1696,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var fieldsetText = exports.fieldsetText = _react2.default.createFactory(_fieldset_text2.default);
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1876,33 +1717,33 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	/*
 	 * A higher order function wrapper for components that only allow 2 possible
-	 * values in their valueLinks (an onValue and an offValue - true and false by
+	 * values in their props.values (an onValue and an offValue - true and false by
 	 * default).
 	 *
-	 * This component will request a change to the valueLink for any invalid
-	 * valueLink value to convert it into the onValue or offValue.
+	 * This component will call onChange for any invalid value to convert it
+	 * into the onValue or offValue.
 	 */
 	module.exports = function BooleanHOC(ComponentClass) {
 	  var _class, _temp2;
 
 	  return _temp2 = _class = function (_React$Component) {
-	    _inherits(_class, _React$Component);
+	    _inherits(Boolean, _React$Component);
 
-	    function _class() {
+	    function Boolean() {
 	      var _Object$getPrototypeO;
 
 	      var _temp, _this, _ret;
 
-	      _classCallCheck(this, _class);
+	      _classCallCheck(this, Boolean);
 
 	      for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 	        args[_key] = arguments[_key];
 	      }
 
-	      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(_class)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Frig.HigherOrderComponents.Boolean', _temp), _possibleConstructorReturn(_this, _ret);
+	      return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Boolean)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.displayName = 'Frig.HigherOrderComponents.Boolean', _temp), _possibleConstructorReturn(_this, _ret);
 	    }
 
-	    _createClass(_class, [{
+	    _createClass(Boolean, [{
 	      key: 'componentWillMount',
 	      value: function componentWillMount() {
 	        this._normalizeValue(this.props);
@@ -1915,7 +1756,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	      key: '_normalizeValue',
 	      value: function _normalizeValue(nextProps) {
-	        var value = nextProps.valueLink.value;
+	        var value = nextProps.value;
 	        if (value !== this.props.offValue && value !== this.props.onValue) {
 	          this._change(value != null, { setModified: false });
 	        }
@@ -1923,13 +1764,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      /*
 	       * Intercept the nested component's true/false value change and convert it
-	       * into an onValue or offValue before relaying it to the valueLink.
+	       * into an onValue or offValue before relaying it to onChange.
 	       */
 
 	    }, {
 	      key: '_change',
 	      value: function _change(val) {
-	        var _props$valueLink;
+	        var _props;
 
 	        var upstreamVal = val ? this.props.onValue : this.props.offValue;
 
@@ -1937,25 +1778,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	          args[_key2 - 1] = arguments[_key2];
 	        }
 
-	        (_props$valueLink = this.props.valueLink).requestChange.apply(_props$valueLink, [upstreamVal].concat(args));
+	        (_props = this.props).onChange.apply(_props, [upstreamVal].concat(args));
 	      }
 	    }, {
 	      key: 'render',
 	      value: function render() {
 	        var childProps = Object.assign({}, this.props, {
 	          ref: 'child',
-	          valueLink: {
-	            value: this.props.valueLink.value === this.props.onValue,
-	            requestChange: this._change.bind(this)
-	          }
+	          value: this.props.value === this.props.onValue,
+	          onChange: this._change.bind(this)
 	        });
 	        return _react2.default.createElement(ComponentClass, childProps);
 	      }
 	    }]);
 
-	    return _class;
+	    return Boolean;
 	  }(_react2.default.Component), _class.propTypes = {
-	    valueLink: _react2.default.PropTypes.object.isRequired,
+	    value: _react2.default.PropTypes.any,
+	    onChange: _react2.default.PropTypes.func.isRequired,
 	    onValue: _react2.default.PropTypes.any.isRequired,
 	    offValue: _react2.default.PropTypes.any.isRequired
 	  }, _class.defaultProps = {
@@ -1965,7 +1805,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1976,7 +1816,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(15);
+	var _reactDom = __webpack_require__(17);
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
@@ -1996,16 +1836,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 * This is useful for implementing popups in Frig Themes.
 	 */
-	module.exports = function Focusable(ComponentClass) {
+	module.exports = function FocusableHOC(ComponentClass) {
 	  var childName = ComponentClass.prototype.displayName;
 
 	  return function (_React$Component) {
-	    _inherits(_class2, _React$Component);
+	    _inherits(Focusable, _React$Component);
 
-	    function _class2() {
-	      _classCallCheck(this, _class2);
+	    function Focusable() {
+	      _classCallCheck(this, Focusable);
 
-	      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(_class2).call(this));
+	      var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Focusable).call(this));
 
 	      _this.state = {
 	        focused: false
@@ -2017,7 +1857,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _this;
 	    }
 
-	    _createClass(_class2, [{
+	    _createClass(Focusable, [{
 	      key: 'componentDidMount',
 	      value: function componentDidMount() {
 	        window.addEventListener('click', this._onDocumentClick);
@@ -2063,9 +1903,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	    }]);
 
-	    return _class2;
+	    return Focusable;
 	  }(_react2.default.Component);
 	};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports) {
+
+	module.exports = __WEBPACK_EXTERNAL_MODULE_17__;
 
 /***/ }
 /******/ ])
