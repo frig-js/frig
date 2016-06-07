@@ -22,6 +22,7 @@ export default class UnboundInput extends React.Component {
     onChange: React.PropTypes.func.isRequired,
     onValidChange: React.PropTypes.func.isRequired,
     inputHtml: React.PropTypes.object,
+    title: React.PropTypes.string,
   }
 
 
@@ -46,6 +47,10 @@ export default class UnboundInput extends React.Component {
   state = {
     modified: false,
     validationRequested: false,
+  }
+
+  componentWillMount() {
+    this._warnIfDuplicateOptionValue()
   }
 
   /*
@@ -113,8 +118,8 @@ export default class UnboundInput extends React.Component {
     return this.props.value
   }
 
-  _themedInputProps(nextProps = this.props) {
-    const title = nextProps.title || humanize(nextProps.name)
+  _themedInputProps() {
+    const title = this.props.title || humanize(this.props.name)
     // Defaults
     const defaults = {
       title,
@@ -124,11 +129,11 @@ export default class UnboundInput extends React.Component {
       align: this.context.frigForm.align,
     }
     // Mixing in the defaults
-    const themedProps = Object.assign(defaults, nextProps)
+    const themedProps = Object.assign(defaults, this.props)
     const themedInputHtml = themedProps.inputHtml || {}
     // Overrides
     const overrides = {
-      options: (nextProps.options || []).map(this._normalizeOption),
+      options: this._normalizedOptions(),
       modified: this.isModified(),
       // DOM attributes for the label element
       labelHtml: Object.assign({}, themedProps.labelHtml || {}, {
@@ -156,6 +161,10 @@ export default class UnboundInput extends React.Component {
     // console.log(Object.assign(themedProps, overrides))
 
     return Object.assign(themedProps, overrides)
+  }
+
+  _normalizedOptions() {
+    return (this.props.options || []).map(this._normalizeOption)
   }
 
   /*
@@ -193,6 +202,20 @@ export default class UnboundInput extends React.Component {
       value: option,
       label: option,
     }
+  }
+
+  _warnIfDuplicateOptionValue() {
+    const options = this._normalizedOptions()
+
+    const values = options.map((o) => o.value)
+    const seenValues = {}
+
+    values.forEach((v) => {
+      if (seenValues[v]) {
+        console.warn(`Frig: detected duplicate value in ${this.props.name}'s <select>. Frig will only be able to select the first occurence of this value: ${v}`) // eslint-disable-line
+      }
+      seenValues[v] = true
+    })
   }
 
   _validations(nextProps = this.props) {
