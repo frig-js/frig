@@ -44,7 +44,7 @@
     "coveralls": "2.11.9",
     "dirty-chai": "1.2.2",
     "enzyme": "2.3.0",
-    "eslint": "2.12.0",
+    "eslint": "2.13.0",
     "eslint-config-airbnb": "9.0.1",
     "eslint-plugin-import": "1.8.1",
     "eslint-plugin-jsx-a11y": "1.5.3",
