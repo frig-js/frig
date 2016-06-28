@@ -57,7 +57,7 @@ module.exports = function BooleanHOC(ComponentClass) {
       const childProps = Object.assign({}, this.props, {
         ref: 'child',
         value: this.props.value === this.props.onValue,
-        onChange: this._onChange,
+        onChange: this._change,
       })
       return <ComponentClass {...childProps} />
     }
