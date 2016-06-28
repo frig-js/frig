@@ -10,6 +10,7 @@ import React from 'react'
  */
 module.exports = function BooleanHOC(ComponentClass) {
   return class Boolean extends React.Component {
+    static displayName = 'Frig.HigherOrderComponents.Boolean'
 
     static propTypes = {
       value: React.PropTypes.any,
@@ -23,7 +24,10 @@ module.exports = function BooleanHOC(ComponentClass) {
       offValue: false,
     }
 
-    displayName = 'Frig.HigherOrderComponents.Boolean'
+    constructor() {
+      super()
+      this._change = this._change.bind(this)
+    }
 
     componentWillMount() {
       this._normalizeValue(this.props)
@@ -53,7 +57,7 @@ module.exports = function BooleanHOC(ComponentClass) {
       const childProps = Object.assign({}, this.props, {
         ref: 'child',
         value: this.props.value === this.props.onValue,
-        onChange: this._change.bind(this),
+        onChange: this._change,
       })
       return <ComponentClass {...childProps} />
     }
