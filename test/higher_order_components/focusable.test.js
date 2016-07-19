@@ -40,7 +40,7 @@ const sendFocusEvent = (el) => {
   // .focus() only sets document.activeElement.
   // We also need to dispatch the event.
   el.focus()
-  el.dispatchEvent(new Event('focus'))
+  el.dispatchEvent(new window.Event('focus'))
 }
 
 describe('@focusable decorator', () => {

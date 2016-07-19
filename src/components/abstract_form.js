@@ -1,4 +1,6 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
+
 // Note about eslint rule below:
 // AbstractForm does not have a render() method (Form and FieldsetNestedForm do).
 // ESLint complains about render "not having a return statement", when really
@@ -78,7 +80,10 @@ export default class AbstractForm extends React.Component { // eslint-disable-li
   }
 
   formData() {
-    return new FormData(this.refs.form)
+    const formRef = this.refs.form
+    const formDOM = ReactDOM.findDOMNode(formRef)
+
+    return new window.FormData(formDOM)
   }
 
   /*

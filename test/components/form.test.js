@@ -174,12 +174,21 @@ describe('<Form />', () => {
       })
 
       describe('formData()', () => {
-        // Since the mock form we set up for this test has no
-        // <Input> elements, this should return an empty array.
-        // TODO: Write an integration test that covers this.
-        it('should return an empty array', () => {
+        it('should return data from Form\'s innerHTML input elements', () => {
+          // Mount with an actual HTML input element so FormData
+          // can return something.
+          const FakeInput = () => (
+            <input name="foo" value="bar" onChange={() => {}} />
+          )
+          wrapper = mount(
+            <Form {...formProps}>
+              <FakeInput />
+            </Form>
+          )
+          instance = wrapper.instance()
+
           const formData = instance.formData()
-          expect(formData.getAll()).to.deep.equal([])
+          expect(formData.get('foo')).to.equal('bar')
         })
       })
     })
