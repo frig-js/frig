@@ -26,12 +26,6 @@ describe('<Form />', () => {
   }
   Object.freeze(formProps)
 
-  const form = (
-    <Form {...formProps} >
-      <div>child</div>
-    </Form>
-  )
-
   it('fails fast when props.data is not provided', () => {
     const badForm = <Form onChange={formProps.onChange} />
     const wrapperBound = mount.bind(null, badForm)
@@ -45,6 +39,11 @@ describe('<Form />', () => {
   })
 
   it('renders the theme.Form component', () => {
+    const form = (
+      <Form {...formProps} >
+        <div>child</div>
+      </Form>
+    )
     const wrapper = mount(form)
     expect(wrapper.find(ThemedForm)).to.have.length(1)
   })
