@@ -57,7 +57,7 @@
     "mocha": "3.0.2",
     "mocha-lcov-reporter": "1.2.0",
     "react": "15.3.1",
-    "react-addons-test-utils": "15.3.1",
+    "react-addons-test-utils": "15.4.2",
     "react-dom": "15.3.1",
     "testdouble": "1.6.1",
     "webpack": "1.13.2",
