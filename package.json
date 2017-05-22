@@ -39,7 +39,7 @@
     "babel-preset-stage-1": "6.13.0",
     "babel-register": "6.14.0",
     "chai": "3.5.0",
-    "chai-enzyme": "0.5.1",
+    "chai-enzyme": "0.7.0",
     "cloner": "^0.4.0",
     "coveralls": "2.11.11",
     "dirty-chai": "1.2.2",
